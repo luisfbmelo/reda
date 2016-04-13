@@ -1,0 +1,48 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "nodejs",
+    "host": "localhost",
+    "dialect": "mysql",
+    "maxConcurrentQueries": 100,
+    "pool": false,
+    "define": {
+      "underscored": true,
+      "charset": "utf8",
+      "collate": "utf8_general_ci"
+    },
+    "typeValidation": true,
+    "omitNull": true,
+    "paranoid": true
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "nodejs",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "nodejs",
+    "host": "localhost",
+    "dialect": "mysql",
+    "maxConcurrentQueries": 100,
+    "pool": {
+      "maxConnections": 5,
+      "minConnections": 0,
+      "maxIdleTime": 1000
+    },
+    "define": {
+      "underscored": true,
+      "charset": "utf8",
+      "collate": "utf8_general_ci"
+    },
+    "typeValidation": true,
+    "omitNull": true,
+    "paranoid": true,
+    "logging": false
+  }
+}
