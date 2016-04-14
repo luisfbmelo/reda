@@ -2,9 +2,9 @@
  * Create Model
  */
 module.exports = function(sequelize, DataTypes) {
-	var Domain = sequelize.define('Domain', {
-		description: {
-			type: DataTypes.TEXT,
+	var Author = sequelize.define('Author', {
+		name: {
+			type: DataTypes.STRING(100),
 			allowNull: false
 		},
 		status: {
@@ -20,11 +20,11 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		classMethods: {
 			associate: function(models) {
-				Domain.belongsToMany(models.Resource, {through: 'resource_domain'});
-				Domain.belongsToMany(models.Subject, {through: 'domain_subject'});
+				Author.belongsToMany(models.Resource, {through: 'resource_author'});
+				Author.belongsToMany(models.Script, {through: 'resource_script'});
 			}
 		}
 	});
 
-	return Domain;
+	return Author;
 }

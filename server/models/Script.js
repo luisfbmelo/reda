@@ -46,6 +46,7 @@ module.exports = function(sequelize, DataTypes) {
 				Script.belongsToMany(models.Year, {through: 'script_year'});
 				Script.belongsToMany(models.Domain, {through: 'script_domain'});
 				Script.belongsToMany(models.Subject, {through: 'script_subject'});
+				Script.belongsToMany(models.Author, {through: 'script_author'});
 				Script.belongsTo(models.User);
 			}
 		}

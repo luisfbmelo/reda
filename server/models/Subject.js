@@ -21,6 +21,7 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods: {
 			associate: function(models) {
 				Subject.belongsToMany(models.Resource, {through: 'resource_subject'});
+				Subject.belongsToMany(models.Domain, {through: 'domain_subject'});
 			}
 		}
 	});

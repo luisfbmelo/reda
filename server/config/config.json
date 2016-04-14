@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "nodejs",
+    "password": "123",
+    "database": "reda",
     "host": "localhost",
     "dialect": "mysql",
     "maxConcurrentQueries": 100,

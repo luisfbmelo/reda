@@ -2,24 +2,9 @@
  * Create Model
  */
 module.exports = function(sequelize, DataTypes) {
-	var Link = sequelize.define('Link', {
-		title: {
+	var Category = sequelize.define('Category', {
+		name: {
 			type: DataTypes.STRING,
-			allowNull: false
-		},		
-		description: {
-			type: DataTypes.TEXT,
-			allowNull: false
-		},
-		link: {
-			type: DataTypes.TEXT,
-			allowNull: true,
-			validate: {
-				isUrl: true,
-			}
-		},
-		period: {
-			type: DataTypes.STRING(255),
 			allowNull: false
 		},
 		type: {
@@ -30,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: true
-		}
+		},
 	}, {
 		defaultScope: {
 			where: {
@@ -51,12 +36,12 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		classMethods: {
 			associate: function(models) {
-				Link.belongsToMany(models.Category, {
+				Category.belongsToMany(models.Link, {
 					through: 'link_category'
 				});
 			}
 		}
 	});
 
-	return Link;
+	return Category;
 }

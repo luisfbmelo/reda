@@ -74,11 +74,12 @@ module.exports = function(sequelize, DataTypes) {
 				Resource.belongsToMany(models.Mode, {through: 'resource_mode'});
 				Resource.belongsToMany(models.Domain, {through: 'resource_domain'});
 				Resource.belongsToMany(models.Subject, {through: 'resource_subject'});
+				Resource.belongsToMany(models.Author, {through: 'resource_author'});
 
 				Resource.belongsToMany(models.Tag, {
 					through: 'resource_tag',
 					scope: {
-					    type: 0
+					    type: "RES"
 					}
 				});
 

@@ -16,8 +16,8 @@
   },
   "homepage": "",
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "prod": "set NODE_ENV=production&&nodemon ./bin/www"
+    "start": "nodemon -L ./bin/www",
+    "prod": "set NODE_ENV=production&&nodemon -L ./bin/www"
   },
   "browserify": {
     "transform": [
@@ -39,6 +39,7 @@
     "babelify": "^7.2.0",
     "browser-sync": "^2.11.1",
     "browserify": "^13.0.0",
+    "debug": "^2.2.0",
     "del": "^2.2.0",
     "eslint": "^1.0.0",
     "eslint-config-semistandard": "^5.0.0",
@@ -87,6 +88,7 @@
     "react-router": "^2.1.1",
     "react-router-redux": "^4.0.2",
     "redux": "^3.4.0",
-    "redux-thunk": "^2.0.1"
+    "redux-thunk": "^2.0.1",
+    "sequelize": "^3.21.0"
   }
 }
