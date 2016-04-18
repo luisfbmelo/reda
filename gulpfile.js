@@ -16,6 +16,7 @@ var exit = require('gulp-exit');
 var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var notifier = require('node-notifier');
+var historyApiFallback = require('connect-history-api-fallback');
 
 // /////////////////////////////////////////////////////////////////////////////
 // --------------------------- Variables -------------------------------------//
@@ -52,7 +53,8 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles'], function () {
       baseDir: ['.tmp', 'app'],
       routes: {
         '/node_modules': './node_modules'
-      }
+      },
+      middleware: [ historyApiFallback() ]
     }
   });
 
@@ -60,10 +62,10 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles'], function () {
   gulp.watch([
     'app/*.html',
     'app/assets/graphics/**/*'
-  ]).on('change', reload);
+  ], { usePolling: true }).on('change', reload);
 
-  gulp.watch('app/assets/styles/**/*.scss', ['styles']);
-  gulp.watch('package.json', ['vendorScripts']);
+  gulp.watch('app/assets/styles/**/*.scss', { usePolling: true }, ['styles']);
+  gulp.watch('package.json', { usePolling: true }, ['vendorScripts']);
 });
 
 gulp.task('clean', function () {
@@ -96,7 +98,7 @@ gulp.task('javascript', function () {
     cache: {},
     packageCache: {},
     fullPaths: true
-  }));
+  }), {poll: true});
 
   function bundler () {
     if (pkg.dependencies) {

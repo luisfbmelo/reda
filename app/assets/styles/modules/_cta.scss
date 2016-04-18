@@ -1,0 +1,54 @@
+.cta{
+	display:inline-block;
+	font-size:em(16);
+
+	border:none;
+	padding:7px 20px;
+
+	&.primary{
+		color:white;
+		background-color:$green;
+
+		&.outline{
+			color:$green;
+			border-color:$green;
+		}
+
+		&.no-bg{
+			color:$green;
+			border-color:$green;
+		}
+	}
+
+	&.secundary{
+		color:white;
+		background-color:$light-green;
+
+		&.outline{
+			border-color:$light-green;
+		}
+
+		&.no-bg{
+			color:$light-green;
+			border-color:$light-green;
+		}
+	}
+
+	&.no-bg{
+		background:none;
+		color:$green;
+
+		&:hover{
+			text-decoration: underline!important;
+		}
+	}
+
+	&.small{
+		font-size:em(14);
+	}
+
+	&.outline{
+		background:none;
+		border:1px solid;
+	}
+}

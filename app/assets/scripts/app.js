@@ -8,6 +8,7 @@ import thunkMiddleware  from 'redux-thunk';
 import reducers from './reducers';
 import routes from './routes';
 
+
 const store = applyMiddleware(
   thunkMiddleware
 )(createStore)(reducers);

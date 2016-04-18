@@ -1,0 +1,22 @@
+{
+	"highlights": [
+		{
+			"id": 1,
+			"title": "Media heading",
+			"image": {
+				"src": "assets/graphics/bg/home-bg.jpg",
+				"alt": "some alt"
+			},
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from"
+		},
+		{
+			"id": 2,
+			"title": "Media heading",
+			"image": {
+				"src": "assets/graphics/bg/home-bg.jpg",
+				"alt": "some alt"
+			},
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from"
+		}
+	]
+}
