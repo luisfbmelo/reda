@@ -1,0 +1,28 @@
+.formats{
+	background-color:$light-green;
+	text-align:center;	
+
+	img{
+		max-height:50px;
+		margin:0 auto 20px;
+	}
+
+	span{
+		font:{
+			family: $lato;
+			size: em(20);
+		}
+		color:white;
+	}
+
+	a{
+		display:block;
+		padding:30px 0;
+		@include transition(all 0.3s ease);
+
+		&:hover{
+			text-decoration: none;
+			opacity: 0.5;
+		}
+	}
+}

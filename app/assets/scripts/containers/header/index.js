@@ -1,8 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 import TopNav from '../../components/navigation/topNav';
-import Highlights from '../highlights';
-import SearchBar from '../search';
+import HighlightsContainer from '../highlights';
+import SearchContainer from '../search';
 
 
 export default class Header extends Component {
@@ -14,8 +14,8 @@ export default class Header extends Component {
 		return (
 			<div className={"header-container " + this.headerType(this.props.location)}>
 				<TopNav location={this.props.location}/>
-				<Highlights />
-				<SearchBar />
+				<HighlightsContainer />
+				<SearchContainer />
 			</div>
 		);
 	}

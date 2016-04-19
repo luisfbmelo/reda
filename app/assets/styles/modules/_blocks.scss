@@ -1,0 +1,48 @@
+.block{
+	&__explore{
+		width:100%;
+	}
+
+	&__side{
+		height:300px;
+		width:50%;
+
+		@include media-query(768px){
+			width:100%;
+		}
+
+		&--left{
+			float:left;
+		}
+
+		&--right{
+			float:right;
+		}
+
+		&--text{
+			padding:20px 40px;
+
+			span{
+				display:inline-block;
+				margin:20px 0;
+				line-height:1.5;
+
+				font:{
+					family: $opensans;
+					size: em(16);
+				}
+
+				color:$body-color;
+			}
+		}
+	}	
+}
+
+[class^='block']{
+	.bg-container{
+		height:100%;
+
+		background-size:cover;
+		background-position:center center;
+	}
+}

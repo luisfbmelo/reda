@@ -1,0 +1,26 @@
+.floatnone{
+
+	@include media-query(768px){
+		&__xs{
+			clear: both;
+		}
+	}
+
+	@include media-query-range(768px,992px){
+		&__sm{
+			clear: both;
+		}
+	}
+
+	@include media-query-range(992px,1200px){
+		&__md{
+			clear: both;
+		}
+	}
+
+	@include media-query-min(1200px){
+		&__lg{
+			clear: both;
+		}
+	}
+}

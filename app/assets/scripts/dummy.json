@@ -1,4 +1,13 @@
 {
+	"explore": {
+		"title": "Explora. Aprende.",
+		"text": "Phasellus a est. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. In hac habitasse platea dictumst. Proin faucibus arcu quis ante. Nunc interdum lacus sit amet orci.",
+		"button": "Experimenta",
+		"image": {
+			"src": "assets/graphics/bg/explore.jpg",
+			"alt": "some alt"
+		}
+	},
 	"highlights": [
 		{
 			"id": 1,
@@ -17,6 +26,198 @@
 				"alt": "some alt"
 			},
 			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from"
+		}
+	],
+	"resources": [
+		{
+			"id": 1,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 2,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 3,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 4,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 5,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 6,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 7,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 8,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 9,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		},
+		{
+			"id": 10,
+			"title": "Media heading",
+			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+			"format": {
+				"id": 1,
+				"title": "Vídeo",
+				"image": {
+					"src": "assets/graphics/icons/video.svg",
+					"alt": "some alt"
+				}
+			},
+			"rating_avg": 4.5
+		}
+	],
+	"formats": [
+		{
+			"id": 1,
+			"title": "Vídeo",
+			"image": {
+				"src": "assets/graphics/icons/video.svg",
+				"alt": "some alt"
+			}
+		},
+		{
+			"id": 2,
+			"title": "Simulação",
+			"image": {
+				"src": "assets/graphics/icons/simulacao.svg",
+				"alt": "some alt"
+			}
+		},
+		{
+			"id": 3,
+			"title": "Animação",
+			"image": {
+				"src": "assets/graphics/icons/animacao.svg",
+				"alt": "some alt"
+			}
+		},
+		{
+			"id": 4,
+			"title": "Áudio",
+			"image": {
+				"src": "assets/graphics/icons/audio.svg",
+				"alt": "some alt"
+			}
+		},
+		{
+			"id": 5,
+			"title": "Imagem",
+			"image": {
+				"src": "assets/graphics/icons/imagem.svg",
+				"alt": "some alt"
+			}
+		},
+		{
+			"id": 6,
+			"title": "Outros",
+			"image": {
+				"src": "assets/graphics/icons/outros.svg",
+				"alt": "some alt"
+			}
 		}
 	]
 }

@@ -32054,7 +32054,7 @@ _assign(CallbackQueue.prototype, {
 PooledClass.addPoolingTo(CallbackQueue);
 
 module.exports = CallbackQueue;
-},{"./PooledClass":667,"fbjs/lib/invariant":795,"object-assign":806}],650:[function(require,module,exports){
+},{"./PooledClass":667,"fbjs/lib/invariant":795,"object-assign":"object-assign"}],650:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34412,7 +34412,7 @@ _assign(FallbackCompositionState.prototype, {
 PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
-},{"./PooledClass":667,"./getTextContentAccessor":767,"object-assign":806}],665:[function(require,module,exports){
+},{"./PooledClass":667,"./getTextContentAccessor":767,"object-assign":"object-assign"}],665:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34964,7 +34964,7 @@ var React = {
 };
 
 module.exports = React;
-},{"./ReactChildren":671,"./ReactClass":672,"./ReactComponent":673,"./ReactDOMFactories":686,"./ReactElement":703,"./ReactElementValidator":704,"./ReactPropTypes":726,"./ReactVersion":732,"./onlyChild":772,"fbjs/lib/warning":805,"object-assign":806}],669:[function(require,module,exports){
+},{"./ReactChildren":671,"./ReactClass":672,"./ReactComponent":673,"./ReactDOMFactories":686,"./ReactElement":703,"./ReactElementValidator":704,"./ReactPropTypes":726,"./ReactVersion":732,"./onlyChild":772,"fbjs/lib/warning":805,"object-assign":"object-assign"}],669:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -35282,7 +35282,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 });
 
 module.exports = ReactBrowserEventEmitter;
-},{"./EventConstants":659,"./EventPluginRegistry":661,"./ReactEventEmitterMixin":707,"./ViewportMetrics":750,"./getVendorPrefixedEventName":768,"./isEventSupported":770,"object-assign":806}],670:[function(require,module,exports){
+},{"./EventConstants":659,"./EventPluginRegistry":661,"./ReactEventEmitterMixin":707,"./ViewportMetrics":750,"./getVendorPrefixedEventName":768,"./isEventSupported":770,"object-assign":"object-assign"}],670:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -36315,7 +36315,7 @@ var ReactClass = {
 };
 
 module.exports = ReactClass;
-},{"./ReactComponent":673,"./ReactElement":703,"./ReactNoopUpdateQueue":721,"./ReactPropTypeLocationNames":724,"./ReactPropTypeLocations":725,"fbjs/lib/emptyObject":788,"fbjs/lib/invariant":795,"fbjs/lib/keyMirror":798,"fbjs/lib/keyOf":799,"fbjs/lib/warning":805,"object-assign":806}],673:[function(require,module,exports){
+},{"./ReactComponent":673,"./ReactElement":703,"./ReactNoopUpdateQueue":721,"./ReactPropTypeLocationNames":724,"./ReactPropTypeLocations":725,"fbjs/lib/emptyObject":788,"fbjs/lib/invariant":795,"fbjs/lib/keyMirror":798,"fbjs/lib/keyOf":799,"fbjs/lib/warning":805,"object-assign":"object-assign"}],673:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -37321,7 +37321,7 @@ var ReactCompositeComponent = {
 };
 
 module.exports = ReactCompositeComponent;
-},{"./ReactComponentEnvironment":675,"./ReactCurrentOwner":677,"./ReactElement":703,"./ReactErrorUtils":706,"./ReactInstanceMap":712,"./ReactInstrumentation":713,"./ReactNodeTypes":720,"./ReactPerf":723,"./ReactPropTypeLocationNames":724,"./ReactPropTypeLocations":725,"./ReactReconciler":728,"./ReactUpdateQueue":730,"./shouldUpdateReactComponent":777,"fbjs/lib/emptyObject":788,"fbjs/lib/invariant":795,"fbjs/lib/warning":805,"object-assign":806}],677:[function(require,module,exports){
+},{"./ReactComponentEnvironment":675,"./ReactCurrentOwner":677,"./ReactElement":703,"./ReactErrorUtils":706,"./ReactInstanceMap":712,"./ReactInstrumentation":713,"./ReactNodeTypes":720,"./ReactPerf":723,"./ReactPropTypeLocationNames":724,"./ReactPropTypeLocations":725,"./ReactReconciler":728,"./ReactUpdateQueue":730,"./shouldUpdateReactComponent":777,"fbjs/lib/emptyObject":788,"fbjs/lib/invariant":795,"fbjs/lib/warning":805,"object-assign":"object-assign"}],677:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -38415,7 +38415,7 @@ ReactPerf.measureMethods(ReactDOMComponent.Mixin, 'ReactDOMComponent', {
 _assign(ReactDOMComponent.prototype, ReactDOMComponent.Mixin, ReactMultiChild.Mixin);
 
 module.exports = ReactDOMComponent;
-},{"./AutoFocusUtils":645,"./CSSPropertyOperations":648,"./DOMLazyTree":652,"./DOMNamespaces":653,"./DOMProperty":654,"./DOMPropertyOperations":655,"./EventConstants":659,"./EventPluginHub":660,"./EventPluginRegistry":661,"./ReactBrowserEventEmitter":669,"./ReactComponentBrowserEnvironment":674,"./ReactDOMButton":679,"./ReactDOMComponentFlags":681,"./ReactDOMComponentTree":682,"./ReactDOMInput":689,"./ReactDOMOption":691,"./ReactDOMSelect":692,"./ReactDOMTextarea":695,"./ReactMultiChild":717,"./ReactPerf":723,"./escapeTextContentForBrowser":756,"./isEventSupported":770,"./validateDOMNesting":779,"fbjs/lib/invariant":795,"fbjs/lib/keyOf":799,"fbjs/lib/shallowEqual":804,"fbjs/lib/warning":805,"object-assign":806}],681:[function(require,module,exports){
+},{"./AutoFocusUtils":645,"./CSSPropertyOperations":648,"./DOMLazyTree":652,"./DOMNamespaces":653,"./DOMProperty":654,"./DOMPropertyOperations":655,"./EventConstants":659,"./EventPluginHub":660,"./EventPluginRegistry":661,"./ReactBrowserEventEmitter":669,"./ReactComponentBrowserEnvironment":674,"./ReactDOMButton":679,"./ReactDOMComponentFlags":681,"./ReactDOMComponentTree":682,"./ReactDOMInput":689,"./ReactDOMOption":691,"./ReactDOMSelect":692,"./ReactDOMTextarea":695,"./ReactMultiChild":717,"./ReactPerf":723,"./escapeTextContentForBrowser":756,"./isEventSupported":770,"./validateDOMNesting":779,"fbjs/lib/invariant":795,"fbjs/lib/keyOf":799,"fbjs/lib/shallowEqual":804,"fbjs/lib/warning":805,"object-assign":"object-assign"}],681:[function(require,module,exports){
 /**
  * Copyright 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -38777,7 +38777,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
 });
 
 module.exports = ReactDOMEmptyComponent;
-},{"./DOMLazyTree":652,"./ReactDOMComponentTree":682,"object-assign":806}],686:[function(require,module,exports){
+},{"./DOMLazyTree":652,"./ReactDOMComponentTree":682,"object-assign":"object-assign"}],686:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -39217,7 +39217,7 @@ function _handleChange(event) {
 }
 
 module.exports = ReactDOMInput;
-},{"./DOMPropertyOperations":655,"./LinkedValueUtils":666,"./ReactDOMComponentTree":682,"./ReactUpdates":731,"fbjs/lib/invariant":795,"fbjs/lib/warning":805,"object-assign":806}],690:[function(require,module,exports){
+},{"./DOMPropertyOperations":655,"./LinkedValueUtils":666,"./ReactDOMComponentTree":682,"./ReactUpdates":731,"fbjs/lib/invariant":795,"fbjs/lib/warning":805,"object-assign":"object-assign"}],690:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -39336,7 +39336,7 @@ var ReactDOMOption = {
 };
 
 module.exports = ReactDOMOption;
-},{"./ReactChildren":671,"./ReactDOMComponentTree":682,"./ReactDOMSelect":692,"fbjs/lib/warning":805,"object-assign":806}],692:[function(require,module,exports){
+},{"./ReactChildren":671,"./ReactDOMComponentTree":682,"./ReactDOMSelect":692,"fbjs/lib/warning":805,"object-assign":"object-assign"}],692:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -39549,7 +39549,7 @@ function _handleChange(event) {
 }
 
 module.exports = ReactDOMSelect;
-},{"./LinkedValueUtils":666,"./ReactDOMComponentTree":682,"./ReactUpdates":731,"fbjs/lib/warning":805,"object-assign":806}],693:[function(require,module,exports){
+},{"./LinkedValueUtils":666,"./ReactDOMComponentTree":682,"./ReactUpdates":731,"fbjs/lib/warning":805,"object-assign":"object-assign"}],693:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -39932,7 +39932,7 @@ ReactPerf.measureMethods(ReactDOMTextComponent.prototype, 'ReactDOMTextComponent
 });
 
 module.exports = ReactDOMTextComponent;
-},{"./DOMChildrenOperations":651,"./DOMLazyTree":652,"./ReactDOMComponentTree":682,"./ReactPerf":723,"./escapeTextContentForBrowser":756,"./validateDOMNesting":779,"fbjs/lib/invariant":795,"object-assign":806}],695:[function(require,module,exports){
+},{"./DOMChildrenOperations":651,"./DOMLazyTree":652,"./ReactDOMComponentTree":682,"./ReactPerf":723,"./escapeTextContentForBrowser":756,"./validateDOMNesting":779,"fbjs/lib/invariant":795,"object-assign":"object-assign"}],695:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -40074,7 +40074,7 @@ function _handleChange(event) {
 }
 
 module.exports = ReactDOMTextarea;
-},{"./DOMPropertyOperations":655,"./LinkedValueUtils":666,"./ReactDOMComponentTree":682,"./ReactUpdates":731,"fbjs/lib/invariant":795,"fbjs/lib/warning":805,"object-assign":806}],696:[function(require,module,exports){
+},{"./DOMPropertyOperations":655,"./LinkedValueUtils":666,"./ReactDOMComponentTree":682,"./ReactUpdates":731,"fbjs/lib/invariant":795,"fbjs/lib/warning":805,"object-assign":"object-assign"}],696:[function(require,module,exports){
 /**
  * Copyright 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -40416,7 +40416,7 @@ var ReactDefaultBatchingStrategy = {
 };
 
 module.exports = ReactDefaultBatchingStrategy;
-},{"./ReactUpdates":731,"./Transaction":749,"fbjs/lib/emptyFunction":787,"object-assign":806}],700:[function(require,module,exports){
+},{"./ReactUpdates":731,"./Transaction":749,"fbjs/lib/emptyFunction":787,"object-assign":"object-assign"}],700:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -41037,7 +41037,7 @@ var ReactDefaultPerfAnalysis = {
 };
 
 module.exports = ReactDefaultPerfAnalysis;
-},{"object-assign":806}],703:[function(require,module,exports){
+},{"object-assign":"object-assign"}],703:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -41325,7 +41325,7 @@ ReactElement.isValidElement = function (object) {
 };
 
 module.exports = ReactElement;
-},{"./ReactCurrentOwner":677,"./canDefineProperty":753,"fbjs/lib/warning":805,"object-assign":806}],704:[function(require,module,exports){
+},{"./ReactCurrentOwner":677,"./canDefineProperty":753,"fbjs/lib/warning":805,"object-assign":"object-assign"}],704:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -41907,7 +41907,7 @@ var ReactEventListener = {
 };
 
 module.exports = ReactEventListener;
-},{"./PooledClass":667,"./ReactDOMComponentTree":682,"./ReactUpdates":731,"./getEventTarget":763,"fbjs/lib/EventListener":780,"fbjs/lib/ExecutionEnvironment":781,"fbjs/lib/getUnboundedScrollPosition":792,"object-assign":806}],709:[function(require,module,exports){
+},{"./PooledClass":667,"./ReactDOMComponentTree":682,"./ReactUpdates":731,"./getEventTarget":763,"fbjs/lib/EventListener":780,"fbjs/lib/ExecutionEnvironment":781,"fbjs/lib/getUnboundedScrollPosition":792,"object-assign":"object-assign"}],709:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -43258,7 +43258,7 @@ var ReactNativeComponent = {
 };
 
 module.exports = ReactNativeComponent;
-},{"fbjs/lib/invariant":795,"object-assign":806}],720:[function(require,module,exports){
+},{"fbjs/lib/invariant":795,"object-assign":"object-assign"}],720:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -44174,7 +44174,7 @@ _assign(ReactReconcileTransaction.prototype, Transaction.Mixin, Mixin);
 PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
-},{"./CallbackQueue":649,"./PooledClass":667,"./ReactBrowserEventEmitter":669,"./ReactInputSelection":711,"./Transaction":749,"object-assign":806}],728:[function(require,module,exports){
+},{"./CallbackQueue":649,"./PooledClass":667,"./ReactBrowserEventEmitter":669,"./ReactInputSelection":711,"./Transaction":749,"object-assign":"object-assign"}],728:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -44842,7 +44842,7 @@ var ReactUpdates = {
 };
 
 module.exports = ReactUpdates;
-},{"./CallbackQueue":649,"./PooledClass":667,"./ReactFeatureFlags":709,"./ReactPerf":723,"./ReactReconciler":728,"./Transaction":749,"fbjs/lib/invariant":795,"object-assign":806}],732:[function(require,module,exports){
+},{"./CallbackQueue":649,"./PooledClass":667,"./ReactFeatureFlags":709,"./ReactPerf":723,"./ReactReconciler":728,"./Transaction":749,"fbjs/lib/invariant":795,"object-assign":"object-assign"}],732:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -46398,7 +46398,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
     "development" !== 'production' ? warning(warningCondition, 'This synthetic event is reused for performance reasons. If you\'re seeing this, ' + 'you\'re %s `%s` on a released/nullified synthetic event. %s. ' + 'If you must keep the original synthetic event around, use event.persist(). ' + 'See https://fb.me/react-event-pooling for more information.', action, propName, result) : void 0;
   }
 }
-},{"./PooledClass":667,"fbjs/lib/emptyFunction":787,"fbjs/lib/warning":805,"object-assign":806}],741:[function(require,module,exports){
+},{"./PooledClass":667,"fbjs/lib/emptyFunction":787,"fbjs/lib/warning":805,"object-assign":"object-assign"}],741:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -48137,7 +48137,7 @@ function instantiateReactComponent(node) {
 }
 
 module.exports = instantiateReactComponent;
-},{"./ReactCompositeComponent":676,"./ReactEmptyComponent":705,"./ReactNativeComponent":719,"fbjs/lib/invariant":795,"fbjs/lib/warning":805,"object-assign":806}],770:[function(require,module,exports){
+},{"./ReactCompositeComponent":676,"./ReactEmptyComponent":705,"./ReactNativeComponent":719,"fbjs/lib/invariant":795,"fbjs/lib/warning":805,"object-assign":"object-assign"}],770:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -49044,7 +49044,7 @@ if ("development" !== 'production') {
 }
 
 module.exports = validateDOMNesting;
-},{"fbjs/lib/emptyFunction":787,"fbjs/lib/warning":805,"object-assign":806}],780:[function(require,module,exports){
+},{"fbjs/lib/emptyFunction":787,"fbjs/lib/warning":805,"object-assign":"object-assign"}],780:[function(require,module,exports){
 'use strict';
 
 /**
@@ -50263,47 +50263,6 @@ if ("development" !== 'production') {
 
 module.exports = warning;
 },{"./emptyFunction":787}],806:[function(require,module,exports){
-/* eslint-disable no-unused-vars */
-'use strict';
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-
-function toObject(val) {
-	if (val === null || val === undefined) {
-		throw new TypeError('Object.assign cannot be called with null or undefined');
-	}
-
-	return Object(val);
-}
-
-module.exports = Object.assign || function (target, source) {
-	var from;
-	var to = toObject(target);
-	var symbols;
-
-	for (var s = 1; s < arguments.length; s++) {
-		from = Object(arguments[s]);
-
-		for (var key in from) {
-			if (hasOwnProperty.call(from, key)) {
-				to[key] = from[key];
-			}
-		}
-
-		if (Object.getOwnPropertySymbols) {
-			symbols = Object.getOwnPropertySymbols(from);
-			for (var i = 0; i < symbols.length; i++) {
-				if (propIsEnumerable.call(from, symbols[i])) {
-					to[symbols[i]] = from[symbols[i]];
-				}
-			}
-		}
-	}
-
-	return to;
-};
-
-},{}],807:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -50323,7 +50282,7 @@ var SUBMIT_FAILED = exports.SUBMIT_FAILED = 'redux-form/SUBMIT_FAILED';
 var SWAP_ARRAY_VALUES = exports.SWAP_ARRAY_VALUES = 'redux-form/SWAP_ARRAY_VALUES';
 var TOUCH = exports.TOUCH = 'redux-form/TOUCH';
 var UNTOUCH = exports.UNTOUCH = 'redux-form/UNTOUCH';
-},{}],808:[function(require,module,exports){
+},{}],807:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -50405,7 +50364,7 @@ var untouch = exports.untouch = function untouch() {
 
   return { type: _actionTypes.UNTOUCH, fields: fields };
 };
-},{"./actionTypes":807}],809:[function(require,module,exports){
+},{"./actionTypes":806}],808:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -50443,7 +50402,7 @@ var asyncValidation = function asyncValidation(fn, start, stop, field) {
 };
 
 exports.default = asyncValidation;
-},{"./isValid":832,"is-promise":851}],810:[function(require,module,exports){
+},{"./isValid":831,"is-promise":850}],809:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -50474,7 +50433,7 @@ function bindActionData(action, data) {
   }
   return action;
 }
-},{"./mapValues":833}],811:[function(require,module,exports){
+},{"./mapValues":832}],810:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -50615,7 +50574,7 @@ function createAll(isReactNative, React, connect) {
     untouchWithKey: untouchWithKey
   };
 }
-},{"./actionTypes":807,"./actions":808,"./bindActionData":810,"./createPropTypes":813,"./createReduxForm":814,"./getValuesFromState":828,"./mapValues":833,"./reducer":838}],812:[function(require,module,exports){
+},{"./actionTypes":806,"./actions":807,"./bindActionData":809,"./createPropTypes":812,"./createReduxForm":813,"./getValuesFromState":827,"./mapValues":832,"./reducer":837}],811:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -50974,7 +50933,7 @@ var createHigherOrderComponent = function createHigherOrderComponent(config, isR
 };
 
 exports.default = createHigherOrderComponent;
-},{"./actions":808,"./asyncValidation":809,"./bindActionData":810,"./events/silenceEvent":823,"./events/silenceEvents":824,"./getDisplayName":826,"./getValues":827,"./handleSubmit":829,"./isValid":832,"./readFields":837,"./reducer":838,"./wrapMapDispatchToProps":844,"./wrapMapStateToProps":845,"deep-equal":847}],813:[function(require,module,exports){
+},{"./actions":807,"./asyncValidation":808,"./bindActionData":809,"./events/silenceEvent":822,"./events/silenceEvents":823,"./getDisplayName":825,"./getValues":826,"./handleSubmit":828,"./isValid":831,"./readFields":836,"./reducer":837,"./wrapMapDispatchToProps":843,"./wrapMapStateToProps":844,"deep-equal":846}],812:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -51015,7 +50974,7 @@ var createPropTypes = function createPropTypes(_ref) {
 };
 
 exports.default = createPropTypes;
-},{}],814:[function(require,module,exports){
+},{}],813:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51084,7 +51043,7 @@ var createReduxForm = function createReduxForm(isReactNative, React, connect) {
 };
 
 exports.default = createReduxForm;
-},{"./createReduxFormConnector":815,"hoist-non-react-statics":850}],815:[function(require,module,exports){
+},{"./createReduxFormConnector":814,"hoist-non-react-statics":849}],814:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51185,7 +51144,7 @@ var createReduxFormConnector = function createReduxFormConnector(isReactNative, 
 };
 
 exports.default = createReduxFormConnector;
-},{"./createHigherOrderComponent":812,"./getDisplayName":826,"react-lazy-cache/noGetters":853}],816:[function(require,module,exports){
+},{"./createHigherOrderComponent":811,"./getDisplayName":825,"react-lazy-cache/noGetters":852}],815:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51206,7 +51165,7 @@ var createOnBlur = function createOnBlur(name, blur, isReactNative, afterBlur) {
   };
 };
 exports.default = createOnBlur;
-},{"./getValue":821}],817:[function(require,module,exports){
+},{"./getValue":820}],816:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51223,7 +51182,7 @@ var createOnChange = function createOnChange(name, change, isReactNative) {
   };
 };
 exports.default = createOnChange;
-},{"./getValue":821}],818:[function(require,module,exports){
+},{"./getValue":820}],817:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51235,7 +51194,7 @@ var createOnDragStart = function createOnDragStart(name, getValue) {
 };
 
 exports.default = createOnDragStart;
-},{}],819:[function(require,module,exports){
+},{}],818:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51248,7 +51207,7 @@ var createOnDrop = function createOnDrop(name, change) {
   };
 };
 exports.default = createOnDrop;
-},{"./createOnDragStart":818}],820:[function(require,module,exports){
+},{"./createOnDragStart":817}],819:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -51258,7 +51217,7 @@ var createOnFocus = function createOnFocus(name, focus) {
   };
 };
 exports.default = createOnFocus;
-},{}],821:[function(require,module,exports){
+},{}],820:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51314,7 +51273,7 @@ var getValue = function getValue(event, isReactNative) {
 };
 
 exports.default = getValue;
-},{"./isEvent":822}],822:[function(require,module,exports){
+},{"./isEvent":821}],821:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -51323,7 +51282,7 @@ var isEvent = function isEvent(candidate) {
 };
 
 exports.default = isEvent;
-},{}],823:[function(require,module,exports){
+},{}],822:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51343,7 +51302,7 @@ var silenceEvent = function silenceEvent(event) {
 };
 
 exports.default = silenceEvent;
-},{"./isEvent":822}],824:[function(require,module,exports){
+},{"./isEvent":821}],823:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51365,7 +51324,7 @@ var silenceEvents = function silenceEvents(fn) {
 };
 
 exports.default = silenceEvents;
-},{"./silenceEvent":823}],825:[function(require,module,exports){
+},{"./silenceEvent":822}],824:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51386,7 +51345,7 @@ function makeFieldValue(object) {
 function isFieldValue(object) {
   return !!(object && isObject(object) && object[flag]);
 }
-},{}],826:[function(require,module,exports){
+},{}],825:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51394,7 +51353,7 @@ exports.default = getDisplayName;
 function getDisplayName(Comp) {
   return Comp.displayName || Comp.name || 'Component';
 }
-},{}],827:[function(require,module,exports){
+},{}],826:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51451,7 +51410,7 @@ var getValues = function getValues(fields, state) {
 };
 
 exports.default = getValues;
-},{}],828:[function(require,module,exports){
+},{}],827:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51493,7 +51452,7 @@ var getValuesFromState = function getValuesFromState(state) {
 };
 
 exports.default = getValuesFromState;
-},{"./fieldValue":825}],829:[function(require,module,exports){
+},{"./fieldValue":824}],828:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51553,7 +51512,7 @@ var handleSubmit = function handleSubmit(submit, values, props, asyncValidate) {
 };
 
 exports.default = handleSubmit;
-},{"./isValid":832,"is-promise":851}],830:[function(require,module,exports){
+},{"./isValid":831,"is-promise":850}],829:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51626,7 +51585,7 @@ var initializeState = function initializeState(values, fields) {
 };
 
 exports.default = initializeState;
-},{"./fieldValue":825}],831:[function(require,module,exports){
+},{"./fieldValue":824}],830:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51660,7 +51619,7 @@ function isPristine(initial, data) {
   }
   return true;
 }
-},{}],832:[function(require,module,exports){
+},{}],831:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51678,7 +51637,7 @@ function isValid(error) {
   }
   return !error;
 }
-},{}],833:[function(require,module,exports){
+},{}],832:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -51696,7 +51655,7 @@ function mapValues(obj, fn) {
     return _extends({}, accumulator, (_extends2 = {}, _extends2[key] = fn(obj[key], key), _extends2));
   }, {}) : obj;
 }
-},{}],834:[function(require,module,exports){
+},{}],833:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51789,7 +51748,7 @@ function normalizeFields(normalizers, state, previousState, values, previousValu
 
   return _extends({}, state, newState);
 }
-},{"./fieldValue":825}],835:[function(require,module,exports){
+},{"./fieldValue":824}],834:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -51831,7 +51790,7 @@ var read = function read(path, object) {
 };
 
 exports.default = read;
-},{}],836:[function(require,module,exports){
+},{}],835:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52039,7 +51998,7 @@ var readField = function readField(state, fieldName) {
 };
 
 exports.default = readField;
-},{"./events/createOnBlur":816,"./events/createOnChange":817,"./events/createOnDragStart":818,"./events/createOnDrop":819,"./events/createOnFocus":820,"./read":835,"./silencePromise":842,"./updateField":843}],837:[function(require,module,exports){
+},{"./events/createOnBlur":815,"./events/createOnChange":816,"./events/createOnDragStart":817,"./events/createOnDrop":818,"./events/createOnFocus":819,"./read":834,"./silencePromise":841,"./updateField":842}],836:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52106,7 +52065,7 @@ var readFields = function readFields(props, previousProps, myFields, asyncValida
   return fieldObjects;
 };
 exports.default = readFields;
-},{"./getValues":827,"./readField":836,"./removeField":839,"./write":846}],838:[function(require,module,exports){
+},{"./getValues":826,"./readField":835,"./removeField":838,"./write":845}],837:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52423,7 +52382,7 @@ function decorate(target) {
 }
 
 exports.default = decorate(formReducer);
-},{"./actionTypes":807,"./fieldValue":825,"./getValuesFromState":828,"./initializeState":830,"./mapValues":833,"./normalizeFields":834,"./read":835,"./resetState":840,"./setErrors":841,"./write":846}],839:[function(require,module,exports){
+},{"./actionTypes":806,"./fieldValue":824,"./getValuesFromState":827,"./initializeState":829,"./mapValues":832,"./normalizeFields":833,"./read":834,"./resetState":839,"./setErrors":840,"./write":845}],838:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52499,7 +52458,7 @@ var removeField = function removeField(fields, path) {
 };
 
 exports.default = removeField;
-},{}],840:[function(require,module,exports){
+},{}],839:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52534,7 +52493,7 @@ var resetState = function resetState(values) {
 };
 
 exports.default = resetState;
-},{"./fieldValue":825}],841:[function(require,module,exports){
+},{"./fieldValue":824}],840:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52621,7 +52580,7 @@ var setErrors = function setErrors(state, errors, destKey) {
 };
 
 exports.default = setErrors;
-},{"./fieldValue":825}],842:[function(require,module,exports){
+},{"./fieldValue":824}],841:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52641,7 +52600,7 @@ var silencePromise = function silencePromise(promise) {
 };
 
 exports.default = silencePromise;
-},{"is-promise":851}],843:[function(require,module,exports){
+},{"is-promise":850}],842:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52708,7 +52667,7 @@ var updateField = function updateField(field, formField, active, syncError) {
   return Object.keys(diff).length ? _extends({}, field, diff) : field;
 };
 exports.default = updateField;
-},{"./isPristine":831,"./isValid":832}],844:[function(require,module,exports){
+},{"./isPristine":830,"./isValid":831}],843:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52747,7 +52706,7 @@ var wrapMapDispatchToProps = function wrapMapDispatchToProps(mapDispatchToProps,
 };
 
 exports.default = wrapMapDispatchToProps;
-},{"redux":"redux"}],845:[function(require,module,exports){
+},{"redux":"redux"}],844:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52780,7 +52739,7 @@ var wrapMapStateToProps = function wrapMapStateToProps(mapStateToProps, getForm)
 };
 
 exports.default = wrapMapStateToProps;
-},{}],846:[function(require,module,exports){
+},{}],845:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52882,22 +52841,22 @@ var write = function write(path, value, object) {
 };
 
 exports.default = write;
-},{}],847:[function(require,module,exports){
+},{}],846:[function(require,module,exports){
 arguments[4][311][0].apply(exports,arguments)
-},{"./lib/is_arguments.js":848,"./lib/keys.js":849,"dup":311}],848:[function(require,module,exports){
+},{"./lib/is_arguments.js":847,"./lib/keys.js":848,"dup":311}],847:[function(require,module,exports){
 arguments[4][312][0].apply(exports,arguments)
-},{"dup":312}],849:[function(require,module,exports){
+},{"dup":312}],848:[function(require,module,exports){
 arguments[4][313][0].apply(exports,arguments)
-},{"dup":313}],850:[function(require,module,exports){
+},{"dup":313}],849:[function(require,module,exports){
 arguments[4][579][0].apply(exports,arguments)
-},{"dup":579}],851:[function(require,module,exports){
+},{"dup":579}],850:[function(require,module,exports){
 module.exports = isPromise;
 
 function isPromise(obj) {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function';
 }
 
-},{}],852:[function(require,module,exports){
+},{}],851:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -52988,10 +52947,10 @@ var LazyCache = (function () {
 
 exports['default'] = LazyCache;
 module.exports = exports['default'];
-},{"deep-equal":847}],853:[function(require,module,exports){
+},{"deep-equal":846}],852:[function(require,module,exports){
 module.exports = require('./lib/noGetters');
 
-},{"./lib/noGetters":852}],854:[function(require,module,exports){
+},{"./lib/noGetters":851}],853:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -53050,7 +53009,7 @@ function applyMiddleware() {
     };
   };
 }
-},{"./compose":857}],855:[function(require,module,exports){
+},{"./compose":856}],854:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -53102,7 +53061,7 @@ function bindActionCreators(actionCreators, dispatch) {
   }
   return boundActionCreators;
 }
-},{}],856:[function(require,module,exports){
+},{}],855:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -53230,7 +53189,7 @@ function combineReducers(reducers) {
     return hasChanged ? nextState : state;
   };
 }
-},{"./createStore":858,"./utils/warning":859,"lodash/isPlainObject":863}],857:[function(require,module,exports){
+},{"./createStore":857,"./utils/warning":858,"lodash/isPlainObject":862}],856:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -53264,7 +53223,7 @@ function compose() {
     }, last.apply(undefined, arguments));
   };
 }
-},{}],858:[function(require,module,exports){
+},{}],857:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -53481,17 +53440,17 @@ function createStore(reducer, initialState, enhancer) {
     replaceReducer: replaceReducer
   };
 }
-},{"lodash/isPlainObject":863}],859:[function(require,module,exports){
+},{"lodash/isPlainObject":862}],858:[function(require,module,exports){
 arguments[4][577][0].apply(exports,arguments)
-},{"dup":577}],860:[function(require,module,exports){
+},{"dup":577}],859:[function(require,module,exports){
 arguments[4][581][0].apply(exports,arguments)
-},{"dup":581}],861:[function(require,module,exports){
+},{"dup":581}],860:[function(require,module,exports){
 arguments[4][582][0].apply(exports,arguments)
-},{"dup":582}],862:[function(require,module,exports){
+},{"dup":582}],861:[function(require,module,exports){
 arguments[4][583][0].apply(exports,arguments)
-},{"dup":583}],863:[function(require,module,exports){
+},{"dup":583}],862:[function(require,module,exports){
 arguments[4][584][0].apply(exports,arguments)
-},{"./_getPrototype":860,"./_isHostObject":861,"./isObjectLike":862,"dup":584}],"babel-polyfill":[function(require,module,exports){
+},{"./_getPrototype":859,"./_isHostObject":860,"./isObjectLike":861,"dup":584}],"babel-polyfill":[function(require,module,exports){
 (function (global){
 /* eslint max-len: 0 */
 
@@ -53527,7 +53486,966 @@ define(String.prototype, "padRight", "".padEnd);
 });
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"babel-regenerator-runtime":1,"core-js/fn/regexp/escape":2,"core-js/shim":289}],"history":[function(require,module,exports){
+},{"babel-regenerator-runtime":1,"core-js/fn/regexp/escape":2,"core-js/shim":289}],"es6-promise":[function(require,module,exports){
+(function (process,global){
+/*!
+ * @overview es6-promise - a tiny implementation of Promises/A+.
+ * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
+ * @license   Licensed under MIT license
+ *            See https://raw.githubusercontent.com/jakearchibald/es6-promise/master/LICENSE
+ * @version   3.1.2
+ */
+
+(function() {
+    "use strict";
+    function lib$es6$promise$utils$$objectOrFunction(x) {
+      return typeof x === 'function' || (typeof x === 'object' && x !== null);
+    }
+
+    function lib$es6$promise$utils$$isFunction(x) {
+      return typeof x === 'function';
+    }
+
+    function lib$es6$promise$utils$$isMaybeThenable(x) {
+      return typeof x === 'object' && x !== null;
+    }
+
+    var lib$es6$promise$utils$$_isArray;
+    if (!Array.isArray) {
+      lib$es6$promise$utils$$_isArray = function (x) {
+        return Object.prototype.toString.call(x) === '[object Array]';
+      };
+    } else {
+      lib$es6$promise$utils$$_isArray = Array.isArray;
+    }
+
+    var lib$es6$promise$utils$$isArray = lib$es6$promise$utils$$_isArray;
+    var lib$es6$promise$asap$$len = 0;
+    var lib$es6$promise$asap$$vertxNext;
+    var lib$es6$promise$asap$$customSchedulerFn;
+
+    var lib$es6$promise$asap$$asap = function asap(callback, arg) {
+      lib$es6$promise$asap$$queue[lib$es6$promise$asap$$len] = callback;
+      lib$es6$promise$asap$$queue[lib$es6$promise$asap$$len + 1] = arg;
+      lib$es6$promise$asap$$len += 2;
+      if (lib$es6$promise$asap$$len === 2) {
+        // If len is 2, that means that we need to schedule an async flush.
+        // If additional callbacks are queued before the queue is flushed, they
+        // will be processed by this flush that we are scheduling.
+        if (lib$es6$promise$asap$$customSchedulerFn) {
+          lib$es6$promise$asap$$customSchedulerFn(lib$es6$promise$asap$$flush);
+        } else {
+          lib$es6$promise$asap$$scheduleFlush();
+        }
+      }
+    }
+
+    function lib$es6$promise$asap$$setScheduler(scheduleFn) {
+      lib$es6$promise$asap$$customSchedulerFn = scheduleFn;
+    }
+
+    function lib$es6$promise$asap$$setAsap(asapFn) {
+      lib$es6$promise$asap$$asap = asapFn;
+    }
+
+    var lib$es6$promise$asap$$browserWindow = (typeof window !== 'undefined') ? window : undefined;
+    var lib$es6$promise$asap$$browserGlobal = lib$es6$promise$asap$$browserWindow || {};
+    var lib$es6$promise$asap$$BrowserMutationObserver = lib$es6$promise$asap$$browserGlobal.MutationObserver || lib$es6$promise$asap$$browserGlobal.WebKitMutationObserver;
+    var lib$es6$promise$asap$$isNode = typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
+
+    // test for web worker but not in IE10
+    var lib$es6$promise$asap$$isWorker = typeof Uint8ClampedArray !== 'undefined' &&
+      typeof importScripts !== 'undefined' &&
+      typeof MessageChannel !== 'undefined';
+
+    // node
+    function lib$es6$promise$asap$$useNextTick() {
+      // node version 0.10.x displays a deprecation warning when nextTick is used recursively
+      // see https://github.com/cujojs/when/issues/410 for details
+      return function() {
+        process.nextTick(lib$es6$promise$asap$$flush);
+      };
+    }
+
+    // vertx
+    function lib$es6$promise$asap$$useVertxTimer() {
+      return function() {
+        lib$es6$promise$asap$$vertxNext(lib$es6$promise$asap$$flush);
+      };
+    }
+
+    function lib$es6$promise$asap$$useMutationObserver() {
+      var iterations = 0;
+      var observer = new lib$es6$promise$asap$$BrowserMutationObserver(lib$es6$promise$asap$$flush);
+      var node = document.createTextNode('');
+      observer.observe(node, { characterData: true });
+
+      return function() {
+        node.data = (iterations = ++iterations % 2);
+      };
+    }
+
+    // web worker
+    function lib$es6$promise$asap$$useMessageChannel() {
+      var channel = new MessageChannel();
+      channel.port1.onmessage = lib$es6$promise$asap$$flush;
+      return function () {
+        channel.port2.postMessage(0);
+      };
+    }
+
+    function lib$es6$promise$asap$$useSetTimeout() {
+      return function() {
+        setTimeout(lib$es6$promise$asap$$flush, 1);
+      };
+    }
+
+    var lib$es6$promise$asap$$queue = new Array(1000);
+    function lib$es6$promise$asap$$flush() {
+      for (var i = 0; i < lib$es6$promise$asap$$len; i+=2) {
+        var callback = lib$es6$promise$asap$$queue[i];
+        var arg = lib$es6$promise$asap$$queue[i+1];
+
+        callback(arg);
+
+        lib$es6$promise$asap$$queue[i] = undefined;
+        lib$es6$promise$asap$$queue[i+1] = undefined;
+      }
+
+      lib$es6$promise$asap$$len = 0;
+    }
+
+    function lib$es6$promise$asap$$attemptVertx() {
+      try {
+        var r = require;
+        var vertx = r('vertx');
+        lib$es6$promise$asap$$vertxNext = vertx.runOnLoop || vertx.runOnContext;
+        return lib$es6$promise$asap$$useVertxTimer();
+      } catch(e) {
+        return lib$es6$promise$asap$$useSetTimeout();
+      }
+    }
+
+    var lib$es6$promise$asap$$scheduleFlush;
+    // Decide what async method to use to triggering processing of queued callbacks:
+    if (lib$es6$promise$asap$$isNode) {
+      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useNextTick();
+    } else if (lib$es6$promise$asap$$BrowserMutationObserver) {
+      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useMutationObserver();
+    } else if (lib$es6$promise$asap$$isWorker) {
+      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useMessageChannel();
+    } else if (lib$es6$promise$asap$$browserWindow === undefined && typeof require === 'function') {
+      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$attemptVertx();
+    } else {
+      lib$es6$promise$asap$$scheduleFlush = lib$es6$promise$asap$$useSetTimeout();
+    }
+    function lib$es6$promise$then$$then(onFulfillment, onRejection) {
+      var parent = this;
+      var state = parent._state;
+
+      if (state === lib$es6$promise$$internal$$FULFILLED && !onFulfillment || state === lib$es6$promise$$internal$$REJECTED && !onRejection) {
+        return this;
+      }
+
+      var child = new this.constructor(lib$es6$promise$$internal$$noop);
+      var result = parent._result;
+
+      if (state) {
+        var callback = arguments[state - 1];
+        lib$es6$promise$asap$$asap(function(){
+          lib$es6$promise$$internal$$invokeCallback(state, child, callback, result);
+        });
+      } else {
+        lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection);
+      }
+
+      return child;
+    }
+    var lib$es6$promise$then$$default = lib$es6$promise$then$$then;
+    function lib$es6$promise$promise$resolve$$resolve(object) {
+      /*jshint validthis:true */
+      var Constructor = this;
+
+      if (object && typeof object === 'object' && object.constructor === Constructor) {
+        return object;
+      }
+
+      var promise = new Constructor(lib$es6$promise$$internal$$noop);
+      lib$es6$promise$$internal$$resolve(promise, object);
+      return promise;
+    }
+    var lib$es6$promise$promise$resolve$$default = lib$es6$promise$promise$resolve$$resolve;
+
+    function lib$es6$promise$$internal$$noop() {}
+
+    var lib$es6$promise$$internal$$PENDING   = void 0;
+    var lib$es6$promise$$internal$$FULFILLED = 1;
+    var lib$es6$promise$$internal$$REJECTED  = 2;
+
+    var lib$es6$promise$$internal$$GET_THEN_ERROR = new lib$es6$promise$$internal$$ErrorObject();
+
+    function lib$es6$promise$$internal$$selfFulfillment() {
+      return new TypeError("You cannot resolve a promise with itself");
+    }
+
+    function lib$es6$promise$$internal$$cannotReturnOwn() {
+      return new TypeError('A promises callback cannot return that same promise.');
+    }
+
+    function lib$es6$promise$$internal$$getThen(promise) {
+      try {
+        return promise.then;
+      } catch(error) {
+        lib$es6$promise$$internal$$GET_THEN_ERROR.error = error;
+        return lib$es6$promise$$internal$$GET_THEN_ERROR;
+      }
+    }
+
+    function lib$es6$promise$$internal$$tryThen(then, value, fulfillmentHandler, rejectionHandler) {
+      try {
+        then.call(value, fulfillmentHandler, rejectionHandler);
+      } catch(e) {
+        return e;
+      }
+    }
+
+    function lib$es6$promise$$internal$$handleForeignThenable(promise, thenable, then) {
+       lib$es6$promise$asap$$asap(function(promise) {
+        var sealed = false;
+        var error = lib$es6$promise$$internal$$tryThen(then, thenable, function(value) {
+          if (sealed) { return; }
+          sealed = true;
+          if (thenable !== value) {
+            lib$es6$promise$$internal$$resolve(promise, value);
+          } else {
+            lib$es6$promise$$internal$$fulfill(promise, value);
+          }
+        }, function(reason) {
+          if (sealed) { return; }
+          sealed = true;
+
+          lib$es6$promise$$internal$$reject(promise, reason);
+        }, 'Settle: ' + (promise._label || ' unknown promise'));
+
+        if (!sealed && error) {
+          sealed = true;
+          lib$es6$promise$$internal$$reject(promise, error);
+        }
+      }, promise);
+    }
+
+    function lib$es6$promise$$internal$$handleOwnThenable(promise, thenable) {
+      if (thenable._state === lib$es6$promise$$internal$$FULFILLED) {
+        lib$es6$promise$$internal$$fulfill(promise, thenable._result);
+      } else if (thenable._state === lib$es6$promise$$internal$$REJECTED) {
+        lib$es6$promise$$internal$$reject(promise, thenable._result);
+      } else {
+        lib$es6$promise$$internal$$subscribe(thenable, undefined, function(value) {
+          lib$es6$promise$$internal$$resolve(promise, value);
+        }, function(reason) {
+          lib$es6$promise$$internal$$reject(promise, reason);
+        });
+      }
+    }
+
+    function lib$es6$promise$$internal$$handleMaybeThenable(promise, maybeThenable, then) {
+      if (maybeThenable.constructor === promise.constructor &&
+          then === lib$es6$promise$then$$default &&
+          constructor.resolve === lib$es6$promise$promise$resolve$$default) {
+        lib$es6$promise$$internal$$handleOwnThenable(promise, maybeThenable);
+      } else {
+        if (then === lib$es6$promise$$internal$$GET_THEN_ERROR) {
+          lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$GET_THEN_ERROR.error);
+        } else if (then === undefined) {
+          lib$es6$promise$$internal$$fulfill(promise, maybeThenable);
+        } else if (lib$es6$promise$utils$$isFunction(then)) {
+          lib$es6$promise$$internal$$handleForeignThenable(promise, maybeThenable, then);
+        } else {
+          lib$es6$promise$$internal$$fulfill(promise, maybeThenable);
+        }
+      }
+    }
+
+    function lib$es6$promise$$internal$$resolve(promise, value) {
+      if (promise === value) {
+        lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$selfFulfillment());
+      } else if (lib$es6$promise$utils$$objectOrFunction(value)) {
+        lib$es6$promise$$internal$$handleMaybeThenable(promise, value, lib$es6$promise$$internal$$getThen(value));
+      } else {
+        lib$es6$promise$$internal$$fulfill(promise, value);
+      }
+    }
+
+    function lib$es6$promise$$internal$$publishRejection(promise) {
+      if (promise._onerror) {
+        promise._onerror(promise._result);
+      }
+
+      lib$es6$promise$$internal$$publish(promise);
+    }
+
+    function lib$es6$promise$$internal$$fulfill(promise, value) {
+      if (promise._state !== lib$es6$promise$$internal$$PENDING) { return; }
+
+      promise._result = value;
+      promise._state = lib$es6$promise$$internal$$FULFILLED;
+
+      if (promise._subscribers.length !== 0) {
+        lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publish, promise);
+      }
+    }
+
+    function lib$es6$promise$$internal$$reject(promise, reason) {
+      if (promise._state !== lib$es6$promise$$internal$$PENDING) { return; }
+      promise._state = lib$es6$promise$$internal$$REJECTED;
+      promise._result = reason;
+
+      lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publishRejection, promise);
+    }
+
+    function lib$es6$promise$$internal$$subscribe(parent, child, onFulfillment, onRejection) {
+      var subscribers = parent._subscribers;
+      var length = subscribers.length;
+
+      parent._onerror = null;
+
+      subscribers[length] = child;
+      subscribers[length + lib$es6$promise$$internal$$FULFILLED] = onFulfillment;
+      subscribers[length + lib$es6$promise$$internal$$REJECTED]  = onRejection;
+
+      if (length === 0 && parent._state) {
+        lib$es6$promise$asap$$asap(lib$es6$promise$$internal$$publish, parent);
+      }
+    }
+
+    function lib$es6$promise$$internal$$publish(promise) {
+      var subscribers = promise._subscribers;
+      var settled = promise._state;
+
+      if (subscribers.length === 0) { return; }
+
+      var child, callback, detail = promise._result;
+
+      for (var i = 0; i < subscribers.length; i += 3) {
+        child = subscribers[i];
+        callback = subscribers[i + settled];
+
+        if (child) {
+          lib$es6$promise$$internal$$invokeCallback(settled, child, callback, detail);
+        } else {
+          callback(detail);
+        }
+      }
+
+      promise._subscribers.length = 0;
+    }
+
+    function lib$es6$promise$$internal$$ErrorObject() {
+      this.error = null;
+    }
+
+    var lib$es6$promise$$internal$$TRY_CATCH_ERROR = new lib$es6$promise$$internal$$ErrorObject();
+
+    function lib$es6$promise$$internal$$tryCatch(callback, detail) {
+      try {
+        return callback(detail);
+      } catch(e) {
+        lib$es6$promise$$internal$$TRY_CATCH_ERROR.error = e;
+        return lib$es6$promise$$internal$$TRY_CATCH_ERROR;
+      }
+    }
+
+    function lib$es6$promise$$internal$$invokeCallback(settled, promise, callback, detail) {
+      var hasCallback = lib$es6$promise$utils$$isFunction(callback),
+          value, error, succeeded, failed;
+
+      if (hasCallback) {
+        value = lib$es6$promise$$internal$$tryCatch(callback, detail);
+
+        if (value === lib$es6$promise$$internal$$TRY_CATCH_ERROR) {
+          failed = true;
+          error = value.error;
+          value = null;
+        } else {
+          succeeded = true;
+        }
+
+        if (promise === value) {
+          lib$es6$promise$$internal$$reject(promise, lib$es6$promise$$internal$$cannotReturnOwn());
+          return;
+        }
+
+      } else {
+        value = detail;
+        succeeded = true;
+      }
+
+      if (promise._state !== lib$es6$promise$$internal$$PENDING) {
+        // noop
+      } else if (hasCallback && succeeded) {
+        lib$es6$promise$$internal$$resolve(promise, value);
+      } else if (failed) {
+        lib$es6$promise$$internal$$reject(promise, error);
+      } else if (settled === lib$es6$promise$$internal$$FULFILLED) {
+        lib$es6$promise$$internal$$fulfill(promise, value);
+      } else if (settled === lib$es6$promise$$internal$$REJECTED) {
+        lib$es6$promise$$internal$$reject(promise, value);
+      }
+    }
+
+    function lib$es6$promise$$internal$$initializePromise(promise, resolver) {
+      try {
+        resolver(function resolvePromise(value){
+          lib$es6$promise$$internal$$resolve(promise, value);
+        }, function rejectPromise(reason) {
+          lib$es6$promise$$internal$$reject(promise, reason);
+        });
+      } catch(e) {
+        lib$es6$promise$$internal$$reject(promise, e);
+      }
+    }
+
+    function lib$es6$promise$promise$all$$all(entries) {
+      return new lib$es6$promise$enumerator$$default(this, entries).promise;
+    }
+    var lib$es6$promise$promise$all$$default = lib$es6$promise$promise$all$$all;
+    function lib$es6$promise$promise$race$$race(entries) {
+      /*jshint validthis:true */
+      var Constructor = this;
+
+      var promise = new Constructor(lib$es6$promise$$internal$$noop);
+
+      if (!lib$es6$promise$utils$$isArray(entries)) {
+        lib$es6$promise$$internal$$reject(promise, new TypeError('You must pass an array to race.'));
+        return promise;
+      }
+
+      var length = entries.length;
+
+      function onFulfillment(value) {
+        lib$es6$promise$$internal$$resolve(promise, value);
+      }
+
+      function onRejection(reason) {
+        lib$es6$promise$$internal$$reject(promise, reason);
+      }
+
+      for (var i = 0; promise._state === lib$es6$promise$$internal$$PENDING && i < length; i++) {
+        lib$es6$promise$$internal$$subscribe(Constructor.resolve(entries[i]), undefined, onFulfillment, onRejection);
+      }
+
+      return promise;
+    }
+    var lib$es6$promise$promise$race$$default = lib$es6$promise$promise$race$$race;
+    function lib$es6$promise$promise$reject$$reject(reason) {
+      /*jshint validthis:true */
+      var Constructor = this;
+      var promise = new Constructor(lib$es6$promise$$internal$$noop);
+      lib$es6$promise$$internal$$reject(promise, reason);
+      return promise;
+    }
+    var lib$es6$promise$promise$reject$$default = lib$es6$promise$promise$reject$$reject;
+
+    var lib$es6$promise$promise$$counter = 0;
+
+    function lib$es6$promise$promise$$needsResolver() {
+      throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
+    }
+
+    function lib$es6$promise$promise$$needsNew() {
+      throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
+    }
+
+    var lib$es6$promise$promise$$default = lib$es6$promise$promise$$Promise;
+    /**
+      Promise objects represent the eventual result of an asynchronous operation. The
+      primary way of interacting with a promise is through its `then` method, which
+      registers callbacks to receive either a promise's eventual value or the reason
+      why the promise cannot be fulfilled.
+
+      Terminology
+      -----------
+
+      - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
+      - `thenable` is an object or function that defines a `then` method.
+      - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
+      - `exception` is a value that is thrown using the throw statement.
+      - `reason` is a value that indicates why a promise was rejected.
+      - `settled` the final resting state of a promise, fulfilled or rejected.
+
+      A promise can be in one of three states: pending, fulfilled, or rejected.
+
+      Promises that are fulfilled have a fulfillment value and are in the fulfilled
+      state.  Promises that are rejected have a rejection reason and are in the
+      rejected state.  A fulfillment value is never a thenable.
+
+      Promises can also be said to *resolve* a value.  If this value is also a
+      promise, then the original promise's settled state will match the value's
+      settled state.  So a promise that *resolves* a promise that rejects will
+      itself reject, and a promise that *resolves* a promise that fulfills will
+      itself fulfill.
+
+
+      Basic Usage:
+      ------------
+
+      ```js
+      var promise = new Promise(function(resolve, reject) {
+        // on success
+        resolve(value);
+
+        // on failure
+        reject(reason);
+      });
+
+      promise.then(function(value) {
+        // on fulfillment
+      }, function(reason) {
+        // on rejection
+      });
+      ```
+
+      Advanced Usage:
+      ---------------
+
+      Promises shine when abstracting away asynchronous interactions such as
+      `XMLHttpRequest`s.
+
+      ```js
+      function getJSON(url) {
+        return new Promise(function(resolve, reject){
+          var xhr = new XMLHttpRequest();
+
+          xhr.open('GET', url);
+          xhr.onreadystatechange = handler;
+          xhr.responseType = 'json';
+          xhr.setRequestHeader('Accept', 'application/json');
+          xhr.send();
+
+          function handler() {
+            if (this.readyState === this.DONE) {
+              if (this.status === 200) {
+                resolve(this.response);
+              } else {
+                reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
+              }
+            }
+          };
+        });
+      }
+
+      getJSON('/posts.json').then(function(json) {
+        // on fulfillment
+      }, function(reason) {
+        // on rejection
+      });
+      ```
+
+      Unlike callbacks, promises are great composable primitives.
+
+      ```js
+      Promise.all([
+        getJSON('/posts'),
+        getJSON('/comments')
+      ]).then(function(values){
+        values[0] // => postsJSON
+        values[1] // => commentsJSON
+
+        return values;
+      });
+      ```
+
+      @class Promise
+      @param {function} resolver
+      Useful for tooling.
+      @constructor
+    */
+    function lib$es6$promise$promise$$Promise(resolver) {
+      this._id = lib$es6$promise$promise$$counter++;
+      this._state = undefined;
+      this._result = undefined;
+      this._subscribers = [];
+
+      if (lib$es6$promise$$internal$$noop !== resolver) {
+        typeof resolver !== 'function' && lib$es6$promise$promise$$needsResolver();
+        this instanceof lib$es6$promise$promise$$Promise ? lib$es6$promise$$internal$$initializePromise(this, resolver) : lib$es6$promise$promise$$needsNew();
+      }
+    }
+
+    lib$es6$promise$promise$$Promise.all = lib$es6$promise$promise$all$$default;
+    lib$es6$promise$promise$$Promise.race = lib$es6$promise$promise$race$$default;
+    lib$es6$promise$promise$$Promise.resolve = lib$es6$promise$promise$resolve$$default;
+    lib$es6$promise$promise$$Promise.reject = lib$es6$promise$promise$reject$$default;
+    lib$es6$promise$promise$$Promise._setScheduler = lib$es6$promise$asap$$setScheduler;
+    lib$es6$promise$promise$$Promise._setAsap = lib$es6$promise$asap$$setAsap;
+    lib$es6$promise$promise$$Promise._asap = lib$es6$promise$asap$$asap;
+
+    lib$es6$promise$promise$$Promise.prototype = {
+      constructor: lib$es6$promise$promise$$Promise,
+
+    /**
+      The primary way of interacting with a promise is through its `then` method,
+      which registers callbacks to receive either a promise's eventual value or the
+      reason why the promise cannot be fulfilled.
+
+      ```js
+      findUser().then(function(user){
+        // user is available
+      }, function(reason){
+        // user is unavailable, and you are given the reason why
+      });
+      ```
+
+      Chaining
+      --------
+
+      The return value of `then` is itself a promise.  This second, 'downstream'
+      promise is resolved with the return value of the first promise's fulfillment
+      or rejection handler, or rejected if the handler throws an exception.
+
+      ```js
+      findUser().then(function (user) {
+        return user.name;
+      }, function (reason) {
+        return 'default name';
+      }).then(function (userName) {
+        // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
+        // will be `'default name'`
+      });
+
+      findUser().then(function (user) {
+        throw new Error('Found user, but still unhappy');
+      }, function (reason) {
+        throw new Error('`findUser` rejected and we're unhappy');
+      }).then(function (value) {
+        // never reached
+      }, function (reason) {
+        // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
+        // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
+      });
+      ```
+      If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
+
+      ```js
+      findUser().then(function (user) {
+        throw new PedagogicalException('Upstream error');
+      }).then(function (value) {
+        // never reached
+      }).then(function (value) {
+        // never reached
+      }, function (reason) {
+        // The `PedgagocialException` is propagated all the way down to here
+      });
+      ```
+
+      Assimilation
+      ------------
+
+      Sometimes the value you want to propagate to a downstream promise can only be
+      retrieved asynchronously. This can be achieved by returning a promise in the
+      fulfillment or rejection handler. The downstream promise will then be pending
+      until the returned promise is settled. This is called *assimilation*.
+
+      ```js
+      findUser().then(function (user) {
+        return findCommentsByAuthor(user);
+      }).then(function (comments) {
+        // The user's comments are now available
+      });
+      ```
+
+      If the assimliated promise rejects, then the downstream promise will also reject.
+
+      ```js
+      findUser().then(function (user) {
+        return findCommentsByAuthor(user);
+      }).then(function (comments) {
+        // If `findCommentsByAuthor` fulfills, we'll have the value here
+      }, function (reason) {
+        // If `findCommentsByAuthor` rejects, we'll have the reason here
+      });
+      ```
+
+      Simple Example
+      --------------
+
+      Synchronous Example
+
+      ```javascript
+      var result;
+
+      try {
+        result = findResult();
+        // success
+      } catch(reason) {
+        // failure
+      }
+      ```
+
+      Errback Example
+
+      ```js
+      findResult(function(result, err){
+        if (err) {
+          // failure
+        } else {
+          // success
+        }
+      });
+      ```
+
+      Promise Example;
+
+      ```javascript
+      findResult().then(function(result){
+        // success
+      }, function(reason){
+        // failure
+      });
+      ```
+
+      Advanced Example
+      --------------
+
+      Synchronous Example
+
+      ```javascript
+      var author, books;
+
+      try {
+        author = findAuthor();
+        books  = findBooksByAuthor(author);
+        // success
+      } catch(reason) {
+        // failure
+      }
+      ```
+
+      Errback Example
+
+      ```js
+
+      function foundBooks(books) {
+
+      }
+
+      function failure(reason) {
+
+      }
+
+      findAuthor(function(author, err){
+        if (err) {
+          failure(err);
+          // failure
+        } else {
+          try {
+            findBoooksByAuthor(author, function(books, err) {
+              if (err) {
+                failure(err);
+              } else {
+                try {
+                  foundBooks(books);
+                } catch(reason) {
+                  failure(reason);
+                }
+              }
+            });
+          } catch(error) {
+            failure(err);
+          }
+          // success
+        }
+      });
+      ```
+
+      Promise Example;
+
+      ```javascript
+      findAuthor().
+        then(findBooksByAuthor).
+        then(function(books){
+          // found books
+      }).catch(function(reason){
+        // something went wrong
+      });
+      ```
+
+      @method then
+      @param {Function} onFulfilled
+      @param {Function} onRejected
+      Useful for tooling.
+      @return {Promise}
+    */
+      then: lib$es6$promise$then$$default,
+
+    /**
+      `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
+      as the catch block of a try/catch statement.
+
+      ```js
+      function findAuthor(){
+        throw new Error('couldn't find that author');
+      }
+
+      // synchronous
+      try {
+        findAuthor();
+      } catch(reason) {
+        // something went wrong
+      }
+
+      // async with promises
+      findAuthor().catch(function(reason){
+        // something went wrong
+      });
+      ```
+
+      @method catch
+      @param {Function} onRejection
+      Useful for tooling.
+      @return {Promise}
+    */
+      'catch': function(onRejection) {
+        return this.then(null, onRejection);
+      }
+    };
+    var lib$es6$promise$enumerator$$default = lib$es6$promise$enumerator$$Enumerator;
+    function lib$es6$promise$enumerator$$Enumerator(Constructor, input) {
+      this._instanceConstructor = Constructor;
+      this.promise = new Constructor(lib$es6$promise$$internal$$noop);
+
+      if (Array.isArray(input)) {
+        this._input     = input;
+        this.length     = input.length;
+        this._remaining = input.length;
+
+        this._result = new Array(this.length);
+
+        if (this.length === 0) {
+          lib$es6$promise$$internal$$fulfill(this.promise, this._result);
+        } else {
+          this.length = this.length || 0;
+          this._enumerate();
+          if (this._remaining === 0) {
+            lib$es6$promise$$internal$$fulfill(this.promise, this._result);
+          }
+        }
+      } else {
+        lib$es6$promise$$internal$$reject(this.promise, this._validationError());
+      }
+    }
+
+    lib$es6$promise$enumerator$$Enumerator.prototype._validationError = function() {
+      return new Error('Array Methods must be provided an Array');
+    };
+
+    lib$es6$promise$enumerator$$Enumerator.prototype._enumerate = function() {
+      var length  = this.length;
+      var input   = this._input;
+
+      for (var i = 0; this._state === lib$es6$promise$$internal$$PENDING && i < length; i++) {
+        this._eachEntry(input[i], i);
+      }
+    };
+
+    lib$es6$promise$enumerator$$Enumerator.prototype._eachEntry = function(entry, i) {
+      var c = this._instanceConstructor;
+      var resolve = c.resolve;
+
+      if (resolve === lib$es6$promise$promise$resolve$$default) {
+        var then = lib$es6$promise$$internal$$getThen(entry);
+
+        if (then === lib$es6$promise$then$$default &&
+            entry._state !== lib$es6$promise$$internal$$PENDING) {
+          this._settledAt(entry._state, i, entry._result);
+        } else if (typeof then !== 'function') {
+          this._remaining--;
+          this._result[i] = entry;
+        } else if (c === lib$es6$promise$promise$$default) {
+          var promise = new c(lib$es6$promise$$internal$$noop);
+          lib$es6$promise$$internal$$handleMaybeThenable(promise, entry, then);
+          this._willSettleAt(promise, i);
+        } else {
+          this._willSettleAt(new c(function(resolve) { resolve(entry); }), i);
+        }
+      } else {
+        this._willSettleAt(resolve(entry), i);
+      }
+    };
+
+    lib$es6$promise$enumerator$$Enumerator.prototype._settledAt = function(state, i, value) {
+      var promise = this.promise;
+
+      if (promise._state === lib$es6$promise$$internal$$PENDING) {
+        this._remaining--;
+
+        if (state === lib$es6$promise$$internal$$REJECTED) {
+          lib$es6$promise$$internal$$reject(promise, value);
+        } else {
+          this._result[i] = value;
+        }
+      }
+
+      if (this._remaining === 0) {
+        lib$es6$promise$$internal$$fulfill(promise, this._result);
+      }
+    };
+
+    lib$es6$promise$enumerator$$Enumerator.prototype._willSettleAt = function(promise, i) {
+      var enumerator = this;
+
+      lib$es6$promise$$internal$$subscribe(promise, undefined, function(value) {
+        enumerator._settledAt(lib$es6$promise$$internal$$FULFILLED, i, value);
+      }, function(reason) {
+        enumerator._settledAt(lib$es6$promise$$internal$$REJECTED, i, reason);
+      });
+    };
+    function lib$es6$promise$polyfill$$polyfill() {
+      var local;
+
+      if (typeof global !== 'undefined') {
+          local = global;
+      } else if (typeof self !== 'undefined') {
+          local = self;
+      } else {
+          try {
+              local = Function('return this')();
+          } catch (e) {
+              throw new Error('polyfill failed because global object is unavailable in this environment');
+          }
+      }
+
+      var P = local.Promise;
+
+      if (P && Object.prototype.toString.call(P.resolve()) === '[object Promise]' && !P.cast) {
+        return;
+      }
+
+      local.Promise = lib$es6$promise$promise$$default;
+    }
+    var lib$es6$promise$polyfill$$default = lib$es6$promise$polyfill$$polyfill;
+
+    var lib$es6$promise$umd$$ES6Promise = {
+      'Promise': lib$es6$promise$promise$$default,
+      'polyfill': lib$es6$promise$polyfill$$default
+    };
+
+    /* global define:true module:true window: true */
+    if (typeof define === 'function' && define['amd']) {
+      define(function() { return lib$es6$promise$umd$$ES6Promise; });
+    } else if (typeof module !== 'undefined' && module['exports']) {
+      module['exports'] = lib$es6$promise$umd$$ES6Promise;
+    } else if (typeof this !== 'undefined') {
+      this['ES6Promise'] = lib$es6$promise$umd$$ES6Promise;
+    }
+
+    lib$es6$promise$polyfill$$default();
+}).call(this);
+
+
+}).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
+},{"_process":290}],"history":[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -65959,6 +66877,47 @@ module.exports = self.fetch.bind(self);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
+},{}],"object-assign":[function(require,module,exports){
+/* eslint-disable no-unused-vars */
+'use strict';
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+function toObject(val) {
+	if (val === null || val === undefined) {
+		throw new TypeError('Object.assign cannot be called with null or undefined');
+	}
+
+	return Object(val);
+}
+
+module.exports = Object.assign || function (target, source) {
+	var from;
+	var to = toObject(target);
+	var symbols;
+
+	for (var s = 1; s < arguments.length; s++) {
+		from = Object(arguments[s]);
+
+		for (var key in from) {
+			if (hasOwnProperty.call(from, key)) {
+				to[key] = from[key];
+			}
+		}
+
+		if (Object.getOwnPropertySymbols) {
+			symbols = Object.getOwnPropertySymbols(from);
+			for (var i = 0; i < symbols.length; i++) {
+				if (propIsEnumerable.call(from, symbols[i])) {
+					to[symbols[i]] = from[symbols[i]];
+				}
+			}
+		}
+	}
+
+	return to;
+};
+
 },{}],"react-bootstrap":[function(require,module,exports){
 'use strict';
 
@@ -66361,7 +67320,368 @@ exports.utils = utils;
 
 module.exports = require('react/lib/ReactDOM');
 
-},{"react/lib/ReactDOM":678}],"react-redux":[function(require,module,exports){
+},{"react/lib/ReactDOM":678}],"react-rating":[function(require,module,exports){
+/*! react-rating - 0.2.2 | (c) 2015, 2016  dreyescat | MIT | https://github.com/dreyescat/react-rating */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("react"));
+	else if(typeof define === 'function' && define.amd)
+		define(["react"], factory);
+	else if(typeof exports === 'object')
+		exports["ReactRating"] = factory(require("react"));
+	else
+		root["ReactRating"] = factory(root["React"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/lib";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	module.exports = __webpack_require__(1);
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(2);
+	var Style = __webpack_require__(3);
+	var Symbol = __webpack_require__(5);
+
+	// Returns the index of the rate in the range (start, stop, step).
+	// Returns undefined index if the rate is outside the range.
+	// NOTE: A range.step of 0 produces an empty range and consequently returns an
+	// undefined index.
+	var indexOf = function indexOf(range, rate) {
+	  // Check the rate is in the proper range [start..stop] according to
+	  // the start, stop and step properties in props.
+	  var step = range.step;
+	  var start = step > 0 ? range.start : range.stop;
+	  var stop = step > 0 ? range.stop : range.start;
+	  if (step && start <= rate && rate <= stop) {
+	    // The index corresponds to the number of steps of size props.step
+	    // that fits between rate and start.
+	    // This index does not need to be a whole number because we can have
+	    // fractional symbols, and consequently fractional/float indexes.
+	    return (rate - range.start) / step;
+	  }
+	};
+
+	var Rating = React.createClass({
+	  displayName: 'Rating',
+
+	  // Define propTypes only in development.
+	  propTypes: "boolean" !== 'undefined' && (true) && {
+	    start: React.PropTypes.number,
+	    stop: React.PropTypes.number,
+	    step: React.PropTypes.number,
+	    initialRate: React.PropTypes.number,
+	    placeholderRate: React.PropTypes.number,
+	    empty: React.PropTypes.oneOfType([
+	    // Array of class names and/or style objects.
+	    React.PropTypes.arrayOf(React.PropTypes.oneOfType[(React.PropTypes.string, React.PropTypes.object)]),
+	    // Class names.
+	    React.PropTypes.string,
+	    // Style objects.
+	    React.PropTypes.object]),
+	    placeholder: React.PropTypes.oneOfType([
+	    // Array of class names and/or style objects.
+	    React.PropTypes.arrayOf(React.PropTypes.oneOfType[(React.PropTypes.string, React.PropTypes.object)]),
+	    // Class names.
+	    React.PropTypes.string,
+	    // Style objects.
+	    React.PropTypes.object]),
+	    full: React.PropTypes.oneOfType([
+	    // Array of class names and/or style objects.
+	    React.PropTypes.arrayOf(React.PropTypes.oneOfType[(React.PropTypes.string, React.PropTypes.object)]),
+	    // Class names.
+	    React.PropTypes.string,
+	    // Style objects.
+	    React.PropTypes.object]),
+	    readonly: React.PropTypes.bool,
+	    fractions: React.PropTypes.number,
+	    scale: React.PropTypes.number,
+	    onChange: React.PropTypes.func,
+	    onClick: React.PropTypes.func,
+	    onRate: React.PropTypes.func
+	  },
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      start: 0,
+	      stop: 5,
+	      step: 1,
+	      empty: Style.empty,
+	      placeholder: Style.placeholder,
+	      full: Style.full,
+	      fractions: 1,
+	      scale: 3,
+	      onChange: function onChange(rate) {},
+	      onClick: function onClick(rate) {},
+	      onRate: function onRate(rate) {}
+	    };
+	  },
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	    var rate = nextProps.initialRate > 0 ? nextProps.initialRate : nextProps.placeholderRate;
+	    this.setState({
+	      index: indexOf(nextProps, rate)
+	    });
+	  },
+	  getInitialState: function getInitialState() {
+	    var index = this.props.initialRate > 0 ? this.props.initialRate : this.props.placeholderRate;
+	    return {
+	      index: this._rateToIndex(index),
+	      indexOver: undefined
+	    };
+	  },
+	  handleMouseDown: function handleMouseDown(i, event) {
+	    var index = i + this._fractionalIndex(event);
+	    this.props.onClick(this._indexToRate(index));
+	    if (this.state.index !== index) {
+	      this.props.onChange(this._indexToRate(index));
+	      this.setState({
+	        index: index,
+	        selected: true
+	      });
+	    }
+	  },
+	  handleMouseLeave: function handleMouseLeave() {
+	    this.props.onRate();
+	    this.setState({
+	      indexOver: undefined
+	    });
+	  },
+	  handleMouseMove: function handleMouseMove(i, event) {
+	    var index = i + this._fractionalIndex(event);
+	    if (this.state.indexOver !== index) {
+	      this.props.onRate(this._indexToRate(index));
+	      this.setState({
+	        indexOver: index
+	      });
+	    }
+	  },
+	  // Calculate the rate of an index according the the start and step.
+	  _indexToRate: function _indexToRate(index) {
+	    return this.props.start + Math.floor(index) * this.props.step + this.props.step * this._roundToFraction(index % 1);
+	  },
+	  // Calculate the corresponding index for a rate according to the provided
+	  // props or this.props.
+	  _rateToIndex: function _rateToIndex(rate) {
+	    return indexOf(this.props, rate);
+	  },
+	  _roundToFraction: function _roundToFraction(index) {
+	    // Get the closest top fraction.
+	    var fraction = Math.ceil(index % 1 * this.props.fractions) / this.props.fractions;
+	    // Truncate decimal trying to avoid float precission issues.
+	    var precision = Math.pow(10, this.props.scale);
+	    return Math.floor(index) + Math.floor(fraction * precision) / precision;
+	  },
+	  _fractionalIndex: function _fractionalIndex(event) {
+	    var x = event.clientX - event.currentTarget.getBoundingClientRect().left;
+	    return this._roundToFraction(x / event.currentTarget.offsetWidth);
+	  },
+	  render: function render() {
+	    var symbolNodes = [];
+	    var empty = [].concat(this.props.empty);
+	    var placeholder = [].concat(this.props.placeholder);
+	    var full = [].concat(this.props.full);
+	    // The symbol with the mouse over prevails over the selected one.
+	    var index = this.state.indexOver !== undefined ? this.state.indexOver : this.state.index;
+	    // The index of the last full symbol or NaN if index is undefined.
+	    var lastFullIndex = Math.floor(index);
+	    // Render the number of whole symbols.
+
+	    var icon = !this.state.selected && !this.props.initialRate && this.props.placeholderRate > 0 && this.state.indexOver == undefined ? placeholder : full;
+
+	    for (var i = 0; i < Math.floor(this._rateToIndex(this.props.stop)); i++) {
+	      // Return the percentage of the decimal part of the last full index,
+	      // 100 percent for those below the last full index or 0 percent for those
+	      // indexes NaN or above the last full index.
+	      var percent = i - lastFullIndex === 0 ? index % 1 * 100 : i - lastFullIndex < 0 ? 100 : 0;
+
+	      symbolNodes.push(React.createElement(Symbol, {
+	        key: i,
+	        background: empty[i % empty.length],
+	        icon: icon[i % icon.length],
+	        percent: percent,
+	        onMouseDown: !this.props.readonly && this.handleMouseDown.bind(this, i),
+	        onMouseMove: !this.props.readonly && this.handleMouseMove.bind(this, i)
+	      }));
+	    }
+	    return React.createElement(
+	      'span',
+	      { onMouseLeave: !this.props.readonly && this.handleMouseLeave },
+	      symbolNodes
+	    );
+	  }
+	});
+
+	module.exports = Rating;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var merge = __webpack_require__(4);
+
+	var style = {
+	  display: 'inline-block',
+	  borderRadius: '50%',
+	  border: '5px double white',
+	  width: 30,
+	  height: 30
+	};
+
+	module.exports = {
+	  empty: merge(style, {
+	    backgroundColor: '#ccc'
+	  }),
+	  full: merge(style, {
+	    backgroundColor: 'black'
+	  }),
+	  placeholder: merge(style, {
+	    backgroundColor: 'red'
+	  })
+	};
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = function () {
+	  var res = {};
+	  for (var i = 0; i < arguments.length; i++) {
+	    var obj = arguments[i];
+	    for (var k in obj) {
+	      res[k] = obj[k];
+	    }
+	  }
+	  return res;
+	};
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(2);
+
+	var PercentageSymbol = React.createClass({
+	  displayName: 'PercentageSymbol',
+
+	  // Define propTypes only in development. They will be void in production.
+	  propTypes: "boolean" !== 'undefined' && (true) && {
+	    icon: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object, React.PropTypes.element]),
+	    background: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object, React.PropTypes.element]),
+	    percent: React.PropTypes.number
+	  },
+	  // Return the corresponding React node for an icon.
+	  _iconNode: function _iconNode(icon) {
+	    // If it is already a React Element just return it.
+	    if (React.isValidElement(icon)) {
+	      return icon;
+	    }
+	    // If it is an object, try to use it as a CSS style object.
+	    if (typeof icon === 'object' && icon !== null) {
+	      return React.createElement('div', { style: icon });
+	    }
+	    // If it is a string, use it as class names.
+	    if (Object.prototype.toString.call(icon) === '[object String]') {
+	      return React.createElement('div', { className: icon });
+	    }
+	  },
+	  render: function render() {
+	    var backgroundNode = this._iconNode(this.props.background);
+	    var iconNode = this._iconNode(this.props.icon);
+	    var iconContainerStyle = {
+	      display: 'inline-block',
+	      position: 'absolute',
+	      overflow: 'hidden',
+	      top: 0,
+	      left: 0,
+	      width: this.props.percent !== undefined ? this.props.percent + '%' : 'auto'
+	    };
+	    var style = {
+	      cursor: this.props.onMouseDown || this.props.onMouseOver ? 'pointer' : 'auto',
+	      display: 'inline-block',
+	      position: 'relative'
+	    };
+	    return React.createElement(
+	      'span',
+	      { style: style,
+	        onMouseDown: this.props.onMouseDown,
+	        onMouseMove: this.props.onMouseMove },
+	      backgroundNode,
+	      React.createElement(
+	        'span',
+	        { style: iconContainerStyle },
+	        iconNode
+	      )
+	    );
+	  }
+	});
+
+	module.exports = PercentageSymbol;
+
+/***/ }
+/******/ ])
+});
+;
+},{"react":"react"}],"react-redux":[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -66671,7 +67991,7 @@ exports.touch = touch;
 exports.touchWithKey = touchWithKey;
 exports.untouch = untouch;
 exports.untouchWithKey = untouchWithKey;
-},{"./createAll":811,"react":"react","react-redux":"react-redux"}],"redux-thunk":[function(require,module,exports){
+},{"./createAll":810,"react":"react","react-redux":"react-redux"}],"redux-thunk":[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -66737,7 +68057,7 @@ exports.combineReducers = _combineReducers2["default"];
 exports.bindActionCreators = _bindActionCreators2["default"];
 exports.applyMiddleware = _applyMiddleware2["default"];
 exports.compose = _compose2["default"];
-},{"./applyMiddleware":854,"./bindActionCreators":855,"./combineReducers":856,"./compose":857,"./createStore":858,"./utils/warning":859}]},{},[])
+},{"./applyMiddleware":853,"./bindActionCreators":854,"./combineReducers":855,"./compose":856,"./createStore":857,"./utils/warning":858}]},{},[])
 
 
 //# sourceMappingURL=vendor.js.map

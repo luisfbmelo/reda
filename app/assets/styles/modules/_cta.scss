@@ -1,9 +1,15 @@
 .cta{
 	display:inline-block;
-	font-size:em(16);
+	font-size:em(18);
 
 	border:none;
 	padding:7px 20px;
+
+	@include transition(all 0.3s ease);
+
+	i{
+		padding-right:10px;
+	}
 
 	&.primary{
 		color:white;
@@ -12,11 +18,21 @@
 		&.outline{
 			color:$green;
 			border-color:$green;
+
+			&:hover{
+				background-color:$green;
+				color:white;
+			}
 		}
 
 		&.no-bg{
 			color:$green;
 			border-color:$green;
+		}
+
+		&:hover{
+			opacity: 0.8;
+			text-decoration:none;
 		}
 	}
 
@@ -45,6 +61,7 @@
 
 	&.small{
 		font-size:em(14);
+		padding:5px 10px;
 	}
 
 	&.outline{

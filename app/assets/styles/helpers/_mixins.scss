@@ -17,6 +17,12 @@
     }
 }
 
+@mixin media-query-range($device1, $device2) {
+    @media screen and (min-width: $device1) and (max-width:$device2) {
+        @content;
+    }
+}
+
 /**
  *
  * USER SELECT
