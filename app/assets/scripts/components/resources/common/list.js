@@ -31,7 +31,7 @@ var renderList = (list) => {
 		);
 
 		return (
-	      	<article className={"col-xs-6 col-sm-4 col-md-3 col-lg-3" + breaker} key={index}>
+	      	<article className={"col-xs-12 col-sm-4 col-md-3 col-lg-3" + breaker} key={index}>
 	      		<div className="list__element">
 		      		<Link to="descobrir">
 			      		<h1>{el.title}</h1>
