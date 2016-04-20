@@ -8,6 +8,23 @@
 			"alt": "some alt"
 		}
 	},
+	"contribute":{
+		"title": "Contribua com os seus Recursos",
+		"sections": [
+			{
+				"title": "Docentes",
+				"icon": "assets/graphics/icons/lapis.svg",
+				"text": "A REDA tem um espaço dedicado a docentes, permitindo a inserção de conteúdos nas mais variadas áreas e domínios. Entre na plataforma e inicie a sua atividade na comunidade.",
+				"button": "Entre na REDA"
+			},
+			{
+				"title": "Alunos",
+				"icon": "assets/graphics/icons/conversa.svg",
+				"text": "Como aluno, pode não só aceder aos mais variados recursos disponíveis na plataforma, mas também enviar sugestões de novo conteúdo para os nossos administradores.",
+				"button": "Envia Sugestões"
+			}
+		]
+	},	
 	"highlights": [
 		{
 			"id": 1,
@@ -129,34 +146,6 @@
 		},
 		{
 			"id": 8,
-			"title": "Media heading",
-			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
-			"format": {
-				"id": 1,
-				"title": "Vídeo",
-				"image": {
-					"src": "assets/graphics/icons/video.svg",
-					"alt": "some alt"
-				}
-			},
-			"rating_avg": 4.5
-		},
-		{
-			"id": 9,
-			"title": "Media heading",
-			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
-			"format": {
-				"id": 1,
-				"title": "Vídeo",
-				"image": {
-					"src": "assets/graphics/icons/video.svg",
-					"alt": "some alt"
-				}
-			},
-			"rating_avg": 4.5
-		},
-		{
-			"id": 10,
 			"title": "Media heading",
 			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
 			"format": {

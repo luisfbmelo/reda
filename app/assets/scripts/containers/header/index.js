@@ -7,15 +7,24 @@ import SearchContainer from '../search';
 
 export default class Header extends Component {
 	headerType(location){
-		return (location !== "/") ? "home-page" : location;
+		location = location.length > 1 ? location.replace(/^\//, '') : location;
+		return (location === "/") ? "home-page" : location;
 	}
 
 	render() {
+		var curPage = this.headerType(this.props.location.pathname);
 		return (
-			<div className={"header-container " + this.headerType(this.props.location)}>
-				<TopNav location={this.props.location}/>
-				<HighlightsContainer />
-				<SearchContainer />
+			<div className={"header-container " + curPage}>
+				<TopNav location={this.props.location} />
+				{(() => {
+					if (curPage == "home-page" ){
+						return[
+							<HighlightsContainer />,
+							<SearchContainer />
+						]
+					}
+					return null;
+				})()}
 			</div>
 		);
 	}

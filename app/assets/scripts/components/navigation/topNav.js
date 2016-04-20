@@ -24,7 +24,7 @@ export default class TopNav extends Component {
 					<div className="pull-right menu-container">
 						<ul className="nav navbar-nav small-nav">
 			              <li className={this.isActive(this.props.location.pathname, 'entrar')}>
-			                <Link to="/entrar">Entrar</Link>
+			                <Link to="entrar">Entrar</Link>
 			              </li>
 			              <li className={this.isActive(this.props.location.pathname, 'ajuda')}>
 			                <Link to="ajuda">Ajuda</Link>

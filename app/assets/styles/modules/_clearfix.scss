@@ -1,24 +1,24 @@
 .floatnone{
 
-	@include media-query(768px){
+	@include media-query(48em){ //768px/16px
 		&__xs{
 			clear: both;
 		}
 	}
 
-	@include media-query-range(768px,992px){
+	@include media-query-range(48em,62em){ //768px/16px  992/16
 		&__sm{
 			clear: both;
 		}
 	}
 
-	@include media-query-range(992px,1200px){
+	@include media-query-range(62em,75em){ //992px/16px  1200/16
 		&__md{
 			clear: both;
 		}
 	}
 
-	@include media-query-min(1200px){
+	@include media-query-min(75em){ //1200/16
 		&__lg{
 			clear: both;
 		}

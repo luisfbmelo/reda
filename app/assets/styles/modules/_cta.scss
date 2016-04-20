@@ -50,6 +50,31 @@
 		}
 	}
 
+	&.white{
+		color:$soft-label-color;
+		background-color:white;
+
+		&.outline{
+			color:white;
+			border-color:white;
+
+			&:hover{
+				background-color:white;
+				color:$soft-label-color;
+			}
+		}
+
+		&.no-bg{
+			color:white;
+			border-color:white;
+		}
+
+		&:hover{
+			opacity: 0.8;
+			text-decoration:none;
+		}
+	}
+
 	&.no-bg{
 		background:none;
 		color:$green;

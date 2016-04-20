@@ -20,7 +20,7 @@
 		}
 
 		&__img{
-			@include media-query(768px){
+			@include media-query(48px){ //768/16
 				display:block;
 				text-align: center;
 
@@ -51,7 +51,7 @@
 		border-radius: 50%;
 		margin-right:20px;
 
-		@include media-query(768px){
+		@include media-query(48em){ //768/16
 			width:100px;
 			height:100px;
 		}

@@ -1,0 +1,17 @@
+.resources{
+	&__filter{
+		button{
+			display:block;
+			width:100%;
+			background:none;
+			border:none;
+			border-bottom:1px solid black;
+			text-align:left;
+			padding:0;
+
+			i{
+				float:right;
+			}
+		}
+	}
+}

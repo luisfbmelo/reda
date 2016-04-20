@@ -4,4 +4,10 @@
 		background-size:cover;
 		background-position:center center;
 	}
+
+	&:not(.home-page){
+		a{
+			color:$body-color!important;
+		}
+	}
 }

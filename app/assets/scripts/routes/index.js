@@ -10,8 +10,9 @@ import IndexPage from '../pages/indexPage';
 import DiscoverPage from '../pages/discoverPage';
 
 export default (
-  <Route path="/" component={App}>
+  <Route path="/" name="Início" component={App}>
   	<IndexRoute component={IndexPage} />
-  	<Route path="descobrir" component={DiscoverPage} />
+  	<Route name="Descobrir" path="descobrir" component={DiscoverPage} />
+  	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />
   </Route>
 );
