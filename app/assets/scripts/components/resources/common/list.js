@@ -73,15 +73,22 @@ var renderList = (list, props) => {
     });
 }
 
-export default (props) => {
+export const ResourcesList = (props) => {
 
 	if (!props.list || !props.list.data || props.list.fetching){
 		return <div className="loading">Loading...</div>
 	}
 
 	return (
-		<div className="row">
+		<section className="row">
 			{renderList(props.list.data, props)}
-		</div>
+		</section>
 	);
+}
+
+ResourcesList.propTypes = {
+	list: React.PropTypes.object.isRequired,
+	maxcol: React.PropTypes.number,
+	addscript: React.PropTypes.bool,
+	viewmore: React.PropTypes.bool
 }

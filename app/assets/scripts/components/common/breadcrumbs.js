@@ -1,7 +1,7 @@
 import React from 'react';
 import Breadcrumbs from 'react-breadcrumbs';
 
-export default (props) => {
+export const AppBreadcrumbs = (props) => {
 	return (
 		<div className="light-background">
 			<div className="container">
@@ -13,4 +13,8 @@ export default (props) => {
 			</div>
 		</div>
 	);	
+}
+
+AppBreadcrumbs.propTypes = {
+	customClass: React.PropTypes.string
 }

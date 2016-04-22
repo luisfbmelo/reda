@@ -41,3 +41,7 @@ export default class BottomNav extends Component {
 		);
 	}
 }
+
+BottomNav.propTypes = {
+	location: React.PropTypes.object.isRequired
+}

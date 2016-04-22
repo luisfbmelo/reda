@@ -6,7 +6,7 @@
 	}
 
 	&:not(.home-page){
-		a{
+		a, button{
 			color:$body-color!important;
 		}
 	}

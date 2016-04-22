@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import HighlightsCarousel from './carousel';
+import { AppCarousel as HighlightsCarousel } from './carousel';
 
 export default class ResourceHighlights extends Component {
 	constructor(props){
@@ -20,7 +20,11 @@ export default class ResourceHighlights extends Component {
 		}
 
 		return (
-			<HighlightsCarousel highlights={this.props.highlights} settings={settings}/>
+			<HighlightsCarousel data={this.props.highlights} settings={settings}/>
 		);
 	}
+}
+
+ResourceHighlights.propTypes = {
+	highlights: React.PropTypes.object.isRequired
 }

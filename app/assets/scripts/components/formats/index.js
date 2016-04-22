@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import FormatsList from './list';
+import { FormatsList } from './list';
 
 export default class FormatsBanner extends Component {
 	constructor(props){
@@ -18,4 +18,8 @@ export default class FormatsBanner extends Component {
 			</div>
 		);
 	}
+}
+
+FormatsBanner.propTypes = {
+	formats: React.PropTypes.object.isRequired
 }

@@ -8,11 +8,18 @@ import App from '../containers/app';
 // Pages
 import IndexPage from '../pages/indexPage';
 import DiscoverPage from '../pages/discoverPage';
+import AccountPage from '../pages/accountPage';
+
+// Required
+import { requireAuth } from '../containers/auth/requireAuth';
+
 
 export default (
   <Route path="/" name="Início" component={App}>
   	<IndexRoute component={IndexPage} />
   	<Route name="Descobrir" path="descobrir" component={DiscoverPage} />
-  	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />
+  	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} /> 
+
+  	<Route name="A minha conta" path="conta" component={requireAuth(AccountPage)} />
   </Route>
 );

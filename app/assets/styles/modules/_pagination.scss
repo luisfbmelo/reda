@@ -1,0 +1,38 @@
+.pagination{
+	width:100%;
+	background-color:white;
+	text-align:center;
+	border:1px solid $meta-color;
+	border-radius:0;
+
+	li{
+		display:inline-block;
+		& > a, & > span{
+			padding:20px 20px;
+			border:none;
+			border-radius:0;
+			color:$soft-label-color!important;
+		}
+
+		&.active,
+		&:hover:not(.disabled){
+			a, span{
+				background:none!important;
+			}
+
+			border-top:2px solid $green;
+		}
+
+		a,span{
+			&:active,
+			&:focus{
+				background:none!important;
+			}
+		}
+
+
+		&:hover{
+			cursor:pointer;
+		}
+	}
+}

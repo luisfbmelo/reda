@@ -1,0 +1,39 @@
+.modal-backdrop{
+	bottom:0;
+}
+
+.login-dialog{
+	.modal-header{
+		border:none;
+
+		section{
+			display:block;			
+			width:100px;
+			height:100px;
+			@include font-size(48px);
+			color:$light-green;
+			text-align: center;
+			line-height: 1.9;
+			
+			margin: 0 auto;
+
+			border:2px solid $light-green;
+			border-radius: 50%;			
+		}
+	}
+
+	.modal-title{
+		text-align:center;
+		margin-top:20px;
+	}
+
+	.modal-footer{
+		border:none;
+		text-align: center;
+	}
+
+	small{
+	  @include font-size(10px);
+	  color:$meta-color;
+	}
+}

@@ -1,17 +1,62 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import { Component } from 'react';
-import ResourcesList from './common/list';
+import { Link } from 'react-router';
+import { ResourcesList } from './common/list';
+import ResourcesOrdering from './common/order';
+import SearchBar from '../search/searchBar';
 import ResourcesFilters from '../../containers/filters';
 
+import { Pagination, Alert, Button } from 'react-bootstrap';
 
 export default class ResourcesListing extends Component {
 	constructor(props){
 		super(props);
+		this.onChangePage = this.onChangePage.bind(this);
+
+		this.state = {
+			activePage: 1
+		}
 	}
 
 	componentDidMount(){
-		this.props.fetchResources();		
+		this.props.fetchResources();
+		this.onChangePage(1);		
 	}
+
+	// Handle pagination
+	onChangePage(event, selectedEvent) {
+		if (selectedEvent){
+			this.setState({
+				activePage: selectedEvent.eventKey
+			});
+		}		
+    }
+
+    // Handle list ordering
+    onListOrder(order){
+    	console.log(order);
+    }
+
+    // Search resources by keyword
+    onSearchSubmit(keyword){
+    	console.log(keyword);
+    }
+
+    renderAlert(){
+    	return(
+    		<section className="row">
+    			<div className="col-xs-12">
+		    		<Alert bsStyle="warning" className="alert">
+		    			<p>A listagem disponível está limitada a utilizadores não autenticados. Para obter mais recursos, é aconselhado
+		que entre na plataforma.</p>
+						<p className="text-center">
+							<Button bsStyle="warning">Entrar na REDA</Button>
+						</p>
+		    		</Alert>
+	    		</div>
+    		</section>
+    	);
+    }
 
 	render() {
 		if (!this.props.resources)
@@ -20,12 +65,52 @@ export default class ResourcesListing extends Component {
 			<div className="resources__page">
 				<div className="container">
 					<div className="row">
-						<div className="col-xs-12 col-sm-4">
+						<div className="col-xs-12 col-md-3">
+							{/* Filters */}
 							<ResourcesFilters />
+							
+							{/* Contribute */}
+							<section>
+								<h6>Comece a contribuir</h6>
+								<Link to="novorecurso" className="cta primary">
+									Introduzir Recursos
+								</Link>
+							</section>
+							
 						</div>
-						<div className="col-xs-12 col-sm-8">
-							<h1 className="resources__title">Últimos Recursos</h1>
-							<ResourcesList list={this.props.resources} maxcol="3" addscript/>
+						<div className="col-xs-12 col-md-9">
+							{/* Search bar */}
+							<SearchBar onSubmit={this.onSearchSubmit} className="resources-search" />
+
+							<section className="row">
+								<div className="col-xs-6">
+									{/* Total Results */}
+									<h4><strong>8000</strong> <span className="de-emphasize">Resultados</span></h4>
+								</div>
+								<div className="col-xs-6">
+									{/* Ordering Options */}
+									<ResourcesOrdering onChange={this.onListOrder} />
+								</div>
+							</section>
+
+							{/* Warnings */}
+							{this.renderAlert()}
+
+							{/* Resources List */}
+							<ResourcesList list={this.props.resources} maxcol={3} addscript/>
+
+							{/* Pagination */}
+							<Pagination
+						        prev
+						        next
+						        first
+						        last
+						        ellipsis
+						        boundaryLinks
+						        items={20}
+						        maxButtons={5}
+						        activePage={this.state.activePage}
+						        onSelect={this.onChangePage} />
 						</div>
 					</div>
 					
@@ -33,4 +118,8 @@ export default class ResourcesListing extends Component {
 			</div>
 		);
 	}
+}
+
+ResourcesListing.propTypes = {
+	resources: React.PropTypes.object.isRequired
 }

@@ -31,3 +31,8 @@ export default class SvgComponent extends Component {
 		);
 	}
 }
+
+SvgComponent.propTypes = {
+	color: React.PropTypes.string,
+	element: React.PropTypes.string.isRequired
+}

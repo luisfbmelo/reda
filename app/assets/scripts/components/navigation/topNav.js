@@ -4,14 +4,43 @@ import { Link } from 'react-router';
 
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 
+import LoginButton from '../auth/loginButton';
+import LogoutButton from '../auth/logoutButton';
+
 
 export default class TopNav extends Component {
+	constructor(props){
+		super(props);
+
+		this.renderUserTools = this.renderUserTools.bind(this);
+		this.renderLogout = this.renderLogout.bind(this);
+	}
 	isActive(location, target){
 		location = location.length > 1 ? location.replace(/^\//, '') : location;
 		return location === target ? 'active' : '';
 	}
 
+	renderUserTools(isAuthenticated){
+		if (!isAuthenticated){
+			return(<LoginButton />);
+		}
+		return(
+			<li className={this.isActive(this.props.location.pathname, 'conta')}>
+           		<Link to="conta">Minha Conta</Link>
+           	</li>
+		);
+	}
+
+	renderLogout(isAuthenticated){
+		if (isAuthenticated){
+			return(<LogoutButton />);
+		}
+		return null;
+	}
+
 	render() {
+		const { isAuthenticated } = this.props.auth;
+		console.log(isAuthenticated);
 		return (  
 			<Navbar>
 				<Navbar.Header>
@@ -23,12 +52,11 @@ export default class TopNav extends Component {
 				<Navbar.Collapse>
 					<div className="pull-right menu-container">
 						<ul className="nav navbar-nav small-nav">
-			              <li className={this.isActive(this.props.location.pathname, 'entrar')}>
-			                <Link to="entrar">Entrar</Link>
-			              </li>
+			              {this.renderUserTools(isAuthenticated)}
 			              <li className={this.isActive(this.props.location.pathname, 'ajuda')}>
 			                <Link to="ajuda">Ajuda</Link>
 			              </li>
+			              {this.renderLogout(isAuthenticated)}
 			            </ul>
 
 						<ul className="nav navbar-nav big-nav">
@@ -53,4 +81,8 @@ export default class TopNav extends Component {
 			</Navbar>
 		);
 	}
+}
+
+TopNav.propTypes = {
+	location: React.PropTypes.object.isRequired
 }

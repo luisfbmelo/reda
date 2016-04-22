@@ -11,7 +11,7 @@ export default class Collapsible extends Component {
 	}
 	render(){
 		return(
-			<div>
+			<div className="collapse-container">
 				<button onClick={ ()=> this.setState({ open: !this.state.open })}>
 					<span>
 						{this.props.title}
@@ -26,4 +26,11 @@ export default class Collapsible extends Component {
 			</div>
 		);
 	}
+}
+
+Collapsible.propTypes = {
+	title: React.PropTypes.string.isRequired,
+	children: React.PropTypes.object.isRequired,
+	iconOpen: React.PropTypes.string.isRequired,
+	iconClosed: React.PropTypes.string.isRequired
 }

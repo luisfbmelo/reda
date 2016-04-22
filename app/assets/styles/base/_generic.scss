@@ -1,3 +1,22 @@
 .light-background{
 	background-color:$light-background;
 }
+
+.de-emphasize{
+	font-weight:400;
+}
+
+.loading{
+	@include animation(rotate 1s linear infinite)
+}
+
+@include keyframes(rotate) {
+  from {
+    @include transform(rotate(0));
+    @include transform-origin(100% 100%);
+  }
+  to {
+    @include transform(rotate(360deg));
+	@include transform-origin(100% 100%);
+  }
+}

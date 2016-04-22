@@ -19,6 +19,12 @@
 
 		text-align:right;
 
+		button{
+			padding:0;
+			background:none;
+			border:none;
+		}
+
 
 		li{
 			float:none;
@@ -34,7 +40,7 @@
 			}
 		}
 
-		a{
+		a, button{
 			padding:5px 0;
 			color:white!important;
 			@include transition(all 0.3s ease);
@@ -49,7 +55,7 @@
 		}
 
 		.active{
-			a{
+			a, button{
 				background:none;
 				border-bottom:2px solid $light-green;
 			}			
@@ -66,14 +72,13 @@
 		font-size: em(14);		
 		
 		li + li{
+			margin-left:10px;
 			a{
-				margin-left:10px;
-				
 				@include media-query-min(48em){ //768/16
-					&:before{
+					/* &:before{
 						content:"|";
 						padding-right:10px;
-					}
+					} */
 				}
 				
 			}
@@ -85,7 +90,7 @@
 
 		@include media-query-min(48em){ //768/16
 			li + li{
-				a{
+				a, button{
 					margin-left:20px;
 				}
 			}
@@ -148,7 +153,7 @@ footer{
 					family: $lato;
 				}
 
-				@include font-size(24px);
+				@include font-size(16px);
 			}
 
 			@include media-query(48em){ //768/16
@@ -174,6 +179,7 @@ footer{
 		background-color:$heading-color;
 		color:white;
 		padding:10px 0;
-		@include font-size(18px);
+		@include font-size(12px);
+		line-height:1.2;
 	}
 }

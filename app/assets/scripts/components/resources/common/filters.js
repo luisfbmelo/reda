@@ -38,7 +38,7 @@ export default class ResourcesFilters extends Component {
 			<div className="resources__filter">
 				<div className="row">
 					<div className="col-xs-12">
-						<Collapsible title="Formatos" iconOpen="fa fa-arrow-up" iconClosed="fa fa-arrow-down">
+						<Collapsible title="Formatos" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
 							<CheckboxGroup
 						        name="formats"
 						        value={this.state.formats}
@@ -46,45 +46,43 @@ export default class ResourcesFilters extends Component {
 						      >
 						        {
 						          Checkbox => (
-						            <form>
-						              <label>
-						                <Checkbox value="apple"/> Apple
-						              </label>
-						              <label>
-						                <Checkbox value="orange"/> Orange
-						              </label>
-						              <label>
-						                <Checkbox value="watermelon"/> Watermelon
-						              </label>
+						            <form>						              
+										<Checkbox value="apple" id="apple"/> 
+										<label htmlFor="apple">Apple</label>
+
+										<Checkbox value="apple2" id="apple2"/> 
+										<label htmlFor="apple2">Apple</label>
+
+										<Checkbox value="apple3" id="apple3"/> 
+										<label htmlFor="apple3">Apple</label>
+						            </form>
+						          )
+						        }
+							</CheckboxGroup>
+						</Collapsible>	
+
+						<Collapsible title="Formatos" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
+							<CheckboxGroup
+						        name="formats"
+						        value={this.state.formats}
+						        onChange={this.formatChange}
+						      >
+						        {
+						          Checkbox => (
+						            <form>						              
+										<Checkbox value="orange" id="orange"/> 
+										<label htmlFor="orange">orange</label>
+
+										<Checkbox value="orange2" id="orange2"/> 
+										<label htmlFor="orange2">orange</label>
+
+										<Checkbox value="orange3" id="orange3"/> 
+										<label htmlFor="orange3">Apple</label>
 						            </form>
 						          )
 						        }
 							</CheckboxGroup>
 						</Collapsible>
-
-						<Collapsible title="Formatos" iconOpen="fa fa-arrow-up" iconClosed="fa fa-arrow-down">
-							<CheckboxGroup
-						        name="formats"
-						        value={this.state.formats}
-						        onChange={this.formatChange}
-						      >
-						        {
-						          Checkbox => (
-						            <form>
-						              <label>
-						                <Checkbox value="apple"/> Apple
-						              </label>
-						              <label>
-						                <Checkbox value="orange"/> Orange
-						              </label>
-						              <label>
-						                <Checkbox value="watermelon"/> Watermelon
-						              </label>
-						            </form>
-						          )
-						        }
-							</CheckboxGroup>
-						</Collapsible>		
 					</div>
 				</div>
 			</div>

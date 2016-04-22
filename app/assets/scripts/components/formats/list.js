@@ -15,7 +15,7 @@ var renderList = (list) => {
     });
 }
 
-export default (props) => {
+export const FormatsList = (props) => {
 	if (!props.formats || !props.formats.data || props.formats.fetching){
 		return <div className="loading">Loading...</div>
 	}
@@ -27,4 +27,8 @@ export default (props) => {
 			</div>
 		</div>
 	);
+}
+
+FormatsList.propTypes = {
+	formats: React.PropTypes.object.isRequired
 }
