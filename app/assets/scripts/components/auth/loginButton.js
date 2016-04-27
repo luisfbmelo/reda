@@ -26,8 +26,8 @@ export default class LoginButton extends Component {
 
   render() {
     return (
-      <li>
-        <button onClick={this.open}>Entrar</button>
+      <div>
+        <button onClick={this.open} className={this.props.className}>{this.props.children}</button>
         <Modal show={this.state.showModal} onHide={this.close} dialogClassName="login-dialog">
           <Modal.Header closeButton>
             <section>
@@ -42,7 +42,7 @@ export default class LoginButton extends Component {
             <small>Acesso disponível apenas para utilizadores azores.gov.pt</small>
           </Modal.Footer>
         </Modal>
-      </li>
+      </div>
     )
   }
 }

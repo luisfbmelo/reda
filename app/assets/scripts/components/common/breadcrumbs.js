@@ -3,7 +3,7 @@ import Breadcrumbs from 'react-breadcrumbs';
 
 export const AppBreadcrumbs = (props) => {
 	return (
-		<div className="light-background">
+		<div className="breadcrumbs-container">
 			<div className="container">
 				<div className="row">
 					<div className="col-xs-12">

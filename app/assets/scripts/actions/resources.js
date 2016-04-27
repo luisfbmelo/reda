@@ -7,7 +7,13 @@ import {
 	HIGHLIGHTS_FAILURE,
 	RESOURCES_REQUEST, 
 	RESOURCES_SUCCESS,
-	RESOURCES_FAILURE
+	RESOURCES_FAILURE,
+	RESOURCE_REQUEST, 
+	RESOURCE_SUCCESS,
+	RESOURCE_FAILURE,
+	RELATED_RESOURCES_REQUEST, 
+	RELATED_RESOURCES_SUCCESS,
+	RELATED_RESOURCES_FAILURE
 } from '../actions/action-types';
 
 
@@ -89,6 +95,96 @@ export function fetchResources(params){
 		})
 		.catch(message => {
 			dispatch(resourcesError(message));
+		})
+	}
+}
+
+// SINGLE RESOURCE
+function requestResource(){
+	return {
+		type: RESOURCE_REQUEST
+	}
+}
+
+function receiveResource(data){
+	return {
+		type: RESOURCE_SUCCESS,
+		data: data
+	}
+}
+
+function resourceError(message){
+	return {
+		type: RESOURCE_FAILURE,
+		message: message
+	}
+}
+
+export function fetchResource(resourceId){
+	return dispatch => {
+		dispatch(requestResource());
+
+		return fetch('/assets/scripts/dummy.json')
+		.then(response => {
+			if (response.status >= 400) {
+	          throw new Error('Bad response');
+	        }
+	        return response.json();
+		})
+		.then(json => {
+			var filtered = json.resources.filter((obj) => {				
+				return obj.id == resourceId;
+			})
+			
+			if (filtered.length==0){
+				throw new Error('No data');
+			}
+			
+			dispatch(receiveResource(filtered[0]));
+		})
+		.catch(message => {
+			dispatch(resourceError(message));
+		})
+	}
+}
+
+// RELATED RESOURCES
+function requestRelatedResources(){
+	return {
+		type: RELATED_RESOURCES_REQUEST
+	}
+}
+
+function receiveRelatedResources(data){
+	return {
+		type: RELATED_RESOURCES_SUCCESS,
+		data: data
+	}
+}
+
+function relatedResourcesError(message){
+	return {
+		type: RELATED_RESOURCES_FAILURE,
+		message: message
+	}
+}
+
+export function fetchRelatedResources(params){
+	return dispatch => {
+		dispatch(requestRelatedResources());
+
+		return fetch('/assets/scripts/dummy.json')
+		.then(response => {
+			if (response.status >= 400) {
+	          throw new Error('Bad response');
+	        }
+	        return response.json();
+		})
+		.then(json => {
+			dispatch(receiveRelatedResources(json.resources.splice(4)));
+		})
+		.catch(message => {
+			dispatch(relatedResourcesError(message));
 		})
 	}
 }

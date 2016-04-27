@@ -9,5 +9,11 @@
 		a, button{
 			color:$body-color!important;
 		}
+
+		@include media-query(48em){
+			& + .search-container{
+				display:none;
+			}
+		}
 	}
 }

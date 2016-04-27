@@ -11,6 +11,30 @@
 	}
 }
 
+@include media-query(75em){
+	.search-container .cta i{
+		display:none;
+	}
+}
+
+.header-container{
+	&:not(.home-page){
+		& + .search-container{
+			background-color:$light-background;
+
+			.search-form{
+				margin:30px 0;
+
+				input,
+				button,
+				select{
+					margin-bottom:0!important;
+				}
+			}
+		}
+	}
+}
+
 .single-search{
 	margin:0 auto;
 	text-align:center;

@@ -6,7 +6,10 @@ import { bindActionCreators } from 'redux';
 import ResourcesListing from '../../components/resources/listing';
 
 function mapStateToProps(state) {
-  return { resources: state.resources};
+  return { 
+  	resources: state.resources,
+  	auth: state.auth
+  };
 }
 
 function mapDispatchToProps(dispatch) { 

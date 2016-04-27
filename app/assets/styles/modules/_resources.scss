@@ -1,11 +1,12 @@
 .resources{
 	&__recent{
 		background-color:$light-background;
+		padding:0 0 60px 0;
 	}
 
 	&__title{
 		text-align: center;
-		margin:40px 0 30px;
+		margin:60px 0 60px;
 	}
 }
 
@@ -87,4 +88,89 @@
 	&__page{
 		background-color:$light-background;
 	}
+}
+
+.scripts-detail{
+	background-color:$light-background;
+	padding:60px 0;
+
+	.nav-tabs{
+		text-align:center;
+		border:none;
+		margin-bottom:30px;
+
+		li{
+			float:none;
+			display:inline-block;
+			margin-bottom:20px;
+
+			& + li{
+				margin-left:20px;
+			}
+			
+			&.active{
+				a{
+					cursor:pointer;
+					background-color:$green;
+					color:$light-background;
+				}
+			}
+
+			a{
+				border:none;
+				background:none;
+				padding:7px 20px;
+				border:1px solid $green;
+				border-radius:0;
+				margin-right:0;
+
+				color:$green;
+
+				@include transition(all 0.3s ease);
+
+				&:hover,
+				&:active,
+				&:focus{
+					cursor:pointer;
+					background-color:$green;
+					color:$light-background;
+				}
+			}
+		}
+	}
+}
+
+.resource-details{
+	margin:20px 0 0;
+
+	.tech-file{
+		margin-bottom:30px;
+
+		h2{
+			margin-bottom:30px;
+		}
+	}
+
+	.details-buttons{
+		margin-top:60px;
+	}
+
+	.first-details{
+		h1{
+			margin-top:0;
+			margin-bottom:10px;
+		}
+
+		.rating{
+			margin:10px 0;
+		}
+	}
+
+	p{
+		font:{
+			family:$opensans;
+		}
+
+		@include font-size(13px);
+	}	
 }

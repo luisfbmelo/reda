@@ -9,6 +9,7 @@ import SearchContainer from '../search';
 class Header extends Component {
 	headerType(location){
 		location = location.length > 1 ? location.replace(/^\//, '') : location;
+		location = location.length > 1 ? location.substring(0, location.indexOf('/')) : location;
 		return (location === "/") ? "home-page" : location;
 	}
 

@@ -5,7 +5,13 @@ import {
 	HIGHLIGHTS_FAILURE,
   RESOURCES_REQUEST, 
   RESOURCES_SUCCESS,
-  RESOURCES_FAILURE
+  RESOURCES_FAILURE,
+  RESOURCE_REQUEST, 
+  RESOURCE_SUCCESS,
+  RESOURCE_FAILURE,
+  RELATED_RESOURCES_REQUEST, 
+  RELATED_RESOURCES_SUCCESS,
+  RELATED_RESOURCES_FAILURE
 } from '../actions/action-types';
 
 const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
@@ -45,6 +51,50 @@ export function resources(state = INITIAL_STATE, action) {
         data: action.data
       })
     case RESOURCES_FAILURE:
+      return assign({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      })
+    default:
+      return state;
+  }
+};
+
+export function resource(state = INITIAL_STATE, action) {
+  switch(action.type) {
+    case RESOURCE_REQUEST:
+      return assign({}, state, {
+        fetching: true
+      })
+    case RESOURCE_SUCCESS:
+      return assign({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      })
+    case RESOURCE_FAILURE:
+      return assign({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      })
+    default:
+      return state;
+  }
+};
+
+export function relatedResources(state = INITIAL_STATE, action) {
+  switch(action.type) {
+    case RELATED_RESOURCES_REQUEST:
+      return assign({}, state, {
+        fetching: true
+      })
+    case RELATED_RESOURCES_SUCCESS:
+      return assign({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      })
+    case RELATED_RESOURCES_FAILURE:
       return assign({}, state, {
         fetching: false,
         errorMessage: action.message

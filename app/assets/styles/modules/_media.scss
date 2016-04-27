@@ -1,0 +1,41 @@
+.media-footer{
+	margin:0;
+	padding:0;
+	list-style:none;
+
+	li{
+		display:inline-block;
+	}
+
+	.media{
+		&__action{
+			@include font-size(20px);
+			padding:15px 20px;
+
+			&:hover{
+				cursor:pointer;
+			}
+
+			&--main{
+				display:inline-block;
+				@include transition(all 0.3s ease);
+				background-color:$green;
+				
+				i{
+					padding:0;
+					margin:0;
+					color:white;
+				}
+
+				&:hover{
+					opacity: 0.5;
+				}
+			}
+		}
+	}
+}
+
+.embed-content iframe{
+	display:block;
+	width:100%;
+}

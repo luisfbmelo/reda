@@ -41,7 +41,7 @@ export default class LoginForm extends Component {
         <form onSubmit={handleSubmit(this.onSubmit)}>
           <div className={`form-group ${email.touched && email.invalid ? 'has-error' : ''}`}>
             <input type="text" className="form-control" placeholder="Email" {...email}/>
-            {asyncValidating === 'email' && <i /* spinning cog *//>}
+            {asyncValidating === 'email' && <i className='fa fa-spinner fa-spin'/>}
             {email.touched && email.error && <div className="text-danger">{email.error}</div>}
           </div>
           <div className={`form-group ${password.touched && password.invalid ? 'has-error' : ''}`}>
@@ -49,8 +49,8 @@ export default class LoginForm extends Component {
             {password.touched && password.error && <div className="text-danger">{password.error}</div>}
           </div>
           <div>
-            <button type="submit" disabled={ fetching || asyncValidating} className="cta primary">
-              {fetching || asyncValidating ? <i className='fa fa-spinner fa-spin'></i> : ""}Entrar
+            <button type="submit" disabled={ fetching || asyncValidating } className="cta primary">
+              {fetching ? <i className='fa fa-spinner fa-spin'></i> : ""}Entrar
             </button>
           </div>
         </form>

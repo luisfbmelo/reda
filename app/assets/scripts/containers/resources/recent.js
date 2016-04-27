@@ -6,7 +6,10 @@ import { bindActionCreators } from 'redux';
 import RecentResources from '../../components/resources/recent';
 
 function mapStateToProps(state) {
-  return { resources: state.resources};
+  return { 
+  	resources: state.resources,
+  	auth: state.auth
+  };
 }
 
 function mapDispatchToProps(dispatch) { 

@@ -4,7 +4,7 @@
 		"text": "Phasellus a est. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. In hac habitasse platea dictumst. Proin faucibus arcu quis ante. Nunc interdum lacus sit amet orci.",
 		"button": "Experimenta",
 		"image": {
-			"src": "assets/graphics/bg/explore.jpg",
+			"src": "/assets/graphics/bg/explore.jpg",
 			"alt": "some alt"
 		}
 	},
@@ -13,13 +13,13 @@
 		"sections": [
 			{
 				"title": "Docentes",
-				"icon": "assets/graphics/icons/lapis.svg",
+				"icon": "/assets/graphics/icons/lapis.svg",
 				"text": "A REDA tem um espaço dedicado a docentes, permitindo a inserção de conteúdos nas mais variadas áreas e domínios. Entre na plataforma e inicie a sua atividade na comunidade.",
 				"button": "Entre na REDA"
 			},
 			{
 				"title": "Alunos",
-				"icon": "assets/graphics/icons/conversa.svg",
+				"icon": "/assets/graphics/icons/conversa.svg",
 				"text": "Como aluno, pode não só aceder aos mais variados recursos disponíveis na plataforma, mas também enviar sugestões de novo conteúdo para os nossos administradores.",
 				"button": "Envia Sugestões"
 			}
@@ -30,7 +30,7 @@
 			"id": 1,
 			"title": "Media heading",
 			"image": {
-				"src": "assets/graphics/bg/home-bg.jpg",
+				"src": "/assets/graphics/bg/home-bg.jpg",
 				"alt": "some alt"
 			},
 			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from"
@@ -39,7 +39,7 @@
 			"id": 2,
 			"title": "Media heading",
 			"image": {
-				"src": "assets/graphics/bg/home-bg.jpg",
+				"src": "/assets/graphics/bg/home-bg.jpg",
 				"alt": "some alt"
 			},
 			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from"
@@ -53,12 +53,93 @@
 			"format": {
 				"id": 1,
 				"title": "Vídeo",
+				"type": "video",
 				"image": {
-					"src": "assets/graphics/icons/video.svg",
+					"src": "/assets/graphics/icons/video.svg",
 					"alt": "some alt"
 				}
 			},
-			"rating_avg": 4.5
+			"author": "Luís Melo",
+			"organization": "Escola X",
+			"email": "geral@luisfbmelo.com",
+			"favorite": true,
+			"rating_avg": 4.5,
+			"embed": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/eIho2S0ZahI\" frameborder=\"0\" allowfullscreen></iframe>",
+			"comments": [
+				{
+					"id": 1,
+					"text": "Este é um comentário",
+					"date": "10/10/2016",
+					"user": {
+						"id": 1,
+						"name": "Luis Melo",
+						"image": {
+							"src": "http://www.melbourneresumes.com.au/wp-content/uploads/best-linkedin-profile-examples-300x200.jpg"
+						}
+					},
+					"children": [
+						{
+							"id": 2,
+							"text": "Este é um comentário",
+							"date": "10/10/2016",
+							"user": {
+								"id": 1,
+								"name": "Luis Melo",
+								"image": {
+									"src": "http://www.melbourneresumes.com.au/wp-content/uploads/best-linkedin-profile-examples-300x200.jpg"
+								}
+							},
+							"children": [
+
+							]
+						},
+						{
+							"id": 3,
+							"text": "Este é um comentário",
+							"date": "10/10/2016",
+							"user": {
+								"id": 1,
+								"name": "Luis Melo",
+								"image": {
+									"src": "http://www.melbourneresumes.com.au/wp-content/uploads/best-linkedin-profile-examples-300x200.jpg"
+								}
+							},
+							"children": [
+								{
+									"id": 4,
+									"text": "Este é um comentário",
+									"date": "10/10/2016",
+									"user": {
+										"id": 1,
+										"name": "Luis Melo",
+										"image": {
+											"src": "http://www.melbourneresumes.com.au/wp-content/uploads/best-linkedin-profile-examples-300x200.jpg"
+										}
+									},
+									"children": [
+
+									]
+								},
+								{
+									"id": 5,
+									"text": "Este é um comentário",
+									"date": "10/10/2016",
+									"user": {
+										"id": 1,
+										"name": "Luis Melo",
+										"image": {
+											"src": "http://www.melbourneresumes.com.au/wp-content/uploads/best-linkedin-profile-examples-300x200.jpg"
+										}
+									},
+									"children": [
+
+									]
+								}
+							]
+						}
+					]
+				}
+			]
 		},
 		{
 			"id": 2,
@@ -68,10 +149,13 @@
 				"id": 1,
 				"title": "Vídeo",
 				"image": {
-					"src": "assets/graphics/icons/video.svg",
+					"src": "/assets/graphics/icons/video.svg",
 					"alt": "some alt"
 				}
 			},
+			"author": "Luís Melo",
+			"organization": "Escola X",
+			"email": "geral@luisfbmelo.com",
 			"rating_avg": 4.5
 		},
 		{
@@ -82,7 +166,7 @@
 				"id": 1,
 				"title": "Vídeo",
 				"image": {
-					"src": "assets/graphics/icons/video.svg",
+					"src": "/assets/graphics/icons/video.svg",
 					"alt": "some alt"
 				}
 			},
@@ -96,7 +180,7 @@
 				"id": 1,
 				"title": "Vídeo",
 				"image": {
-					"src": "assets/graphics/icons/video.svg",
+					"src": "/assets/graphics/icons/video.svg",
 					"alt": "some alt"
 				}
 			},
@@ -110,7 +194,7 @@
 				"id": 1,
 				"title": "Vídeo",
 				"image": {
-					"src": "assets/graphics/icons/video.svg",
+					"src": "/assets/graphics/icons/video.svg",
 					"alt": "some alt"
 				}
 			},
@@ -124,7 +208,7 @@
 				"id": 1,
 				"title": "Vídeo",
 				"image": {
-					"src": "assets/graphics/icons/video.svg",
+					"src": "/assets/graphics/icons/video.svg",
 					"alt": "some alt"
 				}
 			},
@@ -138,7 +222,7 @@
 				"id": 1,
 				"title": "Vídeo",
 				"image": {
-					"src": "assets/graphics/icons/video.svg",
+					"src": "/assets/graphics/icons/video.svg",
 					"alt": "some alt"
 				}
 			},
@@ -152,7 +236,7 @@
 				"id": 1,
 				"title": "Vídeo",
 				"image": {
-					"src": "assets/graphics/icons/video.svg",
+					"src": "/assets/graphics/icons/video.svg",
 					"alt": "some alt"
 				}
 			},
@@ -164,7 +248,7 @@
 			"id": 1,
 			"title": "Vídeo",
 			"image": {
-				"src": "assets/graphics/icons/video.svg",
+				"src": "/assets/graphics/icons/video.svg",
 				"alt": "some alt"
 			}
 		},
@@ -172,7 +256,7 @@
 			"id": 2,
 			"title": "Simulação",
 			"image": {
-				"src": "assets/graphics/icons/simulacao.svg",
+				"src": "/assets/graphics/icons/simulacao.svg",
 				"alt": "some alt"
 			}
 		},
@@ -180,7 +264,7 @@
 			"id": 3,
 			"title": "Animação",
 			"image": {
-				"src": "assets/graphics/icons/animacao.svg",
+				"src": "/assets/graphics/icons/animacao.svg",
 				"alt": "some alt"
 			}
 		},
@@ -188,7 +272,7 @@
 			"id": 4,
 			"title": "Áudio",
 			"image": {
-				"src": "assets/graphics/icons/audio.svg",
+				"src": "/assets/graphics/icons/audio.svg",
 				"alt": "some alt"
 			}
 		},
@@ -196,7 +280,7 @@
 			"id": 5,
 			"title": "Imagem",
 			"image": {
-				"src": "assets/graphics/icons/imagem.svg",
+				"src": "/assets/graphics/icons/imagem.svg",
 				"alt": "some alt"
 			}
 		},
@@ -204,7 +288,7 @@
 			"id": 6,
 			"title": "Outros",
 			"image": {
-				"src": "assets/graphics/icons/outros.svg",
+				"src": "/assets/graphics/icons/outros.svg",
 				"alt": "some alt"
 			}
 		}

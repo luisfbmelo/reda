@@ -14,7 +14,7 @@
 	.navbar-nav{
 		font:{
 			family:$lato;
-			weight:300;			
+			weight:400;			
 		}
 
 		text-align:right;
@@ -33,9 +33,13 @@
 			@include media-query(48em){ //768/16
 				display:block;
 				text-align: left;
+				button{
+					display:block;
+				}
 
-				a{
-					margin:0 10px;
+				a,
+				button{
+					margin:0 20px;
 				}
 			}
 		}
@@ -72,7 +76,11 @@
 		font-size: em(14);		
 		
 		li + li{
-			margin-left:10px;
+
+			@include media-query-min(48em){
+				margin-left:10px;
+			}
+			
 			a{
 				@include media-query-min(48em){ //768/16
 					/* &:before{
@@ -108,22 +116,30 @@
 }
 
 .navbar-default{
-	.icon-bar{
-		background-color:white!important;
-	}
-
 	.navbar-toggle{
 		border: none;
     	border-radius: 0;
+	}
+}
 
-    	&:hover,
-    	&:focus{
-    		background-color:white;
-
+.header-container{
+	&.home-page{
+		.navbar-default{
 			.icon-bar{
-				background-color: #888!important;
+				background-color:white!important;
 			}
-    	}
+
+			.navbar-toggle{
+		    	&:hover,
+		    	&:focus{
+		    		background-color:white;
+
+					.icon-bar{
+						background-color: #888!important;
+					}
+		    	}
+			}
+		}
 	}
 }
 

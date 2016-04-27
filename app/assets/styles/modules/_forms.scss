@@ -80,3 +80,10 @@ label:hover:before {
     margin-bottom:50px;
   }
 }
+
+.comment-form{
+  textarea{
+    border-radius:0;
+    height:150px;
+  }
+}

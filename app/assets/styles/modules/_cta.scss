@@ -1,6 +1,6 @@
 .cta{
 	display:inline-block;
-	font-size:em(18);
+	@include font-size(14px);
 
 	border:none;
 	padding:7px 20px;
@@ -97,5 +97,11 @@
 	&.outline{
 		background:none;
 		border:1px solid;
+	}
+
+	&:hover,
+	&:active,
+	&:focus{
+		text-decoration:none;
 	}
 }

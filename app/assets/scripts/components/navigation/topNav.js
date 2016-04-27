@@ -15,18 +15,26 @@ export default class TopNav extends Component {
 		this.renderUserTools = this.renderUserTools.bind(this);
 		this.renderLogout = this.renderLogout.bind(this);
 	}
+
 	isActive(location, target){
 		location = location.length > 1 ? location.replace(/^\//, '') : location;
+		location = location.length > 1 ? location.substring(0, location.indexOf('/')) : location;
 		return location === target ? 'active' : '';
 	}
 
 	renderUserTools(isAuthenticated){
 		if (!isAuthenticated){
-			return(<LoginButton />);
+			return(
+				<li>
+					<LoginButton>
+						Entrar
+					</LoginButton>
+				</li>
+			);
 		}
 		return(
 			<li className={this.isActive(this.props.location.pathname, 'conta')}>
-           		<Link to="conta">Minha Conta</Link>
+           		<Link to="/conta">Minha Conta</Link>
            	</li>
 		);
 	}
@@ -40,7 +48,6 @@ export default class TopNav extends Component {
 
 	render() {
 		const { isAuthenticated } = this.props.auth;
-		console.log(isAuthenticated);
 		return (  
 			<Navbar>
 				<Navbar.Header>
@@ -54,7 +61,7 @@ export default class TopNav extends Component {
 						<ul className="nav navbar-nav small-nav">
 			              {this.renderUserTools(isAuthenticated)}
 			              <li className={this.isActive(this.props.location.pathname, 'ajuda')}>
-			                <Link to="ajuda">Ajuda</Link>
+			                <Link to="/ajuda">Ajuda</Link>
 			              </li>
 			              {this.renderLogout(isAuthenticated)}
 			            </ul>
@@ -64,16 +71,16 @@ export default class TopNav extends Component {
 			                <Link to="/">Início</Link>
 			              </li>
 			              <li className={this.isActive(this.props.location.pathname, 'descobrir')}>
-			                <Link to="descobrir">Descobrir</Link>
+			                <Link to="/descobrir">Descobrir</Link>
 			              </li>
 			              <li className={this.isActive(this.props.location.pathname, 'aplicacoes')}>
-			                <Link to="aplicacoes">Aplicações</Link>
+			                <Link to="/aplicacoes">Aplicações</Link>
 			              </li>
 			              <li className={this.isActive(this.props.location.pathname, 'noticias')}>
-			                <Link to="noticias">Notícias</Link>
+			                <Link to="/noticias">Notícias</Link>
 			              </li>
 			              <li className={this.isActive(this.props.location.pathname, 'sugestoes')}>
-			                <Link to="sugestoes">Sugestões</Link>
+			                <Link to="/sugestoes">Sugestões</Link>
 			              </li>
 			            </ul>
 		            </div>

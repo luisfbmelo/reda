@@ -38,18 +38,18 @@ var renderList = (list, props) => {
 		return (
 	      	<article className={"col-xs-12 col-sm-4 col-md-" + classColCount + " col-lg-" + classColCount + breaker} key={index}>
 	      		<div className="list__element">
-		      		<Link to="descobrir">
+		      		<Link to={"/descobrir/detalhes-recurso/" + el.id}>
 			      		<h1>{el.title}</h1>
 			      		<p>{el.text}</p>
 			      	</Link>
 			      	{(() => {
 			      		if (props.addscript){
-			      			return <Link to={"novoguiao/" + el.id } className="cta primary outline small">Adicionar Guião</Link>
+			      			return <Link to={"/novoguiao/" + el.id } className="cta primary outline small">Adicionar Guião</Link>
 			      		}
 			      	})()}
 			      	{(() => {
 			      		if (props.viewmore){
-			      			return <Link to={"detalhes-recurso/" + el.id } className="cta primary outline small">Ver Recurso</Link>
+			      			return <Link to={"/descobrir/detalhes-recurso/" + el.id } className="cta primary outline small">Ver Recurso</Link>
 			      		}
 			      	})()}		      		
 		      		<Link to="descobrir">

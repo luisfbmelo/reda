@@ -5,6 +5,7 @@ import { ResourcesList } from './common/list';
 import ResourcesOrdering from './common/order';
 import SearchBar from '../search/searchBar';
 import ResourcesFilters from '../../containers/filters';
+import LoginButton from '../auth/loginButton';
 
 import { Pagination, Alert, Button } from 'react-bootstrap';
 
@@ -49,9 +50,11 @@ export default class ResourcesListing extends Component {
 		    		<Alert bsStyle="warning" className="alert">
 		    			<p>A listagem disponível está limitada a utilizadores não autenticados. Para obter mais recursos, é aconselhado
 		que entre na plataforma.</p>
-						<p className="text-center">
-							<Button bsStyle="warning">Entrar na REDA</Button>
-						</p>
+						<div className="text-center">
+							<LoginButton className="btn btn-warning">
+								Entrar na REDA
+							</LoginButton>
+						</div>
 		    		</Alert>
 	    		</div>
     		</section>
@@ -94,7 +97,7 @@ export default class ResourcesListing extends Component {
 							</section>
 
 							{/* Warnings */}
-							{this.renderAlert()}
+							{!this.props.auth.isAuthenticated ? this.renderAlert() : ""}
 
 							{/* Resources List */}
 							<ResourcesList list={this.props.resources} maxcol={3} addscript/>
