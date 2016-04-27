@@ -76,7 +76,7 @@ var renderList = (list, props) => {
 export const ResourcesList = (props) => {
 
 	if (!props.list || !props.list.data || props.list.fetching){
-		return <div className="loading">Loading...</div>
+		return <div>Loading...</div>
 	}
 
 	return (

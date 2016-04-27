@@ -47,3 +47,11 @@ export const setDateFormat = (date, formatDate) => {
 	moment.locale('pt');
 	return moment(date).format(formatDate);
 }
+
+export const setUrl = (content) => {
+    if (content.indexOf("http://") == -1){
+        return "http://"+content;
+    }
+
+    return content;
+}

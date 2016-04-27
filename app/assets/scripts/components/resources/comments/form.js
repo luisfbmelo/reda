@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 
 
 export default class CommentForm extends Component {
@@ -7,6 +8,7 @@ export default class CommentForm extends Component {
 
     this.onSubmit = this.onSubmit.bind(this);
   }
+
 
   onSubmit(props){
   

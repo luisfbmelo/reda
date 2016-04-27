@@ -15,15 +15,14 @@ export default class SvgComponent extends Component {
 			    for (var i=0; i < els.length; i++) {
 				    els[i].setAttribute("class", "");
 			    	els[i].setAttribute("fill", elColor);
-				}    
-			    
+				} 
 			});		
 		}		
 	}
 
 	render() {
 		if (!this.props.element){
-			return "";
+			return null;
 		}
 
 		return (

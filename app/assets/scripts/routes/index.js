@@ -20,10 +20,9 @@ export default (
   	<IndexRoute component={IndexPage} />
   	<Route name="Descobrir" path="descobrir" component={App}>
   		<IndexRoute component={DiscoverPage} />
-		<Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
+		  <Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
   	</Route>
-  	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />
-  	
+  	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />  	
   	<Route name="A minha conta" path="conta" component={requireAuth(AccountPage)} />
   </Route>
 );

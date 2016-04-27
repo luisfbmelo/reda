@@ -6,6 +6,8 @@ import EmailIcon from '../actions/email';
 import ShareIcon from '../actions/share';
 import EmbedIcon from '../actions/embed';
 
+import { setUrl } from '../../../utils';
+
 /**
  *
  *	Helper functions
@@ -16,25 +18,29 @@ const printAction = (status, filesPath, ...args) => {
 
 	if (status && argsObj && argsObj.file){
 		return(
-			<a href={filesPath + "/" + argsObj.file} download className="media__action media__action--main"><i className="fa fa-download"></i></a>
+			<li>
+				<a href={filesPath + "/" + argsObj.file} download className="media__action media__action--main"><i className="fa fa-download"></i></a>
+			</li>
 		);
 	}else if(argsObj && argsObj.url){
 		return(
-			<a href={argsObj.url} target="_blank" className="media__action media__action--main"><i className="fa fa-link"></i></a>
+			<li>
+				<a href={setUrl(argsObj.url)} target="_blank" className="media__action media__action--main"><i className="fa fa-link"></i></a>
+			</li>
 		);
 	}
 
-	return "";
+	return null;
 }
 
 export default (props) => {
+	const { filesPath, file, url, setFavorite, isFavorite } = props;
+	
 	return (
 		<ul className="media-footer">
+			{printAction(true, filesPath, {file, url})}
 			<li>
-				{printAction(true, props.filesPath)}
-			</li>
-			<li>
-				<FavoriteIcon isFavorite={props.isFavorite} setFavorite={props.setFavorite}/>
+				<FavoriteIcon isFavorite={isFavorite} setFavorite={setFavorite}/>
 			</li>
 			<li>
 				<EmailIcon />

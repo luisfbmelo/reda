@@ -5,12 +5,26 @@
 
 	li{
 		display:inline-block;
+
+		& + li{
+			.media{
+				&__action{
+					padding-left:20px;
+				}
+			}
+		}
 	}
 
 	.media{
 		&__action{
 			@include font-size(20px);
-			padding:15px 20px;
+			padding-top:15px;
+			padding-right:20px;
+			padding-bottom:15px;
+
+			&--main{
+				padding-left:20px;
+			}
 
 			&:hover{
 				cursor:pointer;

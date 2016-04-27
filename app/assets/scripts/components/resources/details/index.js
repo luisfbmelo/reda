@@ -1,5 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
+import { Link } from 'react-router';
+
 import MediaDisplay from './mediaDisplay';
 import MediaFooter from './mediaFooter';
 import TechFile from '../techFile';
@@ -7,9 +9,9 @@ import Scripts from './scripts';
 import CommentForm from '../../../containers/comments/commentForm';
 import CommentsList from '../../../containers/comments';
 import RelatedResources from '../../../containers/resources/related';
-
 import Rating from '../../common/rating';
-import { Link } from 'react-router';
+
+
 
 export default class ResourceDetails extends Component {
 	constructor(props){
@@ -17,11 +19,11 @@ export default class ResourceDetails extends Component {
 
 		this.printMeta = this.printMeta.bind(this);
 		this.setFavorite = this.setFavorite.bind(this);
+		this.scrollToComments = this.scrollToComments.bind(this);
 
 		this.state = {
 			isFavorite: false
 		}
-
 	}
 
 	/* Get configuration and resource data */
@@ -34,9 +36,10 @@ export default class ResourceDetails extends Component {
 			.then(() => {
 				this.setState({
 					isFavorite: this.props.resource.data.favorite || false
-				});
+				});				
 			});
-		})
+		});		
+
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -64,22 +67,28 @@ export default class ResourceDetails extends Component {
 		/* CALL ACTION TO APPLY CHANGE */
 	}
 
+	scrollToComments(){
+		var el = document.getElementById("comentar");        
+		var total = el.offsetTop;
+		window.scrollTo(0,total);
+		console.log(total); 
+	}
+
 	render() {
 		if (!this.props.config.data || !this.props.resource.data || (this.props.resource && this.props.resource.fetching)){
-			return <div>Loading...</div>
+			return null
 		}
 
 		const { files, graphics } = this.props.config.data;
 		const resource = this.props.resource.data;
 		const resId = this.props.params.resource;
-		
 		return (
 			<div className="resource-details">
 				<section className="container first-details">
 					<div className="row">
 						<div className="col-xs-12 col-sm-6">
 							<MediaDisplay filesPath={files} graphicsPath={graphics} data={resource} />
-							<MediaFooter filesPath={files} isFavorite={this.state.isFavorite} setFavorite={this.setFavorite} />
+							<MediaFooter filesPath={files} isFavorite={this.state.isFavorite} setFavorite={this.setFavorite} file={resource.file} url={resource.url}/>
 						</div>
 
 						<div className="col-xs-12 col-sm-6">
@@ -108,7 +117,7 @@ export default class ResourceDetails extends Component {
 
 					<div className="row details-buttons">
 						<div className="col-xs-6">
-							<a href="#/comments" className="cta primary pull-right">Comentar Recurso</a>
+							<button className="cta primary pull-right" onClick={this.scrollToComments}>Comentar Recurso</button>
 						</div>
 						<div className="col-xs-6">
 							<Link to={"/novoguiao/" + resId} className="cta primary">Novo Guião</Link>
@@ -120,7 +129,7 @@ export default class ResourceDetails extends Component {
 				<Scripts data={resource} />
 
 				{/* Comments */}
-				<section className="comments">
+				<section className="comments" id="comentar">
 					<div className="container">
 						<div className="row">
 							<div className="col-xs-12">

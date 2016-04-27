@@ -1268,7 +1268,7 @@ var SvgComponent = function (_Component) {
 		key: 'render',
 		value: function render() {
 			if (!this.props.element) {
-				return "";
+				return null;
 			}
 
 			return _react2.default.createElement('object', { ref: 'svgElement', className: 'svg-element', data: this.props.element, type: 'image/svg+xml' });
@@ -2098,6 +2098,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2181,7 +2185,7 @@ CommentForm.contextTypes = {
   router: _react.PropTypes.object
 };
 
-},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/resources/comments/list.js":[function(require,module,exports){
+},{"react":"react","react-dom":"react-dom"}],"/var/www/devbox/app/assets/scripts/components/resources/comments/list.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2581,7 +2585,7 @@ var ResourcesList = exports.ResourcesList = function ResourcesList(props) {
 	if (!props.list || !props.list.data || props.list.fetching) {
 		return _react2.default.createElement(
 			'div',
-			{ className: 'loading' },
+			null,
 			'Loading...'
 		);
 	}
@@ -2698,6 +2702,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
 var _mediaDisplay = require('./mediaDisplay');
 
 var _mediaDisplay2 = _interopRequireDefault(_mediaDisplay);
@@ -2730,8 +2736,6 @@ var _rating = require('../../common/rating');
 
 var _rating2 = _interopRequireDefault(_rating);
 
-var _reactRouter = require('react-router');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2750,11 +2754,11 @@ var ResourceDetails = function (_Component) {
 
 		_this.printMeta = _this.printMeta.bind(_this);
 		_this.setFavorite = _this.setFavorite.bind(_this);
+		_this.scrollToComments = _this.scrollToComments.bind(_this);
 
 		_this.state = {
 			isFavorite: false
 		};
-
 		return _this;
 	}
 
@@ -2819,14 +2823,18 @@ var ResourceDetails = function (_Component) {
 			/* CALL ACTION TO APPLY CHANGE */
 		}
 	}, {
+		key: 'scrollToComments',
+		value: function scrollToComments() {
+			var el = document.getElementById("comentar");
+			var total = el.offsetTop;
+			window.scrollTo(0, total);
+			console.log(total);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			if (!this.props.config.data || !this.props.resource.data || this.props.resource && this.props.resource.fetching) {
-				return _react2.default.createElement(
-					'div',
-					null,
-					'Loading...'
-				);
+				return null;
 			}
 
 			var _props$config$data = this.props.config.data;
@@ -2835,7 +2843,6 @@ var ResourceDetails = function (_Component) {
 
 			var resource = this.props.resource.data;
 			var resId = this.props.params.resource;
-
 			return _react2.default.createElement(
 				'div',
 				{ className: 'resource-details' },
@@ -2849,7 +2856,7 @@ var ResourceDetails = function (_Component) {
 							'div',
 							{ className: 'col-xs-12 col-sm-6' },
 							_react2.default.createElement(_mediaDisplay2.default, { filesPath: files, graphicsPath: graphics, data: resource }),
-							_react2.default.createElement(_mediaFooter2.default, { filesPath: files, isFavorite: this.state.isFavorite, setFavorite: this.setFavorite })
+							_react2.default.createElement(_mediaFooter2.default, { filesPath: files, isFavorite: this.state.isFavorite, setFavorite: this.setFavorite, file: resource.file, url: resource.url })
 						),
 						_react2.default.createElement(
 							'div',
@@ -2895,8 +2902,8 @@ var ResourceDetails = function (_Component) {
 							'div',
 							{ className: 'col-xs-6' },
 							_react2.default.createElement(
-								'a',
-								{ href: '#/comments', className: 'cta primary pull-right' },
+								'button',
+								{ className: 'cta primary pull-right', onClick: this.scrollToComments },
 								'Comentar Recurso'
 							)
 						),
@@ -2914,7 +2921,7 @@ var ResourceDetails = function (_Component) {
 				_react2.default.createElement(_scripts2.default, { data: resource }),
 				_react2.default.createElement(
 					'section',
-					{ className: 'comments' },
+					{ className: 'comments', id: 'comentar' },
 					_react2.default.createElement(
 						'div',
 						{ className: 'container' },
@@ -3082,6 +3089,8 @@ var _embed = require('../actions/embed');
 
 var _embed2 = _interopRequireDefault(_embed);
 
+var _utils = require('../../../utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -3094,34 +3103,45 @@ var printAction = function printAction(status, filesPath) {
 
 	if (status && argsObj && argsObj.file) {
 		return _react2.default.createElement(
-			'a',
-			{ href: filesPath + "/" + argsObj.file, download: true, className: 'media__action media__action--main' },
-			_react2.default.createElement('i', { className: 'fa fa-download' })
+			'li',
+			null,
+			_react2.default.createElement(
+				'a',
+				{ href: filesPath + "/" + argsObj.file, download: true, className: 'media__action media__action--main' },
+				_react2.default.createElement('i', { className: 'fa fa-download' })
+			)
 		);
 	} else if (argsObj && argsObj.url) {
 		return _react2.default.createElement(
-			'a',
-			{ href: argsObj.url, target: '_blank', className: 'media__action media__action--main' },
-			_react2.default.createElement('i', { className: 'fa fa-link' })
+			'li',
+			null,
+			_react2.default.createElement(
+				'a',
+				{ href: (0, _utils.setUrl)(argsObj.url), target: '_blank', className: 'media__action media__action--main' },
+				_react2.default.createElement('i', { className: 'fa fa-link' })
+			)
 		);
 	}
 
-	return "";
+	return null;
 };
 
 exports.default = function (props) {
+	var filesPath = props.filesPath;
+	var file = props.file;
+	var url = props.url;
+	var setFavorite = props.setFavorite;
+	var isFavorite = props.isFavorite;
+
+
 	return _react2.default.createElement(
 		'ul',
 		{ className: 'media-footer' },
+		printAction(true, filesPath, { file: file, url: url }),
 		_react2.default.createElement(
 			'li',
 			null,
-			printAction(true, props.filesPath)
-		),
-		_react2.default.createElement(
-			'li',
-			null,
-			_react2.default.createElement(_favorite2.default, { isFavorite: props.isFavorite, setFavorite: props.setFavorite })
+			_react2.default.createElement(_favorite2.default, { isFavorite: isFavorite, setFavorite: setFavorite })
 		),
 		_react2.default.createElement(
 			'li',
@@ -3141,7 +3161,7 @@ exports.default = function (props) {
 	);
 };
 
-},{"../actions/email":"/var/www/devbox/app/assets/scripts/components/resources/actions/email.js","../actions/embed":"/var/www/devbox/app/assets/scripts/components/resources/actions/embed.js","../actions/favorite":"/var/www/devbox/app/assets/scripts/components/resources/actions/favorite.js","../actions/share":"/var/www/devbox/app/assets/scripts/components/resources/actions/share.js","react":"react"}],"/var/www/devbox/app/assets/scripts/components/resources/details/scripts.js":[function(require,module,exports){
+},{"../../../utils":"/var/www/devbox/app/assets/scripts/utils/index.js","../actions/email":"/var/www/devbox/app/assets/scripts/components/resources/actions/email.js","../actions/embed":"/var/www/devbox/app/assets/scripts/components/resources/actions/embed.js","../actions/favorite":"/var/www/devbox/app/assets/scripts/components/resources/actions/favorite.js","../actions/share":"/var/www/devbox/app/assets/scripts/components/resources/actions/share.js","react":"react"}],"/var/www/devbox/app/assets/scripts/components/resources/details/scripts.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5376,7 +5396,7 @@ exports.default = _react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setDateFormat = undefined;
+exports.setUrl = exports.setDateFormat = undefined;
 
 var _moment = require('moment');
 
@@ -5430,6 +5450,14 @@ _moment2.default.locale('pt', {
 var setDateFormat = exports.setDateFormat = function setDateFormat(date, formatDate) {
     _moment2.default.locale('pt');
     return (0, _moment2.default)(date).format(formatDate);
+};
+
+var setUrl = exports.setUrl = function setUrl(content) {
+    if (content.indexOf("http://") == -1) {
+        return "http://" + content;
+    }
+
+    return content;
 };
 
 },{"moment":"moment"}]},{},["/var/www/devbox/app/assets/scripts/app.js"])
