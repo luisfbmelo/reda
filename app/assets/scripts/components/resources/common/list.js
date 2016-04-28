@@ -11,36 +11,27 @@ import SvgComponent from '../../common/svg';
 import ProtectedButton from '../../auth/protectedButton';
 import { ResourceElement } from './resource';
 
-export default class ResourcesList extends Component{
+var renderList = (list, props) => {	
+	// Set maximum columns
+	let maxcol = props.maxcol || 4;
+	let classColCount = Math.floor(12/maxcol);
 
-	constructor(props){
-		super(props);
+	const { addscript, viewmore, isAuthenticated } = props;
 
-		this.renderList = this.renderList.bind(this);
+	return list.map((el, index) => {
+		return <ResourceElement maxcol={maxcol} classColCount={classColCount} addscript={addscript} viewmore={viewmore} isAuthenticated={isAuthenticated} el={el} index={index} key={index}/>
+    });
+}
+
+export const ResourcesList = (props) => {	
+	if (!props.list || !props.list.data || props.list.fetching){
+		return <div></div>;
 	}
-
-	renderList(list){	
-		// Set maximum columns
-		let maxcol = this.props.maxcol || 4;
-		let classColCount = Math.floor(12/maxcol);
-
-		const { addscript, viewmore, isAuthenticated } = this.props;
-
-		return list.map((el, index) => {
-			return <ResourceElement maxcol={maxcol} classColCount={classColCount} addscript={addscript} viewmore={viewmore} isAuthenticated={isAuthenticated} el={el} index={index} key={index}/>
-	    });
-	}
-
-	render(){
-		if (!this.props.list || !this.props.list.data || this.props.list.fetching){
-			return <div>Loading...</div>
-		}
-		return (
-			<section className="row">
-				{this.renderList(this.props.list.data)}
-			</section>
-		);
-	}	
+	return(
+		<section className="row">
+			{renderList(props.list.data, props)}
+		</section>
+	);
 }
 
 ResourcesList.propTypes = {

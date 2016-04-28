@@ -30,7 +30,17 @@
 				}
 			}
 		]
-	},	
+	},
+	"users": 
+	[
+		{
+			"id": 1,
+			"name": "Luís Melo",
+			"image": {
+				"src": "http://www.melbourneresumes.com.au/wp-content/uploads/best-linkedin-profile-examples-300x200.jpg" 
+			}
+		}
+	],
 	"highlights": [
 		{
 			"id": 1,

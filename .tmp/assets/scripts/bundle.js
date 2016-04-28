@@ -48,6 +48,11 @@ var COMMENTS_REQUEST = exports.COMMENTS_REQUEST = 'COMMENTS_REQUEST';
 var COMMENTS_SUCCESS = exports.COMMENTS_SUCCESS = 'COMMENTS_SUCCESS';
 var COMMENTS_FAILURE = exports.COMMENTS_FAILURE = 'COMMENTS_FAILURE';
 
+// USER
+var USER_REQUEST = exports.USER_REQUEST = 'USER_REQUEST';
+var USER_SUCCESS = exports.USER_SUCCESS = 'USER_SUCCESS';
+var USER_FAILURE = exports.USER_FAILURE = 'USER_FAILURE';
+
 },{}],"/var/www/devbox/app/assets/scripts/actions/auth.js":[function(require,module,exports){
 'use strict';
 
@@ -483,6 +488,74 @@ function fetchRelatedResources(resourceId) {
 	};
 }
 
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/user.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.fetchUserData = fetchUserData;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('es6-promise').polyfill();
+
+
+// CONFFIG
+function requestUser() {
+	return {
+		type: _actionTypes.USER_REQUEST
+	};
+}
+
+function receiveUser(data) {
+	return {
+		type: _actionTypes.USER_SUCCESS,
+		data: data
+	};
+}
+
+function userError(message) {
+	return {
+		type: _actionTypes.USER_FAILURE,
+		message: message
+	};
+}
+
+function fetchUserData(userId) {
+
+	return function (dispatch) {
+		dispatch(requestUser());
+
+		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
+			if (response.status >= 400) {
+				throw new Error('Bad response');
+			}
+
+			return response.json();
+		}).then(function (json) {
+
+			var filtered = json.users.filter(function (obj) {
+				return obj.id == userId;
+			});
+
+			if (filtered.length == 0) {
+				throw new Error('No data');
+			}
+
+			dispatch(receiveUser(filtered[0]));
+		}).catch(function (message) {
+			dispatch(userError(message));
+		});
+	};
+}
+
 },{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/app.js":[function(require,module,exports){
 'use strict';
 
@@ -685,7 +758,7 @@ var LoginForm = function (_Component) {
           if (_this2.props.target) {
             _this2.context.router.push(_this2.props.target);
           } else {
-            _this2.context.router.push('/conta');
+            _this2.context.router.push('/painel');
           }
         }).catch(function (error) {
           console.log(error);
@@ -1682,7 +1755,87 @@ BottomNav.propTypes = {
 	location: _react2.default.PropTypes.object.isRequired
 };
 
-},{"react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/navigation/topNav.js":[function(require,module,exports){
+},{"react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/navigation/profileNav.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ProfileNav = function (_Component) {
+	_inherits(ProfileNav, _Component);
+
+	function ProfileNav() {
+		_classCallCheck(this, ProfileNav);
+
+		return _possibleConstructorReturn(this, Object.getPrototypeOf(ProfileNav).apply(this, arguments));
+	}
+
+	_createClass(ProfileNav, [{
+		key: 'isActive',
+		value: function isActive(location, target) {
+			location = location.length > 1 ? location.replace(/^\//, '') : location;
+			return location === target ? 'active' : '';
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'nav',
+				{ className: 'profile-nav' },
+				_react2.default.createElement(
+					'ul',
+					null,
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: '/painel', className: "cta gray outline " + this.isActive(this.props.location.pathname, 'painel') },
+							'Painel'
+						)
+					),
+					_react2.default.createElement(
+						'li',
+						null,
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: '/perfil', className: "cta gray outline " + this.isActive(this.props.location.pathname, 'perfil') },
+							'Meu Perfil'
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return ProfileNav;
+}(_react.Component);
+
+exports.default = ProfileNav;
+
+
+ProfileNav.propTypes = {
+	location: _react2.default.PropTypes.object.isRequired
+};
+
+},{"react":"react","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/navigation/topNav.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2613,8 +2766,7 @@ exports.default = ResourcesFilters;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.ResourcesList = undefined;
 
 var _react = require('react');
 
@@ -2640,70 +2792,37 @@ var _resource = require('./resource');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+// Components
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var renderList = function renderList(list, props) {
+	// Set maximum columns
+	var maxcol = props.maxcol || 4;
+	var classColCount = Math.floor(12 / maxcol);
+
+	var addscript = props.addscript;
+	var viewmore = props.viewmore;
+	var isAuthenticated = props.isAuthenticated;
+
+
+	return list.map(function (el, index) {
+		return _react2.default.createElement(_resource.ResourceElement, { maxcol: maxcol, classColCount: classColCount, addscript: addscript, viewmore: viewmore, isAuthenticated: isAuthenticated, el: el, index: index, key: index });
+	});
+};
 
 // Boostrap
 
 
-// Components
-
-
-var ResourcesList = function (_Component) {
-	_inherits(ResourcesList, _Component);
-
-	function ResourcesList(props) {
-		_classCallCheck(this, ResourcesList);
-
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ResourcesList).call(this, props));
-
-		_this.renderList = _this.renderList.bind(_this);
-		return _this;
+var ResourcesList = exports.ResourcesList = function ResourcesList(props) {
+	if (!props.list || !props.list.data || props.list.fetching) {
+		return _react2.default.createElement('div', null);
 	}
-
-	_createClass(ResourcesList, [{
-		key: 'renderList',
-		value: function renderList(list) {
-			// Set maximum columns
-			var maxcol = this.props.maxcol || 4;
-			var classColCount = Math.floor(12 / maxcol);
-
-			var _props = this.props;
-			var addscript = _props.addscript;
-			var viewmore = _props.viewmore;
-			var isAuthenticated = _props.isAuthenticated;
-
-
-			return list.map(function (el, index) {
-				return _react2.default.createElement(_resource.ResourceElement, { maxcol: maxcol, classColCount: classColCount, addscript: addscript, viewmore: viewmore, isAuthenticated: isAuthenticated, el: el, index: index, key: index });
-			});
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			if (!this.props.list || !this.props.list.data || this.props.list.fetching) {
-				return _react2.default.createElement(
-					'div',
-					null,
-					'Loading...'
-				);
-			}
-			return _react2.default.createElement(
-				'section',
-				{ className: 'row' },
-				this.renderList(this.props.list.data)
-			);
-		}
-	}]);
-
-	return ResourcesList;
-}(_react.Component);
-
-exports.default = ResourcesList;
-
+	return _react2.default.createElement(
+		'section',
+		{ className: 'row' },
+		renderList(props.list.data, props)
+	);
+};
 
 ResourcesList.propTypes = {
 	list: _react.PropTypes.object.isRequired,
@@ -3613,8 +3732,6 @@ var _reactRouter = require('react-router');
 
 var _list = require('./common/list');
 
-var _list2 = _interopRequireDefault(_list);
-
 var _order = require('./common/order');
 
 var _order2 = _interopRequireDefault(_order);
@@ -3790,7 +3907,7 @@ var ResourcesListing = function (_Component) {
 								)
 							),
 							!this.props.auth.isAuthenticated ? this.renderAlert() : "",
-							_react2.default.createElement(_list2.default, { list: this.props.resources, maxcol: 3, addscript: true, isAuthenticated: isAuthenticated }),
+							_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, maxcol: 3, addscript: true, isAuthenticated: isAuthenticated }),
 							_react2.default.createElement(_reactBootstrap.Pagination, {
 								prev: true,
 								next: true,
@@ -3833,8 +3950,6 @@ var _react = require('react');
 var _react2 = _interopRequireDefault(_react);
 
 var _list = require('./common/list');
-
-var _list2 = _interopRequireDefault(_list);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3885,7 +4000,7 @@ var RecentResources = function (_Component) {
 							)
 						)
 					),
-					_react2.default.createElement(_list2.default, { list: this.props.resources, maxcol: 4, viewmore: true, isAuthenticated: isAuthenticated })
+					_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, maxcol: 4, viewmore: true, isAuthenticated: isAuthenticated })
 				)
 			);
 		}
@@ -3915,8 +4030,6 @@ var _react = require('react');
 var _react2 = _interopRequireDefault(_react);
 
 var _list = require('./common/list');
-
-var _list2 = _interopRequireDefault(_list);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3969,7 +4082,7 @@ var RecentResources = function (_Component) {
 							)
 						)
 					),
-					_react2.default.createElement(_list2.default, { list: this.props.relatedResources, maxcol: 3, viewmore: true, isAuthenticated: isAuthenticated })
+					_react2.default.createElement(_list.ResourcesList, { list: this.props.relatedResources, maxcol: 3, viewmore: true, isAuthenticated: isAuthenticated })
 				)
 			);
 		}
@@ -4351,7 +4464,91 @@ var SearchForm = function (_Component) {
 
 exports.default = SearchForm;
 
-},{"react":"react"}],"/var/www/devbox/app/assets/scripts/containers/auth/loginForm.js":[function(require,module,exports){
+},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/user/resume.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserResume = function (_Component) {
+	_inherits(UserResume, _Component);
+
+	function UserResume(props) {
+		_classCallCheck(this, UserResume);
+
+		return _possibleConstructorReturn(this, Object.getPrototypeOf(UserResume).call(this, props));
+	}
+
+	_createClass(UserResume, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			/* CHANGE THIS TO REAL USER ID FROM STATE/LOCALSTORAGE */
+			//let userId = this.props.auth.data.id;
+			var userId = 1;
+			this.props.fetchUserData(userId);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+
+			if (!this.props.user.data) return null;
+
+			var user = this.props.user.data;
+
+			return _react2.default.createElement(
+				'div',
+				{ className: 'row user-resume' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'col-xs-12' },
+					_react2.default.createElement('div', { className: 'user-image', style: { "backgroundImage": 'url(' + user.image.src + ')' } }),
+					_react2.default.createElement(
+						'h4',
+						null,
+						user.name
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'col-xs-12 text-center' },
+					_react2.default.createElement(
+						_reactRouter.Link,
+						{ to: '/novorecurso', className: 'cta primary' },
+						'Novo Recurso'
+					)
+				)
+			);
+		}
+	}]);
+
+	return UserResume;
+}(_react.Component);
+
+exports.default = UserResume;
+
+
+UserResume.propTypes = {
+	user: _react.PropTypes.object.isRequired
+};
+
+},{"react":"react","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/containers/auth/loginForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4678,6 +4875,10 @@ var _search = require('../search');
 
 var _search2 = _interopRequireDefault(_search);
 
+var _resume = require('../user/resume');
+
+var _resume2 = _interopRequireDefault(_resume);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4697,9 +4898,11 @@ var Header = function (_Component) {
 
 	_createClass(Header, [{
 		key: 'headerType',
+
+		/* Get Page Type from LOCATION */
 		value: function headerType(location) {
 			location = location.length > 1 ? location.replace(/^\//, '') : location;
-			location = location.length > 1 ? location.substring(0, location.indexOf('/')) : location;
+			location = location.length > 1 && location.indexOf('/') > 0 ? location.substring(0, location.indexOf('/')) : location;
 			return location === "/" ? "home-page" : location;
 		}
 	}, {
@@ -4711,8 +4914,14 @@ var Header = function (_Component) {
 				{ className: "header-container " + curPage },
 				_react2.default.createElement(_topNav2.default, { location: this.props.location, auth: this.props.auth }),
 				function () {
+					// IS HOME
 					if (curPage == "home-page") {
 						return [_react2.default.createElement(_highlights2.default, { key: 'highlights-container' }), _react2.default.createElement(_search2.default, { key: 'search-container' })];
+					}
+
+					// IS ACCOUNT
+					if (curPage == "painel" || curPage == "perfil") {
+						return _react2.default.createElement(_resume2.default, null);
 					}
 					return null;
 				}()
@@ -4731,7 +4940,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
 
-},{"../../components/navigation/topNav":"/var/www/devbox/app/assets/scripts/components/navigation/topNav.js","../highlights":"/var/www/devbox/app/assets/scripts/containers/highlights/index.js","../search":"/var/www/devbox/app/assets/scripts/containers/search/index.js","react":"react","react-redux":"react-redux"}],"/var/www/devbox/app/assets/scripts/containers/highlights/index.js":[function(require,module,exports){
+},{"../../components/navigation/topNav":"/var/www/devbox/app/assets/scripts/components/navigation/topNav.js","../highlights":"/var/www/devbox/app/assets/scripts/containers/highlights/index.js","../search":"/var/www/devbox/app/assets/scripts/containers/search/index.js","../user/resume":"/var/www/devbox/app/assets/scripts/containers/user/resume.js","react":"react","react-redux":"react-redux"}],"/var/www/devbox/app/assets/scripts/containers/highlights/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4960,7 +5169,45 @@ var SearchContainer = function (_Component) {
 
 exports.default = SearchContainer;
 
-},{"../../components/search/searchForm":"/var/www/devbox/app/assets/scripts/components/search/searchForm.js","react":"react"}],"/var/www/devbox/app/assets/scripts/layouts/app.js":[function(require,module,exports){
+},{"../../components/search/searchForm":"/var/www/devbox/app/assets/scripts/components/search/searchForm.js","react":"react"}],"/var/www/devbox/app/assets/scripts/containers/user/resume.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _user = require('../../actions/user');
+
+var _config = require('../../actions/config');
+
+var _redux = require('redux');
+
+var _resume = require('../../components/user/resume');
+
+var _resume2 = _interopRequireDefault(_resume);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    auth: state.auth
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ fetchUserData: _user.fetchUserData }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_resume2.default);
+
+},{"../../actions/config":"/var/www/devbox/app/assets/scripts/actions/config.js","../../actions/user":"/var/www/devbox/app/assets/scripts/actions/user.js","../../components/user/resume":"/var/www/devbox/app/assets/scripts/components/user/resume.js","react":"react","react-redux":"react-redux","redux":"redux"}],"/var/www/devbox/app/assets/scripts/layouts/app.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5025,7 +5272,9 @@ var _header = require('../containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _breadcrumbs = require('../components/common/breadcrumbs');
+var _profileNav = require('../components/navigation/profileNav');
+
+var _profileNav2 = _interopRequireDefault(_profileNav);
 
 var _bottomNav = require('../components/navigation/bottomNav');
 
@@ -5062,8 +5311,7 @@ var DiscoverPage = function (_Component) {
         'div',
         null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
-        _react2.default.createElement(_breadcrumbs.AppBreadcrumbs, { routes: this.props.routes, params: this.props.params, setDocumentTitle: true }),
-        '"asd"',
+        _react2.default.createElement(_profileNav2.default, { location: this.props.location }),
         _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
       );
     }
@@ -5074,7 +5322,7 @@ var DiscoverPage = function (_Component) {
 
 exports.default = DiscoverPage;
 
-},{"../components/common/breadcrumbs":"/var/www/devbox/app/assets/scripts/components/common/breadcrumbs.js","../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","react":"react","react/lib/ReactCSSTransitionGroup":"/var/www/devbox/node_modules/react/lib/ReactCSSTransitionGroup.js"}],"/var/www/devbox/app/assets/scripts/pages/discoverPage.js":[function(require,module,exports){
+},{"../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../components/navigation/profileNav":"/var/www/devbox/app/assets/scripts/components/navigation/profileNav.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","react":"react","react/lib/ReactCSSTransitionGroup":"/var/www/devbox/node_modules/react/lib/ReactCSSTransitionGroup.js"}],"/var/www/devbox/app/assets/scripts/pages/discoverPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5490,6 +5738,10 @@ var _auth = require('./auth');
 
 var _auth2 = _interopRequireDefault(_auth);
 
+var _user = require('./user');
+
+var _user2 = _interopRequireDefault(_user);
+
 var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
@@ -5505,12 +5757,13 @@ var rootReducer = (0, _redux.combineReducers)({
 	resources: _resources.resources,
 	resource: _resources.resource,
 	relatedResources: _resources.relatedResources,
-	auth: _auth2.default
+	auth: _auth2.default,
+	user: _user2.default
 });
 
 exports.default = rootReducer;
 
-},{"./auth":"/var/www/devbox/app/assets/scripts/reducers/auth.js","./comments":"/var/www/devbox/app/assets/scripts/reducers/comments.js","./config":"/var/www/devbox/app/assets/scripts/reducers/config.js","./formats":"/var/www/devbox/app/assets/scripts/reducers/formats.js","./resources":"/var/www/devbox/app/assets/scripts/reducers/resources.js","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/reducers/resources.js":[function(require,module,exports){
+},{"./auth":"/var/www/devbox/app/assets/scripts/reducers/auth.js","./comments":"/var/www/devbox/app/assets/scripts/reducers/comments.js","./config":"/var/www/devbox/app/assets/scripts/reducers/config.js","./formats":"/var/www/devbox/app/assets/scripts/reducers/formats.js","./resources":"/var/www/devbox/app/assets/scripts/reducers/resources.js","./user":"/var/www/devbox/app/assets/scripts/reducers/user.js","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/reducers/resources.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5631,6 +5884,49 @@ function relatedResources() {
   }
 };
 
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/user.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.USER_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.USER_SUCCESS:
+
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      });
+    case _actionTypes.USER_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+
 },{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/routes/index.js":[function(require,module,exports){
 'use strict';
 'user strict';
@@ -5680,7 +5976,7 @@ exports.default = _react2.default.createElement(
     _react2.default.createElement(_reactRouter.Route, { name: 'Detalhes de Recurso', path: 'detalhes-recurso/:resource', component: _resourceDetailsPage2.default })
   ),
   _react2.default.createElement(_reactRouter.Route, { name: 'Novo Guião', path: 'novoguiao/:resource', component: _discoverPage2.default }),
-  _react2.default.createElement(_reactRouter.Route, { name: 'A minha conta', path: 'conta', component: (0, _requireAuth.requireAuth)(_accountPage2.default) })
+  _react2.default.createElement(_reactRouter.Route, { name: 'Painel de Gestão', path: 'painel', component: _accountPage2.default })
 );
 
 // Required

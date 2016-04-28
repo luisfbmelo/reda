@@ -23,6 +23,6 @@ export default (
 		<Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
   	</Route>
   	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />  	
-  	<Route name="A minha conta" path="conta" component={requireAuth(AccountPage)} />
+  	<Route name="Painel de Gestão" path="painel" component={AccountPage} />
   </Route>
 );

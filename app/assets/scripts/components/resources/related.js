@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import ResourcesList from './common/list';
+import { ResourcesList } from './common/list';
 
 export default class RecentResources extends Component {
 

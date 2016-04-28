@@ -199,3 +199,19 @@ footer{
 		line-height:1.2;
 	}
 }
+
+.profile-nav{
+	height:0;
+	text-align:center;
+	background-color:$light-background;
+	ul {
+		margin:0;
+		padding:0;
+		list-style:none;
+		@include transform(translateY(-100%));
+
+		li{
+			display:inline-block;
+		}
+	}
+}

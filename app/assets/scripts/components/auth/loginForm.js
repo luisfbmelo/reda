@@ -23,7 +23,7 @@ export default class LoginForm extends Component {
         if (this.props.target){
           this.context.router.push(this.props.target);
         }else{
-          this.context.router.push('/conta');
+          this.context.router.push('/painel');
         }
 
       }).catch(error => {

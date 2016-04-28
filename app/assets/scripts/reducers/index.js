@@ -6,6 +6,7 @@ import highlightsReducer, {resources as resourcesReducer, resource as resourceRe
 import commentsReducer  from './comments';
 import formatsReducer  from './formats';
 import authReducer from './auth';
+import userReducer from './user';
 import configReducer from './config';
 
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
 	resources: resourcesReducer,
 	resource: resourceReducer,
 	relatedResources: relatedResourcesReducer,
-	auth: authReducer
+	auth: authReducer,
+	user: userReducer
 }); 
 
 export default rootReducer;

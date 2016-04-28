@@ -67,7 +67,8 @@
 			color:white;
 			border-color:white;
 
-			&:hover{
+			&:hover,
+			&.active{
 				background-color:white;
 				color:$soft-label-color;
 			}
@@ -78,7 +79,33 @@
 			border-color:white;
 		}
 
-		&:hover{
+		&:not(.outline):hover{
+			opacity: 0.8;
+			text-decoration:none;
+		}
+	}
+
+	&.gray{
+		color:$soft-label-color;
+		background-color:$light-background;
+
+		&.outline{
+			color:$light-background;
+			border-color:$light-background;
+
+			&:hover,
+			&.active{
+				background-color:$light-background;
+				color:$soft-label-color;
+			}
+		}
+
+		&.no-bg{
+			color:$light-background;
+			border-color:$light-background;
+		}
+
+		&:not(.outline):hover{
 			opacity: 0.8;
 			text-decoration:none;
 		}

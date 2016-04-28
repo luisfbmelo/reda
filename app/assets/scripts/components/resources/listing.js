@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router';
-import ResourcesList from './common/list';
+import { ResourcesList } from './common/list';
 import ResourcesOrdering from './common/order';
 import SearchBar from '../search/searchBar';
 import ResourcesFilters from '../../containers/filters';

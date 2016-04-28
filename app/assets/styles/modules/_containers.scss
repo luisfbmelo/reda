@@ -5,8 +5,16 @@
 		background-position:center center;
 	}
 
-	&:not(.home-page){
-		a, button{
+	&.painel,
+	&.perfil{
+		background-image:url('../graphics/bg/account-bg.jpg');
+		background-size:cover;
+		background-position:center center;
+	}
+
+	&:not(.home-page):not(.painel):not(.perfil){
+		.navbar-nav li a, 
+		.navbar-nav li button{
 			color:$body-color!important;
 		}
 
