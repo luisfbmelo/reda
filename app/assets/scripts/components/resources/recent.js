@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { ResourcesList } from './common/list';
+import ResourcesList from './common/list';
 
 export default class RecentResources extends Component {
 
@@ -14,7 +14,9 @@ export default class RecentResources extends Component {
 
 	render() {
 		if (!this.props.resources)
-			return <div>Loading...</div>;
+			return null;
+		
+		const { isAuthenticated } = this.props.auth;
 
 		return (
 			<section className="resources__recent">
@@ -24,7 +26,7 @@ export default class RecentResources extends Component {
 							<h1 className="resources__title">Últimos Recursos</h1>
 						</div>
 					</div>
-					<ResourcesList list={this.props.resources} maxcol={4} viewmore/>
+					<ResourcesList list={this.props.resources} maxcol={4} viewmore isAuthenticated={isAuthenticated} />
 				</div>
 			</section>
 		);

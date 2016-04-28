@@ -21,18 +21,6 @@ export const validate = values => {
   return errors
 }
 
-/* Make request to server to check data */
-export const asyncValidate = (values/*, dispatch */) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if ([ 'john', 'paul', 'george', 'ringo' ].includes(values.email)) {
-        reject({ email: 'That email is taken' })
-      } else {
-        resolve()
-      }
-    }, 1000) // simulate server latency
-  })
-}
 
 /* Email validation */
 const validateEmail = (value) => {
@@ -49,7 +37,6 @@ function mapStateToProps(state) {
 export default reduxForm({
   form: 'LoginForm',
   fields,
-  asyncValidate,
   asyncBlurFields: [ 'email' ],
   validate
 }, mapStateToProps, {loginUser})(LoginForm)

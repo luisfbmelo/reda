@@ -46,3 +46,7 @@ export default class LoginButton extends Component {
     )
   }
 }
+
+LoginButton.propTypes = {
+  className: PropTypes.string
+}

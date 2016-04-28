@@ -18,7 +18,8 @@ export default class TopNav extends Component {
 
 	isActive(location, target){
 		location = location.length > 1 ? location.replace(/^\//, '') : location;
-		location = location.length > 1 ? location.substring(0, location.indexOf('/')) : location;
+		location = location.length > 1 && location.indexOf('/') > 0 ? location.substring(0, location.indexOf('/')) : location;
+
 		return location === target ? 'active' : '';
 	}
 

@@ -1,9 +1,13 @@
+.btn{
+	border-radius: 0;
+}
+
 .cta{
 	display:inline-block;
 	@include font-size(14px);
 
 	border:none;
-	padding:7px 20px;
+	padding:8px 20px;	
 
 	@include transition(all 0.3s ease);
 
@@ -103,5 +107,26 @@
 	&:active,
 	&:focus{
 		text-decoration:none;
+	}
+}
+
+.protected-button{
+	width: 100%;
+	button{
+		padding:0;
+		margin:0;
+		background:none;
+		border:none;
+		display:block;
+		text-align: left;
+
+		&:active,
+		&:focus{
+			outline: none;
+		}
+
+		&:not(.cta){
+			width:100%;
+		}
 	}
 }

@@ -6,7 +6,10 @@ import { bindActionCreators } from 'redux';
 import ResourceHighlights from '../../components/resources/highlights';
 
 function mapStateToProps(state) {
-  return { highlights: state.highlights};
+  return { 
+  	highlights: state.highlights,
+  	auth: state.auth
+  };
 }
 
 function mapDispatchToProps(dispatch) { 

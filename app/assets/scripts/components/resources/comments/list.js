@@ -11,7 +11,7 @@ export default class CommentsListing extends Component {
 	}
 
 	componentDidMount(){
-		this.props.fetchComments();
+		this.props.fetchComments(this.props.source);
 	}
 
 	deleteComment(obj){

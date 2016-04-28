@@ -169,7 +169,7 @@ function relatedResourcesError(message){
 	}
 }
 
-export function fetchRelatedResources(params){
+export function fetchRelatedResources(resourceId){
 	return dispatch => {
 		dispatch(requestRelatedResources());
 
@@ -181,7 +181,8 @@ export function fetchRelatedResources(params){
 	        return response.json();
 		})
 		.then(json => {
-			dispatch(receiveRelatedResources(json.resources.splice(4)));
+			json.resources.length=3;
+			dispatch(receiveRelatedResources(json.resources));
 		})
 		.catch(message => {
 			dispatch(relatedResourcesError(message));

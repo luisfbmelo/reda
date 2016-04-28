@@ -3,6 +3,7 @@ import { Component } from 'react';
 import fetch from 'isomorphic-fetch';
 import { Link } from 'react-router';
 
+import LoginButton from '../auth/loginButton';
 import SvgComponent from '../common/svg';
 
 export default class ContributeBlock extends Component {
@@ -35,13 +36,26 @@ export default class ContributeBlock extends Component {
 
 	renderSections(){
 		return this.state.sections.map((section, index) => {
+			// Set if this column has an offset
 			var hasOffset = (index==0) ? " col-md-offset-2" : "";
+	
 			return(
 				<div className={"col-xs-12 col-sm-6 col-md-4 block__contribute--col" + ((index==0) ? " col-md-offset-2" : "")} key={index}>
 					<h2>{section.title}</h2>
 					<SvgComponent element={section.icon} color="#ffffff"/>
 					<p>{section.text}</p>
-					<button className="cta white outline">{section.button}</button>
+					{(() => {
+						if (section.button.type=="login"){
+							return(
+								<LoginButton className="cta white outline">
+									{section.button.text}
+								</LoginButton>
+							)
+						}else if(section.button.type=="feedback"){
+							return<button className="cta white outline">{section.button.text}</button>
+						}
+					})()}
+					
 				</div>
 			);
 		});

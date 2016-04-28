@@ -1,7 +1,7 @@
-import React, {PropTypes} from 'react';
+import React, { PropTypes } from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router';
-import { ResourcesList } from './common/list';
+import ResourcesList from './common/list';
 import ResourcesOrdering from './common/order';
 import SearchBar from '../search/searchBar';
 import ResourcesFilters from '../../containers/filters';
@@ -63,7 +63,10 @@ export default class ResourcesListing extends Component {
 
 	render() {
 		if (!this.props.resources)
-			return <div>Loading...</div>;
+			return null;
+		
+		const { isAuthenticated } = this.props.auth;
+
 		return (
 			<div className="resources__page">
 				<div className="container">
@@ -100,7 +103,7 @@ export default class ResourcesListing extends Component {
 							{!this.props.auth.isAuthenticated ? this.renderAlert() : ""}
 
 							{/* Resources List */}
-							<ResourcesList list={this.props.resources} maxcol={3} addscript/>
+							<ResourcesList list={this.props.resources} maxcol={3} addscript isAuthenticated={isAuthenticated} />
 
 							{/* Pagination */}
 							<Pagination
@@ -124,5 +127,5 @@ export default class ResourcesListing extends Component {
 }
 
 ResourcesListing.propTypes = {
-	resources: React.PropTypes.object.isRequired
+	resources: PropTypes.object.isRequired
 }

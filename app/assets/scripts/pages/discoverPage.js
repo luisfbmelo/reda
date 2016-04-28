@@ -5,6 +5,8 @@ import ResourcesContainer from '../containers/resources';
 import { AppBreadcrumbs } from '../components/common/breadcrumbs';
 import BottomNav from '../components/navigation/bottomNav';
 
+// Animation
+import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 
 export default class DiscoverPage extends Component {
   render() {

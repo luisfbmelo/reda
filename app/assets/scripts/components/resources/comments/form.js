@@ -39,7 +39,6 @@ export default class CommentForm extends Component {
 }
 
 CommentForm.propTypes = {
-  asyncValidating: PropTypes.string.isRequired,
   fields: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,

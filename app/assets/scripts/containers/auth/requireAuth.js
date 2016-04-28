@@ -31,12 +31,12 @@ export function requireAuth(Component) {
                     }
                 </div>
             )
-
         }
     }
 
     const mapStateToProps = (state) => ({
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        resource: state.resource.data
     });
 
     AuthenticatedComponent.contextTypes = {

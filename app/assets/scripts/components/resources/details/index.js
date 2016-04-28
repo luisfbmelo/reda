@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component } from 'react';
+import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import MediaDisplay from './mediaDisplay';
@@ -17,6 +17,7 @@ export default class ResourceDetails extends Component {
 	constructor(props){
 		super(props);
 
+		this.requiresAuth = this.requiresAuth.bind(this);
 		this.printMeta = this.printMeta.bind(this);
 		this.setFavorite = this.setFavorite.bind(this);
 		this.scrollToComments = this.scrollToComments.bind(this);
@@ -34,9 +35,15 @@ export default class ResourceDetails extends Component {
 		.then(() => {
 			this.props.fetchResource(resource)
 			.then(() => {
-				this.setState({
-					isFavorite: this.props.resource.data.favorite || false
-				});				
+
+				// If this requires auth and not authed, go back
+				if (this.requiresAuth()){
+					this.context.router.push('/descobrir');
+				}else{
+					this.setState({
+						isFavorite: this.props.resource.data.favorite || false
+					});	
+				}			
 			});
 		});		
 
@@ -52,6 +59,14 @@ export default class ResourceDetails extends Component {
 				});
 			});
 	    }
+	}
+
+	requiresAuth(){
+		// If no Auth and is protected and finished fetching
+		if (this.props.resource.fetched && !this.props.auth.isAuthenticated && this.props.resource.data.protected){
+			return true;
+		}
+		return false;
 	}
 
 	printMeta(label, data){
@@ -145,7 +160,7 @@ export default class ResourceDetails extends Component {
 
 						<div className="row">
 							<div className="col-xs-12">
-								<CommentsList />
+								<CommentsList source={resource.id}/>
 							</div>
 						</div>
 					</div>
@@ -155,4 +170,8 @@ export default class ResourceDetails extends Component {
 			</div>
 		);
 	}
+}
+
+ResourceDetails.contextTypes = {
+  router: PropTypes.object
 }

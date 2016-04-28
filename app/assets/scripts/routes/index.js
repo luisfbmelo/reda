@@ -18,9 +18,9 @@ import { requireAuth } from '../containers/auth/requireAuth';
 export default (
   <Route path="/" name="Início" component={App}>
   	<IndexRoute component={IndexPage} />
-  	<Route name="Descobrir" path="descobrir" component={App}>
-  		<IndexRoute component={DiscoverPage} />
-		  <Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
+  	<Route name="Descobrir" path="descobrir" component={DiscoverPage} />
+  	<Route name="Descobrir" path="descobrir" component={App}>  		
+		<Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
   	</Route>
   	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />  	
   	<Route name="A minha conta" path="conta" component={requireAuth(AccountPage)} />

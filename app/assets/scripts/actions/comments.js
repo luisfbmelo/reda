@@ -27,7 +27,7 @@ function commentsError(errors){
 	}
 }
 
-export function fetchComments(props){
+export function fetchComments(resourceId){
 	return dispatch => {
 		dispatch(requestComments());
 
@@ -43,12 +43,13 @@ export function fetchComments(props){
 		.then(json => {
 			var filtered = json.resources.filter((obj) => {				
 				return obj.id == resourceId;
-			})
+			});
 			
 			if (filtered.length==0){
 				throw new Error('No data');
 			}
-	        dispatch(receiveComments(filtered.comments));			
+	        
+	        dispatch(receiveComments(filtered[0].comments));			
 		})
 		.catch(errors => {
 			dispatch(commentsError(errors));

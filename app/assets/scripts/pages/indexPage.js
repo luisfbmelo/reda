@@ -9,6 +9,7 @@ import RecentContainer from '../containers/resources/recent';
 import ContributeBlock from '../components/blocks/contribute';
 import BottomNav from '../components/navigation/bottomNav';
 
+
 export default class IndexPage extends Component {
   render() {   
     return (
@@ -18,7 +19,7 @@ export default class IndexPage extends Component {
             <ExploreBlock />
             <RecentContainer />
             <ContributeBlock />
-            <BottomNav location={this.props.location}/>
+            <BottomNav location={this.props.location} />
     	</div>
     );
   }

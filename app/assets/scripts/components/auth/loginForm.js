@@ -12,12 +12,6 @@ export default class LoginForm extends Component {
     return new Promise((resolve, reject) => {
       this.props.loginUser(props)
       .then(() => {
-        
-        // Is authenticated?
-        if (this.props.auth && this.props.auth.isAuthenticated){
-          resolve();
-          this.context.router.push('/conta');
-        }
 
         // Are there any errors?
         if (this.props.auth.errors){
@@ -25,17 +19,24 @@ export default class LoginForm extends Component {
         }
 
         resolve();
+      
+        if (this.props.target){
+          this.context.router.push(this.props.target);
+        }else{
+          this.context.router.push('/conta');
+        }
+
       }).catch(error => {
         console.log(error);
       });
-    })
-    
+    })    
   }
 
 
   render() {
     const { asyncValidating, fields: { email, password }, resetForm, handleSubmit, submitting } = this.props;
     const { fetching } = this.props.auth;
+
     return (
       <div className="login-form box-form">
         <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -60,7 +61,6 @@ export default class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  asyncValidating: PropTypes.string.isRequired,
   fields: PropTypes.object.isRequired,
   resetForm: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
