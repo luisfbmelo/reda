@@ -36,6 +36,7 @@
 		{
 			"id": 1,
 			"name": "Luís Melo",
+			"role": "admin",
 			"image": {
 				"src": "http://www.melbourneresumes.com.au/wp-content/uploads/best-linkedin-profile-examples-300x200.jpg" 
 			}
@@ -78,6 +79,7 @@
 			"author": "Luís Melo",
 			"organization": "Escola X",
 			"email": "geral@luisfbmelo.com",
+			"highlight": true,
 			"favorite": true,
 			"rating_avg": 4.5,
 			"file": "asd",

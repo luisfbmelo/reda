@@ -25,13 +25,15 @@ export default class UserResume extends Component {
 		const user = this.props.user.data;
 
 		return (
-			<div className="row user-resume">
-				<div className="col-xs-12">
-					<div className="user-image" style={{"backgroundImage": `url(${user.image.src})`}}></div>
-					<h4>{user.name}</h4>
-				</div>
-				<div className="col-xs-12 text-center">
-					<Link to="/novorecurso" className="cta primary">Novo Recurso</Link>
+			<div className="container">
+				<div className="row user-resume">
+					<div className="col-xs-12">
+						<div className="user-image" style={{"backgroundImage": `url(${user.image.src})`}}></div>
+						<h4>{user.name}</h4>
+					</div>
+					<div className="col-xs-12 text-center">
+						<Link to="/novorecurso" className="cta primary">Novo Recurso</Link>
+					</div>
 				</div>
 			</div>
 		);

@@ -51,10 +51,10 @@ export const ResourceElement = (props) => {
       		<div className="list__element">
 	      		{
 	      			renderProtected(
-		      			<div>
+		      			<header>
 			      			<h1>{el.title}</h1>
 				      		<p>{el.text}</p>
-			      		</div>
+			      		</header>
 			      	,"/descobrir/detalhes-recurso/" + el.id, props)
 		      	}
 
@@ -66,7 +66,7 @@ export const ResourceElement = (props) => {
 		      		if ((viewmore || addscript) && (!el.protected || isAuthenticated)){
 		      			return <Link to={"/descobrir/detalhes-recurso/" + el.id} className="cta primary outline small">Ver Recurso</Link>
 		      		}else {
-		      			return <ProtectedButton className="cta primary outline small" target={"/descobrir/detalhes-recurso/" + el.id}>Ver Recurso</ProtectedButton>
+		      			return <ProtectedButton className="cta primary outline small action-btn" target={"/descobrir/detalhes-recurso/" + el.id}>Ver Recurso</ProtectedButton>
 		      		}
 		      	})()}	
 		      	{

@@ -34,8 +34,8 @@ export default class TopNav extends Component {
 			);
 		}
 		return(
-			<li className={this.isActive(this.props.location.pathname, 'conta')}>
-           		<Link to="/conta">Minha Conta</Link>
+			<li className={this.isActive(this.props.location.pathname, 'painel')}>
+           		<Link to="/painel">Minha Conta</Link>
            	</li>
 		);
 	}

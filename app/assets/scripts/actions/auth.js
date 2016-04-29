@@ -42,7 +42,8 @@ export function loginUser(props){
 	        return response.json();
 		})
 		.then(json => {
-	        dispatch(receiveLogin(props));			
+
+	        dispatch(receiveLogin(json.users[0]));			
 		})
 		.catch(errors => {
 

@@ -3,6 +3,7 @@ import {
 	HIGHLIGHTS_REQUEST, 
 	HIGHLIGHTS_SUCCESS,
 	HIGHLIGHTS_FAILURE,
+  TOGGLE_HIGHLIGHT_RESOURCE,
   RESOURCES_REQUEST, 
   RESOURCES_SUCCESS,
   RESOURCES_FAILURE,
@@ -32,7 +33,7 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         errorMessage: action.message
-      })
+      })    
     default:
       return state;
   }
@@ -55,6 +56,13 @@ export function resources(state = INITIAL_STATE, action) {
         fetching: false,
         errorMessage: action.message
       })
+    case TOGGLE_HIGHLIGHT_RESOURCE:
+      
+      // CALL SINGLE RESOURCE REDUCER TO MAKE THE CHANGE
+      return assign({}, state, {
+        data: state.data.map(item => resource(item, action))
+      })
+
     default:
       return state;
   }
@@ -77,6 +85,14 @@ export function resource(state = INITIAL_STATE, action) {
         fetching: false,
         errorMessage: action.message
       })
+    case TOGGLE_HIGHLIGHT_RESOURCE:
+      if (state.id != action.id){
+        return state;
+      }
+
+      return assign({}, state, {
+        highlight: !state.highlight
+      });
     default:
       return state;
   }

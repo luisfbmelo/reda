@@ -33,7 +33,7 @@ export default class ExploreBlock extends Component {
 
 	render() {
 		if (Object.keys(this.state).length<=0){
-			return <div>Loading...</div>
+			return null
 		}
 
 		return (

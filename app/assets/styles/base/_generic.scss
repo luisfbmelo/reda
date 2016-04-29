@@ -41,3 +41,19 @@ body { height: 100%; }
   opacity: 0.01;
   transition: opacity 300ms ease-in;
 }
+
+.transition-appear {
+   opacity: 0.01;
+}
+
+.transition-appear.transition-appear-active {
+   opacity: 1;
+   transition: opacity 500ms ease-in;
+}
+
+.fRight{
+  float:right;
+}
+.fLeft{
+  float:left;
+}

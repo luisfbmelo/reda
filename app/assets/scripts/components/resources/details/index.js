@@ -97,6 +97,8 @@ export default class ResourceDetails extends Component {
 		const { files, graphics } = this.props.config.data;
 		const resource = this.props.resource.data;
 		const resId = this.props.params.resource;
+		const { isAuthenticated } = this.props.auth;
+
 		return (
 			<div className="resource-details">
 				<section className="container first-details">
@@ -109,7 +111,7 @@ export default class ResourceDetails extends Component {
 						<div className="col-xs-12 col-sm-6">
 							<h1>{resource.title}</h1>
 							<div className="rating">
-			      				<Rating initialRate={resource.rating_avg}/>
+			      				<Rating initialRate={resource.rating_avg} readonly={!isAuthenticated}/>
 			      			</div>
 			      			{this.printMeta("Autor", resource.author)}
 			      			{this.printMeta("Organização", resource.organization)}

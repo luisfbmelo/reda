@@ -17,7 +17,7 @@ var renderList = (list) => {
 
 export const FormatsList = (props) => {
 	if (!props.formats || !props.formats.data || props.formats.fetching){
-		return <div>Loading...</div>
+		return <div></div>
 	}
 
 	return (

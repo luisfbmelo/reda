@@ -6,6 +6,7 @@ import ResourcesOrdering from './common/order';
 import SearchBar from '../search/searchBar';
 import ResourcesFilters from '../../containers/filters';
 import LoginButton from '../auth/loginButton';
+import ProtectedButton from '../auth/protectedButton';
 
 import { Pagination, Alert, Button } from 'react-bootstrap';
 
@@ -61,6 +62,22 @@ export default class ResourcesListing extends Component {
     	);
     }
 
+    renderNewResourceBtn(obj, target){
+		if (this.props.auth.isAuthenticated){
+			return (
+				<Link to={target} className="cta primary">
+		      		{obj}
+		      	</Link>
+	      	)
+	  	}
+
+	  	return(
+			<ProtectedButton target={target} className="cta primary">
+	      		{obj}
+	      	</ProtectedButton>
+	  	);
+	}
+
 	render() {
 		if (!this.props.resources)
 			return null;
@@ -78,9 +95,7 @@ export default class ResourcesListing extends Component {
 							{/* Contribute */}
 							<section>
 								<h6>Comece a contribuir</h6>
-								<Link to="novorecurso" className="cta primary">
-									Introduzir Recursos
-								</Link>
+								{this.renderNewResourceBtn("Introduzir Recursos","novorecurso")}
 							</section>
 							
 						</div>

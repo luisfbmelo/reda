@@ -1,7 +1,7 @@
 .navbar{
 	background:none;
 	border:none;
-	max-height:auto;
+	max-height:none;
 
 	.menu-container{
 		padding-top:10px;
@@ -143,6 +143,7 @@
 	}
 }
 
+/* BOTTOM NAV */
 footer{
 	.bottom-nav{
 		background-color:$light-green;
@@ -200,6 +201,7 @@ footer{
 	}
 }
 
+/* PROFILE OPTIONS */
 .profile-nav{
 	height:0;
 	text-align:center;
@@ -212,6 +214,58 @@ footer{
 
 		li{
 			display:inline-block;
+		}
+	}
+}
+
+/* DASHBOARD MENU */
+.left-menu{
+	margin-top:30px;
+	margin-bottom:30px;
+	h6{
+		margin:30px 0 20px;
+	}
+	ul {
+		margin:0;
+		padding:0;
+		list-style:none;
+
+		li{
+			display:block;
+
+			a{
+				color:$body-color;
+				display:block;
+
+				border-bottom:1px solid $meta-color;
+				margin-bottom:10px;
+				padding-bottom:5px;
+
+				font-family: $lato;
+				@include font-size(14px);
+
+				i{
+					float:right;
+					@include font-size(12px);
+					margin-top:5px;
+				}
+
+				@include transition(all 0.3s ease);
+
+				&:hover,
+				&:active,
+				&:focus{
+					color:$green;
+					text-decoration:none;					
+				}
+			}
+
+			&.active{
+				a{
+					color:$green;
+					font-weight:bold;
+				}
+			}
 		}
 	}
 }

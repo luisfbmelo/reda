@@ -1,8 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
 import Header from '../containers/header';
-import ResourcesContainer from '../containers/resources';
-import { AppBreadcrumbs } from '../components/common/breadcrumbs';
+import ProfileNav from '../components/navigation/profileNav';
+
+import DashBoard from '../components/dashboard';
+
 import BottomNav from '../components/navigation/bottomNav';
 
 // Animation
@@ -15,8 +17,8 @@ export default class DiscoverPage extends Component {
                transitionAppear = {true} transitionAppearTimeout = {500}
                transitionEnter = {false} transitionLeave = {false}>
   			<Header location={this.props.location}/>
-  			<AppBreadcrumbs routes={this.props.routes} params={this.props.params} setDocumentTitle={true} />
-  			<ResourcesContainer />
+        <ProfileNav location={this.props.location}/>
+        <DashBoard location={this.props.location}/>
   			<BottomNav location={this.props.location}/>
     	</ReactCSSTransitionGroup>
     );

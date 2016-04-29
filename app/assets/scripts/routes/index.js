@@ -8,8 +8,9 @@ import App from '../layouts/app';
 // Pages
 import IndexPage from '../pages/indexPage';
 import DiscoverPage from '../pages/discoverPage';
-import AccountPage from '../pages/accountPage';
+import DashboardPage from '../pages/dashboardPage';
 import ResourceDetailsPage from '../pages/resourceDetailsPage';
+import NotFoundPage from '../pages/notFoundPage';
 
 // Required
 import { requireAuth } from '../containers/auth/requireAuth';
@@ -19,10 +20,15 @@ export default (
   <Route path="/" name="Início" component={App}>
   	<IndexRoute component={IndexPage} />
   	<Route name="Descobrir" path="descobrir" component={DiscoverPage} />
+
   	<Route name="Descobrir" path="descobrir" component={App}>  		
-		<Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
+		  <Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
   	</Route>
+    
   	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />  	
-  	<Route name="Painel de Gestão" path="painel" component={AccountPage} />
+
+  	<Route name="Painel de Gestão" path="painel" component={DashboardPage} />
+
+  	<Route name="Não Encontrado" path="*" component={NotFoundPage} />
   </Route>
 );
