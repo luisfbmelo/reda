@@ -16,10 +16,14 @@ var renderList = (list, props) => {
 		const tooltip = (
 			<Tooltip id={"resource_" + el.id}>{el.format.title}</Tooltip>
 		);
-
+		
 		return (
 			<article className="col-xs-12" key={el.id}>
 				<div className="list__element list__dashboard">
+					<div className="check-element">
+						<input type="checkbox" name={"selected-resource"+el.id} id={"selected-resource"+el.id} checked={props.checkedList.indexOf(el.id)>=0}/>
+						<label htmlFor={"selected-resource"+el.id} onClick={() => props.checkEl(el.id)}></label>
+					</div>
 					<header className="list__dashboard--heading">
 						<Link to={"/descobrir/detalhes-recurso/" + el.id} className="left-col fLeft">
 							<h1>{el.title}</h1>

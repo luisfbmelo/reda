@@ -1686,6 +1686,14 @@ var renderList = function renderList(list, props) {
 				'div',
 				{ className: 'list__element list__dashboard' },
 				_react2.default.createElement(
+					'div',
+					{ className: 'check-element' },
+					_react2.default.createElement('input', { type: 'checkbox', name: "selected-resource" + el.id, id: "selected-resource" + el.id, checked: props.checkedList.indexOf(el.id) >= 0 }),
+					_react2.default.createElement('label', { htmlFor: "selected-resource" + el.id, onClick: function onClick() {
+							return props.checkEl(el.id);
+						} })
+				),
+				_react2.default.createElement(
 					'header',
 					{ className: 'list__dashboard--heading' },
 					_react2.default.createElement(
@@ -1805,6 +1813,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Components
+
+
+// Bootstrap
+
+
 var MyResources = function (_Component) {
 	_inherits(MyResources, _Component);
 
@@ -1815,9 +1829,13 @@ var MyResources = function (_Component) {
 
 		_this.onChangePage = _this.onChangePage.bind(_this);
 		_this.setHighlight = _this.setHighlight.bind(_this);
+		_this.checkAllResources = _this.checkAllResources.bind(_this);
+		_this.checkEl = _this.checkEl.bind(_this);
 
 		_this.state = {
-			activePage: 1
+			activePage: 1,
+			checkedResources: [],
+			checkAll: false
 		};
 		return _this;
 	}
@@ -1856,12 +1874,80 @@ var MyResources = function (_Component) {
 		value: function onSearchSubmit(keyword) {
 			console.log(keyword);
 		}
+
+		// Set as highlighted
+
 	}, {
 		key: 'setHighlight',
 		value: function setHighlight(resourceId) {
 			/* REQUEST UPDATE AS HIGHLIGHT AND GET THE NEW ITEM IN THE REDUCER IN ORDER TO RE-RENDER */
 			//console.log(this.props);
 			this.props.setHighlight(resourceId);
+		}
+
+		// Check elements
+
+	}, {
+		key: 'checkAllResources',
+		value: function checkAllResources() {
+			if (!this.state.checkAll) {
+				var totalIds = [];
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = this.props.resources.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var item = _step.value;
+
+						totalIds.push(item.id);
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+
+				this.setState({
+					checkedResources: totalIds,
+					checkAll: !this.state.checkAll
+				});
+			} else {
+				this.setState({
+					checkedResources: [],
+					checkAll: !this.state.checkAll
+				});
+			}
+		}
+	}, {
+		key: 'checkEl',
+		value: function checkEl(id) {
+			var checkedResources = this.state.checkedResources;
+
+			var index = checkedResources.indexOf(id);
+			var allChecked = false;
+
+			// If exists, remove item and set as
+			if (index >= 0) {
+				checkedResources.splice(index, 1);
+			} else {
+				checkedResources.push(id);
+				allChecked = this.state.checkAll;
+			}
+
+			this.setState({
+				checkedResources: checkedResources,
+				checkAll: allChecked
+			});
 		}
 	}, {
 		key: 'render',
@@ -1908,7 +1994,13 @@ var MyResources = function (_Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'col-xs-6' },
-								'Eliminar'
+								_react2.default.createElement('input', { type: 'checkbox', name: 'selected-resources', id: 'selected-resources', checked: this.state.checkAll }),
+								_react2.default.createElement('label', { htmlFor: 'selected-resources', onClick: this.checkAllResources }),
+								_react2.default.createElement(
+									'button',
+									{ className: 'cta primary' },
+									_react2.default.createElement('i', { className: 'fa fa-trash' })
+								)
 							),
 							_react2.default.createElement(
 								'div',
@@ -1916,7 +2008,7 @@ var MyResources = function (_Component) {
 								_react2.default.createElement(_order2.default, { onChange: this.onListOrder })
 							)
 						),
-						_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, user: this.props.auth.data, setHighlight: this.setHighlight }),
+						_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, user: this.props.auth.data, setHighlight: this.setHighlight, checkedList: this.state.checkedResources, checkEl: this.checkEl, allChecked: this.state.checkAll }),
 						_react2.default.createElement(_reactBootstrap.Pagination, {
 							prev: true,
 							next: true,

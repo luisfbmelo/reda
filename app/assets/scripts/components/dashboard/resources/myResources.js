@@ -1,10 +1,13 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router';
+
+// Components
 import { ResourcesList } from './common/list';
 import ResourcesOrdering from '../../resources/common/order';
 import SearchBar from '../../search/searchBar';
 
+// Bootstrap
 import { Pagination, Alert, Button } from 'react-bootstrap';
 
 export default class MyResources extends Component {
@@ -13,9 +16,13 @@ export default class MyResources extends Component {
 		
 		this.onChangePage = this.onChangePage.bind(this);
 		this.setHighlight = this.setHighlight.bind(this);
+		this.checkAllResources = this.checkAllResources.bind(this);
+		this.checkEl = this.checkEl.bind(this);
 
 		this.state = {
-			activePage: 1
+			activePage: 1,
+			checkedResources: [],
+			checkAll: false
 		}
 	}
 
@@ -43,10 +50,52 @@ export default class MyResources extends Component {
     	console.log(keyword);
     }
 
+    // Set as highlighted
     setHighlight(resourceId){
     	/* REQUEST UPDATE AS HIGHLIGHT AND GET THE NEW ITEM IN THE REDUCER IN ORDER TO RE-RENDER */
     	//console.log(this.props);
     	this.props.setHighlight(resourceId);
+    }
+
+    // Check elements
+    checkAllResources(){
+    	if (!this.state.checkAll){
+    		let totalIds = [];
+    		for (let item of this.props.resources.data){
+	    		totalIds.push(item.id);
+	    	} 
+	    	
+	    	this.setState({
+	    		checkedResources: totalIds,
+	    		checkAll: !this.state.checkAll
+	    	});
+
+    	}else{
+    		this.setState({
+    			checkedResources: [],
+	    		checkAll: !this.state.checkAll
+	    	});
+    	}
+    }
+
+    checkEl(id){
+    	let {checkedResources} = this.state;
+    	let index = checkedResources.indexOf(id);
+    	let allChecked = false;
+
+    	// If exists, remove item and set as 
+    	if (index>=0){
+    		checkedResources.splice(index,1);
+
+    	}else{
+    		checkedResources.push(id);
+    		allChecked = this.state.checkAll;
+    	}
+
+    	this.setState({
+    		checkedResources: checkedResources,
+    		checkAll: allChecked
+    	})
     }
 
 
@@ -73,7 +122,9 @@ export default class MyResources extends Component {
 						</section>
 						<section className="row resources-actions">
 							<div className="col-xs-6">
-								Eliminar
+								<input type="checkbox" name="selected-resources" id="selected-resources" checked={this.state.checkAll}/>
+								<label htmlFor="selected-resources" onClick={this.checkAllResources}></label>	
+								<button className="cta primary"><i className="fa fa-trash"></i></button>
 							</div>
 							
 							<div className="col-xs-6">
@@ -84,7 +135,7 @@ export default class MyResources extends Component {
 
 
 						{/* Resources List */}
-						<ResourcesList list={this.props.resources} user={this.props.auth.data} setHighlight={this.setHighlight}/>
+						<ResourcesList list={this.props.resources} user={this.props.auth.data} setHighlight={this.setHighlight} checkedList={this.state.checkedResources} checkEl={this.checkEl} allChecked={this.state.checkAll}/>
 
 						{/* Pagination */}
 						<Pagination
