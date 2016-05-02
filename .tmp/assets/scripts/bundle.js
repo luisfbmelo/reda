@@ -1423,7 +1423,48 @@ Collapsible.propTypes = {
 	iconClosed: _react2.default.PropTypes.string.isRequired
 };
 
-},{"react":"react","react-bootstrap":"react-bootstrap"}],"/var/www/devbox/app/assets/scripts/components/common/rating.js":[function(require,module,exports){
+},{"react":"react","react-bootstrap":"react-bootstrap"}],"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js":[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var renderList = function renderList(list, name) {
+	return list.map(function (item, index) {
+		return _react2.default.createElement(
+			"div",
+			{ className: "col-xs-6 col-sm-4", key: item.id },
+			_react2.default.createElement(
+				"div",
+				{ className: "radio" },
+				_react2.default.createElement("input", { id: "radio-" + item.id, type: "radio", name: name, value: "{item.title}" }),
+				_react2.default.createElement(
+					"label",
+					{ htmlFor: "radio-" + item.id },
+					item.title
+				)
+			)
+		);
+	});
+};
+
+exports.default = function (props) {
+	console.log(props);
+	return _react2.default.createElement(
+		"div",
+		{ className: "row" },
+		renderList(props.list, props.name)
+	);
+};
+
+},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/common/rating.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1517,7 +1558,73 @@ SvgComponent.propTypes = {
 	element: _react2.default.PropTypes.string.isRequired
 };
 
-},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/dashboard/index.js":[function(require,module,exports){
+},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/common/tags.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactTagsinput = require('react-tagsinput');
+
+var _reactTagsinput2 = _interopRequireDefault(_reactTagsinput);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TagsInput = function (_Component) {
+    _inherits(TagsInput, _Component);
+
+    function TagsInput(props) {
+        _classCallCheck(this, TagsInput);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TagsInput).call(this, props));
+
+        _this.handleChange = _this.handleChange.bind(_this);
+
+        _this.state = {
+            tags: []
+        };
+        return _this;
+    }
+
+    _createClass(TagsInput, [{
+        key: 'handleChange',
+        value: function handleChange(tags) {
+            this.setState({ tags: tags });
+            this.props.setTags(tags);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                _react2.default.createElement(_reactTagsinput2.default, {
+                    value: this.state.tags,
+                    onChange: this.handleChange,
+                    addKeys: [188, 9, 13, 32] })
+            );
+        }
+    }]);
+
+    return TagsInput;
+}(_react.Component);
+
+exports.default = TagsInput;
+
+},{"react":"react","react-tagsinput":"react-tagsinput"}],"/var/www/devbox/app/assets/scripts/components/dashboard/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1694,65 +1801,85 @@ var renderList = function renderList(list, props) {
 						} })
 				),
 				_react2.default.createElement(
-					'header',
-					{ className: 'list__dashboard--heading' },
+					'div',
+					{ className: 'list__dashboard--container' },
 					_react2.default.createElement(
-						_reactRouter.Link,
-						{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'left-col fLeft' },
+						'header',
+						{ className: 'list__dashboard--heading' },
 						_react2.default.createElement(
-							'h1',
-							null,
-							el.title
+							_reactRouter.Link,
+							{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'left-col fLeft' },
+							_react2.default.createElement(
+								'h1',
+								null,
+								el.title
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								el.text
+							)
 						),
-						_react2.default.createElement(
-							'p',
-							null,
-							el.text
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'top-icons fRight' },
-						_react2.default.createElement('i', { className: "fa fa-" + (el.favorite ? "heart" : "heart-o") }),
 						_react2.default.createElement(
 							'div',
-							{ className: 'type' },
+							{ className: 'top-icons fRight' },
+							_react2.default.createElement('i', { className: "fa fa-" + (el.favorite ? "heart" : "heart-o"), title: 'Favorito' }),
 							_react2.default.createElement(
-								_reactBootstrap.OverlayTrigger,
-								{ placement: 'left', overlay: tooltip },
+								'div',
+								{ className: 'type' },
 								_react2.default.createElement(
-									'span',
-									null,
-									_react2.default.createElement(_svg2.default, { element: el.format.image.src, color: '#b4b4b4' })
+									_reactBootstrap.OverlayTrigger,
+									{ placement: 'left', overlay: tooltip },
+									_react2.default.createElement(
+										'span',
+										null,
+										_react2.default.createElement(_svg2.default, { element: el.format.image.src, color: '#b4b4b4' })
+									)
 								)
 							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'actions' },
+							_react2.default.createElement(
+								'button',
+								{ className: 'cta secundary no-bg' },
+								'Editar'
+							),
+							_react2.default.createElement(
+								'button',
+								{ className: 'cta secundary no-bg', onClick: function onClick() {
+										return props.delEl(el.id);
+									} },
+								'Eliminar'
+							)
 						)
-					)
-				),
-				_react2.default.createElement(
-					'footer',
-					{ className: 'list__dashboard--footer' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'rating fLeft' },
-						_react2.default.createElement(_rating2.default, { readonly: true, initialRate: el.rating_avg })
 					),
 					_react2.default.createElement(
-						'div',
-						{ className: 'fRight right-col' },
+						'footer',
+						{ className: 'list__dashboard--footer' },
 						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'cta primary outline small' },
-							'Ver Recurso'
+							'div',
+							{ className: 'rating fLeft' },
+							_react2.default.createElement(_rating2.default, { readonly: true, initialRate: el.rating_avg })
 						),
 						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: "/novoguiao/" + el.id, className: 'cta primary outline small' },
-							'Gerir Guiões'
-						),
-						_react2.default.createElement('i', { className: "action-btn fa fa-" + (el.highlight ? "star" : "star-o"), onClick: function onClick() {
-								return props.setHighlight(el.id);
-							} })
+							'div',
+							{ className: 'fRight right-col' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'cta primary outline small' },
+								'Ver Recurso'
+							),
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: "/novoguiao/" + el.id, className: 'cta primary outline small' },
+								'Gerir Guiões'
+							),
+							_react2.default.createElement('i', { className: "action-btn fa fa-" + (el.highlight ? "star" : "star-o"), onClick: function onClick() {
+									return props.setHighlight(el.id);
+								}, title: 'Recurso do Mês' })
+						)
 					)
 				)
 			)
@@ -1803,6 +1930,10 @@ var _searchBar = require('../../search/searchBar');
 
 var _searchBar2 = _interopRequireDefault(_searchBar);
 
+var _search = require('../../../containers/search');
+
+var _search2 = _interopRequireDefault(_search);
+
 var _reactBootstrap = require('react-bootstrap');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1829,8 +1960,13 @@ var MyResources = function (_Component) {
 
 		_this.onChangePage = _this.onChangePage.bind(_this);
 		_this.setHighlight = _this.setHighlight.bind(_this);
+		_this.filterList = _this.filterList.bind(_this);
+
+		// Resources actions
 		_this.checkAllResources = _this.checkAllResources.bind(_this);
 		_this.checkEl = _this.checkEl.bind(_this);
+		_this.delList = _this.delList.bind(_this);
+		_this.delEl = _this.delEl.bind(_this);
 
 		_this.state = {
 			activePage: 1,
@@ -1950,6 +2086,21 @@ var MyResources = function (_Component) {
 			});
 		}
 	}, {
+		key: 'delList',
+		value: function delList() {
+			console.log(this.state.checkedResources);
+		}
+	}, {
+		key: 'delEl',
+		value: function delEl(id) {
+			console.log(id);
+		}
+	}, {
+		key: 'filterList',
+		value: function filterList() {
+			console.log("Filter");
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			if (!this.props.resources) return null;
@@ -1968,7 +2119,7 @@ var MyResources = function (_Component) {
 						{ className: 'col-xs-12' },
 						_react2.default.createElement(
 							'h2',
-							null,
+							{ className: 'pannel-title' },
 							'Os meus recursos'
 						)
 					)
@@ -1979,6 +2130,15 @@ var MyResources = function (_Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'col-xs-12' },
+						_react2.default.createElement(
+							'section',
+							{ className: 'row' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col-xs-12 filter-container' },
+								_react2.default.createElement(_search2.default, { searchKeywords: false, buttonText: 'Filtrar', iconClass: 'fa fa-filter', onSubmit: this.filterList })
+							)
+						),
 						_react2.default.createElement(
 							'section',
 							{ className: 'row' },
@@ -1998,7 +2158,7 @@ var MyResources = function (_Component) {
 								_react2.default.createElement('label', { htmlFor: 'selected-resources', onClick: this.checkAllResources }),
 								_react2.default.createElement(
 									'button',
-									{ className: 'cta primary' },
+									{ className: 'btn btn-danger' },
 									_react2.default.createElement('i', { className: 'fa fa-trash' })
 								)
 							),
@@ -2008,7 +2168,15 @@ var MyResources = function (_Component) {
 								_react2.default.createElement(_order2.default, { onChange: this.onListOrder })
 							)
 						),
-						_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, user: this.props.auth.data, setHighlight: this.setHighlight, checkedList: this.state.checkedResources, checkEl: this.checkEl, allChecked: this.state.checkAll }),
+						_react2.default.createElement(_list.ResourcesList, {
+							list: this.props.resources,
+							user: this.props.auth.data,
+							setHighlight: this.setHighlight,
+							checkedList: this.state.checkedResources,
+							checkEl: this.checkEl,
+							allChecked: this.state.checkAll,
+							delEl: this.delEl
+						}),
 						_react2.default.createElement(_reactBootstrap.Pagination, {
 							prev: true,
 							next: true,
@@ -2036,7 +2204,7 @@ MyResources.propTypes = {
 	resources: _react.PropTypes.object.isRequired
 };
 
-},{"../../resources/common/order":"/var/www/devbox/app/assets/scripts/components/resources/common/order.js","../../search/searchBar":"/var/www/devbox/app/assets/scripts/components/search/searchBar.js","./common/list":"/var/www/devbox/app/assets/scripts/components/dashboard/resources/common/list.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/formats/index.js":[function(require,module,exports){
+},{"../../../containers/search":"/var/www/devbox/app/assets/scripts/containers/search/index.js","../../resources/common/order":"/var/www/devbox/app/assets/scripts/components/resources/common/order.js","../../search/searchBar":"/var/www/devbox/app/assets/scripts/components/search/searchBar.js","./common/list":"/var/www/devbox/app/assets/scripts/components/dashboard/resources/common/list.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/formats/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4666,7 +4834,504 @@ ResourcesListing.propTypes = {
 	resources: _react.PropTypes.object.isRequired
 };
 
-},{"../../containers/filters":"/var/www/devbox/app/assets/scripts/containers/filters/index.js","../auth/loginButton":"/var/www/devbox/app/assets/scripts/components/auth/loginButton.js","../auth/protectedButton":"/var/www/devbox/app/assets/scripts/components/auth/protectedButton.js","../search/searchBar":"/var/www/devbox/app/assets/scripts/components/search/searchBar.js","./common/list":"/var/www/devbox/app/assets/scripts/components/resources/common/list.js","./common/order":"/var/www/devbox/app/assets/scripts/components/resources/common/order.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/resources/recent.js":[function(require,module,exports){
+},{"../../containers/filters":"/var/www/devbox/app/assets/scripts/containers/filters/index.js","../auth/loginButton":"/var/www/devbox/app/assets/scripts/components/auth/loginButton.js","../auth/protectedButton":"/var/www/devbox/app/assets/scripts/components/auth/protectedButton.js","../search/searchBar":"/var/www/devbox/app/assets/scripts/components/search/searchBar.js","./common/list":"/var/www/devbox/app/assets/scripts/components/resources/common/list.js","./common/order":"/var/www/devbox/app/assets/scripts/components/resources/common/order.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormFirstPage.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fields = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reduxForm = require('redux-form');
+
+var _reactRouter = require('react-router');
+
+var _tags = require('../../common/tags');
+
+var _tags2 = _interopRequireDefault(_tags);
+
+var _radioGroup = require('../../common/radioGroup');
+
+var _radioGroup2 = _interopRequireDefault(_radioGroup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Components
+
+
+var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'access', 'techResources', 'description', 'exclusive'];
+
+var validate = function validate(values) {
+  var errors = {};
+  if (!values.title) {
+    errors.title = 'O campo é obrigatório';
+  } else if (values.title.length > 15) {
+    errors.title = 'Must be 15 characters or less';
+  }
+  return errors;
+};
+
+var NewResourceFormFirstPage = function (_Component) {
+  _inherits(NewResourceFormFirstPage, _Component);
+
+  function NewResourceFormFirstPage(props) {
+    _classCallCheck(this, NewResourceFormFirstPage);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormFirstPage).call(this, props));
+
+    _this.setTags = _this.setTags.bind(_this);
+    return _this;
+  }
+
+  _createClass(NewResourceFormFirstPage, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.mapProps.fetchFormats();
+    }
+  }, {
+    key: 'setTags',
+    value: function setTags(tags) {
+      this.props.fields.keywords.onChange(tags);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var _props$fields = _props.fields;
+      var title = _props$fields.title;
+      var author = _props$fields.author;
+      var email = _props$fields.email;
+      var organization = _props$fields.organization;
+      var keywords = _props$fields.keywords;
+      var format = _props$fields.format;
+      var access = _props$fields.access;
+      var techResources = _props$fields.techResources;
+      var description = _props$fields.description;
+      var exclusive = _props$fields.exclusive;
+      var handleSubmit = _props.handleSubmit;
+
+
+      if (!this.props.mapProps.formats.data) {
+        return null;
+      }
+      var formats = this.props.mapProps.formats;
+
+
+      return _react2.default.createElement(
+        'form',
+        { onSubmit: handleSubmit },
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-6' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              'Detalhes'
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-6 switch-container text-right' },
+            _react2.default.createElement(
+              'span',
+              null,
+              'Reservado a docentes'
+            ),
+            _react2.default.createElement(
+              'label',
+              { className: 'switch' },
+              _react2.default.createElement('input', _extends({ type: 'checkbox' }, exclusive)),
+              _react2.default.createElement('div', { className: 'slider round' })
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-3' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Título*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (title.touched && title.invalid ? 'has-error' : '') },
+              _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Nome do seu recurso' }, title)),
+              title.touched && title.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                title.error
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-3' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Autor*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (author.touched && author.invalid ? 'has-error' : '') },
+              _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Nome do autor' }, author)),
+              author.touched && author.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                author.error
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-3' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Email*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (email.touched && email.invalid ? 'has-error' : '') },
+              _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Email do núcleo ou docente' }, email)),
+              email.touched && email.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                email.error
+              )
+            )
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-3' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Escola/Organização*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (organization.touched && organization.invalid ? 'has-error' : '') },
+              _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Nome da sua escola/organização' }, organization)),
+              organization.touched && organization.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                organization.error
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-6' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Palavras-Chave*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (keywords.touched && keywords.invalid ? 'has-error' : '') },
+              _react2.default.createElement(_tags2.default, { setTags: this.setTags }),
+              keywords.touched && keywords.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                keywords.error
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-6' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Formato*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (format.touched && format.invalid ? 'has-error' : '') },
+              _react2.default.createElement(_radioGroup2.default, { list: formats.data, name: 'formats' }),
+              format.touched && format.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                format.error
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Recursos Técnicos*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (techResources.touched && techResources.invalid ? 'has-error' : '') },
+              _react2.default.createElement('textarea', _extends({ className: 'form-control', placeholder: 'Nome do seu recurso' }, techResources)),
+              techResources.touched && techResources.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                techResources.error
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Descrição*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (description.touched && description.invalid ? 'has-error' : '') },
+              _react2.default.createElement('textarea', _extends({ className: 'form-control', placeholder: 'Nome do seu recurso' }, description)),
+              description.touched && description.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                description.error
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'button',
+            { type: 'submit', className: 'cta primary' },
+            'Continuar'
+          ),
+          _react2.default.createElement(
+            _reactRouter.Link,
+            { to: '/painel' },
+            'Cancelar'
+          )
+        )
+      );
+    }
+  }]);
+
+  return NewResourceFormFirstPage;
+}(_react.Component);
+
+NewResourceFormFirstPage.propTypes = {
+  fields: _react.PropTypes.object.isRequired,
+  handleSubmit: _react.PropTypes.func.isRequired
+};
+
+exports.default = (0, _reduxForm.reduxForm)({
+  form: 'newResource', // <------ same form name
+  fields: fields, // <------ only fields on this page
+  destroyOnUnmount: false, // <------ preserve form data
+  validate: validate // <------ only validates the fields on this page
+})(NewResourceFormFirstPage);
+
+},{"../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/tags":"/var/www/devbox/app/assets/scripts/components/common/tags.js","react":"react","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fields = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reduxForm = require('redux-form');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var fields = exports.fields = ['firstName', 'lastName', 'email', 'sex', 'favoriteColor', 'employed', 'notes'];
+// ^^ All fields on last form
+
+var validate = function validate(values) {
+  var errors = {};
+  if (!values.favoriteColor) {
+    errors.favoriteColor = 'Required';
+  }
+  return errors;
+};
+
+var NewResourceFormSecondPage = function (_Component) {
+  _inherits(NewResourceFormSecondPage, _Component);
+
+  function NewResourceFormSecondPage() {
+    _classCallCheck(this, NewResourceFormSecondPage);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormSecondPage).apply(this, arguments));
+  }
+
+  _createClass(NewResourceFormSecondPage, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var _props$fields = _props.fields;
+      var favoriteColor = _props$fields.favoriteColor;
+      var employed = _props$fields.employed;
+      var notes = _props$fields.notes;
+      var handleSubmit = _props.handleSubmit;
+      var previousPage = _props.previousPage;
+      var submitting = _props.submitting;
+
+      return _react2.default.createElement(
+        'form',
+        { onSubmit: handleSubmit },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'label',
+            null,
+            'Favorite Color'
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'select',
+              _extends({}, favoriteColor, { value: favoriteColor.value || '' }),
+              _react2.default.createElement('option', null),
+              _react2.default.createElement(
+                'option',
+                { value: 'ff0000' },
+                'Red'
+              ),
+              _react2.default.createElement(
+                'option',
+                { value: '00ff00' },
+                'Green'
+              ),
+              _react2.default.createElement(
+                'option',
+                { value: '0000ff' },
+                'Blue'
+              )
+            )
+          ),
+          favoriteColor.touched && favoriteColor.error && _react2.default.createElement(
+            'div',
+            null,
+            favoriteColor.error
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'label',
+            null,
+            _react2.default.createElement('input', _extends({ type: 'checkbox' }, employed)),
+            ' Employed'
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'label',
+            null,
+            'Notes'
+          ),
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement('textarea', _extends({}, notes, { value: notes.value || '' }))
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'button',
+            { type: 'button', disabled: submitting, onClick: previousPage },
+            _react2.default.createElement('i', null),
+            ' Previous'
+          ),
+          _react2.default.createElement(
+            'button',
+            { type: 'submit', disabled: submitting },
+            submitting ? _react2.default.createElement('i', null) : _react2.default.createElement('i', null),
+            ' Finish'
+          )
+        )
+      );
+    }
+  }]);
+
+  return NewResourceFormSecondPage;
+}(_react.Component);
+
+NewResourceFormSecondPage.propTypes = {
+  fields: _react.PropTypes.object.isRequired,
+  handleSubmit: _react.PropTypes.func.isRequired,
+  previousPage: _react.PropTypes.func.isRequired,
+  submitting: _react.PropTypes.bool.isRequired
+};
+
+exports.default = (0, _reduxForm.reduxForm)({
+  form: 'newResource', // <------ same form name
+  fields: fields, // <------ all fields on last wizard page
+  destroyOnUnmount: false, // <------ preserve form data
+  validate: validate // <------ only validates the fields on this page
+})(NewResourceFormSecondPage);
+
+},{"react":"react","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/recent.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5025,7 +5690,10 @@ var SearchForm = function (_Component) {
 	function SearchForm(props) {
 		_classCallCheck(this, SearchForm);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(SearchForm).call(this, props));
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchForm).call(this, props));
+
+		_this.onFormSubmit = _this.onFormSubmit.bind(_this);
+		return _this;
 	}
 
 	_createClass(SearchForm, [{
@@ -5036,151 +5704,169 @@ var SearchForm = function (_Component) {
 			// We need to go and fetch weather data
 			//this.props.fetchWeather(this.state.term);
 			//this.setState({ term: '' });
+
+			this.props.onSubmit();
 		}
 	}, {
 		key: 'handleChange',
 		value: function handleChange() {}
 	}, {
+		key: 'calcColCount',
+		value: function calcColCount(cols) {
+			return Math.floor(12 / cols);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
+			var maxcol = 6;
+			var classColCount = this.calcColCount(maxcol);
+
+			var _props = this.props;
+			var searchKeywords = _props.searchKeywords;
+			var iconClass = _props.iconClass;
+			var buttonText = _props.buttonText;
+
+
 			return _react2.default.createElement(
 				'section',
 				{ className: 'search-container' },
 				_react2.default.createElement(
-					'div',
-					{ className: 'container' },
+					'form',
+					{ className: 'input-group search-form', method: 'get', onSubmit: this.onFormSubmit },
 					_react2.default.createElement(
-						'form',
-						{ className: 'input-group search-form', method: 'get', onSubmit: this.onFormSubmit },
+						'div',
+						{ className: 'row' },
+						function () {
+							if (searchKeywords) {
+								return _react2.default.createElement(
+									'div',
+									{ className: "col-xs-6 col-sm-4 col-md-" + classColCount },
+									_react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'keywords', placeholder: 'Palavras-chave', onChange: _this2.handleChange })
+								);
+							}
+						}(),
 						_react2.default.createElement(
 							'div',
-							{ className: 'row' },
+							{ className: "col-xs-6 col-sm-4 col-md-" + classColCount + (!searchKeywords ? " col-md-offset-1" : "") },
 							_react2.default.createElement(
-								'div',
-								{ className: 'col-xs-6 col-sm-4 col-md-2' },
-								_react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'keywords', placeholder: 'Palavras-chave', onChange: this.handleChange })
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'col-xs-6 col-sm-4 col-md-2' },
+								'select',
+								{ className: 'form-control', value: '0', onChange: this.handleChange },
 								_react2.default.createElement(
-									'select',
-									{ className: 'form-control', value: '0', onChange: this.handleChange },
-									_react2.default.createElement(
-										'option',
-										{ value: '0' },
-										'Disciplina'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '1' },
-										'2'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '2' },
-										'3'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '3' },
-										'4'
-									)
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'col-xs-6 col-sm-4 col-md-2' },
+									'option',
+									{ value: '0' },
+									'Disciplina'
+								),
 								_react2.default.createElement(
-									'select',
-									{ className: 'form-control', value: '0', onChange: this.handleChange },
-									_react2.default.createElement(
-										'option',
-										{ value: '0' },
-										'Domínio'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '1' },
-										'2'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '2' },
-										'3'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '3' },
-										'4'
-									)
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'col-xs-6 col-sm-4 col-md-2' },
+									'option',
+									{ value: '1' },
+									'2'
+								),
 								_react2.default.createElement(
-									'select',
-									{ className: 'form-control', value: '0', onChange: this.handleChange },
-									_react2.default.createElement(
-										'option',
-										{ value: '0' },
-										'Formato'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '1' },
-										'2'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '2' },
-										'3'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '3' },
-										'4'
-									)
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'col-xs-6 col-sm-4 col-md-2' },
+									'option',
+									{ value: '2' },
+									'3'
+								),
 								_react2.default.createElement(
-									'select',
-									{ className: 'form-control', value: '0', onChange: this.handleChange },
-									_react2.default.createElement(
-										'option',
-										{ value: '0' },
-										'Ano'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '1' },
-										'2'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '2' },
-										'3'
-									),
-									_react2.default.createElement(
-										'option',
-										{ value: '3' },
-										'4'
-									)
+									'option',
+									{ value: '3' },
+									'4'
 								)
-							),
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: "col-xs-6 col-sm-4 col-md-" + classColCount },
 							_react2.default.createElement(
-								'div',
-								{ className: 'col-xs-6 col-sm-4 col-md-2' },
+								'select',
+								{ className: 'form-control', value: '0', onChange: this.handleChange },
 								_react2.default.createElement(
-									'button',
-									{ type: 'submit', className: 'cta primary' },
-									_react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
-									'Pesquisar'
+									'option',
+									{ value: '0' },
+									'Domínio'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '1' },
+									'2'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '2' },
+									'3'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '3' },
+									'4'
 								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: "col-xs-6 col-sm-4 col-md-" + classColCount },
+							_react2.default.createElement(
+								'select',
+								{ className: 'form-control', value: '0', onChange: this.handleChange },
+								_react2.default.createElement(
+									'option',
+									{ value: '0' },
+									'Formato'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '1' },
+									'2'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '2' },
+									'3'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '3' },
+									'4'
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: "col-xs-6 col-sm-4 col-md-" + classColCount },
+							_react2.default.createElement(
+								'select',
+								{ className: 'form-control', value: '0', onChange: this.handleChange },
+								_react2.default.createElement(
+									'option',
+									{ value: '0' },
+									'Ano'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '1' },
+									'2'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '2' },
+									'3'
+								),
+								_react2.default.createElement(
+									'option',
+									{ value: '3' },
+									'4'
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: "col-xs-12 col-sm-4 col-md-" + (searchKeywords ? classColCount : 2) },
+							_react2.default.createElement(
+								'button',
+								{ type: 'submit', className: 'cta primary' },
+								_react2.default.createElement('i', { className: iconClass || "fa fa-search", 'aria-hidden': 'true' }),
+								buttonText || "Pesquisar"
 							)
 						)
 					)
@@ -5581,7 +6267,147 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_myResources2.default);
 
-},{"../../actions/resources":"/var/www/devbox/app/assets/scripts/actions/resources.js","../../components/dashboard/resources/myResources":"/var/www/devbox/app/assets/scripts/components/dashboard/resources/myResources.js","react":"react","react-redux":"react-redux","redux":"redux"}],"/var/www/devbox/app/assets/scripts/containers/filters/index.js":[function(require,module,exports){
+},{"../../actions/resources":"/var/www/devbox/app/assets/scripts/actions/resources.js","../../components/dashboard/resources/myResources":"/var/www/devbox/app/assets/scripts/components/dashboard/resources/myResources.js","react":"react","react-redux":"react-redux","redux":"redux"}],"/var/www/devbox/app/assets/scripts/containers/dashboard/newResourceForm.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _formats = require('../../actions/formats');
+
+var _redux = require('redux');
+
+var _newResourceFormFirstPage = require('../../components/resources/newResource/newResourceFormFirstPage');
+
+var _newResourceFormFirstPage2 = _interopRequireDefault(_newResourceFormFirstPage);
+
+var _newResourceFormSecondPage = require('../../components/resources/newResource/newResourceFormSecondPage');
+
+var _newResourceFormSecondPage2 = _interopRequireDefault(_newResourceFormSecondPage);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NewResourceFormContainer = function (_Component) {
+  _inherits(NewResourceFormContainer, _Component);
+
+  function NewResourceFormContainer(props) {
+    _classCallCheck(this, NewResourceFormContainer);
+
+    // Pro tip: The best place to bind your member functions is in the component constructor
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormContainer).call(this, props));
+
+    _this.nextPage = _this.nextPage.bind(_this);
+    _this.previousPage = _this.previousPage.bind(_this);
+    _this.state = {
+      page: 1
+    };
+    return _this;
+  }
+
+  _createClass(NewResourceFormContainer, [{
+    key: 'nextPage',
+    value: function nextPage() {
+      this.setState({ page: this.state.page + 1 });
+    }
+  }, {
+    key: 'previousPage',
+    value: function previousPage() {
+      this.setState({ page: this.state.page - 1 });
+    }
+  }, {
+    key: 'printFormBreadcrumbs',
+    value: function printFormBreadcrumbs() {
+      if (this.state.page == 1) {
+        return _react2.default.createElement(
+          'span',
+          null,
+          _react2.default.createElement(
+            'strong',
+            null,
+            'Detalhes'
+          ),
+          ' > Metadados'
+        );
+      } else if (this.state.page == 2) {
+        return _react2.default.createElement(
+          'span',
+          null,
+          'Detalhes > ',
+          _react2.default.createElement(
+            'strong',
+            null,
+            'Metadados'
+          )
+        );
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var onSubmit = this.props.onSubmit;
+      var page = this.state.page;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'new-resource' },
+        _react2.default.createElement(
+          'header',
+          { className: 'new-form-header text-center' },
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Novo Recurso'
+          ),
+          this.printFormBreadcrumbs()
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'new-resource__container' },
+          _react2.default.createElement(
+            'section',
+            { className: 'container' },
+            page === 1 && _react2.default.createElement(_newResourceFormFirstPage2.default, { onSubmit: this.nextPage, mapProps: this.props }),
+            page === 2 && _react2.default.createElement(_newResourceFormSecondPage2.default, { previousPage: this.previousPage, onSubmit: this.nextPage })
+          )
+        )
+      );
+    }
+  }]);
+
+  return NewResourceFormContainer;
+}(_react.Component);
+
+NewResourceFormContainer.propTypes = {
+  onSubmit: _react.PropTypes.func.isRequired
+};
+
+function mapStateToProps(state) {
+  return { formats: state.formats };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ fetchFormats: _formats.fetchFormats }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NewResourceFormContainer);
+
+},{"../../actions/formats":"/var/www/devbox/app/assets/scripts/actions/formats.js","../../components/resources/newResource/newResourceFormFirstPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux"}],"/var/www/devbox/app/assets/scripts/containers/filters/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5689,24 +6515,33 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Header = function (_Component) {
 	_inherits(Header, _Component);
 
-	function Header() {
+	function Header(props) {
+		var _this;
+
 		_classCallCheck(this, Header);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).apply(this, arguments));
+		(_this = _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props)), _this), _this.onSearch = _this.onSearch.bind(_this);
+		return _this;
 	}
+
+	/* Get Page Type from LOCATION */
+
 
 	_createClass(Header, [{
 		key: 'headerType',
-
-		/* Get Page Type from LOCATION */
 		value: function headerType(location) {
 			location = location.length > 1 ? location.replace(/^\//, '') : location;
 			location = location.length > 1 && location.indexOf('/') > 0 ? location.substring(0, location.indexOf('/')) : location;
 			return location === "/" ? "home-page" : location;
 		}
 	}, {
+		key: 'onSearch',
+		value: function onSearch() {}
+	}, {
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var curPage = this.headerType(this.props.location.pathname);
 			return _react2.default.createElement(
 				'div',
@@ -5715,7 +6550,11 @@ var Header = function (_Component) {
 				function () {
 					// IS HOME
 					if (curPage == "home-page") {
-						return [_react2.default.createElement(_highlights2.default, { key: 'highlights-container' }), _react2.default.createElement(_search2.default, { key: 'search-container' })];
+						return [_react2.default.createElement(_highlights2.default, { key: 'highlights-container' }), _react2.default.createElement(
+							'div',
+							{ className: 'container' },
+							_react2.default.createElement(_search2.default, { key: 'search-container', searchKeywords: true, onSubmit: _this2.onSearch })
+						)];
 					}
 
 					// IS ACCOUNT
@@ -5959,7 +6798,7 @@ var SearchContainer = function (_Component) {
 	_createClass(SearchContainer, [{
 		key: 'render',
 		value: function render() {
-			return _react2.default.createElement(_searchForm2.default, null);
+			return _react2.default.createElement(_searchForm2.default, this.props);
 		}
 	}]);
 
@@ -6284,7 +7123,76 @@ var IndexPage = function (_Component) {
 
 exports.default = IndexPage;
 
-},{"../components/blocks/contribute":"/var/www/devbox/app/assets/scripts/components/blocks/contribute.js","../components/blocks/explore":"/var/www/devbox/app/assets/scripts/components/blocks/explore.js","../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/formats":"/var/www/devbox/app/assets/scripts/containers/formats/index.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","../containers/resources/recent":"/var/www/devbox/app/assets/scripts/containers/resources/recent.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/pages/notFoundPage.js":[function(require,module,exports){
+},{"../components/blocks/contribute":"/var/www/devbox/app/assets/scripts/components/blocks/contribute.js","../components/blocks/explore":"/var/www/devbox/app/assets/scripts/components/blocks/explore.js","../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/formats":"/var/www/devbox/app/assets/scripts/containers/formats/index.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","../containers/resources/recent":"/var/www/devbox/app/assets/scripts/containers/resources/recent.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/pages/newResourcePage.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _header = require('../containers/header');
+
+var _header2 = _interopRequireDefault(_header);
+
+var _newResourceForm = require('../containers/dashboard/newResourceForm');
+
+var _newResourceForm2 = _interopRequireDefault(_newResourceForm);
+
+var _bottomNav = require('../components/navigation/bottomNav');
+
+var _bottomNav2 = _interopRequireDefault(_bottomNav);
+
+var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
+
+var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Animation
+
+
+var NewResourcePage = function (_Component) {
+  _inherits(NewResourcePage, _Component);
+
+  function NewResourcePage() {
+    _classCallCheck(this, NewResourcePage);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourcePage).apply(this, arguments));
+  }
+
+  _createClass(NewResourcePage, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactAddonsCssTransitionGroup2.default,
+        { transitionName: 'transition',
+          transitionAppear: true, transitionAppearTimeout: 500,
+          transitionEnter: false, transitionLeave: false },
+        _react2.default.createElement(_header2.default, { location: this.props.location }),
+        _react2.default.createElement(_newResourceForm2.default, null),
+        _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
+      );
+    }
+  }]);
+
+  return NewResourcePage;
+}(_react.Component);
+
+exports.default = NewResourcePage;
+
+},{"../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/dashboard/newResourceForm":"/var/www/devbox/app/assets/scripts/containers/dashboard/newResourceForm.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/pages/notFoundPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6864,6 +7772,10 @@ var _resourceDetailsPage = require('../pages/resourceDetailsPage');
 
 var _resourceDetailsPage2 = _interopRequireDefault(_resourceDetailsPage);
 
+var _newResourcePage = require('../pages/newResourcePage');
+
+var _newResourcePage2 = _interopRequireDefault(_newResourcePage);
+
 var _notFoundPage = require('../pages/notFoundPage');
 
 var _notFoundPage2 = _interopRequireDefault(_notFoundPage);
@@ -6872,7 +7784,6 @@ var _requireAuth = require('../containers/auth/requireAuth');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Pages
 exports.default = _react2.default.createElement(
   _reactRouter.Route,
   { path: '/', name: 'Início', component: _app2.default },
@@ -6885,12 +7796,16 @@ exports.default = _react2.default.createElement(
   ),
   _react2.default.createElement(_reactRouter.Route, { name: 'Novo Guião', path: 'novoguiao/:resource', component: _discoverPage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Painel de Gestão', path: 'painel', component: _dashboardPage2.default }),
+  _react2.default.createElement(_reactRouter.Route, { name: 'Novo Recurso', path: 'novorecurso', component: _newResourcePage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Não Encontrado', path: '*', component: _notFoundPage2.default })
 );
 
 // Required
 
-},{"../containers/auth/requireAuth":"/var/www/devbox/app/assets/scripts/containers/auth/requireAuth.js","../layouts/app":"/var/www/devbox/app/assets/scripts/layouts/app.js","../pages/dashboardPage":"/var/www/devbox/app/assets/scripts/pages/dashboardPage.js","../pages/discoverPage":"/var/www/devbox/app/assets/scripts/pages/discoverPage.js","../pages/indexPage":"/var/www/devbox/app/assets/scripts/pages/indexPage.js","../pages/notFoundPage":"/var/www/devbox/app/assets/scripts/pages/notFoundPage.js","../pages/resourceDetailsPage":"/var/www/devbox/app/assets/scripts/pages/resourceDetailsPage.js","react":"react","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/utils/index.js":[function(require,module,exports){
+
+// Pages
+
+},{"../containers/auth/requireAuth":"/var/www/devbox/app/assets/scripts/containers/auth/requireAuth.js","../layouts/app":"/var/www/devbox/app/assets/scripts/layouts/app.js","../pages/dashboardPage":"/var/www/devbox/app/assets/scripts/pages/dashboardPage.js","../pages/discoverPage":"/var/www/devbox/app/assets/scripts/pages/discoverPage.js","../pages/indexPage":"/var/www/devbox/app/assets/scripts/pages/indexPage.js","../pages/newResourcePage":"/var/www/devbox/app/assets/scripts/pages/newResourcePage.js","../pages/notFoundPage":"/var/www/devbox/app/assets/scripts/pages/notFoundPage.js","../pages/resourceDetailsPage":"/var/www/devbox/app/assets/scripts/pages/resourceDetailsPage.js","react":"react","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/utils/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

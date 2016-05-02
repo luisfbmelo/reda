@@ -8,6 +8,17 @@
 		text-align: center;
 		margin:60px 0 60px;
 	}
+
+	&__filter{
+		+ section{
+			.protected-button .cta{
+				
+				@include media-query(48em){
+					margin: 0 auto;
+				}
+			}
+		}
+	}
 }
 
 .list{
@@ -72,11 +83,26 @@
 	}
 
 	&__dashboard{
+		display:table;
 		&--heading{
+
+			.actions{
+				clear:both;
+			}
+
+			button{
+				padding:0;
+				margin-bottom:15px;
+
+				& + button{
+					margin-left:15px;
+				}
+			}
+
 			.left-col{
 				width:90%;
 			}
-
+			
 			.top-icons{
 				text-align: right;
 				width:10%;
@@ -87,11 +113,30 @@
 					margin-right:20px;
 					color:$meta-color;
 				}
+
+				@include media-query(48em){
+					text-align:center;
+
+					i{
+						margin-bottom:10px;
+					}
+				}
 			}
 
 			.type{
 				width:auto;
 			}
+		}
+		
+		.check-element{
+			display:table-cell;
+			height: 100%;
+			vertical-align: middle;
+		}
+
+		&--container{
+			display:table-cell;
+			padding-left:15px;
 		}
 
 		&--footer{
@@ -110,6 +155,7 @@
 
 			.rating{
 				margin-top:0;
+				width:auto;
 			}
 
 			&:after{
@@ -123,6 +169,8 @@
 					@include font-size(20px);
 					margin-left:20px;
 					color:$green;
+
+
 				}
 			}
 

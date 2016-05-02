@@ -10,6 +10,7 @@ import IndexPage from '../pages/indexPage';
 import DiscoverPage from '../pages/discoverPage';
 import DashboardPage from '../pages/dashboardPage';
 import ResourceDetailsPage from '../pages/resourceDetailsPage';
+import NewResourcePage from '../pages/newResourcePage';
 import NotFoundPage from '../pages/notFoundPage';
 
 // Required
@@ -28,6 +29,7 @@ export default (
   	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />  	
 
   	<Route name="Painel de Gestão" path="painel" component={DashboardPage} />
+    <Route name="Novo Recurso" path="novorecurso" component={NewResourcePage} />
 
   	<Route name="Não Encontrado" path="*" component={NotFoundPage} />
   </Route>

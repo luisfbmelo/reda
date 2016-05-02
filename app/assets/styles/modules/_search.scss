@@ -5,9 +5,17 @@
 	input,
 	select,
 	button{
-		height:45px;
+		height:35px;
 		width:100%;
 		margin-bottom:10px!important;
+	}
+}
+
+.filter-container{
+	.search-form{
+		margin-bottom:30px;
+		padding-bottom:15px;
+		border-bottom:1px solid $meta-color;
 	}
 }
 

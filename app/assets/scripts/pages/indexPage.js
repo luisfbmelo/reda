@@ -18,11 +18,11 @@ export default class IndexPage extends Component {
                transitionAppear = {true} transitionAppearTimeout = {500}
                transitionEnter = {false} transitionLeave = {false}>
 	    	<HeaderContainer location={this.props.location} />
-            <FormatsContainer />	
-            <ExploreBlock />
-            <RecentContainer />
-            <ContributeBlock />
-            <BottomNav location={this.props.location} />
+        <FormatsContainer />	
+        <ExploreBlock />
+        <RecentContainer />
+        <ContributeBlock />
+        <BottomNav location={this.props.location} />
     	</ReactCSSTransitionGroup>
     );
   }

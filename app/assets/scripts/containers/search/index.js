@@ -6,7 +6,7 @@ import SearchForm from '../../components/search/searchForm';
 export default class SearchContainer extends Component {
 	render() {
 		return (
-			<SearchForm />
+			<SearchForm {...this.props}/>
 		);
 	}
 }

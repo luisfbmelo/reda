@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import { ResourcesList } from './common/list';
 import ResourcesOrdering from '../../resources/common/order';
 import SearchBar from '../../search/searchBar';
+import ResourcesFilters from '../../../containers/search';
 
 // Bootstrap
 import { Pagination, Alert, Button } from 'react-bootstrap';
@@ -16,8 +17,13 @@ export default class MyResources extends Component {
 		
 		this.onChangePage = this.onChangePage.bind(this);
 		this.setHighlight = this.setHighlight.bind(this);
+		this.filterList = this.filterList.bind(this);
+
+		// Resources actions
 		this.checkAllResources = this.checkAllResources.bind(this);
 		this.checkEl = this.checkEl.bind(this);
+		this.delList = this.delList.bind(this);
+		this.delEl = this.delEl.bind(this);
 
 		this.state = {
 			activePage: 1,
@@ -98,6 +104,17 @@ export default class MyResources extends Component {
     	})
     }
 
+    delList(){
+    	console.log(this.state.checkedResources);
+    }
+
+    delEl(id){
+    	console.log(id);
+    }
+
+    filterList(){
+    	console.log("Filter");
+    }
 
 	render() {
 		if (!this.props.resources)
@@ -109,11 +126,17 @@ export default class MyResources extends Component {
 			<div className="resources__page">
 				<div className="row">
 					<div className="col-xs-12">
-						<h2>Os meus recursos</h2>
+						<h2 className="pannel-title">Os meus recursos</h2>
 					</div>
 				</div>
 				<div className="row">
-					<div className="col-xs-12">						
+					<div className="col-xs-12">		
+						<section className="row">
+							<div className="col-xs-12 filter-container">
+								{/* Filter List */}
+								<ResourcesFilters searchKeywords={false} buttonText="Filtrar" iconClass="fa fa-filter" onSubmit={this.filterList}/>
+							</div>
+						</section>				
 						<section className="row">
 							<div className="col-xs-12 text-center">
 								{/* Search bar */}
@@ -123,8 +146,8 @@ export default class MyResources extends Component {
 						<section className="row resources-actions">
 							<div className="col-xs-6">
 								<input type="checkbox" name="selected-resources" id="selected-resources" checked={this.state.checkAll}/>
-								<label htmlFor="selected-resources" onClick={this.checkAllResources}></label>	
-								<button className="cta primary"><i className="fa fa-trash"></i></button>
+								<label htmlFor="selected-resources" onClick={this.checkAllResources}></label>
+								<button className="btn btn-danger"><i className="fa fa-trash"></i></button>
 							</div>
 							
 							<div className="col-xs-6">
@@ -135,7 +158,15 @@ export default class MyResources extends Component {
 
 
 						{/* Resources List */}
-						<ResourcesList list={this.props.resources} user={this.props.auth.data} setHighlight={this.setHighlight} checkedList={this.state.checkedResources} checkEl={this.checkEl} allChecked={this.state.checkAll}/>
+						<ResourcesList 
+							list={this.props.resources} 
+							user={this.props.auth.data} 
+							setHighlight={this.setHighlight} 
+							checkedList={this.state.checkedResources} 
+							checkEl={this.checkEl} 
+							allChecked={this.state.checkAll}
+							delEl={this.delEl}
+						/>
 
 						{/* Pagination */}
 						<Pagination

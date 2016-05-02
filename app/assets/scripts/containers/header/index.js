@@ -8,11 +8,21 @@ import UserResume from '../user/resume';
 
 
 class Header extends Component {
+	constructor(props){
+		super(props),
+
+		this.onSearch = this.onSearch.bind(this);
+	}
+
 	/* Get Page Type from LOCATION */
 	headerType(location){
 		location = location.length > 1 ? location.replace(/^\//, '') : location;		
 		location = location.length > 1 && location.indexOf('/')>0 ? location.substring(0, location.indexOf('/')) : location;
 		return (location === "/") ? "home-page" : location;
+	}
+
+	onSearch(){
+
 	}
 
 	render() {
@@ -25,7 +35,9 @@ class Header extends Component {
 					if (curPage == "home-page" ){
 						return[
 							<HighlightsContainer key="highlights-container"/>,
-							<SearchContainer key="search-container"/>
+							<div className="container">
+								<SearchContainer key="search-container" searchKeywords={true} onSubmit={this.onSearch}/>
+							</div>
 						]
 					}
 					
