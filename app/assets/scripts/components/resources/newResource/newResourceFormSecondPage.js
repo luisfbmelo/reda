@@ -99,7 +99,7 @@ class NewResourceFormSecondPage extends Component {
             {
               Checkbox => (
                 <div className="row">
-                  {this.props.mapProps.subjects.data.map((item,index) => {
+                  {_.sortBy(this.props.mapProps.subjects.data, 'title').map((item,index) => {
                     return (
                       <div key={"subject-"+item.id} className="col-xs-6">
                         <Checkbox value={item.id} id={"subject-"+item.id}/> 
@@ -119,7 +119,8 @@ class NewResourceFormSecondPage extends Component {
     const { domains } = this.props.fields;
     const { subjects } = this.props.fields;
 
-    const totalDomains = this.domainsOfSubject();
+    // Get domains to present
+    const totalDomains = _.sortBy(this.domainsOfSubject(), 'title');
 
     if (!totalDomains || totalDomains.length==0){
       return null;
@@ -179,7 +180,8 @@ class NewResourceFormSecondPage extends Component {
         return exists;
       });
 
-     return domainsCopy;
+      // Avoid returning duplicates
+      return _.uniqBy(domainsCopy, 'title');
     }
 
     return null;

@@ -6093,7 +6093,7 @@ var NewResourceFormSecondPage = function (_Component) {
           return _react2.default.createElement(
             'div',
             { className: 'row' },
-            _this2.props.mapProps.subjects.data.map(function (item, index) {
+            _lodash2.default.sortBy(_this2.props.mapProps.subjects.data, 'title').map(function (item, index) {
               return _react2.default.createElement(
                 'div',
                 { key: "subject-" + item.id, className: 'col-xs-6' },
@@ -6118,8 +6118,9 @@ var NewResourceFormSecondPage = function (_Component) {
       var domains = this.props.fields.domains;
       var subjects = this.props.fields.subjects;
 
+      // Get domains to present
 
-      var totalDomains = this.domainsOfSubject();
+      var totalDomains = _lodash2.default.sortBy(this.domainsOfSubject(), 'title');
 
       if (!totalDomains || totalDomains.length == 0) {
         return null;
@@ -6222,7 +6223,8 @@ var NewResourceFormSecondPage = function (_Component) {
           return exists;
         });
 
-        return domainsCopy;
+        // Avoid returning duplicates
+        return _lodash2.default.uniqBy(domainsCopy, 'title');
       }
 
       return null;
