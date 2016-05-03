@@ -267,6 +267,7 @@
 		{
 			"id": 1,
 			"title": "Vídeo",
+			"type": "video",
 			"image": {
 				"src": "/assets/graphics/icons/video.svg",
 				"alt": "some alt"
@@ -275,6 +276,7 @@
 		{
 			"id": 2,
 			"title": "Simulação",
+			"type": "simulation",
 			"image": {
 				"src": "/assets/graphics/icons/simulacao.svg",
 				"alt": "some alt"
@@ -283,6 +285,7 @@
 		{
 			"id": 3,
 			"title": "Animação",
+			"type": "animation",
 			"image": {
 				"src": "/assets/graphics/icons/animacao.svg",
 				"alt": "some alt"
@@ -291,6 +294,7 @@
 		{
 			"id": 4,
 			"title": "Áudio",
+			"type": "audio",
 			"image": {
 				"src": "/assets/graphics/icons/audio.svg",
 				"alt": "some alt"
@@ -299,6 +303,7 @@
 		{
 			"id": 5,
 			"title": "Imagem",
+			"type": "image",
 			"image": {
 				"src": "/assets/graphics/icons/imagem.svg",
 				"alt": "some alt"
@@ -307,10 +312,235 @@
 		{
 			"id": 6,
 			"title": "Outros",
+			"type": "others",
 			"image": {
 				"src": "/assets/graphics/icons/outros.svg",
 				"alt": "some alt"
 			}
+		}
+	],
+	"access": [
+		{
+			"id": 1,
+			"title": "Online"
+		},
+		{
+			"id": 2,
+			"title": "Descarregável"
+		}
+	],
+	"subjects": [
+		{
+			"id": 1,
+			"title": "Matemática"
+		},
+		{
+			"id": 2,
+			"title": "Ciências Físico-Químicas"
+		},
+		{
+			"id": 3,
+			"title": "Estudo do Meio"
+		},
+		{
+			"id": 4,
+			"title": "Português"
+		},
+		{
+			"id": 5,
+			"title": "Cidadania"
+		},
+		{
+			"id": 6,
+			"title": "TIC"
+		},
+		{
+			"id": 7,
+			"title": "Inglês"
+		},
+		{
+			"id": 8,
+			"title": "Outros"
+		}
+	],
+	"domains": [
+		{
+			"id": 1,
+			"title": "Oralidade",
+			"subjects": [
+				{
+					"id": 4,
+					"title": "Português"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"title": "Leitura",
+			"subjects": [
+				{
+					"id": 4,
+					"title": "Português"
+				}
+			]
+		},
+		{
+			"id": 3,
+			"title": "Escrita",
+			"subjects": [
+				{
+					"id": 4,
+					"title": "Português"
+				}
+			]
+		},
+		{
+			"id": 4,
+			"title": "Iniciação à educação literária",
+			"subjects": [
+				{
+					"id": 4,
+					"title": "Português"
+				}
+			]
+		},
+		{
+			"id": 5,
+			"title": "Educação Literária",
+			"subjects": [
+				{
+					"id": 4,
+					"title": "Português"
+				}
+			]
+		},
+		{
+			"id": 6,
+			"title": "Gramática",
+			"subjects": [
+				{
+					"id": 4,
+					"title": "Português"
+				}
+			]
+		},
+		{
+			"id": 7,
+			"title": "Artes",
+			"subjects": [
+				{
+					"id": 4,
+					"title": "Português"
+				}
+			]
+		},
+		{
+			"id": 8,
+			"title": "História da Língua",
+			"subjects": [
+				{
+					"id": 4,
+					"title": "Português"
+				}
+			]
+		},
+		{
+			"id": 9,
+			"title": "Números e Operações",
+			"subjects": [
+				{
+					"id": 1,
+					"title": "Matemática"
+				}
+			]
+		},
+		{
+			"id": 10,
+			"title": "Geometria e Medida",
+			"subjects": [
+				{
+					"id": 1,
+					"title": "Matemática"
+				}
+			]
+		},
+		{
+			"id": 11,
+			"title": "Oralidade",
+			"subjects": [
+				{
+					"id": 1,
+					"title": "Matemática"
+				}
+			]
+		}
+	],
+	"years": [
+		{
+			"id": 1,
+			"title": "1.º"
+		},
+		{
+			"id": 2,
+			"title": "2.º"
+		},
+		{
+			"id": 3,
+			"title": "3.º"
+		},
+		{
+			"id": 4,
+			"title": "4.º"
+		},
+		{
+			"id": 5,
+			"title": "5.º"
+		},
+		{
+			"id": 6,
+			"title": "6.º"
+		},
+		{
+			"id": 7,
+			"title": "7.º"
+		},
+		{
+			"id": 8,
+			"title": "8.º"
+		},
+		{
+			"id": 9,
+			"title": "9.º"
+		}
+	],
+	"languages": [
+		{
+			"id": 1,
+			"title": "Português (PT)"
+		},
+		{
+			"id": 2,
+			"title": "Português (BR)"
+		},
+		{
+			"id": 3,
+			"title": "Inglês sem legendas"
+		},
+		{
+			"id": 4,
+			"title": "Inglês com legendas em Português"
+		},
+		{
+			"id": 5,
+			"title": "Castelhano sem legendas"
+		},
+		{
+			"id": 6,
+			"title": "Castelhano com legendas em Português"
+		},
+		{
+			"id": 7,
+			"title": "Outro"
 		}
 	]
 }

@@ -1,7 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchFormats } from '../../actions/formats';
+import { fetchAccess } from '../../actions/access';
+import { fetchSubjects } from '../../actions/subjects';
+import { fetchDomains } from '../../actions/domains';
+import { fetchLanguages } from '../../actions/languages';
+import { fetchYears } from '../../actions/years';
 import { bindActionCreators } from 'redux';
+import {reset} from 'redux-form';
 
 import WizardFormFirstPage from '../../components/resources/newResource/newResourceFormFirstPage';
 import WizardFormSecondPage from '../../components/resources/newResource/newResourceFormSecondPage';
@@ -10,12 +16,17 @@ class NewResourceFormContainer extends Component {
   constructor(props) {
     super(props)
 
-    // Pro tip: The best place to bind your member functions is in the component constructor
-    this.nextPage = this.nextPage.bind(this)
-    this.previousPage = this.previousPage.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+    this.nextPage = this.nextPage.bind(this);
+    this.previousPage = this.previousPage.bind(this);
     this.state = {
-      page: 1
+      page: 2
     }
+  }
+
+  componentWillUnmount(){
+    this.props.resetForm();
   }
 
   nextPage() {
@@ -38,8 +49,11 @@ class NewResourceFormContainer extends Component {
     }
   }
 
+  handleSubmit(){
+    console.log("submitting");
+  }
+
   render() {
-    const { onSubmit } = this.props
     const { page } = this.state
     return (
       <div className="new-resource">
@@ -49,8 +63,8 @@ class NewResourceFormContainer extends Component {
         </header>
         <div className="new-resource__container">
           <section className="container">
-            {page === 1 && <WizardFormFirstPage onSubmit={this.nextPage} mapProps={this.props}/>}
-            {page === 2 && <WizardFormSecondPage previousPage={this.previousPage} onSubmit={this.nextPage}/>}
+            {page === 1 && <WizardFormFirstPage onSubmit={this.nextPage} mapProps={this.props} />}
+            {page === 2 && <WizardFormSecondPage previousPage={this.previousPage} onSubmit={this.handleSubmit} mapProps={this.props} />}
           </section>
         </div>        
       </div>
@@ -59,16 +73,30 @@ class NewResourceFormContainer extends Component {
 }
 
 NewResourceFormContainer.propTypes = {
-  onSubmit: PropTypes.func.isRequired
 }
 
 
 function mapStateToProps(state) {
-  return { formats: state.formats};
+  return { 
+    formats: state.formats,
+    access: state.access,
+    subjects: state.subjects,
+    domains: state.domains,
+    languages: state.languages,
+    years: state.years
+  };
 }
 
 function mapDispatchToProps(dispatch) { 
-  return bindActionCreators({ fetchFormats }, dispatch);
+  return bindActionCreators({ 
+    fetchFormats,
+    fetchAccess,
+    fetchSubjects,
+    fetchDomains,
+    fetchLanguages,
+    fetchYears,
+    resetForm: () => dispatch(reset('newResource'))
+  }, dispatch);
 }
 
 

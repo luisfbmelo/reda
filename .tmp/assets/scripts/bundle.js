@@ -1,4 +1,61 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/var/www/devbox/app/assets/scripts/actions/action-types.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/var/www/devbox/app/assets/scripts/actions/access.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.fetchAccess = fetchAccess;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('es6-promise').polyfill();
+
+
+// FORMATS
+function requestAccess() {
+	return {
+		type: _actionTypes.ACCESS_REQUEST
+	};
+}
+
+function receiveAccess(data) {
+	return {
+		type: _actionTypes.ACCESS_SUCCESS,
+		data: data
+	};
+}
+
+function accessError(message) {
+	return {
+		type: _actionTypes.ACCESS_FAILURE,
+		message: message
+	};
+}
+
+function fetchAccess() {
+	return function (dispatch) {
+		dispatch(requestAccess());
+
+		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
+			if (response.status >= 400) {
+				throw new Error('Bad response');
+			}
+			return response.json();
+		}).then(function (json) {
+			dispatch(receiveAccess(json.access));
+		}).catch(function (message) {
+			dispatch(accessError(message));
+		});
+	};
+}
+
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/action-types.js":[function(require,module,exports){
 'use strict';
 
 // CONFIG
@@ -35,6 +92,31 @@ var TOGGLE_HIGHLIGHT_RESOURCE = exports.TOGGLE_HIGHLIGHT_RESOURCE = 'TOGGLE_HIGH
 var FORMATS_REQUEST = exports.FORMATS_REQUEST = 'FORMATS_REQUEST';
 var FORMATS_SUCCESS = exports.FORMATS_SUCCESS = 'FORMATS_SUCCESS';
 var FORMATS_FAILURE = exports.FORMATS_FAILURE = 'FORMATS_FAILURE';
+
+// ACCESS
+var ACCESS_REQUEST = exports.ACCESS_REQUEST = 'ACCESS_REQUEST';
+var ACCESS_SUCCESS = exports.ACCESS_SUCCESS = 'ACCESS_SUCCESS';
+var ACCESS_FAILURE = exports.ACCESS_FAILURE = 'ACCESS_FAILURE';
+
+// SUBJECTS
+var SUBJECTS_REQUEST = exports.SUBJECTS_REQUEST = 'SUBJECTS_REQUEST';
+var SUBJECTS_SUCCESS = exports.SUBJECTS_SUCCESS = 'SUBJECTS_SUCCESS';
+var SUBJECTS_FAILURE = exports.SUBJECTS_FAILURE = 'SUBJECTS_FAILURE';
+
+// DOMAINS
+var DOMAINS_REQUEST = exports.DOMAINS_REQUEST = 'DOMAINS_REQUEST';
+var DOMAINS_SUCCESS = exports.DOMAINS_SUCCESS = 'DOMAINS_SUCCESS';
+var DOMAINS_FAILURE = exports.DOMAINS_FAILURE = 'DOMAINS_FAILURE';
+
+// YEARS
+var YEARS_REQUEST = exports.YEARS_REQUEST = 'YEARS_REQUEST';
+var YEARS_SUCCESS = exports.YEARS_SUCCESS = 'YEARS_SUCCESS';
+var YEARS_FAILURE = exports.YEARS_FAILURE = 'YEARS_FAILURE';
+
+// LANGUAGES
+var LANGUAGES_REQUEST = exports.LANGUAGES_REQUEST = 'LANGUAGES_REQUEST';
+var LANGUAGES_SUCCESS = exports.LANGUAGES_SUCCESS = 'LANGUAGES_SUCCESS';
+var LANGUAGES_FAILURE = exports.LANGUAGES_FAILURE = 'LANGUAGES_FAILURE';
 
 // LOGIN
 var LOGIN_REQUEST = exports.LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -250,6 +332,63 @@ function fetchConfig() {
 	};
 }
 
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/domains.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.fetchDomains = fetchDomains;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('es6-promise').polyfill();
+
+
+// FORMATS
+function requestDomains() {
+	return {
+		type: _actionTypes.DOMAINS_REQUEST
+	};
+}
+
+function receiveDomains(data) {
+	return {
+		type: _actionTypes.DOMAINS_SUCCESS,
+		data: data
+	};
+}
+
+function domainsError(message) {
+	return {
+		type: _actionTypes.DOMAINS_FAILURE,
+		message: message
+	};
+}
+
+function fetchDomains() {
+	return function (dispatch) {
+		dispatch(requestDomains());
+
+		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
+			if (response.status >= 400) {
+				throw new Error('Bad response');
+			}
+			return response.json();
+		}).then(function (json) {
+			dispatch(receiveDomains(json.domains));
+		}).catch(function (message) {
+			dispatch(domainsError(message));
+		});
+	};
+}
+
 },{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/formats.js":[function(require,module,exports){
 'use strict';
 
@@ -303,6 +442,63 @@ function fetchFormats() {
 			dispatch(receiveFormats(json.formats));
 		}).catch(function (message) {
 			dispatch(formatsError(message));
+		});
+	};
+}
+
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/languages.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.fetchLanguages = fetchLanguages;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('es6-promise').polyfill();
+
+
+// FORMATS
+function requestLanguages() {
+	return {
+		type: _actionTypes.LANGUAGES_REQUEST
+	};
+}
+
+function receiveLanguages(data) {
+	return {
+		type: _actionTypes.LANGUAGES_SUCCESS,
+		data: data
+	};
+}
+
+function languagesError(message) {
+	return {
+		type: _actionTypes.LANGUAGES_FAILURE,
+		message: message
+	};
+}
+
+function fetchLanguages() {
+	return function (dispatch) {
+		dispatch(requestLanguages());
+
+		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
+			if (response.status >= 400) {
+				throw new Error('Bad response');
+			}
+			return response.json();
+		}).then(function (json) {
+			dispatch(receiveLanguages(json.languages));
+		}).catch(function (message) {
+			dispatch(languagesError(message));
 		});
 	};
 }
@@ -498,6 +694,63 @@ function fetchRelatedResources(resourceId) {
 	};
 }
 
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/subjects.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.fetchSubjects = fetchSubjects;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('es6-promise').polyfill();
+
+
+// FORMATS
+function requestSubjects() {
+	return {
+		type: _actionTypes.SUBJECTS_REQUEST
+	};
+}
+
+function receiveSubjects(data) {
+	return {
+		type: _actionTypes.SUBJECTS_SUCCESS,
+		data: data
+	};
+}
+
+function subjectsError(message) {
+	return {
+		type: _actionTypes.SUBJECTS_FAILURE,
+		message: message
+	};
+}
+
+function fetchSubjects() {
+	return function (dispatch) {
+		dispatch(requestSubjects());
+
+		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
+			if (response.status >= 400) {
+				throw new Error('Bad response');
+			}
+			return response.json();
+		}).then(function (json) {
+			dispatch(receiveSubjects(json.subjects));
+		}).catch(function (message) {
+			dispatch(subjectsError(message));
+		});
+	};
+}
+
 },{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/user.js":[function(require,module,exports){
 'use strict';
 
@@ -562,6 +815,63 @@ function fetchUserData(userId) {
 			dispatch(receiveUser(filtered[0]));
 		}).catch(function (message) {
 			dispatch(userError(message));
+		});
+	};
+}
+
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/years.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.fetchYears = fetchYears;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('es6-promise').polyfill();
+
+
+// FORMATS
+function requestYears() {
+	return {
+		type: _actionTypes.YEARS_REQUEST
+	};
+}
+
+function receiveYears(data) {
+	return {
+		type: _actionTypes.YEARS_SUCCESS,
+		data: data
+	};
+}
+
+function yearsError(message) {
+	return {
+		type: _actionTypes.YEARS_FAILURE,
+		message: message
+	};
+}
+
+function fetchYears() {
+	return function (dispatch) {
+		dispatch(requestYears());
+
+		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
+			if (response.status >= 400) {
+				throw new Error('Bad response');
+			}
+			return response.json();
+		}).then(function (json) {
+			dispatch(receiveYears(json.years));
+		}).catch(function (message) {
+			dispatch(yearsError(message));
 		});
 	};
 }
@@ -1423,7 +1733,97 @@ Collapsible.propTypes = {
 	iconClosed: _react2.default.PropTypes.string.isRequired
 };
 
-},{"react":"react","react-bootstrap":"react-bootstrap"}],"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js":[function(require,module,exports){
+},{"react":"react","react-bootstrap":"react-bootstrap"}],"/var/www/devbox/app/assets/scripts/components/common/fileInput.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var FileInput = function (_Component) {
+    _inherits(FileInput, _Component);
+
+    function FileInput(props) {
+        _classCallCheck(this, FileInput);
+
+        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FileInput).call(this, props));
+
+        _this.uploadFile = _this.uploadFile.bind(_this);
+        return _this;
+    }
+
+    _createClass(FileInput, [{
+        key: 'uploadFile',
+        value: function uploadFile(e) {
+            var _this2 = this;
+
+            var reader = new FileReader();
+            var thisFile = e.target.files[0] || null;
+            var hasError = false;
+
+            var name = null;
+            var extension = null;
+            var data = null;
+            var size = thisFile.size;
+
+            /*if (thisFile.size>2000000) {
+                hasError = true;
+            }*/
+
+            //check if file is image
+            if (!hasError) {
+                //read file
+                reader.readAsDataURL(e.target.files[0]);
+
+                //set loading
+            } else {}
+                //clear all fields
+
+
+                // File loaded
+            if (thisFile) {
+                reader.onload = function (e) {
+                    // Set file name
+                    name = thisFile.name.substr(0, thisFile.name.lastIndexOf('.')) || thisFile.name;
+
+                    // Set file extension
+                    extension = thisFile.name.substr(thisFile.name.lastIndexOf('.') + 1);
+
+                    // Save file data
+                    data = e.target.result;
+
+                    // Return file metadata
+                    _this2.props.setFile({ name: name, extension: extension, data: data, size: size });
+                };
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement('input', { type: 'file', onChange: this.uploadFile });
+        }
+    }]);
+
+    return FileInput;
+}(_react.Component);
+
+exports.default = FileInput;
+
+},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1436,18 +1836,21 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var renderList = function renderList(list, name) {
+var renderList = function renderList(list, name, onclickCallback, checkedEl, isSingleCol) {
+	var colClass = isSingleCol ? "col-xs-12" : "col-xs-6 col-sm-4";
 	return list.map(function (item, index) {
 		return _react2.default.createElement(
 			"div",
-			{ className: "col-xs-6 col-sm-4", key: item.id },
+			{ className: colClass, key: item.id },
 			_react2.default.createElement(
 				"div",
 				{ className: "radio" },
-				_react2.default.createElement("input", { id: "radio-" + item.id, type: "radio", name: name, value: "{item.title}" }),
+				_react2.default.createElement("input", { id: name + "_" + item.id, type: "radio", name: name, value: "{item.title}", defaultChecked: item.id == checkedEl.id }),
 				_react2.default.createElement(
 					"label",
-					{ htmlFor: "radio-" + item.id },
+					{ htmlFor: name + "_" + item.id, onClick: function onClick() {
+							return onclickCallback(item);
+						} },
 					item.title
 				)
 			)
@@ -1456,11 +1859,10 @@ var renderList = function renderList(list, name) {
 };
 
 exports.default = function (props) {
-	console.log(props);
 	return _react2.default.createElement(
 		"div",
 		{ className: "row" },
-		renderList(props.list, props.name)
+		renderList(props.list, props.name, props.setRadio, props.checked, props.singleCol)
 	);
 };
 
@@ -1594,7 +1996,7 @@ var TagsInput = function (_Component) {
         _this.handleChange = _this.handleChange.bind(_this);
 
         _this.state = {
-            tags: []
+            tags: _this.props.tags || []
         };
         return _this;
     }
@@ -1624,7 +2026,111 @@ var TagsInput = function (_Component) {
 
 exports.default = TagsInput;
 
-},{"react":"react","react-tagsinput":"react-tagsinput"}],"/var/www/devbox/app/assets/scripts/components/dashboard/index.js":[function(require,module,exports){
+},{"react":"react","react-tagsinput":"react-tagsinput"}],"/var/www/devbox/app/assets/scripts/components/common/textarea.js":[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TextArea = function (_Component) {
+	_inherits(TextArea, _Component);
+
+	function TextArea(props) {
+		_classCallCheck(this, TextArea);
+
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TextArea).call(this, props));
+
+		_this.handleChange = _this.handleChange.bind(_this);
+
+		_this.state = {
+			currentLength: 0,
+			text: _this.props.value || ""
+		};
+		return _this;
+	}
+
+	_createClass(TextArea, [{
+		key: "handleChange",
+		value: function handleChange(e) {
+			// Check 	
+			if (e.target.value.length <= this.props.max || !this.props.max) {
+				this.setState({
+					currentLength: e.target.value.length,
+					text: e.target.value
+				});
+
+				return true;
+			}
+
+			e.preventDefault();
+
+			return false;
+		}
+	}, {
+		key: "render",
+		value: function render() {
+			var _this2 = this;
+
+			return _react2.default.createElement(
+				"div",
+				null,
+				_react2.default.createElement("textarea", _extends({}, this.props, { onChange: this.handleChange, value: this.state.text })),
+				_react2.default.createElement(
+					"div",
+					{ className: "row" },
+					_react2.default.createElement(
+						"div",
+						{ className: "col-xs-6" },
+						function () {
+							if (_this2.props.max) {
+								return _react2.default.createElement(
+									"span",
+									null,
+									_this2.state.currentLength + "/" + _this2.props.max
+								);
+							}
+						}()
+					),
+					_react2.default.createElement(
+						"div",
+						{ className: "col-xs-6 text-right" },
+						_react2.default.createElement(
+							"small",
+							null,
+							"Deve ter no mínimo ",
+							this.props.min,
+							" caracteres e no máximo ",
+							this.props.max
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return TextArea;
+}(_react.Component);
+
+exports.default = TextArea;
+
+},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/dashboard/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4862,6 +5368,14 @@ var _radioGroup = require('../../common/radioGroup');
 
 var _radioGroup2 = _interopRequireDefault(_radioGroup);
 
+var _fileInput = require('../../common/fileInput');
+
+var _fileInput2 = _interopRequireDefault(_fileInput);
+
+var _textarea = require('../../common/textarea');
+
+var _textarea2 = _interopRequireDefault(_textarea);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4873,17 +5387,91 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Components
 
 
-var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'access', 'techResources', 'description', 'exclusive'];
+var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline'];
 
 var validate = function validate(values) {
   var errors = {};
+
+  // Title
   if (!values.title) {
     errors.title = 'O campo é obrigatório';
-  } else if (values.title.length > 15) {
-    errors.title = 'Must be 15 characters or less';
   }
+
+  // Author
+  if (!values.author) {
+    errors.author = 'O campo é obrigatório';
+  }
+
+  // Email
+  if (!values.email) {
+    errors.email = 'O campo é obrigatório';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'E-mail inserido não é válido';
+  }
+
+  // Organization
+  if (!values.organization) {
+    errors.organization = 'O campo é obrigatório';
+  }
+
+  // Keywords
+  if (!values.keywords) {
+    errors.keywords = 'O campo é obrigatório';
+  } else if (values.keywords.length > 5) {
+    errors.keywords = 'Deve ter entre 1 e 5 palavras-chave';
+  }
+
+  // Formats
+  if (!values.format) {
+    errors.format = 'O campo é obrigatório';
+  }
+
+  // File
+  if (!values.isOnline && !values.file) {
+    errors.file = 'Campo é obrigatório';
+  } else if (values.file && values.file.size > 1000000) {
+    errors.file = 'Ficheiro não deve exceder os 1 MB';
+  }
+
+  // Embed
+  if (values.format && values.format.type == "video" && !values.embed) {
+    errors.embed = 'Campo é obrigatório';
+  }
+
+  // Link
+  if (values.isOnline && !values.link && !values.embed) {
+    errors.embed = 'Campo é obrigatório';
+  }
+
+  // Access modes
+  if (!values.access) {
+    errors.access = 'O campo é obrigatório';
+  }
+
+  // Tech Resources
+  if (!values.techResources) {
+    errors.techResources = 'O campo é obrigatório';
+  } else if (values.techResources.length < 20) {
+    errors.techResources = 'Deve ter pelo menos 20 caracteres';
+  } else if (values.techResources.length > 300) {
+    errors.techResources = 'Apenas deve conter no máximo 300 caracteres';
+  }
+
+  // Description
+  if (!values.description) {
+    errors.description = 'O campo é obrigatório';
+  } else if (values.description.length < 20) {
+    errors.description = 'Deve ter pelo menos 20 caracteres';
+  } else if (values.description.length > 300) {
+    errors.description = 'Apenas deve conter no máximo 300 caracteres';
+  }
+
   return errors;
 };
+
+/**
+ * FORM FIRST PAGE
+ */
 
 var NewResourceFormFirstPage = function (_Component) {
   _inherits(NewResourceFormFirstPage, _Component);
@@ -4894,6 +5482,10 @@ var NewResourceFormFirstPage = function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormFirstPage).call(this, props));
 
     _this.setTags = _this.setTags.bind(_this);
+    _this.setFormat = _this.setFormat.bind(_this);
+    _this.setAccess = _this.setAccess.bind(_this);
+    _this.setFile = _this.setFile.bind(_this);
+    _this.onlineChange = _this.onlineChange.bind(_this);
     return _this;
   }
 
@@ -4901,15 +5493,88 @@ var NewResourceFormFirstPage = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this.props.mapProps.fetchFormats();
+      this.props.mapProps.fetchAccess();
     }
+
+    // On change TAGS
+
   }, {
     key: 'setTags',
     value: function setTags(tags) {
       this.props.fields.keywords.onChange(tags);
     }
+
+    // On change FORMATS
+
+  }, {
+    key: 'setFormat',
+    value: function setFormat(format) {
+      this.props.fields.format.onChange(format);
+    }
+
+    // On change FORMATS
+
+  }, {
+    key: 'setAccess',
+    value: function setAccess(access) {
+      this.props.fields.access.onChange(access);
+    }
+
+    // On change FILE
+
+  }, {
+    key: 'setFile',
+    value: function setFile(file) {
+      this.props.fields.file.onChange(file);
+    }
+
+    // On change FILE
+
+  }, {
+    key: 'onlineChange',
+    value: function onlineChange() {
+      var isOnline = this.props.fields.isOnline;
+
+      // Clear to none
+
+      this.props.fields.access.onChange({});
+
+      if (this.props.mapProps.access.data) {
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+          for (var _iterator = this.props.mapProps.access.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var mode = _step.value;
+
+            if (isOnline.value && mode.title == "Online") {
+              this.props.fields.access.onChange(mode);
+            } else if (!isOnline.value && mode.title == "Descarregável") {
+              this.props.fields.access.onChange(mode);
+            }
+          }
+        } catch (err) {
+          _didIteratorError = true;
+          _iteratorError = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+          } finally {
+            if (_didIteratorError) {
+              throw _iteratorError;
+            }
+          }
+        }
+      }
+    }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var _props = this.props;
       var _props$fields = _props.fields;
       var title = _props$fields.title;
@@ -4917,23 +5582,28 @@ var NewResourceFormFirstPage = function (_Component) {
       var email = _props$fields.email;
       var organization = _props$fields.organization;
       var keywords = _props$fields.keywords;
+      var file = _props$fields.file;
+      var link = _props$fields.link;
+      var embed = _props$fields.embed;
       var format = _props$fields.format;
       var access = _props$fields.access;
       var techResources = _props$fields.techResources;
       var description = _props$fields.description;
       var exclusive = _props$fields.exclusive;
+      var isOnline = _props$fields.isOnline;
       var handleSubmit = _props.handleSubmit;
 
 
-      if (!this.props.mapProps.formats.data) {
+      if (!this.props.mapProps.formats.data || !this.props.mapProps.access.data) {
         return null;
       }
+
       var formats = this.props.mapProps.formats;
 
 
       return _react2.default.createElement(
         'form',
-        { onSubmit: handleSubmit },
+        { onSubmit: handleSubmit, encType: 'multipart/form-data' },
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -5060,11 +5730,16 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (keywords.touched && keywords.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_tags2.default, { setTags: this.setTags }),
+              _react2.default.createElement(_tags2.default, { setTags: this.setTags, tags: keywords.value }),
               keywords.touched && keywords.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
                 keywords.error
+              ),
+              _react2.default.createElement(
+                'small',
+                null,
+                'Deve escolher entre 1 e 5 palavras'
               )
             )
           )
@@ -5083,11 +5758,108 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (format.touched && format.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_radioGroup2.default, { list: formats.data, name: 'formats' }),
+              _react2.default.createElement(_radioGroup2.default, { list: formats.data, name: 'formats', setRadio: this.setFormat, checked: format.value }),
               format.touched && format.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
                 format.error
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-6' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Localização do recurso*'
+            ),
+            function () {
+              if (format.value.type != 'video') {
+                return _react2.default.createElement(
+                  'div',
+                  null,
+                  _react2.default.createElement('input', _extends({ type: 'checkbox', value: 'isOnline', id: 'isOnline' }, isOnline, { onChange: _this2.onlineChange })),
+                  _react2.default.createElement(
+                    'label',
+                    { htmlFor: 'isOnline' },
+                    'Recurso encontra-se online'
+                  )
+                );
+              }
+            }(),
+            function () {
+              if (format.value.type == 'video') {
+                return _react2.default.createElement(
+                  'div',
+                  { className: 'form-group ' + (embed.touched && embed.invalid ? 'has-error' : '') },
+                  _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', name: 'embed-video', placeholder: 'Insira o código de incorporação do vídeo' }, embed)),
+                  embed.touched && embed.error && _react2.default.createElement(
+                    'div',
+                    { className: 'text-danger' },
+                    embed.error
+                  )
+                );
+              } else if (!isOnline.value) {
+                return _react2.default.createElement(
+                  'div',
+                  { className: 'form-group ' + (file.touched && file.invalid ? 'has-error' : '') },
+                  _react2.default.createElement(_fileInput2.default, { setFile: _this2.setFile }),
+                  file.touched && file.error && _react2.default.createElement(
+                    'div',
+                    { className: 'text-danger' },
+                    file.error
+                  )
+                );
+              } else {
+                return _react2.default.createElement(
+                  'div',
+                  { className: 'form-group ' + (link.touched && link.invalid || embed.touched && embed.invalid ? 'has-error' : '') },
+                  _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', name: 'link', placeholder: 'Indique o endereço do recurso' }, link)),
+                  link.touched && link.error && _react2.default.createElement(
+                    'div',
+                    { className: 'text-danger' },
+                    link.error
+                  ),
+                  _react2.default.createElement(
+                    'small',
+                    null,
+                    'ou'
+                  ),
+                  _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', name: 'embed-video', placeholder: 'Insira o código de incorporação do vídeo' }, embed)),
+                  embed.touched && embed.error && _react2.default.createElement(
+                    'div',
+                    { className: 'text-danger' },
+                    embed.error
+                  )
+                );
+              }
+            }()
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-6' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Modo de acesso*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (access.touched && access.invalid ? 'has-error' : '') },
+              _react2.default.createElement(_radioGroup2.default, { list: this.props.mapProps.access.data, name: 'access', setRadio: this.setAccess, checked: access.value }),
+              access.touched && access.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                access.error
               )
             )
           )
@@ -5106,7 +5878,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (techResources.touched && techResources.invalid ? 'has-error' : '') },
-              _react2.default.createElement('textarea', _extends({ className: 'form-control', placeholder: 'Nome do seu recurso' }, techResources)),
+              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Este recurso requer a utilização de...' }, techResources)),
               techResources.touched && techResources.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -5129,7 +5901,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (description.touched && description.invalid ? 'has-error' : '') },
-              _react2.default.createElement('textarea', _extends({ className: 'form-control', placeholder: 'Nome do seu recurso' }, description)),
+              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Descreva este recurso sucintamente' }, description)),
               description.touched && description.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -5148,7 +5920,7 @@ var NewResourceFormFirstPage = function (_Component) {
           ),
           _react2.default.createElement(
             _reactRouter.Link,
-            { to: '/painel' },
+            { to: '/painel', className: 'cta primary no-bg' },
             'Cancelar'
           )
         )
@@ -5169,9 +5941,16 @@ exports.default = (0, _reduxForm.reduxForm)({
   fields: fields, // <------ only fields on this page
   destroyOnUnmount: false, // <------ preserve form data
   validate: validate // <------ only validates the fields on this page
+}, function (state) {
+  return {
+    initialValues: {
+      exclusive: true,
+      isOnline: false
+    }
+  };
 })(NewResourceFormFirstPage);
 
-},{"../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/tags":"/var/www/devbox/app/assets/scripts/components/common/tags.js","react":"react","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js":[function(require,module,exports){
+},{"../../common/fileInput":"/var/www/devbox/app/assets/scripts/components/common/fileInput.js","../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/tags":"/var/www/devbox/app/assets/scripts/components/common/tags.js","../../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","react":"react","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5189,6 +5968,24 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reduxForm = require('redux-form');
 
+var _reactRouter = require('react-router');
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _radioGroup = require('../../common/radioGroup');
+
+var _radioGroup2 = _interopRequireDefault(_radioGroup);
+
+var _textarea = require('../../common/textarea');
+
+var _textarea2 = _interopRequireDefault(_textarea);
+
+var _reactCheckboxGroup = require('react-checkbox-group');
+
+var _reactCheckboxGroup2 = _interopRequireDefault(_reactCheckboxGroup);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5197,101 +5994,357 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var fields = exports.fields = ['firstName', 'lastName', 'email', 'sex', 'favoriteColor', 'employed', 'notes'];
+// Components
+
+
+var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline', 'subjects', 'domains', 'year', 'language', 'op_proposal', 'accept_terms'];
 // ^^ All fields on last form
 
 var validate = function validate(values) {
   var errors = {};
-  if (!values.favoriteColor) {
-    errors.favoriteColor = 'Required';
+
+  // Op Proposal
+  if (!values.op_proposal) {
+    errors.op_proposal = 'O campo é obrigatório';
+  } else if (values.op_proposal.length < 20) {
+    errors.op_proposal = 'Deve ter pelo menos 20 caracteres';
+  } else if (values.op_proposal.length > 300) {
+    errors.op_proposal = 'Apenas deve conter no máximo 300 caracteres';
   }
+
   return errors;
 };
 
 var NewResourceFormSecondPage = function (_Component) {
   _inherits(NewResourceFormSecondPage, _Component);
 
-  function NewResourceFormSecondPage() {
+  function NewResourceFormSecondPage(props) {
     _classCallCheck(this, NewResourceFormSecondPage);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormSecondPage).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormSecondPage).call(this, props));
+
+    _this.renderSubjects = _this.renderSubjects.bind(_this);
+    _this.setSubject = _this.setSubject.bind(_this);
+    _this.setDomains = _this.setDomains.bind(_this);
+    _this.setYear = _this.setYear.bind(_this);
+
+    _this.domainsOfSubject = _this.domainsOfSubject.bind(_this);
+    return _this;
   }
 
   _createClass(NewResourceFormSecondPage, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.mapProps.fetchSubjects();
+      this.props.mapProps.fetchDomains();
+      this.props.mapProps.fetchLanguages();
+      this.props.mapProps.fetchYears();
+    }
+
+    // On change SUBJECTS
+
+  }, {
+    key: 'setSubject',
+    value: function setSubject(group) {
+      this.props.fields.subjects.onChange(group);
+    }
+
+    // On change YEARS
+
+  }, {
+    key: 'setYear',
+    value: function setYear(year) {
+      this.props.fields.year.onChange(year);
+    }
+
+    // On change YEARS
+
+  }, {
+    key: 'setDomains',
+    value: function setDomains(group) {
+      this.props.fields.domains.onChange(group);
+    }
+
+    // On change LANGUAGES
+
+  }, {
+    key: 'setLanguage',
+    value: function setLanguage(language) {
+      this.props.fields.language.onChange(language);
+    }
+
+    // Render subjects list
+
+  }, {
+    key: 'renderSubjects',
+    value: function renderSubjects() {
+      var _this2 = this;
+
+      var subjects = this.props.fields.subjects;
+
+      return _react2.default.createElement(
+        _reactCheckboxGroup2.default,
+        {
+          name: 'subjects',
+          value: subjects.value,
+          onChange: this.setSubject
+        },
+        function (Checkbox) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _this2.props.mapProps.subjects.data.map(function (item, index) {
+              return _react2.default.createElement(
+                'div',
+                { key: "subject-" + item.id, className: 'col-xs-6' },
+                _react2.default.createElement(Checkbox, { value: item.id, id: "subject-" + item.id }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: "subject-" + item.id },
+                  item.title
+                )
+              );
+            })
+          );
+        }
+      );
+    }
+
+    // Render domains by subjects
+
+  }, {
+    key: 'renderDomains',
+    value: function renderDomains() {
+      var domains = this.props.fields.domains;
+      var subjects = this.props.fields.subjects;
+
+
+      var totalDomains = this.domainsOfSubject();
+
+      if (!totalDomains || totalDomains.length == 0) {
+        return null;
+      }
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'row' },
+        _react2.default.createElement(
+          'div',
+          { className: 'col-xs-12' },
+          _react2.default.createElement(
+            'label',
+            { className: 'input-title' },
+            'Domínios*'
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'form-group ' + (domains.touched && domains.invalid ? 'has-error' : '') },
+            _react2.default.createElement(
+              _reactCheckboxGroup2.default,
+              {
+                name: 'domains',
+                value: domains.value,
+                onChange: this.setDomains
+              },
+              function (Checkbox) {
+                return _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  totalDomains.map(function (item, index) {
+                    return _react2.default.createElement(
+                      'div',
+                      { key: "domains-" + item.id, className: 'col-xs-6 col-sm-3' },
+                      _react2.default.createElement(Checkbox, { value: item.id, id: "domains-" + item.id }),
+                      _react2.default.createElement(
+                        'label',
+                        { htmlFor: "domains-" + item.id },
+                        item.title
+                      )
+                    );
+                  })
+                );
+              }
+            ),
+            domains.touched && domains.error && _react2.default.createElement(
+              'div',
+              { className: 'text-danger' },
+              domains.error
+            )
+          )
+        )
+      );
+    }
+
+    // Check if domains are in any subject
+    // DOMAINS MUST BE PROVIDED WITH THEIR SUBJECTS ASSOCIATED
+
+  }, {
+    key: 'domainsOfSubject',
+    value: function domainsOfSubject() {
+      var subjects = this.props.fields.subjects;
+      var domains = this.props.mapProps.domains;
+
+      // Make copy of domains to maintain immutable
+
+      var domainsCopy = _lodash2.default.assign([], domains.data);
+
+      // Are any subjects selected
+      if (subjects.value) {
+        domainsCopy = _lodash2.default.filter(domainsCopy, function (domain) {
+          var exists = false;
+
+          // If domain subjects was selected
+          var _iteratorNormalCompletion = true;
+          var _didIteratorError = false;
+          var _iteratorError = undefined;
+
+          try {
+            for (var _iterator = domain.subjects[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var domainSubject = _step.value;
+
+              exists = subjects.value.indexOf(domainSubject.id) >= 0;
+            }
+          } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+          } finally {
+            try {
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+            } finally {
+              if (_didIteratorError) {
+                throw _iteratorError;
+              }
+            }
+          }
+
+          return exists;
+        });
+
+        return domainsCopy;
+      }
+
+      return null;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
       var _props$fields = _props.fields;
-      var favoriteColor = _props$fields.favoriteColor;
-      var employed = _props$fields.employed;
-      var notes = _props$fields.notes;
+      var op_proposal = _props$fields.op_proposal;
+      var subjects = _props$fields.subjects;
+      var year = _props$fields.year;
+      var language = _props$fields.language;
       var handleSubmit = _props.handleSubmit;
       var previousPage = _props.previousPage;
       var submitting = _props.submitting;
+      var mapProps = this.props.mapProps;
+
+
+      if (!mapProps.subjects.data || !mapProps.domains.data || !mapProps.years.data || !mapProps.languages.data) {
+        return null;
+      }
 
       return _react2.default.createElement(
         'form',
         { onSubmit: handleSubmit },
         _react2.default.createElement(
           'div',
-          null,
-          _react2.default.createElement(
-            'label',
-            null,
-            'Favorite Color'
-          ),
+          { className: 'row' },
           _react2.default.createElement(
             'div',
-            null,
+            { className: 'col-xs-12 col-sm-6' },
             _react2.default.createElement(
-              'select',
-              _extends({}, favoriteColor, { value: favoriteColor.value || '' }),
-              _react2.default.createElement('option', null),
-              _react2.default.createElement(
-                'option',
-                { value: 'ff0000' },
-                'Red'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: '00ff00' },
-                'Green'
-              ),
-              _react2.default.createElement(
-                'option',
-                { value: '0000ff' },
-                'Blue'
+              'h1',
+              null,
+              'Metadados'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12 col-sm-4' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Disciplinas*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (subjects.touched && subjects.invalid ? 'has-error' : '') },
+              this.renderSubjects(),
+              subjects.touched && subjects.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                subjects.error
               )
             )
           ),
-          favoriteColor.touched && favoriteColor.error && _react2.default.createElement(
+          _react2.default.createElement(
             'div',
-            null,
-            favoriteColor.error
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'label',
-            null,
-            _react2.default.createElement('input', _extends({ type: 'checkbox' }, employed)),
-            ' Employed'
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(
-            'label',
-            null,
-            'Notes'
+            { className: 'col-xs-12 col-sm-4' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Anos*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (year.touched && year.invalid ? 'has-error' : '') },
+              _react2.default.createElement(_radioGroup2.default, { list: mapProps.years.data, name: 'years', setRadio: this.setYear, checked: year.value }),
+              year.touched && year.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                year.error
+              )
+            )
           ),
           _react2.default.createElement(
             'div',
-            null,
-            _react2.default.createElement('textarea', _extends({}, notes, { value: notes.value || '' }))
+            { className: 'col-xs-12 col-sm-4' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Idiomas*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (language.touched && language.invalid ? 'has-error' : '') },
+              _react2.default.createElement(_radioGroup2.default, { list: mapProps.languages.data, name: 'languagess', setRadio: this.setLanguage, checked: language.value, singleCol: true }),
+              language.touched && language.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                language.error
+              )
+            )
+          )
+        ),
+        this.renderDomains(),
+        _react2.default.createElement(
+          'div',
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12' },
+            _react2.default.createElement(
+              'label',
+              { className: 'input-title' },
+              'Proposta de Operacionalização*'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (op_proposal.touched && op_proposal.invalid ? 'has-error' : '') },
+              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado' }, op_proposal)),
+              op_proposal.touched && op_proposal.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                op_proposal.error
+              )
+            )
           )
         ),
         _react2.default.createElement(
@@ -5299,15 +6352,19 @@ var NewResourceFormSecondPage = function (_Component) {
           null,
           _react2.default.createElement(
             'button',
-            { type: 'button', disabled: submitting, onClick: previousPage },
-            _react2.default.createElement('i', null),
-            ' Previous'
+            { type: 'button', disabled: submitting, onClick: previousPage, className: 'cta primary outline' },
+            'Anterior'
           ),
           _react2.default.createElement(
             'button',
-            { type: 'submit', disabled: submitting },
+            { type: 'submit', disabled: submitting, className: 'cta primary' },
             submitting ? _react2.default.createElement('i', null) : _react2.default.createElement('i', null),
-            ' Finish'
+            ' Criar Recurso'
+          ),
+          _react2.default.createElement(
+            _reactRouter.Link,
+            { to: '/painel', className: 'cta no-bg' },
+            'Cancelar'
           )
         )
       );
@@ -5331,7 +6388,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   validate: validate // <------ only validates the fields on this page
 })(NewResourceFormSecondPage);
 
-},{"react":"react","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/recent.js":[function(require,module,exports){
+},{"../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/recent.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6284,7 +7341,19 @@ var _reactRedux = require('react-redux');
 
 var _formats = require('../../actions/formats');
 
+var _access = require('../../actions/access');
+
+var _subjects = require('../../actions/subjects');
+
+var _domains = require('../../actions/domains');
+
+var _languages = require('../../actions/languages');
+
+var _years = require('../../actions/years');
+
 var _redux = require('redux');
+
+var _reduxForm = require('redux-form');
 
 var _newResourceFormFirstPage = require('../../components/resources/newResource/newResourceFormFirstPage');
 
@@ -6308,19 +7377,24 @@ var NewResourceFormContainer = function (_Component) {
   function NewResourceFormContainer(props) {
     _classCallCheck(this, NewResourceFormContainer);
 
-    // Pro tip: The best place to bind your member functions is in the component constructor
-
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormContainer).call(this, props));
+
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
 
     _this.nextPage = _this.nextPage.bind(_this);
     _this.previousPage = _this.previousPage.bind(_this);
     _this.state = {
-      page: 1
+      page: 2
     };
     return _this;
   }
 
   _createClass(NewResourceFormContainer, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.props.resetForm();
+    }
+  }, {
     key: 'nextPage',
     value: function nextPage() {
       this.setState({ page: this.state.page + 1 });
@@ -6358,9 +7432,13 @@ var NewResourceFormContainer = function (_Component) {
       }
     }
   }, {
+    key: 'handleSubmit',
+    value: function handleSubmit() {
+      console.log("submitting");
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var onSubmit = this.props.onSubmit;
       var page = this.state.page;
 
       return _react2.default.createElement(
@@ -6383,7 +7461,7 @@ var NewResourceFormContainer = function (_Component) {
             'section',
             { className: 'container' },
             page === 1 && _react2.default.createElement(_newResourceFormFirstPage2.default, { onSubmit: this.nextPage, mapProps: this.props }),
-            page === 2 && _react2.default.createElement(_newResourceFormSecondPage2.default, { previousPage: this.previousPage, onSubmit: this.nextPage })
+            page === 2 && _react2.default.createElement(_newResourceFormSecondPage2.default, { previousPage: this.previousPage, onSubmit: this.handleSubmit, mapProps: this.props })
           )
         )
       );
@@ -6393,21 +7471,36 @@ var NewResourceFormContainer = function (_Component) {
   return NewResourceFormContainer;
 }(_react.Component);
 
-NewResourceFormContainer.propTypes = {
-  onSubmit: _react.PropTypes.func.isRequired
-};
+NewResourceFormContainer.propTypes = {};
 
 function mapStateToProps(state) {
-  return { formats: state.formats };
+  return {
+    formats: state.formats,
+    access: state.access,
+    subjects: state.subjects,
+    domains: state.domains,
+    languages: state.languages,
+    years: state.years
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchFormats: _formats.fetchFormats }, dispatch);
+  return (0, _redux.bindActionCreators)({
+    fetchFormats: _formats.fetchFormats,
+    fetchAccess: _access.fetchAccess,
+    fetchSubjects: _subjects.fetchSubjects,
+    fetchDomains: _domains.fetchDomains,
+    fetchLanguages: _languages.fetchLanguages,
+    fetchYears: _years.fetchYears,
+    resetForm: function resetForm() {
+      return dispatch((0, _reduxForm.reset)('newResource'));
+    }
+  }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NewResourceFormContainer);
 
-},{"../../actions/formats":"/var/www/devbox/app/assets/scripts/actions/formats.js","../../components/resources/newResource/newResourceFormFirstPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux"}],"/var/www/devbox/app/assets/scripts/containers/filters/index.js":[function(require,module,exports){
+},{"../../actions/access":"/var/www/devbox/app/assets/scripts/actions/access.js","../../actions/domains":"/var/www/devbox/app/assets/scripts/actions/domains.js","../../actions/formats":"/var/www/devbox/app/assets/scripts/actions/formats.js","../../actions/languages":"/var/www/devbox/app/assets/scripts/actions/languages.js","../../actions/subjects":"/var/www/devbox/app/assets/scripts/actions/subjects.js","../../actions/years":"/var/www/devbox/app/assets/scripts/actions/years.js","../../components/resources/newResource/newResourceFormFirstPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/containers/filters/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7332,7 +8425,50 @@ var ResourceDetailsPage = function (_Component) {
 
 exports.default = ResourceDetailsPage;
 
-},{"../components/common/breadcrumbs":"/var/www/devbox/app/assets/scripts/components/common/breadcrumbs.js","../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../components/search/searchForm":"/var/www/devbox/app/assets/scripts/components/search/searchForm.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","../containers/resources/details":"/var/www/devbox/app/assets/scripts/containers/resources/details.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/reducers/auth.js":[function(require,module,exports){
+},{"../components/common/breadcrumbs":"/var/www/devbox/app/assets/scripts/components/common/breadcrumbs.js","../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../components/search/searchForm":"/var/www/devbox/app/assets/scripts/components/search/searchForm.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","../containers/resources/details":"/var/www/devbox/app/assets/scripts/containers/resources/details.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/reducers/access.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.ACCESS_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.ACCESS_SUCCESS:
+
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      });
+    case _actionTypes.ACCESS_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/auth.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7462,6 +8598,49 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
 
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/domains.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.DOMAINS_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.DOMAINS_SUCCESS:
+
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      });
+    case _actionTypes.DOMAINS_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+
 },{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/formats.js":[function(require,module,exports){
 'use strict';
 
@@ -7528,6 +8707,26 @@ var _formats = require('./formats');
 
 var _formats2 = _interopRequireDefault(_formats);
 
+var _access = require('./access');
+
+var _access2 = _interopRequireDefault(_access);
+
+var _subjects = require('./subjects');
+
+var _subjects2 = _interopRequireDefault(_subjects);
+
+var _domains = require('./domains');
+
+var _domains2 = _interopRequireDefault(_domains);
+
+var _languages = require('./languages');
+
+var _languages2 = _interopRequireDefault(_languages);
+
+var _years = require('./years');
+
+var _years2 = _interopRequireDefault(_years);
+
 var _auth = require('./auth');
 
 var _auth2 = _interopRequireDefault(_auth);
@@ -7547,6 +8746,11 @@ var rootReducer = (0, _redux.combineReducers)({
 	form: _reduxForm.reducer,
 	highlights: _resources2.default,
 	formats: _formats2.default,
+	access: _access2.default,
+	subjects: _subjects2.default,
+	domains: _domains2.default,
+	languages: _languages2.default,
+	years: _years2.default,
 	comments: _comments2.default,
 	resources: _resources.resources,
 	resource: _resources.resource,
@@ -7557,7 +8761,50 @@ var rootReducer = (0, _redux.combineReducers)({
 
 exports.default = rootReducer;
 
-},{"./auth":"/var/www/devbox/app/assets/scripts/reducers/auth.js","./comments":"/var/www/devbox/app/assets/scripts/reducers/comments.js","./config":"/var/www/devbox/app/assets/scripts/reducers/config.js","./formats":"/var/www/devbox/app/assets/scripts/reducers/formats.js","./resources":"/var/www/devbox/app/assets/scripts/reducers/resources.js","./user":"/var/www/devbox/app/assets/scripts/reducers/user.js","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/reducers/resources.js":[function(require,module,exports){
+},{"./access":"/var/www/devbox/app/assets/scripts/reducers/access.js","./auth":"/var/www/devbox/app/assets/scripts/reducers/auth.js","./comments":"/var/www/devbox/app/assets/scripts/reducers/comments.js","./config":"/var/www/devbox/app/assets/scripts/reducers/config.js","./domains":"/var/www/devbox/app/assets/scripts/reducers/domains.js","./formats":"/var/www/devbox/app/assets/scripts/reducers/formats.js","./languages":"/var/www/devbox/app/assets/scripts/reducers/languages.js","./resources":"/var/www/devbox/app/assets/scripts/reducers/resources.js","./subjects":"/var/www/devbox/app/assets/scripts/reducers/subjects.js","./user":"/var/www/devbox/app/assets/scripts/reducers/user.js","./years":"/var/www/devbox/app/assets/scripts/reducers/years.js","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/reducers/languages.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.LANGUAGES_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.LANGUAGES_SUCCESS:
+
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      });
+    case _actionTypes.LANGUAGES_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/resources.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7695,6 +8942,49 @@ function relatedResources() {
   }
 };
 
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/subjects.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.SUBJECTS_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.SUBJECTS_SUCCESS:
+
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      });
+    case _actionTypes.SUBJECTS_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+
 },{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/user.js":[function(require,module,exports){
 'use strict';
 
@@ -7719,6 +9009,49 @@ exports.default = function () {
         data: action.data
       });
     case _actionTypes.USER_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/years.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.YEARS_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.YEARS_SUCCESS:
+
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      });
+    case _actionTypes.YEARS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         errorMessage: action.message

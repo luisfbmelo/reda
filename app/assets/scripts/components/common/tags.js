@@ -8,7 +8,7 @@ export default class TagsInput extends Component{
         this.handleChange = this.handleChange.bind(this);
 
         this.state = {
-            tags: []
+            tags: this.props.tags || []
         }
     }
 

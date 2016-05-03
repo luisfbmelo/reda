@@ -23,10 +23,10 @@
 	&.primary{
 		color:white;
 		background-color:$green;
+		border:1px solid $green;
 
 		&.outline{
-			color:$green;
-			border-color:$green;
+			color:$green;			
 
 			&:hover{
 				background-color:$green;
@@ -48,9 +48,10 @@
 	&.secundary{
 		color:white;
 		background-color:$light-green;
+		border:1px solid $light-green;
 
 		&.outline{
-			border-color:$light-green;
+			color:$light-green;
 		}
 
 		&.no-bg{

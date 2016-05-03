@@ -1,25 +1,35 @@
 'use strict';
 
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form';
-import highlightsReducer, {resources as resourcesReducer, resource as resourceReducer, relatedResources as relatedResourcesReducer }  from './resources';
-import commentsReducer  from './comments';
-import formatsReducer  from './formats';
-import authReducer from './auth';
-import userReducer from './user';
-import configReducer from './config';
+import { reducer as form } from 'redux-form';
+import highlights, {resources, resource, relatedResources }  from './resources';
+import comments  from './comments';
+import formats  from './formats';
+import access  from './access';
+import subjects  from './subjects';
+import domains  from './domains';
+import languages  from './languages';
+import years  from './years';
+import auth from './auth';
+import user from './user';
+import config from './config';
 
 const rootReducer = combineReducers({
-	config: configReducer,
-	form: formReducer,
-	highlights: highlightsReducer,
-	formats: formatsReducer,
-	comments: commentsReducer,
-	resources: resourcesReducer,
-	resource: resourceReducer,
-	relatedResources: relatedResourcesReducer,
-	auth: authReducer,
-	user: userReducer
+	config,
+	form,
+	highlights,
+	formats,
+	access,
+	subjects,
+	domains,
+	languages,
+	years,
+	comments,
+	resources,
+	resource,
+	relatedResources,
+	auth,
+	user
 }); 
 
 export default rootReducer;
