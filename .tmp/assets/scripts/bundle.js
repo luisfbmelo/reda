@@ -136,6 +136,11 @@ var USER_REQUEST = exports.USER_REQUEST = 'USER_REQUEST';
 var USER_SUCCESS = exports.USER_SUCCESS = 'USER_SUCCESS';
 var USER_FAILURE = exports.USER_FAILURE = 'USER_FAILURE';
 
+// TERMS AND CONDITIONS
+var TERMSANDCONDITIONS_REQUEST = exports.TERMSANDCONDITIONS_REQUEST = 'TERMSANDCONDITIONS_REQUEST';
+var TERMSANDCONDITIONS_SUCCESS = exports.TERMSANDCONDITIONS_SUCCESS = 'TERMSANDCONDITIONS_SUCCESS';
+var TERMSANDCONDITIONS_FAILURE = exports.TERMSANDCONDITIONS_FAILURE = 'TERMSANDCONDITIONS_FAILURE';
+
 },{}],"/var/www/devbox/app/assets/scripts/actions/auth.js":[function(require,module,exports){
 'use strict';
 
@@ -747,6 +752,63 @@ function fetchSubjects() {
 			dispatch(receiveSubjects(json.subjects));
 		}).catch(function (message) {
 			dispatch(subjectsError(message));
+		});
+	};
+}
+
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"/var/www/devbox/app/assets/scripts/actions/terms.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.fetchTerms = fetchTerms;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('es6-promise').polyfill();
+
+
+// FORMATS
+function requestTerms() {
+	return {
+		type: _actionTypes.TERMSANDCONDITIONS_REQUEST
+	};
+}
+
+function receiveTerms(data) {
+	return {
+		type: _actionTypes.TERMSANDCONDITIONS_SUCCESS,
+		data: data
+	};
+}
+
+function termsError(message) {
+	return {
+		type: _actionTypes.TERMSANDCONDITIONS_FAILURE,
+		message: message
+	};
+}
+
+function fetchTerms() {
+	return function (dispatch) {
+		dispatch(requestTerms());
+
+		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
+			if (response.status >= 400) {
+				throw new Error('Bad response');
+			}
+			return response.json();
+		}).then(function (json) {
+			dispatch(receiveTerms(json.terms));
+		}).catch(function (message) {
+			dispatch(termsError(message));
 		});
 	};
 }
@@ -1824,13 +1886,13 @@ var FileInput = function (_Component) {
 exports.default = FileInput;
 
 },{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js":[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1840,17 +1902,17 @@ var renderList = function renderList(list, name, onclickCallback, checkedEl, isS
 	var colClass = isSingleCol ? "col-xs-12" : "col-xs-6 col-sm-4";
 	return list.map(function (item, index) {
 		return _react2.default.createElement(
-			"div",
+			'div',
 			{ className: colClass, key: item.id },
 			_react2.default.createElement(
-				"div",
-				{ className: "radio" },
-				_react2.default.createElement("input", { id: name + "_" + item.id, type: "radio", name: name, value: "{item.title}", defaultChecked: item.id == checkedEl.id }),
+				'div',
+				{ className: 'radio' },
+				_react2.default.createElement('input', { id: name + "_" + item.id, type: 'radio', name: name, value: '{item.title}', onChange: function onChange() {
+						return onclickCallback(item);
+					}, checked: item.id == checkedEl.id }),
 				_react2.default.createElement(
-					"label",
-					{ htmlFor: name + "_" + item.id, onClick: function onClick() {
-							return onclickCallback(item);
-						} },
+					'label',
+					{ htmlFor: name + "_" + item.id },
 					item.title
 				)
 			)
@@ -1860,8 +1922,8 @@ var renderList = function renderList(list, name, onclickCallback, checkedEl, isS
 
 exports.default = function (props) {
 	return _react2.default.createElement(
-		"div",
-		{ className: "row" },
+		'div',
+		{ className: 'row' },
 		renderList(props.list, props.name, props.setRadio, props.checked, props.singleCol)
 	);
 };
@@ -1891,6 +1953,7 @@ exports.default = function (props) {
 
 },{"react":"react","react-rating":"react-rating"}],"/var/www/devbox/app/assets/scripts/components/common/svg.js":[function(require,module,exports){
 'use strict';
+'user strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -1962,6 +2025,7 @@ SvgComponent.propTypes = {
 
 },{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/common/tags.js":[function(require,module,exports){
 'use strict';
+'user strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -1996,12 +2060,17 @@ var TagsInput = function (_Component) {
         _this.handleChange = _this.handleChange.bind(_this);
 
         _this.state = {
-            tags: _this.props.tags || []
+            tags: []
         };
         return _this;
     }
 
     _createClass(TagsInput, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.setState({ tags: this.props.tags || [] });
+        }
+    }, {
         key: 'handleChange',
         value: function handleChange(tags) {
             this.setState({ tags: tags });
@@ -2027,7 +2096,8 @@ var TagsInput = function (_Component) {
 exports.default = TagsInput;
 
 },{"react":"react","react-tagsinput":"react-tagsinput"}],"/var/www/devbox/app/assets/scripts/components/common/textarea.js":[function(require,module,exports){
-"use strict";
+'use strict';
+'user strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
@@ -2037,7 +2107,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = require("react");
+var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -2061,13 +2131,18 @@ var TextArea = function (_Component) {
 
 		_this.state = {
 			currentLength: 0,
-			text: _this.props.value || ""
+			text: ""
 		};
 		return _this;
 	}
 
 	_createClass(TextArea, [{
-		key: "handleChange",
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.setState({ text: this.props.initVal || "" });
+		}
+	}, {
+		key: 'handleChange',
 		value: function handleChange(e) {
 			// Check 	
 			if (e.target.value.length <= this.props.max || !this.props.max) {
@@ -2075,33 +2150,29 @@ var TextArea = function (_Component) {
 					currentLength: e.target.value.length,
 					text: e.target.value
 				});
-
-				return true;
+			} else {
+				e.preventDefault();
 			}
-
-			e.preventDefault();
-
-			return false;
 		}
 	}, {
-		key: "render",
+		key: 'render',
 		value: function render() {
 			var _this2 = this;
 
 			return _react2.default.createElement(
-				"div",
+				'div',
 				null,
-				_react2.default.createElement("textarea", _extends({}, this.props, { onChange: this.handleChange, value: this.state.text })),
+				_react2.default.createElement('textarea', _extends({}, this.props, { onChange: this.handleChange, value: this.state.text })),
 				_react2.default.createElement(
-					"div",
-					{ className: "row" },
+					'div',
+					{ className: 'row' },
 					_react2.default.createElement(
-						"div",
-						{ className: "col-xs-6" },
+						'div',
+						{ className: 'col-xs-6' },
 						function () {
 							if (_this2.props.max) {
 								return _react2.default.createElement(
-									"span",
+									'span',
 									null,
 									_this2.state.currentLength + "/" + _this2.props.max
 								);
@@ -2109,14 +2180,14 @@ var TextArea = function (_Component) {
 						}()
 					),
 					_react2.default.createElement(
-						"div",
-						{ className: "col-xs-6 text-right" },
+						'div',
+						{ className: 'col-xs-6 text-right' },
 						_react2.default.createElement(
-							"small",
+							'small',
 							null,
-							"Deve ter no mínimo ",
+							'Deve ter no mínimo ',
 							this.props.min,
-							" caracteres e no máximo ",
+							' caracteres e no máximo ',
 							this.props.max
 						)
 					)
@@ -5360,6 +5431,10 @@ var _reduxForm = require('redux-form');
 
 var _reactRouter = require('react-router');
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var _tags = require('../../common/tags');
 
 var _tags2 = _interopRequireDefault(_tags);
@@ -5429,7 +5504,7 @@ var validate = function validate(values) {
   // File
   if (!values.isOnline && !values.file) {
     errors.file = 'Campo é obrigatório';
-  } else if (values.file && values.file.size > 1000000) {
+  } else if (!values.isOnline && values.file && values.file.size && values.file.size > 1000000) {
     errors.file = 'Ficheiro não deve exceder os 1 MB';
   }
 
@@ -5492,8 +5567,15 @@ var NewResourceFormFirstPage = function (_Component) {
   _createClass(NewResourceFormFirstPage, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this2 = this;
+
       this.props.mapProps.fetchFormats();
-      this.props.mapProps.fetchAccess();
+      this.props.mapProps.fetchAccess().then(function () {
+        // Set default to downloadable
+        _lodash2.default.forEach(_this2.props.mapProps.access.data, function (mode) {
+          mode.title == "Descarregável" && _this2.props.fields.access.onChange(mode);
+        });
+      });
     }
 
     // On change TAGS
@@ -5532,48 +5614,29 @@ var NewResourceFormFirstPage = function (_Component) {
 
   }, {
     key: 'onlineChange',
-    value: function onlineChange() {
+    value: function onlineChange(e) {
+      var _this3 = this;
+
       var isOnline = this.props.fields.isOnline;
 
+
+      this.props.fields.isOnline.onChange(e);
+
       // Clear to none
-
-      this.props.fields.access.onChange({});
-
-      if (this.props.mapProps.access.data) {
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-          for (var _iterator = this.props.mapProps.access.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var mode = _step.value;
-
-            if (isOnline.value && mode.title == "Online") {
-              this.props.fields.access.onChange(mode);
-            } else if (!isOnline.value && mode.title == "Descarregável") {
-              this.props.fields.access.onChange(mode);
-            }
+      if (this.props.mapProps.access && this.props.mapProps.access.data != null) {
+        _lodash2.default.forEach(this.props.mapProps.access.data, function (mode) {
+          if (isOnline.value && mode.title == "Online") {
+            _this3.props.fields.access.onChange(mode);
+          } else if (!isOnline.value && mode.title == "Descarregável") {
+            _this3.props.fields.access.onChange(mode);
           }
-        } catch (err) {
-          _didIteratorError = true;
-          _iteratorError = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
-          } finally {
-            if (_didIteratorError) {
-              throw _iteratorError;
-            }
-          }
-        }
+        });
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this4 = this;
 
       var _props = this.props;
       var _props$fields = _props.fields;
@@ -5599,11 +5662,11 @@ var NewResourceFormFirstPage = function (_Component) {
       }
 
       var formats = this.props.mapProps.formats;
-
+      //console.log(file);
 
       return _react2.default.createElement(
         'form',
-        { onSubmit: handleSubmit, encType: 'multipart/form-data' },
+        { onSubmit: handleSubmit, encType: 'multipart/form-data', className: 'form first-page' },
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -5783,7 +5846,7 @@ var NewResourceFormFirstPage = function (_Component) {
                 return _react2.default.createElement(
                   'div',
                   null,
-                  _react2.default.createElement('input', _extends({ type: 'checkbox', value: 'isOnline', id: 'isOnline' }, isOnline, { onChange: _this2.onlineChange })),
+                  _react2.default.createElement('input', _extends({ type: 'checkbox', value: 'isOnline', id: 'isOnline' }, isOnline, { onChange: _this4.onlineChange })),
                   _react2.default.createElement(
                     'label',
                     { htmlFor: 'isOnline' },
@@ -5793,29 +5856,29 @@ var NewResourceFormFirstPage = function (_Component) {
               }
             }(),
             function () {
-              if (format.value.type == 'video') {
-                return _react2.default.createElement(
-                  'div',
-                  { className: 'form-group ' + (embed.touched && embed.invalid ? 'has-error' : '') },
-                  _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', name: 'embed-video', placeholder: 'Insira o código de incorporação do vídeo' }, embed)),
-                  embed.touched && embed.error && _react2.default.createElement(
-                    'div',
-                    { className: 'text-danger' },
-                    embed.error
-                  )
-                );
-              } else if (!isOnline.value) {
+              if (!isOnline.value && format.value.type != 'video') {
                 return _react2.default.createElement(
                   'div',
                   { className: 'form-group ' + (file.touched && file.invalid ? 'has-error' : '') },
-                  _react2.default.createElement(_fileInput2.default, { setFile: _this2.setFile }),
-                  file.touched && file.error && _react2.default.createElement(
+                  _react2.default.createElement(_fileInput2.default, { setFile: _this4.setFile }),
+                  file.value && _react2.default.createElement(
+                    'strong',
+                    null,
+                    'Ficheiro: ',
+                    file.value.name,
+                    '.',
+                    file.value.extension,
+                    ' (',
+                    file.value.size,
+                    ' Bytes)'
+                  ),
+                  (file.touched || file.dirty) && file.error && _react2.default.createElement(
                     'div',
                     { className: 'text-danger' },
                     file.error
                   )
                 );
-              } else {
+              } else if (isOnline.value || format.value.type == 'video') {
                 return _react2.default.createElement(
                   'div',
                   { className: 'form-group ' + (link.touched && link.invalid || embed.touched && embed.invalid ? 'has-error' : '') },
@@ -5830,7 +5893,7 @@ var NewResourceFormFirstPage = function (_Component) {
                     null,
                     'ou'
                   ),
-                  _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', name: 'embed-video', placeholder: 'Insira o código de incorporação do vídeo' }, embed)),
+                  _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', name: 'embed-video', placeholder: 'Insira o código de incorporação' }, embed)),
                   embed.touched && embed.error && _react2.default.createElement(
                     'div',
                     { className: 'text-danger' },
@@ -5878,7 +5941,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (techResources.touched && techResources.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Este recurso requer a utilização de...' }, techResources)),
+              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Este recurso requer a utilização de...', initVal: techResources.value }, techResources)),
               techResources.touched && techResources.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -5901,7 +5964,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (description.touched && description.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Descreva este recurso sucintamente' }, description)),
+              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Descreva este recurso sucintamente', initVal: description.value }, description)),
               description.touched && description.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -5912,7 +5975,7 @@ var NewResourceFormFirstPage = function (_Component) {
         ),
         _react2.default.createElement(
           'div',
-          null,
+          { className: 'form-buttons' },
           _react2.default.createElement(
             'button',
             { type: 'submit', className: 'cta primary' },
@@ -5950,7 +6013,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   };
 })(NewResourceFormFirstPage);
 
-},{"../../common/fileInput":"/var/www/devbox/app/assets/scripts/components/common/fileInput.js","../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/tags":"/var/www/devbox/app/assets/scripts/components/common/tags.js","../../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","react":"react","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js":[function(require,module,exports){
+},{"../../common/fileInput":"/var/www/devbox/app/assets/scripts/components/common/fileInput.js","../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/tags":"/var/www/devbox/app/assets/scripts/components/common/tags.js","../../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","lodash":"lodash","react":"react","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5997,11 +6060,31 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Components
 
 
-var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline', 'subjects', 'domains', 'year', 'language', 'op_proposal', 'accept_terms'];
+var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline', 'subjects', 'domains', 'years', 'language', 'op_proposal', 'accept_terms', 'hasDomains'];
 // ^^ All fields on last form
 
 var validate = function validate(values) {
   var errors = {};
+
+  // Subjects
+  if (!values.subjects || values.subjects.length == 0) {
+    errors.subjects = 'Campo é obrigatório';
+  }
+
+  // Domains
+  if (!values.domains || values.domains.length == 0) {
+    errors.domains = 'Campo é obrigatório';
+  }
+
+  // Years
+  if (!values.years || values.years.length == 0) {
+    errors.years = 'Campo é obrigatório';
+  }
+
+  // Languages
+  if (!values.language) {
+    errors.language = 'Campo é obrigatório';
+  }
 
   // Op Proposal
   if (!values.op_proposal) {
@@ -6010,6 +6093,11 @@ var validate = function validate(values) {
     errors.op_proposal = 'Deve ter pelo menos 20 caracteres';
   } else if (values.op_proposal.length > 300) {
     errors.op_proposal = 'Apenas deve conter no máximo 300 caracteres';
+  }
+
+  // Accepted terms
+  if (!values.accept_terms) {
+    errors.accept_terms = 'Deve aceitar os termos e condições para criar o recurso';
   }
 
   return errors;
@@ -6024,9 +6112,12 @@ var NewResourceFormSecondPage = function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormSecondPage).call(this, props));
 
     _this.renderSubjects = _this.renderSubjects.bind(_this);
+    _this.renderYears = _this.renderYears.bind(_this);
+
     _this.setSubject = _this.setSubject.bind(_this);
     _this.setDomains = _this.setDomains.bind(_this);
-    _this.setYear = _this.setYear.bind(_this);
+    _this.setYears = _this.setYears.bind(_this);
+    _this.setLanguage = _this.setLanguage.bind(_this);
 
     _this.domainsOfSubject = _this.domainsOfSubject.bind(_this);
     return _this;
@@ -6039,6 +6130,7 @@ var NewResourceFormSecondPage = function (_Component) {
       this.props.mapProps.fetchDomains();
       this.props.mapProps.fetchLanguages();
       this.props.mapProps.fetchYears();
+      this.props.mapProps.fetchTerms();
     }
 
     // On change SUBJECTS
@@ -6052,9 +6144,9 @@ var NewResourceFormSecondPage = function (_Component) {
     // On change YEARS
 
   }, {
-    key: 'setYear',
-    value: function setYear(year) {
-      this.props.fields.year.onChange(year);
+    key: 'setYears',
+    value: function setYears(group) {
+      this.props.fields.years.onChange(group);
     }
 
     // On change YEARS
@@ -6110,21 +6202,57 @@ var NewResourceFormSecondPage = function (_Component) {
       );
     }
 
+    // Render subjects list
+
+  }, {
+    key: 'renderYears',
+    value: function renderYears() {
+      var _this3 = this;
+
+      var years = this.props.fields.years;
+
+      return _react2.default.createElement(
+        _reactCheckboxGroup2.default,
+        {
+          name: 'subjects',
+          value: years.value,
+          onChange: this.setYears
+        },
+        function (Checkbox) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _lodash2.default.sortBy(_this3.props.mapProps.years.data, 'title').map(function (item, index) {
+              return _react2.default.createElement(
+                'div',
+                { key: "year-" + item.id, className: 'col-xs-6' },
+                _react2.default.createElement(Checkbox, { value: item.id, id: "year-" + item.id }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: "year-" + item.id },
+                  item.title
+                )
+              );
+            })
+          );
+        }
+      );
+    }
+
     // Render domains by subjects
 
   }, {
     key: 'renderDomains',
     value: function renderDomains() {
-      var domains = this.props.fields.domains;
-      var subjects = this.props.fields.subjects;
+      var _this4 = this;
+
+      var _props$fields = this.props.fields;
+      var domains = _props$fields.domains;
+      var subjects = _props$fields.subjects;
 
       // Get domains to present
 
       var totalDomains = _lodash2.default.sortBy(this.domainsOfSubject(), 'title');
-
-      if (!totalDomains || totalDomains.length == 0) {
-        return null;
-      }
 
       return _react2.default.createElement(
         'div',
@@ -6140,32 +6268,38 @@ var NewResourceFormSecondPage = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'form-group ' + (domains.touched && domains.invalid ? 'has-error' : '') },
-            _react2.default.createElement(
-              _reactCheckboxGroup2.default,
-              {
-                name: 'domains',
-                value: domains.value,
-                onChange: this.setDomains
-              },
-              function (Checkbox) {
+            function () {
+              if (!totalDomains || totalDomains.length == 0) {
+                return _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Indique um domínio' }, domains));
+              } else {
                 return _react2.default.createElement(
-                  'div',
-                  { className: 'row' },
-                  totalDomains.map(function (item, index) {
+                  _reactCheckboxGroup2.default,
+                  {
+                    name: 'domains',
+                    value: domains.value,
+                    onChange: _this4.setDomains
+                  },
+                  function (Checkbox) {
                     return _react2.default.createElement(
                       'div',
-                      { key: "domains-" + item.id, className: 'col-xs-6 col-sm-3' },
-                      _react2.default.createElement(Checkbox, { value: item.id, id: "domains-" + item.id }),
-                      _react2.default.createElement(
-                        'label',
-                        { htmlFor: "domains-" + item.id },
-                        item.title
-                      )
+                      { className: 'row' },
+                      totalDomains.map(function (item, index) {
+                        return _react2.default.createElement(
+                          'div',
+                          { key: "domains-" + item.id, className: 'col-xs-6 col-sm-3 domains-selection' },
+                          _react2.default.createElement(Checkbox, { value: item.id, id: "domains-" + item.id }),
+                          _react2.default.createElement(
+                            'label',
+                            { htmlFor: "domains-" + item.id },
+                            item.title
+                          )
+                        );
+                      })
                     );
-                  })
+                  }
                 );
               }
-            ),
+            }(),
             domains.touched && domains.error && _react2.default.createElement(
               'div',
               { className: 'text-danger' },
@@ -6233,24 +6367,26 @@ var NewResourceFormSecondPage = function (_Component) {
     key: 'render',
     value: function render() {
       var _props = this.props;
-      var _props$fields = _props.fields;
-      var op_proposal = _props$fields.op_proposal;
-      var subjects = _props$fields.subjects;
-      var year = _props$fields.year;
-      var language = _props$fields.language;
+      var _props$fields2 = _props.fields;
+      var op_proposal = _props$fields2.op_proposal;
+      var subjects = _props$fields2.subjects;
+      var years = _props$fields2.years;
+      var language = _props$fields2.language;
+      var accept_terms = _props$fields2.accept_terms;
+      var domains = _props$fields2.domains;
       var handleSubmit = _props.handleSubmit;
       var previousPage = _props.previousPage;
       var submitting = _props.submitting;
       var mapProps = this.props.mapProps;
 
 
-      if (!mapProps.subjects.data || !mapProps.domains.data || !mapProps.years.data || !mapProps.languages.data) {
+      if (!mapProps.subjects.data || !mapProps.domains.data || !mapProps.years.data || !mapProps.languages.data || !mapProps.terms.data) {
         return null;
       }
 
       return _react2.default.createElement(
         'form',
-        { onSubmit: handleSubmit },
+        { onSubmit: handleSubmit, className: 'form second-page' },
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -6296,12 +6432,12 @@ var NewResourceFormSecondPage = function (_Component) {
             ),
             _react2.default.createElement(
               'div',
-              { className: 'form-group ' + (year.touched && year.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_radioGroup2.default, { list: mapProps.years.data, name: 'years', setRadio: this.setYear, checked: year.value }),
-              year.touched && year.error && _react2.default.createElement(
+              { className: 'form-group ' + (years.touched && years.invalid ? 'has-error' : '') },
+              this.renderYears(),
+              years.touched && years.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
-                year.error
+                years.error
               )
             )
           ),
@@ -6340,7 +6476,7 @@ var NewResourceFormSecondPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (op_proposal.touched && op_proposal.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado' }, op_proposal)),
+              _react2.default.createElement(_textarea2.default, _extends({ max: 800, min: 20, className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado', initVal: op_proposal.value }, op_proposal)),
               op_proposal.touched && op_proposal.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -6351,7 +6487,41 @@ var NewResourceFormSecondPage = function (_Component) {
         ),
         _react2.default.createElement(
           'div',
-          null,
+          { className: 'row' },
+          _react2.default.createElement(
+            'div',
+            { className: 'col-xs-12' },
+            _react2.default.createElement(
+              'h1',
+              null,
+              'Termos e Condições'
+            ),
+            _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: mapProps.terms.data.acceptance } }),
+            _react2.default.createElement(
+              'a',
+              { rel: 'license', href: 'http://creativecommons.org/licenses/by-sa/4.0/' },
+              _react2.default.createElement('img', { alt: 'Licença Creative Commons', src: 'https://i.creativecommons.org/l/by-sa/4.0/88x31.png', className: 'img-responsive' })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: 'terms-conditions' },
+              _react2.default.createElement('input', _extends({ type: 'checkbox', value: 'accept_terms', id: 'accept_terms' }, accept_terms)),
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'accept_terms' },
+                'Li e concordo com os “Termos e condições” de submissão.'
+              ),
+              accept_terms.touched && accept_terms.error && _react2.default.createElement(
+                'div',
+                { className: 'text-danger' },
+                accept_terms.error
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'form-buttons' },
           _react2.default.createElement(
             'button',
             { type: 'button', disabled: submitting, onClick: previousPage, className: 'cta primary outline' },
@@ -6360,7 +6530,7 @@ var NewResourceFormSecondPage = function (_Component) {
           _react2.default.createElement(
             'button',
             { type: 'submit', disabled: submitting, className: 'cta primary' },
-            submitting ? _react2.default.createElement('i', null) : _react2.default.createElement('i', null),
+            submitting ? _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin' }) : "",
             ' Criar Recurso'
           ),
           _react2.default.createElement(
@@ -7353,6 +7523,8 @@ var _languages = require('../../actions/languages');
 
 var _years = require('../../actions/years');
 
+var _terms = require('../../actions/terms');
+
 var _redux = require('redux');
 
 var _reduxForm = require('redux-form');
@@ -7436,7 +7608,11 @@ var NewResourceFormContainer = function (_Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit() {
-      console.log("submitting");
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          resolve();
+        }, 5000); // simulate server latency
+      });
     }
   }, {
     key: 'render',
@@ -7482,7 +7658,8 @@ function mapStateToProps(state) {
     subjects: state.subjects,
     domains: state.domains,
     languages: state.languages,
-    years: state.years
+    years: state.years,
+    terms: state.terms
   };
 }
 
@@ -7494,6 +7671,7 @@ function mapDispatchToProps(dispatch) {
     fetchDomains: _domains.fetchDomains,
     fetchLanguages: _languages.fetchLanguages,
     fetchYears: _years.fetchYears,
+    fetchTerms: _terms.fetchTerms,
     resetForm: function resetForm() {
       return dispatch((0, _reduxForm.reset)('newResource'));
     }
@@ -7502,7 +7680,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NewResourceFormContainer);
 
-},{"../../actions/access":"/var/www/devbox/app/assets/scripts/actions/access.js","../../actions/domains":"/var/www/devbox/app/assets/scripts/actions/domains.js","../../actions/formats":"/var/www/devbox/app/assets/scripts/actions/formats.js","../../actions/languages":"/var/www/devbox/app/assets/scripts/actions/languages.js","../../actions/subjects":"/var/www/devbox/app/assets/scripts/actions/subjects.js","../../actions/years":"/var/www/devbox/app/assets/scripts/actions/years.js","../../components/resources/newResource/newResourceFormFirstPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/containers/filters/index.js":[function(require,module,exports){
+},{"../../actions/access":"/var/www/devbox/app/assets/scripts/actions/access.js","../../actions/domains":"/var/www/devbox/app/assets/scripts/actions/domains.js","../../actions/formats":"/var/www/devbox/app/assets/scripts/actions/formats.js","../../actions/languages":"/var/www/devbox/app/assets/scripts/actions/languages.js","../../actions/subjects":"/var/www/devbox/app/assets/scripts/actions/subjects.js","../../actions/terms":"/var/www/devbox/app/assets/scripts/actions/terms.js","../../actions/years":"/var/www/devbox/app/assets/scripts/actions/years.js","../../components/resources/newResource/newResourceFormFirstPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/containers/filters/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7647,7 +7825,7 @@ var Header = function (_Component) {
 					if (curPage == "home-page") {
 						return [_react2.default.createElement(_highlights2.default, { key: 'highlights-container' }), _react2.default.createElement(
 							'div',
-							{ className: 'container' },
+							{ className: 'container', key: 'search-container' },
 							_react2.default.createElement(_search2.default, { key: 'search-container', searchKeywords: true, onSubmit: _this2.onSearch })
 						)];
 					}
@@ -8729,6 +8907,10 @@ var _years = require('./years');
 
 var _years2 = _interopRequireDefault(_years);
 
+var _terms = require('./terms');
+
+var _terms2 = _interopRequireDefault(_terms);
+
 var _auth = require('./auth');
 
 var _auth2 = _interopRequireDefault(_auth);
@@ -8757,13 +8939,14 @@ var rootReducer = (0, _redux.combineReducers)({
 	resources: _resources.resources,
 	resource: _resources.resource,
 	relatedResources: _resources.relatedResources,
+	terms: _terms2.default,
 	auth: _auth2.default,
 	user: _user2.default
 });
 
 exports.default = rootReducer;
 
-},{"./access":"/var/www/devbox/app/assets/scripts/reducers/access.js","./auth":"/var/www/devbox/app/assets/scripts/reducers/auth.js","./comments":"/var/www/devbox/app/assets/scripts/reducers/comments.js","./config":"/var/www/devbox/app/assets/scripts/reducers/config.js","./domains":"/var/www/devbox/app/assets/scripts/reducers/domains.js","./formats":"/var/www/devbox/app/assets/scripts/reducers/formats.js","./languages":"/var/www/devbox/app/assets/scripts/reducers/languages.js","./resources":"/var/www/devbox/app/assets/scripts/reducers/resources.js","./subjects":"/var/www/devbox/app/assets/scripts/reducers/subjects.js","./user":"/var/www/devbox/app/assets/scripts/reducers/user.js","./years":"/var/www/devbox/app/assets/scripts/reducers/years.js","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/reducers/languages.js":[function(require,module,exports){
+},{"./access":"/var/www/devbox/app/assets/scripts/reducers/access.js","./auth":"/var/www/devbox/app/assets/scripts/reducers/auth.js","./comments":"/var/www/devbox/app/assets/scripts/reducers/comments.js","./config":"/var/www/devbox/app/assets/scripts/reducers/config.js","./domains":"/var/www/devbox/app/assets/scripts/reducers/domains.js","./formats":"/var/www/devbox/app/assets/scripts/reducers/formats.js","./languages":"/var/www/devbox/app/assets/scripts/reducers/languages.js","./resources":"/var/www/devbox/app/assets/scripts/reducers/resources.js","./subjects":"/var/www/devbox/app/assets/scripts/reducers/subjects.js","./terms":"/var/www/devbox/app/assets/scripts/reducers/terms.js","./user":"/var/www/devbox/app/assets/scripts/reducers/user.js","./years":"/var/www/devbox/app/assets/scripts/reducers/years.js","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/reducers/languages.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8968,6 +9151,49 @@ exports.default = function () {
         data: action.data
       });
     case _actionTypes.SUBJECTS_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+
+},{"../actions/action-types":"/var/www/devbox/app/assets/scripts/actions/action-types.js","object-assign":"object-assign"}],"/var/www/devbox/app/assets/scripts/reducers/terms.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.TERMSANDCONDITIONS_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.TERMSANDCONDITIONS_SUCCESS:
+
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      });
+    case _actionTypes.TERMSANDCONDITIONS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         errorMessage: action.message

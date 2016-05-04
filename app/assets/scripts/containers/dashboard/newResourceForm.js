@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchFormats } from '../../actions/formats';
@@ -6,6 +8,7 @@ import { fetchSubjects } from '../../actions/subjects';
 import { fetchDomains } from '../../actions/domains';
 import { fetchLanguages } from '../../actions/languages';
 import { fetchYears } from '../../actions/years';
+import { fetchTerms } from '../../actions/terms';
 import { bindActionCreators } from 'redux';
 import {reset} from 'redux-form';
 
@@ -50,11 +53,17 @@ class NewResourceFormContainer extends Component {
   }
 
   handleSubmit(){
-    console.log("submitting");
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+          resolve()
+        
+      }, 5000) // simulate server latency
+    })
+
   }
 
   render() {
-    const { page } = this.state
+    const { page } = this.state;
     return (
       <div className="new-resource">
         <header className="new-form-header text-center">
@@ -83,7 +92,8 @@ function mapStateToProps(state) {
     subjects: state.subjects,
     domains: state.domains,
     languages: state.languages,
-    years: state.years
+    years: state.years,
+    terms: state.terms
   };
 }
 
@@ -95,6 +105,7 @@ function mapDispatchToProps(dispatch) {
     fetchDomains,
     fetchLanguages,
     fetchYears,
+    fetchTerms,
     resetForm: () => dispatch(reset('newResource'))
   }, dispatch);
 }

@@ -35,7 +35,7 @@ class Header extends Component {
 					if (curPage == "home-page" ){
 						return[
 							<HighlightsContainer key="highlights-container"/>,
-							<div className="container">
+							<div className="container" key="search-container">
 								<SearchContainer key="search-container" searchKeywords={true} onSubmit={this.onSearch}/>
 							</div>
 						]

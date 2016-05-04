@@ -177,7 +177,7 @@ gulp.task('styles', function () {
 });
 
 gulp.task('html', ['styles'], function () {
-  return gulp.src('*.html')
+  return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))

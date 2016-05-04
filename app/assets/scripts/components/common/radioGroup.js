@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 const renderList = (list, name,onclickCallback, checkedEl, isSingleCol) => {
@@ -5,8 +7,8 @@ const renderList = (list, name,onclickCallback, checkedEl, isSingleCol) => {
 	return list.map((item, index) => {
 		return(<div className={colClass} key={item.id}>
 			<div className="radio">
-				<input id={name + "_" + item.id} type="radio" name={name} value="{item.title}" defaultChecked={item.id==checkedEl.id}/>
-	    		<label htmlFor={name + "_" + item.id} onClick={() => onclickCallback(item)}>{item.title}</label>
+				<input id={name + "_" + item.id} type="radio" name={name} value="{item.title}" onChange={() => onclickCallback(item)} checked={item.id==checkedEl.id}/>
+	    		<label htmlFor={name + "_" + item.id} >{item.title}</label>
     		</div>
 		</div>)
 	});

@@ -1,3 +1,5 @@
+'user strict';
+
 import React, { Component } from 'react';
 
 export default class TextArea extends Component{
@@ -6,10 +8,14 @@ export default class TextArea extends Component{
 
 		this.handleChange = this.handleChange.bind(this);
 
-		this.state={
-			currentLength:0,
-			text: this.props.value || ""
+		this.state = {
+			currentLength: 0,
+			text: ""
 		}
+	}
+
+	componentDidMount(){
+		this.setState({text: this.props.initVal || ""});
 	}
 
 	handleChange(e){
@@ -20,15 +26,13 @@ export default class TextArea extends Component{
 				text: e.target.value
 			});
 
-			return true;
+		}else{
+			e.preventDefault();	
 		}
-
-		e.preventDefault();	
-
-		return false;
 	}
 
 	render(){
+		
 		return (
 			<div>
 				<textarea {...this.props} onChange={this.handleChange} value={this.state.text}></textarea>
@@ -43,7 +47,8 @@ export default class TextArea extends Component{
 	                <div className="col-xs-6 text-right">
 	                  <small>Deve ter no mínimo {this.props.min} caracteres e no máximo {this.props.max}</small>
 	                </div>
-	              </div>
-            </div>)
+              	</div>
+            </div>
+        )
 	}
 }

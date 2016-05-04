@@ -1,3 +1,6 @@
+'user strict';
+
+
 import React, { Component } from 'react';
 import Tags from 'react-tagsinput'
 
@@ -8,8 +11,12 @@ export default class TagsInput extends Component{
         this.handleChange = this.handleChange.bind(this);
 
         this.state = {
-            tags: this.props.tags || []
+            tags: []
         }
+    }
+
+    componentDidMount(){
+        this.setState({tags: this.props.tags || []});
     }
 
     handleChange(tags) {

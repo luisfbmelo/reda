@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
@@ -25,15 +27,36 @@ export const fields = [
   'isOnline',
   'subjects',
   'domains',
-  'year',
+  'years',
   'language',
   'op_proposal',
-  'accept_terms'
+  'accept_terms',
+  'hasDomains'
 ]
 // ^^ All fields on last form
 
 const validate = values => {
   const errors = {}
+
+  // Subjects
+  if (!values.subjects || values.subjects.length==0) {
+    errors.subjects = 'Campo é obrigatório'
+  }
+
+  // Domains
+  if (!values.domains || values.domains.length==0) {
+    errors.domains = 'Campo é obrigatório'
+  }
+
+  // Years
+  if (!values.years || values.years.length==0) {
+    errors.years = 'Campo é obrigatório'
+  }
+
+  // Languages
+  if (!values.language) {
+    errors.language = 'Campo é obrigatório'
+  }
 
   // Op Proposal
   if (!values.op_proposal) {
@@ -44,6 +67,11 @@ const validate = values => {
     errors.op_proposal = 'Apenas deve conter no máximo 300 caracteres'
   }
 
+  // Accepted terms
+  if (!values.accept_terms) {
+    errors.accept_terms = 'Deve aceitar os termos e condições para criar o recurso'
+  }
+
   return errors
 }
 
@@ -52,9 +80,12 @@ class NewResourceFormSecondPage extends Component {
     super(props);
 
     this.renderSubjects = this.renderSubjects.bind(this);
+    this.renderYears = this.renderYears.bind(this);
+    
     this.setSubject = this.setSubject.bind(this);
     this.setDomains = this.setDomains.bind(this);
-    this.setYear = this.setYear.bind(this);
+    this.setYears = this.setYears.bind(this);
+    this.setLanguage = this.setLanguage.bind(this);
 
     this.domainsOfSubject = this.domainsOfSubject.bind(this);
   }
@@ -65,6 +96,7 @@ class NewResourceFormSecondPage extends Component {
     this.props.mapProps.fetchDomains();
     this.props.mapProps.fetchLanguages();
     this.props.mapProps.fetchYears();
+    this.props.mapProps.fetchTerms();
   }
 
   // On change SUBJECTS
@@ -73,8 +105,8 @@ class NewResourceFormSecondPage extends Component {
   }
 
   // On change YEARS
-  setYear(year){
-    this.props.fields.year.onChange(year);
+  setYears(group){
+    this.props.fields.years.onChange(group);
   }
 
   // On change YEARS
@@ -114,43 +146,76 @@ class NewResourceFormSecondPage extends Component {
     )
   }
 
+  // Render subjects list
+  renderYears(){
+    const { years } = this.props.fields;
+    return(
+      <CheckboxGroup
+            name="subjects"
+            value={years.value}
+            onChange={this.setYears}
+          >
+            {
+              Checkbox => (
+                <div className="row">
+                  {_.sortBy(this.props.mapProps.years.data, 'title').map((item,index) => {
+                    return (
+                      <div key={"year-"+item.id} className="col-xs-6">
+                        <Checkbox value={item.id} id={"year-"+item.id}/> 
+                        <label htmlFor={"year-"+item.id}>{item.title}</label>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            }
+      </CheckboxGroup>
+    )
+  }
+
   // Render domains by subjects
   renderDomains(){
-    const { domains } = this.props.fields;
-    const { subjects } = this.props.fields;
+    const { domains, subjects } = this.props.fields;
 
     // Get domains to present
     const totalDomains = _.sortBy(this.domainsOfSubject(), 'title');
-
-    if (!totalDomains || totalDomains.length==0){
-      return null;
-    }
 
     return (
       <div className="row">
         <div className="col-xs-12">
           <label className="input-title">Domínios*</label>
           <div className={`form-group ${domains.touched && domains.invalid ? 'has-error' : ''}`}>
-            <CheckboxGroup
-                  name="domains"
-                  value={domains.value}
-                  onChange={this.setDomains}
-                >
-                  {
-                    Checkbox => (
-                      <div className="row">
-                        {totalDomains.map((item,index) => {
-                          return (
-                            <div key={"domains-"+item.id} className="col-xs-6 col-sm-3">
-                              <Checkbox value={item.id} id={"domains-"+item.id}/> 
-                              <label htmlFor={"domains-"+item.id}>{item.title}</label>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    )
-                  }
-            </CheckboxGroup>
+
+          {(() => {
+            if (!totalDomains || totalDomains.length==0){
+              return (
+                  <input type="text" className="form-control" placeholder="Indique um domínio" {...domains}/>
+                );
+            }else{
+              return(
+                <CheckboxGroup
+                      name="domains"
+                      value={domains.value}
+                      onChange={this.setDomains}
+                    >
+                      {
+                        Checkbox => (
+                          <div className="row">
+                            {totalDomains.map((item,index) => {
+                              return (
+                                <div key={"domains-"+item.id} className="col-xs-6 col-sm-3 domains-selection">
+                                  <Checkbox value={item.id} id={"domains-"+item.id}/> 
+                                  <label htmlFor={"domains-"+item.id}>{item.title}</label>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        )
+                      }
+                </CheckboxGroup>
+              )
+            }
+          })()}            
             {domains.touched && domains.error && <div className="text-danger">{domains.error}</div>}
           </div>
         </div>
@@ -185,24 +250,25 @@ class NewResourceFormSecondPage extends Component {
     }
 
     return null;
-    
   }
 
   render() {
     const {
-      fields: { op_proposal, subjects, year, language },
+      fields: { op_proposal, subjects, years, language, accept_terms, domains },
       handleSubmit,
       previousPage,
       submitting
       } = this.props;
 
     const { mapProps } = this.props;
-
-    if (!mapProps.subjects.data || !mapProps.domains.data || !mapProps.years.data || !mapProps.languages.data){
+    
+    if (!mapProps.subjects.data || !mapProps.domains.data || !mapProps.years.data || !mapProps.languages.data || !mapProps.terms.data){
       return null;
     }
-
-    return (<form onSubmit={handleSubmit}>
+    
+    
+    return (
+      <form onSubmit={handleSubmit} className="form second-page">
         <div className="row">
           <div className="col-xs-12 col-sm-6">
             <h1>Metadados</h1>
@@ -223,9 +289,9 @@ class NewResourceFormSecondPage extends Component {
           {/* YEARS */}
           <div className="col-xs-12 col-sm-4">
             <label className="input-title">Anos*</label>
-            <div className={`form-group ${year.touched && year.invalid ? 'has-error' : ''}`}>
-              <RadioGroup list={mapProps.years.data} name="years" setRadio={this.setYear} checked={year.value}/>
-              {year.touched && year.error && <div className="text-danger">{year.error}</div>}
+            <div className={`form-group ${years.touched && years.invalid ? 'has-error' : ''}`}>
+              {this.renderYears()}
+              {years.touched && years.error && <div className="text-danger">{years.error}</div>}
             </div>
           </div>
 
@@ -247,18 +313,37 @@ class NewResourceFormSecondPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Proposta de Operacionalização*</label>
             <div className={`form-group ${op_proposal.touched && op_proposal.invalid ? 'has-error' : ''}`}>
-              <TextArea max="300" min="20" className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" {...op_proposal} />
+              <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" initVal={op_proposal.value} {...op_proposal} />
               {op_proposal.touched && op_proposal.error && <div className="text-danger">{op_proposal.error}</div>}
             </div>            
           </div>
         </div>
 
-        <div>
+        {/* TERMS AND CONDITIONS */}
+        <div className="row">
+          <div className="col-xs-12">
+            <h1>Termos e Condições</h1>
+            <p dangerouslySetInnerHTML={{__html: mapProps.terms.data.acceptance}} />
+
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+              <img alt="Licença Creative Commons" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" className="img-responsive"/>
+            </a>
+            
+            <div className="terms-conditions">
+              <input type="checkbox" value="accept_terms" id="accept_terms" {...accept_terms}/> 
+              <label htmlFor="accept_terms">Li e concordo com os “Termos e condições” de submissão.</label> 
+              {accept_terms.touched && accept_terms.error && <div className="text-danger">{accept_terms.error}</div>}
+            </div>
+          </div>
+
+        </div>
+
+        <div className="form-buttons">
           <button type="button" disabled={submitting} onClick={previousPage} className="cta primary outline">
             Anterior
           </button>
           <button type="submit" disabled={submitting} className="cta primary">
-            {submitting ? <i/> : <i/>} Criar Recurso
+            {submitting ? <i className='fa fa-spinner fa-spin'></i> : ""} Criar Recurso
           </button>
           <Link to="/painel" className="cta no-bg">Cancelar</Link>
         </div>

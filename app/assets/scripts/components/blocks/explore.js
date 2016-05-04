@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 import { Component } from 'react';
 import fetch from 'isomorphic-fetch';

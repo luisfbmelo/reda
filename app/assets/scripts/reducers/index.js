@@ -10,6 +10,7 @@ import subjects  from './subjects';
 import domains  from './domains';
 import languages  from './languages';
 import years  from './years';
+import terms  from './terms';
 import auth from './auth';
 import user from './user';
 import config from './config';
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
 	resources,
 	resource,
 	relatedResources,
+	terms,
 	auth,
 	user
 }); 

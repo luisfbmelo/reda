@@ -1,3 +1,5 @@
+'use strict';
+
 import React, { Component } from 'react';
 
 
@@ -6,7 +8,6 @@ export default class FileInput extends Component{
         super(props);
         this.uploadFile = this.uploadFile.bind(this);
     }
-
 
     uploadFile(e) {
         let reader = new FileReader()
@@ -52,6 +53,6 @@ export default class FileInput extends Component{
     }
 
     render(){
-        return <input type="file" onChange={this.uploadFile} />
+        return <input type="file" onChange={this.uploadFile}/>
     }    
 }

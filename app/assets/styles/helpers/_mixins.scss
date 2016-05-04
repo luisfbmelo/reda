@@ -54,3 +54,14 @@ p {
   -ms-user-select: $arg;
   user-select: $arg;
 }
+
+/**
+ *
+ * OPACITY
+ * 
+ */
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}

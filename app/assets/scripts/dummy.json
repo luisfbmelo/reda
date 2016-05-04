@@ -1,4 +1,7 @@
 {
+	"terms": {
+		"acceptance": "Aceito os Termos e condições e autorizo que o conteúdo que submeto seja distribuído sob os termos da licença Creative Commons Attribution. <p>Ao fazê-lo:<ul><li>mantenho os direitos autorais do trabalho submetido;</li><li>sou o autor ou o proprietário da obra ou tenho a permissão do autor para a distribuir;</li><li>pretendo que este trabalho seja distribuído sob os termos dessa licença (inclusive permitindo a sua modificação, sendo-me dado o crédito pela minha criação)</li></ul></p>"
+	},
 	"explore": {
 		"title": "Explora. Aprende.",
 		"text": "Phasellus a est. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. In hac habitasse platea dictumst. Proin faucibus arcu quis ante. Nunc interdum lacus sit amet orci.",

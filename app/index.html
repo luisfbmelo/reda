@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<!--[if lt IE 10]> <html class="lt-ie10 no-js"  lang=""> <![endif]-->
+<!--[if gt IE 9]><!--> <html class="no-js" lang=""> <!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,8 +14,10 @@
 	<!-- /Web Fonts -->
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-
+	
+	<!-- build:css assets/styles/main.css -->
 	<link rel="stylesheet" href="/assets/styles/main.css">
+	<!-- endbuild -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 
@@ -25,23 +28,26 @@
 	  window.console = window.console || {log:ef,warn:ef,error:ef,dir:ef};
 	}());
 	</script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv-printshiv.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-shim.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/3.4.0/es5-sham.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+	<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 	<![endif]-->
 </head>
 <body>
-	<!--[if lt IE 9]>
-      <div id="nocando">
-        <h1>No can do!</h1>
-        <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<!--[if lt IE 10]>
+      <div id="nocando" class="alert alert-danger">
+        <h1>Atenção!</h1>
+        <p>Está a utilizar uma versão <strong>desatualizada</strong> do seu navegador. Por favor <a href="http://browsehappy.com/">atualize o navegador</a> para melhorar a sua experiência.</p>
       </div>
     <![endif]-->
 
 	<div id="site-canvas"><!-- Content goes inside #site-canvas --></div>
-
-	<script src="/assets/scripts/vendor.js"></script>
-	<script src="/assets/scripts/bundle.js"></script>
+	
+	<!-- build:js assets/scripts/vendor.js -->
+    <script src="assets/scripts/vendor.js"></script>
+    <!-- endbuild -->
+    <!-- build:js assets/scripts/bundle.js -->
+    <script src="assets/scripts/bundle.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

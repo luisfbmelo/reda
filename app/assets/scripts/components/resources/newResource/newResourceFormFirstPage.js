@@ -1,6 +1,9 @@
+'use strict';
+
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { Link } from 'react-router';
+import _ from 'lodash';
 
 // Components
 import Tags from '../../common/tags';
@@ -65,7 +68,7 @@ const validate = values => {
   // File
   if (!values.isOnline && !values.file){
     errors.file = 'Campo é obrigatório'
-  }else if (values.file && values.file.size>1000000) {
+  }else if (!values.isOnline && values.file && values.file.size && values.file.size>1000000) {
     errors.file = 'Ficheiro não deve exceder os 1 MB'
   }
 
@@ -122,8 +125,13 @@ class NewResourceFormFirstPage extends Component {
 
   componentDidMount(){
     this.props.mapProps.fetchFormats();
-    this.props.mapProps.fetchAccess();
-
+    this.props.mapProps.fetchAccess()
+    .then(() => {
+      // Set default to downloadable
+      _.forEach(this.props.mapProps.access.data, (mode) =>{    
+        mode.title=="Descarregável" && this.props.fields.access.onChange(mode);
+      })
+    })
   }
 
   // On change TAGS
@@ -147,21 +155,20 @@ class NewResourceFormFirstPage extends Component {
   }
 
   // On change FILE
-  onlineChange(){
+  onlineChange(e){
     const { isOnline } = this.props.fields;
 
+    this.props.fields.isOnline.onChange(e);
 
     // Clear to none
-    this.props.fields.access.onChange({});
-
-    if (this.props.mapProps.access.data){      
-      for(let mode of this.props.mapProps.access.data){        
+    if (this.props.mapProps.access && this.props.mapProps.access.data!=null){      
+      _.forEach(this.props.mapProps.access.data, (mode) =>{    
         if (isOnline.value && mode.title=="Online"){
           this.props.fields.access.onChange(mode);
         }else if (!isOnline.value && mode.title=="Descarregável"){
           this.props.fields.access.onChange(mode);          
         }
-      }
+      })
     }
   }
 
@@ -174,11 +181,11 @@ class NewResourceFormFirstPage extends Component {
     if (!this.props.mapProps.formats.data || !this.props.mapProps.access.data){
       return null;
     }
-    
-    const { formats } = this.props.mapProps;
 
+    const { formats } = this.props.mapProps;
+    //console.log(file);
     return (
-      <form onSubmit={handleSubmit} encType="multipart/form-data">
+      <form onSubmit={handleSubmit} encType="multipart/form-data" className="form first-page">
         <div className="row">
           <div className="col-xs-12 col-sm-6">
             <h1>Detalhes</h1>
@@ -271,27 +278,21 @@ class NewResourceFormFirstPage extends Component {
               
               {/* CONDITIONAL INPUT FIELD */}
               {(() => {
-                if(format.value.type=='video'){
-                  return (
-                    <div className={`form-group ${(embed.touched && embed.invalid) ? 'has-error' : ''}`}>
-                      <input type="text" className="form-control" name="embed-video" placeholder="Insira o código de incorporação do vídeo" {...embed} />
-                      {embed.touched && embed.error && <div className="text-danger">{embed.error}</div>}
-                    </div>
-                  )
-                }else if(!isOnline.value){
+                if(!isOnline.value && format.value.type!='video'){
                     return (
                       <div className={`form-group ${(file.touched && file.invalid) ? 'has-error' : ''}`}>
                         <FileInput setFile={this.setFile}/>
-                        {file.touched && file.error && <div className="text-danger">{file.error}</div>}
+                        {file.value && <strong>Ficheiro: {file.value.name}.{file.value.extension} ({file.value.size} Bytes)</strong>}
+                        {(file.touched || file.dirty) && file.error && <div className="text-danger">{file.error}</div>}
                       </div>
                     )
-                }else{
+                }else if (isOnline.value || format.value.type=='video') {
                   return (
                     <div className={`form-group ${(link.touched && link.invalid) || (embed.touched && embed.invalid) ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" name="link" placeholder="Indique o endereço do recurso" {...link} />
                       {link.touched && link.error && <div className="text-danger">{link.error}</div>}
                       <small>ou</small>
-                      <input type="text" className="form-control" name="embed-video" placeholder="Insira o código de incorporação do vídeo" {...embed} />
+                      <input type="text" className="form-control" name="embed-video" placeholder="Insira o código de incorporação" {...embed} />
                       {embed.touched && embed.error && <div className="text-danger">{embed.error}</div>}
                     </div>
                   )
@@ -317,7 +318,7 @@ class NewResourceFormFirstPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Recursos Técnicos*</label>
             <div className={`form-group ${techResources.touched && techResources.invalid ? 'has-error' : ''}`}>
-              <TextArea max="300" min="20" className="form-control" placeholder="Este recurso requer a utilização de..."  {...techResources} />
+              <TextArea max="300" min="20" className="form-control" placeholder="Este recurso requer a utilização de..." initVal={techResources.value} {...techResources} />
               {techResources.touched && techResources.error && <div className="text-danger">{techResources.error}</div>}
               
             </div>            
@@ -329,14 +330,14 @@ class NewResourceFormFirstPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Descrição*</label>
             <div className={`form-group ${description.touched && description.invalid ? 'has-error' : ''}`}>
-              <TextArea max="300" min="20" className="form-control" placeholder="Descreva este recurso sucintamente" {...description} />
+              <TextArea max="300" min="20" className="form-control" placeholder="Descreva este recurso sucintamente" initVal={description.value} {...description} />
               {description.touched && description.error && <div className="text-danger">{description.error}</div>}
             </div>            
           </div>
         </div>
 
         {/* NEXT */}
-        <div>
+        <div className="form-buttons">
           <button type="submit" className="cta primary">Continuar</button>
           <Link to="/painel" className="cta primary no-bg">Cancelar</Link>
         </div>
