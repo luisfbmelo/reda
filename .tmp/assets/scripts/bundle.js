@@ -1876,7 +1876,12 @@ var FileInput = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('input', { type: 'file', onChange: this.uploadFile });
+            return _react2.default.createElement(
+                'span',
+                { className: 'cta primary btn-file' },
+                _react2.default.createElement('input', { type: 'file', onChange: this.uploadFile }),
+                ' Escolher'
+            );
         }
     }]);
 
@@ -5464,6 +5469,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline'];
 
+var allowedExt = [".gif", ".jpeg", "jpg", ".png", ".rtf", "doc", "docx", "odt", "txt", "mp3", "wav", "wma", "jar", "ggb", "swf", ".jnlp"];
+
 var validate = function validate(values) {
   var errors = {};
 
@@ -5506,6 +5513,8 @@ var validate = function validate(values) {
     errors.file = 'Campo é obrigatório';
   } else if (!values.isOnline && values.file && values.file.size && values.file.size > 1000000) {
     errors.file = 'Ficheiro não deve exceder os 1 MB';
+  } else if (!values.isOnline && values.file && values.file.extension && allowedExt.indexOf(values.file.extension.toLowerCase()) < 0) {
+    errors.file = 'Tipo de ficheiro não é permitido';
   }
 
   // Embed
@@ -5861,16 +5870,29 @@ var NewResourceFormFirstPage = function (_Component) {
                   'div',
                   { className: 'form-group ' + (file.touched && file.invalid ? 'has-error' : '') },
                   _react2.default.createElement(_fileInput2.default, { setFile: _this4.setFile }),
-                  file.value && _react2.default.createElement(
-                    'strong',
+                  _react2.default.createElement(
+                    'p',
                     null,
-                    'Ficheiro: ',
-                    file.value.name,
-                    '.',
-                    file.value.extension,
-                    ' (',
-                    file.value.size,
-                    ' Bytes)'
+                    _react2.default.createElement(
+                      'small',
+                      null,
+                      'Tamanho máximo de ficheiro é de 100MB'
+                    )
+                  ),
+                  file.value && !file.error && _react2.default.createElement(
+                    'p',
+                    null,
+                    _react2.default.createElement(
+                      'strong',
+                      null,
+                      'Ficheiro: ',
+                      file.value.name,
+                      '.',
+                      file.value.extension,
+                      ' (',
+                      file.value.size,
+                      ' Bytes)'
+                    )
                   ),
                   (file.touched || file.dirty) && file.error && _react2.default.createElement(
                     'div',
@@ -7558,7 +7580,7 @@ var NewResourceFormContainer = function (_Component) {
     _this.nextPage = _this.nextPage.bind(_this);
     _this.previousPage = _this.previousPage.bind(_this);
     _this.state = {
-      page: 2
+      page: 1
     };
     return _this;
   }
@@ -7608,6 +7630,7 @@ var NewResourceFormContainer = function (_Component) {
   }, {
     key: 'handleSubmit',
     value: function handleSubmit() {
+      // MAKE SUBMITION
       return new Promise(function (resolve, reject) {
         setTimeout(function () {
           resolve();

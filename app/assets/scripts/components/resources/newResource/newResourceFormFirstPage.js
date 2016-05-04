@@ -28,6 +28,8 @@ export const fields = [
   'isOnline'
 ]
 
+const allowedExt = [".gif",".jpeg","jpg",".png",".rtf", "doc","docx","odt","txt","mp3","wav","wma","jar","ggb","swf",".jnlp"];
+
 const validate = values => {
   const errors = {}
 
@@ -70,6 +72,8 @@ const validate = values => {
     errors.file = 'Campo é obrigatório'
   }else if (!values.isOnline && values.file && values.file.size && values.file.size>1000000) {
     errors.file = 'Ficheiro não deve exceder os 1 MB'
+  }else if(!values.isOnline && values.file && values.file.extension && allowedExt.indexOf(values.file.extension.toLowerCase())<0){
+    errors.file = 'Tipo de ficheiro não é permitido'
   }
 
   // Embed
@@ -282,7 +286,8 @@ class NewResourceFormFirstPage extends Component {
                     return (
                       <div className={`form-group ${(file.touched && file.invalid) ? 'has-error' : ''}`}>
                         <FileInput setFile={this.setFile}/>
-                        {file.value && <strong>Ficheiro: {file.value.name}.{file.value.extension} ({file.value.size} Bytes)</strong>}
+                        <p><small>Tamanho máximo de ficheiro é de 100MB</small></p>
+                        {file.value && !file.error && <p><strong>Ficheiro: {file.value.name}.{file.value.extension} ({file.value.size} Bytes)</strong></p>}
                         {(file.touched || file.dirty) && file.error && <div className="text-danger">{file.error}</div>}
                       </div>
                     )

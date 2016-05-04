@@ -24,7 +24,7 @@ class NewResourceFormContainer extends Component {
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
     this.state = {
-      page: 2
+      page: 1
     }
   }
 
@@ -53,6 +53,7 @@ class NewResourceFormContainer extends Component {
   }
 
   handleSubmit(){
+    // MAKE SUBMITION
     return new Promise((resolve, reject) => {
       setTimeout(() => {
           resolve()
