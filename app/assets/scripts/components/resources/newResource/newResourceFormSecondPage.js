@@ -324,11 +324,13 @@ class NewResourceFormSecondPage extends Component {
           <div className="col-xs-12">
             <h1>Termos e Condições</h1>
             <p dangerouslySetInnerHTML={{__html: mapProps.terms.data.acceptance}} />
-
-            <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
-              <img alt="Licença Creative Commons" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" className="img-responsive"/>
-            </a>
             
+            <div className="license">
+              <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+                <img alt="Licença Creative Commons" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" className="img-responsive"/>
+              </a>
+            </div>
+
             <div className="terms-conditions">
               <input type="checkbox" value="accept_terms" id="accept_terms" {...accept_terms}/> 
               <label htmlFor="accept_terms">Li e concordo com os “Termos e condições” de submissão.</label> 
@@ -338,7 +340,7 @@ class NewResourceFormSecondPage extends Component {
 
         </div>
 
-        <div className="form-buttons">
+        <footer className="form-buttons">
           <button type="button" disabled={submitting} onClick={previousPage} className="cta primary outline">
             Anterior
           </button>
@@ -346,7 +348,7 @@ class NewResourceFormSecondPage extends Component {
             {submitting ? <i className='fa fa-spinner fa-spin'></i> : ""} Criar Recurso
           </button>
           <Link to="/painel" className="cta no-bg">Cancelar</Link>
-        </div>
+        </footer>
       </form>
     )
   }

@@ -28,7 +28,7 @@ export const fields = [
   'isOnline'
 ]
 
-const allowedExt = [".gif",".jpeg","jpg",".png",".rtf", "doc","docx","odt","txt","mp3","wav","wma","jar","ggb","swf",".jnlp"];
+const allowedExt = ["gif","jpeg","jpg","png","rtf", "doc","docx","odt","txt","mp3","wav","wma","jar","ggb","swf","jnlp"];
 
 const validate = values => {
   const errors = {}
@@ -73,7 +73,7 @@ const validate = values => {
   }else if (!values.isOnline && values.file && values.file.size && values.file.size>1000000) {
     errors.file = 'Ficheiro não deve exceder os 1 MB'
   }else if(!values.isOnline && values.file && values.file.extension && allowedExt.indexOf(values.file.extension.toLowerCase())<0){
-    errors.file = 'Tipo de ficheiro não é permitido'
+    errors.file = `Extensão .${values.file.extension} não é permitida`
   }
 
   // Embed
@@ -287,7 +287,7 @@ class NewResourceFormFirstPage extends Component {
                       <div className={`form-group ${(file.touched && file.invalid) ? 'has-error' : ''}`}>
                         <FileInput setFile={this.setFile}/>
                         <p><small>Tamanho máximo de ficheiro é de 100MB</small></p>
-                        {file.value && !file.error && <p><strong>Ficheiro: {file.value.name}.{file.value.extension} ({file.value.size} Bytes)</strong></p>}
+                        {file.value && !file.error && <p><strong>Ficheiro: {file.value.name}.{file.value.extension}</strong></p>}
                         {(file.touched || file.dirty) && file.error && <div className="text-danger">{file.error}</div>}
                       </div>
                     )
@@ -342,10 +342,10 @@ class NewResourceFormFirstPage extends Component {
         </div>
 
         {/* NEXT */}
-        <div className="form-buttons">
+        <footer className="form-buttons">
           <button type="submit" className="cta primary">Continuar</button>
           <Link to="/painel" className="cta primary no-bg">Cancelar</Link>
-        </div>
+        </footer>
       </form>
     )
   }

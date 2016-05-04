@@ -1880,7 +1880,7 @@ var FileInput = function (_Component) {
                 'span',
                 { className: 'cta primary btn-file' },
                 _react2.default.createElement('input', { type: 'file', onChange: this.uploadFile }),
-                ' Escolher'
+                ' Escolher Ficheiro'
             );
         }
     }]);
@@ -5469,7 +5469,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline'];
 
-var allowedExt = [".gif", ".jpeg", "jpg", ".png", ".rtf", "doc", "docx", "odt", "txt", "mp3", "wav", "wma", "jar", "ggb", "swf", ".jnlp"];
+var allowedExt = ["gif", "jpeg", "jpg", "png", "rtf", "doc", "docx", "odt", "txt", "mp3", "wav", "wma", "jar", "ggb", "swf", "jnlp"];
 
 var validate = function validate(values) {
   var errors = {};
@@ -5514,7 +5514,7 @@ var validate = function validate(values) {
   } else if (!values.isOnline && values.file && values.file.size && values.file.size > 1000000) {
     errors.file = 'Ficheiro não deve exceder os 1 MB';
   } else if (!values.isOnline && values.file && values.file.extension && allowedExt.indexOf(values.file.extension.toLowerCase()) < 0) {
-    errors.file = 'Tipo de ficheiro não é permitido';
+    errors.file = 'Extensão .' + values.file.extension + ' não é permitida';
   }
 
   // Embed
@@ -5888,10 +5888,7 @@ var NewResourceFormFirstPage = function (_Component) {
                       'Ficheiro: ',
                       file.value.name,
                       '.',
-                      file.value.extension,
-                      ' (',
-                      file.value.size,
-                      ' Bytes)'
+                      file.value.extension
                     )
                   ),
                   (file.touched || file.dirty) && file.error && _react2.default.createElement(
@@ -5996,7 +5993,7 @@ var NewResourceFormFirstPage = function (_Component) {
           )
         ),
         _react2.default.createElement(
-          'div',
+          'footer',
           { className: 'form-buttons' },
           _react2.default.createElement(
             'button',
@@ -6520,9 +6517,13 @@ var NewResourceFormSecondPage = function (_Component) {
             ),
             _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: mapProps.terms.data.acceptance } }),
             _react2.default.createElement(
-              'a',
-              { rel: 'license', href: 'http://creativecommons.org/licenses/by-sa/4.0/' },
-              _react2.default.createElement('img', { alt: 'Licença Creative Commons', src: 'https://i.creativecommons.org/l/by-sa/4.0/88x31.png', className: 'img-responsive' })
+              'div',
+              { className: 'license' },
+              _react2.default.createElement(
+                'a',
+                { rel: 'license', href: 'http://creativecommons.org/licenses/by-sa/4.0/' },
+                _react2.default.createElement('img', { alt: 'Licença Creative Commons', src: 'https://i.creativecommons.org/l/by-sa/4.0/88x31.png', className: 'img-responsive' })
+              )
             ),
             _react2.default.createElement(
               'div',
@@ -6542,7 +6543,7 @@ var NewResourceFormSecondPage = function (_Component) {
           )
         ),
         _react2.default.createElement(
-          'div',
+          'footer',
           { className: 'form-buttons' },
           _react2.default.createElement(
             'button',

@@ -55,7 +55,7 @@ export default class FileInput extends Component{
     render(){
         return (
             <span className="cta primary btn-file">
-                <input type="file" onChange={this.uploadFile}/> Escolher
+                <input type="file" onChange={this.uploadFile}/> Escolher Ficheiro
             </span>
         )
     }    
