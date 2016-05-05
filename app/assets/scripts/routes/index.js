@@ -11,6 +11,7 @@ import DiscoverPage from '../pages/discoverPage';
 import DashboardPage from '../pages/dashboardPage';
 import ResourceDetailsPage from '../pages/resourceDetailsPage';
 import NewResourcePage from '../pages/newResourcePage';
+import NewScriptPage from '../pages/newScriptPage';
 import NotFoundPage from '../pages/notFoundPage';
 
 // Required
@@ -26,7 +27,7 @@ export default (
 		  <Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
   	</Route>
     
-  	<Route name="Novo Guião" path="novoguiao/:resource" component={DiscoverPage} />  	
+  	<Route name="Gerir Guiões" path="gerirguioes/:resource" component={NewScriptPage} />  	
 
   	<Route name="Painel de Gestão" path="painel" component={DashboardPage} />
     <Route name="Novo Recurso" path="novorecurso" component={NewResourcePage} />

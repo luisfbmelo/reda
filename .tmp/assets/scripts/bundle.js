@@ -996,6 +996,8 @@ var _loginForm2 = _interopRequireDefault(_loginForm);
 
 var _reactBootstrap = require('react-bootstrap');
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1033,6 +1035,9 @@ var LoginButton = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      // Set target
+      var target = this.props.location || null;
+
       return _react2.default.createElement(
         'div',
         null,
@@ -1061,7 +1066,12 @@ var LoginButton = function (_Component) {
           _react2.default.createElement(
             _reactBootstrap.Modal.Body,
             null,
-            _react2.default.createElement(_loginForm2.default, null)
+            _react2.default.createElement(_loginForm2.default, { target: target }),
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/registar', className: 'cta primary outline block text-center' },
+              'Registar'
+            )
           ),
           _react2.default.createElement(
             _reactBootstrap.Modal.Footer,
@@ -1087,7 +1097,7 @@ LoginButton.propTypes = {
   className: _react.PropTypes.string
 };
 
-},{"../../containers/auth/loginForm":"/var/www/devbox/app/assets/scripts/containers/auth/loginForm.js","react":"react","react-bootstrap":"react-bootstrap"}],"/var/www/devbox/app/assets/scripts/components/auth/loginForm.js":[function(require,module,exports){
+},{"../../containers/auth/loginForm":"/var/www/devbox/app/assets/scripts/containers/auth/loginForm.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/auth/loginForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1370,7 +1380,7 @@ var ProtectedButton = function (_Component) {
             _react2.default.createElement(
               _reactBootstrap.Modal.Title,
               null,
-              'Parece que não se autenticou...'
+              'Parece que ainda não se autenticou na plataforma...'
             )
           ),
           _react2.default.createElement(
@@ -1379,7 +1389,12 @@ var ProtectedButton = function (_Component) {
             _react2.default.createElement(
               'p',
               null,
-              'Alguns conteúdos da REDA estão reservados apenas para docentes. Aconselhamos autenticar-se na plataforma.'
+              'Para que tenha acesso a todos os recursos disponíveis, terá de efetuar a sua autentificação.'
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              'Caso ainda não esteja registado, aproveite esta oportunidade para o fazer!'
             ),
             _react2.default.createElement(_loginForm2.default, { target: this.props.target })
           ),
@@ -1389,7 +1404,7 @@ var ProtectedButton = function (_Component) {
             _react2.default.createElement(
               'p',
               null,
-              'Não é docente? Pode na mesma ver...'
+              'Não é professor? Não deixe de explorar as sugestões que temos para todos.'
             ),
             _react2.default.createElement(
               _reactRouter.Link,
@@ -1492,13 +1507,13 @@ var ContributeBlock = function (_Component) {
 	}, {
 		key: 'renderSections',
 		value: function renderSections() {
+			var _this3 = this;
+
 			return this.state.sections.map(function (section, index) {
-				// Set if this column has an offset
-				var hasOffset = index == 0 ? " col-md-offset-2" : "";
 
 				return _react2.default.createElement(
 					'div',
-					{ className: "col-xs-12 col-sm-6 col-md-4 block__contribute--col" + (index == 0 ? " col-md-offset-2" : ""), key: index },
+					{ className: "col-xs-12 col-sm-6 col-md-4 block__contribute--col" + (index == 0 ? " col-md-offset-2" : null), key: index },
 					_react2.default.createElement(
 						'h2',
 						null,
@@ -1512,9 +1527,13 @@ var ContributeBlock = function (_Component) {
 					),
 					function () {
 						if (section.button.type == "login") {
-							return _react2.default.createElement(
+							return !_this3.props.auth.isAuthenticated ? _react2.default.createElement(
 								_loginButton2.default,
 								{ className: 'cta white outline' },
+								section.button.text
+							) : _react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/painel', className: 'cta white outline' },
 								section.button.text
 							);
 						} else if (section.button.type == "feedback") {
@@ -1650,11 +1669,7 @@ var ExploreBlock = function (_Component) {
 						null,
 						this.state.title
 					),
-					_react2.default.createElement(
-						'span',
-						null,
-						this.state.text
-					),
+					_react2.default.createElement('span', { dangerouslySetInnerHTML: { __html: this.state.text } }),
 					_react2.default.createElement(
 						_reactRouter.Link,
 						{ to: 'experimenta', className: 'cta primary outline' },
@@ -1750,6 +1765,13 @@ var Collapsible = function (_Component) {
 	}
 
 	_createClass(Collapsible, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.setState({
+				open: this.props.isOpen || false
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
@@ -1758,16 +1780,27 @@ var Collapsible = function (_Component) {
 				'div',
 				{ className: 'collapse-container' },
 				_react2.default.createElement(
-					'button',
-					{ onClick: function onClick() {
-							return _this2.setState({ open: !_this2.state.open });
-						} },
+					'div',
+					{ className: "buttons " + this.props.className + (this.state.open ? " open" : " outline") },
+					function () {
+						if (_this2.props.deleteEl) {
+							return _react2.default.createElement('i', { className: _this2.props.deleteIcon || null, onClick: function onClick() {
+									return _this2.props.deleteEl();
+								}, title: 'Remover Guião' });
+						}
+					}(),
 					_react2.default.createElement(
-						'span',
-						null,
-						this.props.title
-					),
-					_react2.default.createElement('i', { className: this.state.open ? this.props.iconOpen : this.props.iconClosed })
+						'button',
+						{ onClick: function onClick() {
+								return _this2.setState({ open: !_this2.state.open });
+							} },
+						_react2.default.createElement(
+							'span',
+							null,
+							this.props.title
+						),
+						_react2.default.createElement('i', { className: this.state.open ? this.props.iconOpen : this.props.iconClosed })
+					)
 				),
 				_react2.default.createElement(
 					_reactBootstrap.Collapse,
@@ -1790,9 +1823,12 @@ exports.default = Collapsible;
 
 Collapsible.propTypes = {
 	title: _react2.default.PropTypes.string.isRequired,
-	children: _react2.default.PropTypes.object.isRequired,
+	className: _react2.default.PropTypes.string,
 	iconOpen: _react2.default.PropTypes.string.isRequired,
-	iconClosed: _react2.default.PropTypes.string.isRequired
+	iconClosed: _react2.default.PropTypes.string.isRequired,
+	deleteEl: _react2.default.PropTypes.func,
+	deleteIcon: _react2.default.PropTypes.string,
+	isOpen: _react2.default.PropTypes.bool
 };
 
 },{"react":"react","react-bootstrap":"react-bootstrap"}],"/var/www/devbox/app/assets/scripts/components/common/fileInput.js":[function(require,module,exports){
@@ -2455,7 +2491,7 @@ var renderList = function renderList(list, props) {
 							),
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ to: "/novoguiao/" + el.id, className: 'cta primary outline small' },
+								{ to: "/gerirguioes/" + el.id, className: 'cta primary outline small' },
 								'Gerir Guiões'
 							),
 							_react2.default.createElement('i', { className: "action-btn fa fa-" + (el.highlight ? "star" : "star-o"), onClick: function onClick() {
@@ -3358,7 +3394,7 @@ var TopNav = function (_Component) {
 					null,
 					_react2.default.createElement(
 						_loginButton2.default,
-						null,
+						{ location: this.props.location.pathname },
 						'Entrar'
 					)
 				);
@@ -3385,6 +3421,7 @@ var TopNav = function (_Component) {
 		key: 'render',
 		value: function render() {
 			var isAuthenticated = this.props.auth.isAuthenticated;
+
 
 			return _react2.default.createElement(
 				_reactBootstrap.Navbar,
@@ -3675,9 +3712,34 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = require('react-bootstrap');
 
+var _reactRouter = require('react-router');
+
+var _protectedButton = require('../auth/protectedButton');
+
+var _protectedButton2 = _interopRequireDefault(_protectedButton);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var renderList = function renderList(list) {
+// Components
+
+
+var renderProtected = function renderProtected(obj, target, el, isAuth) {
+	if (!el.protected || isAuth) {
+		return _react2.default.createElement(
+			_reactRouter.Link,
+			{ to: target },
+			obj
+		);
+	}
+
+	return _react2.default.createElement(
+		_protectedButton2.default,
+		{ target: target },
+		obj
+	);
+};
+
+var renderList = function renderList(list, isAuth) {
 	return list.map(function (element) {
 		return _react2.default.createElement(
 			_reactBootstrap.Carousel.Item,
@@ -3688,34 +3750,26 @@ var renderList = function renderList(list) {
 				_react2.default.createElement(
 					'div',
 					{ className: 'media-left media__img' },
-					_react2.default.createElement(
-						'a',
-						{ href: '#', className: 'app-carousel__img' },
-						_react2.default.createElement('img', { className: 'media-object img-responsive', src: element.image.src, alt: element.image.alt })
-					)
+					renderProtected(_react2.default.createElement('span', { className: 'app-carousel__img', style: { "backgroundImage": 'url(' + element.image.src + ')' } }), "/descobrir/detalhes-recurso/" + element.id, element, isAuth)
 				),
 				_react2.default.createElement(
 					'div',
 					{ className: 'media-body' },
-					_react2.default.createElement(
-						'a',
-						{ href: '#' },
-						_react2.default.createElement(
-							'h1',
-							{ className: 'media-heading' },
-							element.title
-						)
-					),
+					renderProtected(_react2.default.createElement(
+						'h1',
+						{ className: 'media-heading' },
+						element.title
+					), "/descobrir/detalhes-recurso/" + element.id, element, isAuth),
 					_react2.default.createElement(
 						'div',
 						{ className: 'app-carousel__text' },
 						element.text
 					),
-					_react2.default.createElement(
-						'a',
-						{ href: '#', className: 'cta secundary no-bg pull-right' },
+					renderProtected(_react2.default.createElement(
+						'span',
+						{ className: 'cta secundary no-bg pull-right' },
 						'Ler mais...'
-					)
+					), "/descobrir/detalhes-recurso/" + element.id, element, isAuth)
 				)
 			)
 		);
@@ -3725,11 +3779,7 @@ var renderList = function renderList(list) {
 var AppCarousel = exports.AppCarousel = function AppCarousel(props) {
 	var settings = props.settings;
 	if (!props.data || !props.data.data || props.data.fetching) {
-		return _react2.default.createElement(
-			'div',
-			{ className: 'loading' },
-			'Loading...'
-		);
+		return _react2.default.createElement('div', null);
 	}
 
 	return _react2.default.createElement(
@@ -3738,7 +3788,7 @@ var AppCarousel = exports.AppCarousel = function AppCarousel(props) {
 		_react2.default.createElement(
 			_reactBootstrap.Carousel,
 			{ interval: settings.interval, nextIcon: settings.nextIcon, prevIcon: settings.prevIcon, indicators: settings.indicators },
-			renderList(props.data.data)
+			renderList(props.data.data, props.isAuthenticated)
 		)
 	);
 };
@@ -3748,7 +3798,7 @@ AppCarousel.propTypes = {
 	settings: _react2.default.PropTypes.object.isRequired
 };
 
-},{"react":"react","react-bootstrap":"react-bootstrap"}],"/var/www/devbox/app/assets/scripts/components/resources/comments/comment.js":[function(require,module,exports){
+},{"../auth/protectedButton":"/var/www/devbox/app/assets/scripts/components/auth/protectedButton.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/components/resources/comments/comment.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4122,11 +4172,7 @@ var ResourcesFilters = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			if (!this.props.formats.data) return _react2.default.createElement(
-				'div',
-				null,
-				'Loading...'
-			);
+			if (!this.props.formats.data) return null;
 
 			return _react2.default.createElement(
 				'div',
@@ -4480,9 +4526,18 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 			function () {
 				if (addscript && isAuthenticated) {
 					return _react2.default.createElement(
-						_reactRouter.Link,
-						{ to: "/novoguiao/" + el.id, className: 'cta primary outline small' },
-						'Adicionar Guião'
+						'span',
+						{ className: 'list__element--buttons' },
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'cta primary outline small' },
+							'Ver Recurso'
+						),
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: "/gerirguioes/" + el.id, className: 'cta primary outline small' },
+							'Adicionar Guião'
+						)
 					);
 				}
 
@@ -4626,11 +4681,13 @@ var ResourceDetails = function (_Component) {
 					// If this requires auth and not authed, go back
 					if (_this2.requiresAuth()) {
 						_this2.context.router.push('/descobrir');
+
+						// If allowed, get the favorite
 					} else {
-						_this2.setState({
-							isFavorite: _this2.props.resource.data.favorite || false
-						});
-					}
+							_this2.setState({
+								isFavorite: _this2.props.resource.data.favorite || false
+							});
+						}
 				});
 			});
 		}
@@ -5164,7 +5221,7 @@ var ResourceHighlights = function (_Component) {
 				prevIcon: _react2.default.createElement('i', { className: 'fa fa-chevron-left', 'aria-hidden': 'true' })
 			};
 
-			return _react2.default.createElement(_carousel.AppCarousel, { data: this.props.highlights, settings: settings });
+			return _react2.default.createElement(_carousel.AppCarousel, { data: this.props.highlights, settings: settings, isAuthenticated: this.props.auth.isAuthenticated });
 		}
 	}]);
 
@@ -5175,7 +5232,8 @@ exports.default = ResourceHighlights;
 
 
 ResourceHighlights.propTypes = {
-	highlights: _react2.default.PropTypes.object.isRequired
+	highlights: _react2.default.PropTypes.object.isRequired,
+	auth: _react2.default.PropTypes.object.isRequired
 };
 
 },{"./carousel":"/var/www/devbox/app/assets/scripts/components/resources/carousel.js","react":"react"}],"/var/www/devbox/app/assets/scripts/components/resources/listing.js":[function(require,module,exports){
@@ -5275,6 +5333,9 @@ var ResourcesListing = function (_Component) {
 		value: function onSearchSubmit(keyword) {
 			console.log(keyword);
 		}
+
+		// Alert that user is not authenticated
+
 	}, {
 		key: 'renderAlert',
 		value: function renderAlert() {
@@ -5290,14 +5351,14 @@ var ResourcesListing = function (_Component) {
 						_react2.default.createElement(
 							'p',
 							null,
-							'A listagem disponível está limitada a utilizadores não autenticados. Para obter mais recursos, é aconselhado que entre na plataforma.'
+							'Esta listagem pode conter resultados restritos ao utilizador não registado, pelo que aconselhamos que realize a sua autenticação.'
 						),
 						_react2.default.createElement(
 							'div',
 							{ className: 'text-center' },
 							_react2.default.createElement(
 								_loginButton2.default,
-								{ className: 'btn btn-warning' },
+								{ className: 'btn btn-warning', location: this.props.location.pathname },
 								'Entrar na REDA'
 							)
 						)
@@ -5305,6 +5366,9 @@ var ResourcesListing = function (_Component) {
 				)
 			);
 		}
+
+		// Render new resource button according to auth
+
 	}, {
 		key: 'renderNewResourceBtn',
 		value: function renderNewResourceBtn(obj, target) {
@@ -5456,6 +5520,10 @@ var _textarea = require('../../common/textarea');
 
 var _textarea2 = _interopRequireDefault(_textarea);
 
+var _validateFirstPage = require('./validateFirstPage');
+
+var _validateFirstPage2 = _interopRequireDefault(_validateFirstPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5467,91 +5535,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Components
 
 
-var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline'];
+// Validation
 
-var allowedExt = ["gif", "jpeg", "jpg", "png", "rtf", "doc", "docx", "odt", "txt", "mp3", "wav", "wma", "jar", "ggb", "swf", "jnlp"];
 
-var validate = function validate(values) {
-  var errors = {};
-
-  // Title
-  if (!values.title) {
-    errors.title = 'O campo é obrigatório';
-  }
-
-  // Author
-  if (!values.author) {
-    errors.author = 'O campo é obrigatório';
-  }
-
-  // Email
-  if (!values.email) {
-    errors.email = 'O campo é obrigatório';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'E-mail inserido não é válido';
-  }
-
-  // Organization
-  if (!values.organization) {
-    errors.organization = 'O campo é obrigatório';
-  }
-
-  // Keywords
-  if (!values.keywords) {
-    errors.keywords = 'O campo é obrigatório';
-  } else if (values.keywords.length > 5) {
-    errors.keywords = 'Deve ter entre 1 e 5 palavras-chave';
-  }
-
-  // Formats
-  if (!values.format) {
-    errors.format = 'O campo é obrigatório';
-  }
-
-  // File
-  if (!values.isOnline && !values.file) {
-    errors.file = 'Campo é obrigatório';
-  } else if (!values.isOnline && values.file && values.file.size && values.file.size > 1000000) {
-    errors.file = 'Ficheiro não deve exceder os 1 MB';
-  } else if (!values.isOnline && values.file && values.file.extension && allowedExt.indexOf(values.file.extension.toLowerCase()) < 0) {
-    errors.file = 'Extensão .' + values.file.extension + ' não é permitida';
-  }
-
-  // Embed
-  if (values.format && values.format.type == "video" && !values.embed) {
-    errors.embed = 'Campo é obrigatório';
-  }
-
-  // Link
-  if (values.isOnline && !values.link && !values.embed) {
-    errors.embed = 'Campo é obrigatório';
-  }
-
-  // Access modes
-  if (!values.access) {
-    errors.access = 'O campo é obrigatório';
-  }
-
-  // Tech Resources
-  if (!values.techResources) {
-    errors.techResources = 'O campo é obrigatório';
-  } else if (values.techResources.length < 20) {
-    errors.techResources = 'Deve ter pelo menos 20 caracteres';
-  } else if (values.techResources.length > 300) {
-    errors.techResources = 'Apenas deve conter no máximo 300 caracteres';
-  }
-
-  // Description
-  if (!values.description) {
-    errors.description = 'O campo é obrigatório';
-  } else if (values.description.length < 20) {
-    errors.description = 'Deve ter pelo menos 20 caracteres';
-  } else if (values.description.length > 300) {
-    errors.description = 'Apenas deve conter no máximo 300 caracteres';
-  }
-
-  return errors;
-};
+var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'duration', 'access', 'techResources', 'description', 'exclusive', 'isOnline'];
 
 /**
  * FORM FIRST PAGE
@@ -5600,7 +5587,20 @@ var NewResourceFormFirstPage = function (_Component) {
   }, {
     key: 'setFormat',
     value: function setFormat(format) {
+      var _this3 = this;
+
       this.props.fields.format.onChange(format);
+
+      // Set access mode
+      _lodash2.default.forEach(this.props.mapProps.access.data, function (mode) {
+        // If video, is online
+        if (format.type == "video" && mode.title == "Online") {
+          _this3.props.fields.access.onChange(mode);
+          // If not, and if resource is not online, set to downloadable
+        } else if (format.type != "video" && !_this3.props.fields.isOnline.value && mode.title == "Descarregável") {
+            _this3.props.fields.access.onChange(mode);
+          }
+      });
     }
 
     // On change FORMATS
@@ -5624,45 +5624,50 @@ var NewResourceFormFirstPage = function (_Component) {
   }, {
     key: 'onlineChange',
     value: function onlineChange(e) {
-      var _this3 = this;
+      var _this4 = this;
 
-      var isOnline = this.props.fields.isOnline;
+      var _props$fields = this.props.fields;
+      var isOnline = _props$fields.isOnline;
+      var format = _props$fields.format;
 
 
       this.props.fields.isOnline.onChange(e);
 
-      // Clear to none
+      // Set access mode based on resource location
       if (this.props.mapProps.access && this.props.mapProps.access.data != null) {
         _lodash2.default.forEach(this.props.mapProps.access.data, function (mode) {
+          // If is online and this mode is online
           if (isOnline.value && mode.title == "Online") {
-            _this3.props.fields.access.onChange(mode);
+            _this4.props.fields.access.onChange(mode);
+            // If is not online and is a file, set to downloadable
           } else if (!isOnline.value && mode.title == "Descarregável") {
-            _this3.props.fields.access.onChange(mode);
-          }
+              _this4.props.fields.access.onChange(mode);
+            }
         });
       }
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var _props = this.props;
-      var _props$fields = _props.fields;
-      var title = _props$fields.title;
-      var author = _props$fields.author;
-      var email = _props$fields.email;
-      var organization = _props$fields.organization;
-      var keywords = _props$fields.keywords;
-      var file = _props$fields.file;
-      var link = _props$fields.link;
-      var embed = _props$fields.embed;
-      var format = _props$fields.format;
-      var access = _props$fields.access;
-      var techResources = _props$fields.techResources;
-      var description = _props$fields.description;
-      var exclusive = _props$fields.exclusive;
-      var isOnline = _props$fields.isOnline;
+      var _props$fields2 = _props.fields;
+      var title = _props$fields2.title;
+      var author = _props$fields2.author;
+      var email = _props$fields2.email;
+      var organization = _props$fields2.organization;
+      var keywords = _props$fields2.keywords;
+      var file = _props$fields2.file;
+      var link = _props$fields2.link;
+      var embed = _props$fields2.embed;
+      var duration = _props$fields2.duration;
+      var format = _props$fields2.format;
+      var access = _props$fields2.access;
+      var techResources = _props$fields2.techResources;
+      var description = _props$fields2.description;
+      var exclusive = _props$fields2.exclusive;
+      var isOnline = _props$fields2.isOnline;
       var handleSubmit = _props.handleSubmit;
 
 
@@ -5839,6 +5844,33 @@ var NewResourceFormFirstPage = function (_Component) {
             )
           )
         ),
+        function () {
+          if (format.value.type == 'video') {
+            return _react2.default.createElement(
+              'div',
+              { className: 'row' },
+              _react2.default.createElement(
+                'div',
+                { className: 'col-xs-12 col-sm-6' },
+                _react2.default.createElement(
+                  'label',
+                  { className: 'input-title' },
+                  'Duração do vídeo*'
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'form-group ' + (duration.touched && duration.invalid ? 'has-error' : '') },
+                  _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', name: 'video-duration', placeholder: 'ex: 01:02:00s' }, duration)),
+                  duration.touched && duration.error && _react2.default.createElement(
+                    'div',
+                    { className: 'text-danger' },
+                    duration.error
+                  )
+                )
+              )
+            );
+          }
+        }(),
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -5855,7 +5887,7 @@ var NewResourceFormFirstPage = function (_Component) {
                 return _react2.default.createElement(
                   'div',
                   null,
-                  _react2.default.createElement('input', _extends({ type: 'checkbox', value: 'isOnline', id: 'isOnline' }, isOnline, { onChange: _this4.onlineChange })),
+                  _react2.default.createElement('input', _extends({ type: 'checkbox', value: 'isOnline', id: 'isOnline' }, isOnline, { onChange: _this5.onlineChange })),
                   _react2.default.createElement(
                     'label',
                     { htmlFor: 'isOnline' },
@@ -5865,11 +5897,12 @@ var NewResourceFormFirstPage = function (_Component) {
               }
             }(),
             function () {
+              // If it is not online, and it is not a vide, set as a file upload
               if (!isOnline.value && format.value.type != 'video') {
                 return _react2.default.createElement(
                   'div',
-                  { className: 'form-group ' + (file.touched && file.invalid ? 'has-error' : '') },
-                  _react2.default.createElement(_fileInput2.default, { setFile: _this4.setFile }),
+                  { className: 'form-group ' + ((file.touched || file.dirty) && file.invalid ? 'has-error' : '') },
+                  _react2.default.createElement(_fileInput2.default, { setFile: _this5.setFile }),
                   _react2.default.createElement(
                     'p',
                     null,
@@ -5898,6 +5931,7 @@ var NewResourceFormFirstPage = function (_Component) {
                   )
                 );
               } else if (isOnline.value || format.value.type == 'video') {
+                // If it is online or is a video, set the link or embed field
                 return _react2.default.createElement(
                   'div',
                   { className: 'form-group ' + (link.touched && link.invalid || embed.touched && embed.invalid ? 'has-error' : '') },
@@ -6022,7 +6056,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   form: 'newResource', // <------ same form name
   fields: fields, // <------ only fields on this page
   destroyOnUnmount: false, // <------ preserve form data
-  validate: validate // <------ only validates the fields on this page
+  validate: _validateFirstPage2.default // <------ only validates the fields on this page
 }, function (state) {
   return {
     initialValues: {
@@ -6032,7 +6066,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   };
 })(NewResourceFormFirstPage);
 
-},{"../../common/fileInput":"/var/www/devbox/app/assets/scripts/components/common/fileInput.js","../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/tags":"/var/www/devbox/app/assets/scripts/components/common/tags.js","../../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","lodash":"lodash","react":"react","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js":[function(require,module,exports){
+},{"../../common/fileInput":"/var/www/devbox/app/assets/scripts/components/common/fileInput.js","../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/tags":"/var/www/devbox/app/assets/scripts/components/common/tags.js","../../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","./validateFirstPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/validateFirstPage.js","lodash":"lodash","react":"react","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6068,6 +6102,10 @@ var _reactCheckboxGroup = require('react-checkbox-group');
 
 var _reactCheckboxGroup2 = _interopRequireDefault(_reactCheckboxGroup);
 
+var _validateSecondPage = require('./validateSecondPage');
+
+var _validateSecondPage2 = _interopRequireDefault(_validateSecondPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6079,48 +6117,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 // Components
 
 
+// Validation
+
+
 var fields = exports.fields = ['title', 'author', 'email', 'organization', 'keywords', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline', 'subjects', 'domains', 'years', 'language', 'op_proposal', 'accept_terms', 'hasDomains'];
 // ^^ All fields on last form
-
-var validate = function validate(values) {
-  var errors = {};
-
-  // Subjects
-  if (!values.subjects || values.subjects.length == 0) {
-    errors.subjects = 'Campo é obrigatório';
-  }
-
-  // Domains
-  if (!values.domains || values.domains.length == 0) {
-    errors.domains = 'Campo é obrigatório';
-  }
-
-  // Years
-  if (!values.years || values.years.length == 0) {
-    errors.years = 'Campo é obrigatório';
-  }
-
-  // Languages
-  if (!values.language) {
-    errors.language = 'Campo é obrigatório';
-  }
-
-  // Op Proposal
-  if (!values.op_proposal) {
-    errors.op_proposal = 'O campo é obrigatório';
-  } else if (values.op_proposal.length < 20) {
-    errors.op_proposal = 'Deve ter pelo menos 20 caracteres';
-  } else if (values.op_proposal.length > 300) {
-    errors.op_proposal = 'Apenas deve conter no máximo 300 caracteres';
-  }
-
-  // Accepted terms
-  if (!values.accept_terms) {
-    errors.accept_terms = 'Deve aceitar os termos e condições para criar o recurso';
-  }
-
-  return errors;
-};
 
 var NewResourceFormSecondPage = function (_Component) {
   _inherits(NewResourceFormSecondPage, _Component);
@@ -6157,6 +6158,7 @@ var NewResourceFormSecondPage = function (_Component) {
   }, {
     key: 'setSubject',
     value: function setSubject(group) {
+      this.props.fields.domains.onChange([]);
       this.props.fields.subjects.onChange(group);
     }
 
@@ -6233,7 +6235,7 @@ var NewResourceFormSecondPage = function (_Component) {
       return _react2.default.createElement(
         _reactCheckboxGroup2.default,
         {
-          name: 'subjects',
+          name: 'years',
           value: years.value,
           onChange: this.setYears
         },
@@ -6272,6 +6274,10 @@ var NewResourceFormSecondPage = function (_Component) {
       // Get domains to present
 
       var totalDomains = _lodash2.default.sortBy(this.domainsOfSubject(), 'title');
+
+      if (!subjects.value || subjects.value.length == 0) {
+        return null;
+      }
 
       return _react2.default.createElement(
         'div',
@@ -6580,10 +6586,155 @@ exports.default = (0, _reduxForm.reduxForm)({
   form: 'newResource', // <------ same form name
   fields: fields, // <------ all fields on last wizard page
   destroyOnUnmount: false, // <------ preserve form data
-  validate: validate // <------ only validates the fields on this page
+  validate: _validateSecondPage2.default // <------ only validates the fields on this page
 })(NewResourceFormSecondPage);
 
-},{"../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/recent.js":[function(require,module,exports){
+},{"../../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","./validateSecondPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/validateSecondPage.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/validateFirstPage.js":[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var allowedExt = ["gif", "jpeg", "jpg", "png", "rtf", "doc", "docx", "odt", "txt", "mp3", "wav", "wma", "jar", "ggb", "swf", "jnlp"];
+
+var validate = function validate(values) {
+  var errors = {};
+
+  // Title
+  if (!values.title) {
+    errors.title = 'O campo é obrigatório';
+  }
+
+  // Author
+  if (!values.author) {
+    errors.author = 'O campo é obrigatório';
+  }
+
+  // Email
+  if (!values.email) {
+    errors.email = 'O campo é obrigatório';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'E-mail inserido não é válido';
+  }
+
+  // Organization
+  if (!values.organization) {
+    errors.organization = 'O campo é obrigatório';
+  }
+
+  // Keywords
+  if (!values.keywords) {
+    errors.keywords = 'O campo é obrigatório';
+  } else if (values.keywords.length > 5) {
+    errors.keywords = 'Deve ter entre 1 e 5 palavras-chave';
+  }
+
+  // Formats
+  if (!values.format) {
+    errors.format = 'O campo é obrigatório';
+  }
+
+  // File
+  if (!values.isOnline && !values.file && values.format && values.format.type != "video") {
+    errors.file = 'Campo é obrigatório';
+  } else if (!values.isOnline && values.file && values.file.size && values.file.size > 1000000) {
+    errors.file = 'Ficheiro não deve exceder os 1 MB';
+  } else if (!values.isOnline && values.file && values.file.extension && allowedExt.indexOf(values.file.extension.toLowerCase()) < 0) {
+    errors.file = "Extensão ." + values.file.extension + " não é permitida";
+  }
+
+  // Duration
+  if (values.format && values.format.type == "video" && !values.duration) {
+    errors.duration = 'Campo é obrigatório';
+  }
+
+  // Embed
+  if (values.format && values.format.type == "video" && !values.embed && !values.link) {
+    errors.embed = 'Campo é obrigatório';
+  }
+
+  // Link
+  if (values.isOnline && !values.link && !values.embed) {
+    errors.embed = 'Campo é obrigatório';
+  }
+
+  // Access modes
+  if (!values.access) {
+    errors.access = 'O campo é obrigatório';
+  }
+
+  // Tech Resources
+  if (!values.techResources) {
+    errors.techResources = 'O campo é obrigatório';
+  } else if (values.techResources.length < 20) {
+    errors.techResources = 'Deve ter pelo menos 20 caracteres';
+  } else if (values.techResources.length > 300) {
+    errors.techResources = 'Apenas deve conter no máximo 300 caracteres';
+  }
+
+  // Description
+  if (!values.description) {
+    errors.description = 'O campo é obrigatório';
+  } else if (values.description.length < 20) {
+    errors.description = 'Deve ter pelo menos 20 caracteres';
+  } else if (values.description.length > 300) {
+    errors.description = 'Apenas deve conter no máximo 300 caracteres';
+  }
+
+  return errors;
+};
+
+exports.default = validate;
+
+},{}],"/var/www/devbox/app/assets/scripts/components/resources/newResource/validateSecondPage.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var validate = function validate(values) {
+  var errors = {};
+
+  // Subjects
+  if (!values.subjects || values.subjects.length == 0) {
+    errors.subjects = 'Campo é obrigatório';
+  }
+
+  // Domains
+  if (!values.domains || values.domains.length == 0) {
+    errors.domains = 'Campo é obrigatório';
+  }
+
+  // Years
+  if (!values.years || values.years.length == 0) {
+    errors.years = 'Campo é obrigatório';
+  }
+
+  // Languages
+  if (!values.language) {
+    errors.language = 'Campo é obrigatório';
+  }
+
+  // Op Proposal
+  if (!values.op_proposal) {
+    errors.op_proposal = 'O campo é obrigatório';
+  } else if (values.op_proposal.length < 20) {
+    errors.op_proposal = 'Deve ter pelo menos 20 caracteres';
+  } else if (values.op_proposal.length > 800) {
+    errors.op_proposal = 'Apenas deve conter no máximo 800 caracteres';
+  }
+
+  // Accepted terms
+  if (!values.accept_terms) {
+    errors.accept_terms = 'Deve aceitar os termos e condições para criar o recurso';
+  }
+
+  return errors;
+};
+
+exports.default = validate;
+
+},{}],"/var/www/devbox/app/assets/scripts/components/resources/recent.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6840,7 +6991,802 @@ exports.default = function (props) {
 	);
 };
 
-},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/search/searchBar.js":[function(require,module,exports){
+},{"react":"react"}],"/var/www/devbox/app/assets/scripts/components/scripts/common/domains.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactCheckboxGroup = require('react-checkbox-group');
+
+var _reactCheckboxGroup2 = _interopRequireDefault(_reactCheckboxGroup);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DomainsList = function (_Component) {
+	_inherits(DomainsList, _Component);
+
+	function DomainsList(props) {
+		_classCallCheck(this, DomainsList);
+
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DomainsList).call(this, props));
+
+		_this.state = {
+			scriptDomains: null
+		};
+		return _this;
+	}
+
+	_createClass(DomainsList, [{
+		key: 'componentWillReceiveProps',
+		value: function componentWillReceiveProps(nextProps) {
+			this.setState({
+				scriptDomains: nextProps.script.domains.value
+			});
+		}
+	}, {
+		key: 'setDomains',
+		value: function setDomains(index, group) {
+			this.props.setDomains(index, group);
+		}
+
+		// Check if domains are in any subject
+		// DOMAINS MUST BE PROVIDED WITH THEIR SUBJECTS ASSOCIATED
+
+	}, {
+		key: 'domainsOfSubject',
+		value: function domainsOfSubject(script, domains) {
+
+			// Make copy of domains to maintain immutable
+			var domainsCopy = _lodash2.default.assign([], domains.data);
+
+			// Are any subjects selected
+			if (script.subjects.value) {
+				domainsCopy = _lodash2.default.filter(domainsCopy, function (domain) {
+					var exists = false;
+
+					// If domain subjects was selected
+					var _iteratorNormalCompletion = true;
+					var _didIteratorError = false;
+					var _iteratorError = undefined;
+
+					try {
+						for (var _iterator = domain.subjects[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+							var domainSubject = _step.value;
+
+							exists = script.subjects.value.indexOf(domainSubject.id) >= 0;
+						}
+					} catch (err) {
+						_didIteratorError = true;
+						_iteratorError = err;
+					} finally {
+						try {
+							if (!_iteratorNormalCompletion && _iterator.return) {
+								_iterator.return();
+							}
+						} finally {
+							if (_didIteratorError) {
+								throw _iteratorError;
+							}
+						}
+					}
+
+					return exists;
+				});
+
+				// Avoid returning duplicates
+				return _lodash2.default.uniqBy(domainsCopy, 'title');
+			}
+
+			return null;
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var _props = this.props;
+			var script = _props.script;
+			var scriptIndex = _props.scriptIndex;
+			var setDomains = _props.setDomains;
+			var domains = _props.domains;
+
+			// Get domains to present
+
+			var totalDomains = _lodash2.default.sortBy(this.domainsOfSubject(script, domains), 'title');
+			if (!script.subjects.value || script.subjects.value.length == 0) {
+				return null;
+			}
+
+			return _react2.default.createElement(
+				'div',
+				{ className: 'row' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'col-xs-12' },
+					_react2.default.createElement(
+						'label',
+						{ className: 'input-title' },
+						'Domínios*'
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'form-group ' + (script.domains.touched && script.domains.invalid ? 'has-error' : '') },
+						function () {
+							if (!totalDomains || totalDomains.length == 0) {
+								return _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Indique um domínio' }, script.domains));
+							} else {
+								return _react2.default.createElement(
+									_reactCheckboxGroup2.default,
+									{
+										name: "domains-checkbox-" + scriptIndex,
+										value: _this2.state.scriptDomains,
+										onChange: _this2.setDomains.bind(_this2, scriptIndex)
+									},
+									function (Checkbox) {
+										return _react2.default.createElement(
+											'div',
+											{ className: 'row' },
+											totalDomains.map(function (item, index) {
+												return _react2.default.createElement(
+													'div',
+													{ key: "domains-" + scriptIndex + "-" + item.id, className: 'col-xs-6 col-sm-3 domains-selection' },
+													_react2.default.createElement(Checkbox, { value: item.id, id: "domains-" + scriptIndex + "-" + item.id }),
+													_react2.default.createElement(
+														'label',
+														{ htmlFor: "domains-" + scriptIndex + "-" + item.id },
+														item.title
+													)
+												);
+											})
+										);
+									}
+								);
+							}
+						}(),
+						script.domains.touched && script.domains.error && _react2.default.createElement(
+							'div',
+							{ className: 'text-danger' },
+							script.domains.error
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return DomainsList;
+}(_react.Component);
+
+exports.default = DomainsList;
+
+
+DomainsList.propTypes = {
+	script: _react.PropTypes.object.isRequired,
+	scriptIndex: _react.PropTypes.number.isRequired,
+	setDomains: _react.PropTypes.func.isRequired,
+	domains: _react.PropTypes.object.isRequired
+};
+
+},{"lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group"}],"/var/www/devbox/app/assets/scripts/components/scripts/newScriptForm.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fields = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reduxForm = require('redux-form');
+
+var _reactRouter = require('react-router');
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _radioGroup = require('../common/radioGroup');
+
+var _radioGroup2 = _interopRequireDefault(_radioGroup);
+
+var _textarea = require('../common/textarea');
+
+var _textarea2 = _interopRequireDefault(_textarea);
+
+var _collapse = require('../common/collapse');
+
+var _collapse2 = _interopRequireDefault(_collapse);
+
+var _reactCheckboxGroup = require('react-checkbox-group');
+
+var _reactCheckboxGroup2 = _interopRequireDefault(_reactCheckboxGroup);
+
+var _domains = require('./common/domains');
+
+var _domains2 = _interopRequireDefault(_domains);
+
+var _validate = require('./validate');
+
+var _validate2 = _interopRequireDefault(_validate);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Components
+
+
+// Validation
+
+
+var fields = exports.fields = ['scripts[].title', 'scripts[].email', 'scripts[].organization', 'scripts[].description', 'scripts[].subjects', 'scripts[].domains', 'scripts[].years', 'scripts[].op_proposal', 'accept_terms', 'scripts[].hasDomains'];
+// ^^ All fields on last form
+
+var NewScriptForm = function (_Component) {
+  _inherits(NewScriptForm, _Component);
+
+  function NewScriptForm(props) {
+    _classCallCheck(this, NewScriptForm);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewScriptForm).call(this, props));
+
+    _this.renderSubjects = _this.renderSubjects.bind(_this);
+    _this.renderYears = _this.renderYears.bind(_this);
+
+    _this.setDomains = _this.setDomains.bind(_this);
+    return _this;
+  }
+
+  _createClass(NewScriptForm, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.mapProps.fetchSubjects();
+      this.props.mapProps.fetchDomains();
+      this.props.mapProps.fetchYears();
+      this.props.mapProps.fetchTerms();
+
+      this.props.fields.scripts.addField();
+
+      /* FOR REFERENCE */
+      /*children.addField({     // pushes child field with initial values onto the end of the array
+        name: 'Bobby Tables',
+        age: 13,
+        awards: [ 'Input Sanitation', 'Best XKCD Meme' ]
+      })*/
+    }
+
+    // On change SUBJECTS
+
+  }, {
+    key: 'setSubject',
+    value: function setSubject(scriptIndex, group) {
+      this.props.fields.scripts[scriptIndex].domains.onChange([]);
+      this.props.fields.scripts[scriptIndex].subjects.onChange(group);
+    }
+
+    // On change YEARS
+
+  }, {
+    key: 'setYears',
+    value: function setYears(scriptIndex, group) {
+      this.props.fields.scripts[scriptIndex].years.onChange(group);
+    }
+
+    // On change YEARS
+
+  }, {
+    key: 'setDomains',
+    value: function setDomains(scriptIndex, group) {
+      this.props.fields.scripts[scriptIndex].domains.onChange(group);
+    }
+
+    // Render subjects list
+
+  }, {
+    key: 'renderSubjects',
+    value: function renderSubjects(script, scriptIndex) {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        _reactCheckboxGroup2.default,
+        {
+          name: "subjects-checkbox-" + scriptIndex,
+          value: script.subjects.value,
+          onChange: this.setSubject.bind(this, scriptIndex)
+        },
+        function (Checkbox) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _lodash2.default.sortBy(_this2.props.mapProps.subjects.data, 'title').map(function (item, index) {
+              return _react2.default.createElement(
+                'div',
+                { key: "subject-" + scriptIndex + "-" + item.id, className: 'col-xs-6' },
+                _react2.default.createElement(Checkbox, { value: item.id, id: "subject-" + scriptIndex + "-" + item.id }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: "subject-" + scriptIndex + "-" + item.id },
+                  item.title
+                )
+              );
+            })
+          );
+        }
+      );
+    }
+
+    // Render subjects list
+
+  }, {
+    key: 'renderYears',
+    value: function renderYears(script, scriptIndex) {
+      var _this3 = this;
+
+      return _react2.default.createElement(
+        _reactCheckboxGroup2.default,
+        {
+          name: "years-checkbox-" + scriptIndex,
+          value: script.years.value,
+          onChange: this.setYears.bind(this, scriptIndex)
+        },
+        function (Checkbox) {
+          return _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _lodash2.default.sortBy(_this3.props.mapProps.years.data, 'title').map(function (item, index) {
+
+              return _react2.default.createElement(
+                'div',
+                { key: "year-" + scriptIndex + "-" + item.id, className: 'col-xs-6' },
+                _react2.default.createElement(Checkbox, { value: item.id, id: "year-" + scriptIndex + "-" + item.id }),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: "year-" + scriptIndex + "-" + item.id },
+                  item.title
+                )
+              );
+            })
+          );
+        }
+      );
+    }
+
+    // Render domains by subjects
+
+  }, {
+    key: 'renderDomains',
+    value: function renderDomains(script, scriptIndex) {
+      return _react2.default.createElement(_domains2.default, { script: script, scriptIndex: scriptIndex, setDomains: this.setDomains, domains: this.props.mapProps.domains });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this4 = this;
+
+      var _props = this.props;
+      var _props$fields = _props.fields;
+      var scripts = _props$fields.scripts;
+      var accept_terms = _props$fields.accept_terms;
+      var handleSubmit = _props.handleSubmit;
+      var previousPage = _props.previousPage;
+      var submitting = _props.submitting;
+      var mapProps = this.props.mapProps;
+
+
+      if (!mapProps.subjects.data || !mapProps.domains.data || !mapProps.years.data || !mapProps.terms.data) {
+        return null;
+      }
+
+      return _react2.default.createElement(
+        'form',
+        { onSubmit: handleSubmit, className: 'form script__form' },
+        !scripts.length && _react2.default.createElement(
+          'div',
+          { className: 'alert alert-warning' },
+          'Não existem guiões'
+        ),
+        scripts.map(function (script, index) {
+          return _react2.default.createElement(
+            'div',
+            { key: index },
+            _react2.default.createElement(
+              _collapse2.default,
+              { title: "Guião nº " + (index + 1), className: 'cta primary script__form--collapsible', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down', deleteEl: function deleteEl() {
+                  return scripts.removeField(index);
+                }, deleteIcon: 'fa fa-trash-o', isOpen: true },
+              _react2.default.createElement(
+                'section',
+                null,
+                _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12 col-sm-6' },
+                    _react2.default.createElement(
+                      'h1',
+                      null,
+                      'Detalhes'
+                    )
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12 col-sm-3' },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'input-title' },
+                      'Título*'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'form-group ' + (script.title.touched && script.title.invalid ? 'has-error' : '') },
+                      _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Nome do seu guião' }, script.title)),
+                      script.title.touched && script.title.error && _react2.default.createElement(
+                        'div',
+                        { className: 'text-danger' },
+                        script.title.error
+                      )
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12 col-sm-3' },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'input-title' },
+                      'Email*'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'form-group ' + (script.email.touched && script.email.invalid ? 'has-error' : '') },
+                      _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Email do núcleo ou docente' }, script.email)),
+                      script.email.touched && script.email.error && _react2.default.createElement(
+                        'div',
+                        { className: 'text-danger' },
+                        script.email.error
+                      )
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12 col-sm-3' },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'input-title' },
+                      'Escola/Organização*'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'form-group ' + (script.organization.touched && script.organization.invalid ? 'has-error' : '') },
+                      _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Nome da sua escola/organização' }, script.organization)),
+                      script.organization.touched && script.organization.error && _react2.default.createElement(
+                        'div',
+                        { className: 'text-danger' },
+                        script.organization.error
+                      )
+                    )
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12' },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'input-title' },
+                      'Descrição*'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'form-group ' + (script.description.touched && script.description.invalid ? 'has-error' : '') },
+                      _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Descreva este guião sucintamente', initVal: script.description.value }, script.description)),
+                      script.description.touched && script.description.error && _react2.default.createElement(
+                        'div',
+                        { className: 'text-danger' },
+                        script.description.error
+                      )
+                    )
+                  )
+                )
+              ),
+              _react2.default.createElement(
+                'section',
+                null,
+                _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12 col-sm-6' },
+                    _react2.default.createElement(
+                      'h1',
+                      null,
+                      'Metadados'
+                    )
+                  )
+                ),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12 col-sm-6' },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'input-title' },
+                      'Disciplinas*'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'form-group ' + (script.subjects.touched && script.subjects.invalid ? 'has-error' : '') },
+                      _this4.renderSubjects(script, index),
+                      script.subjects.touched && script.subjects.error && _react2.default.createElement(
+                        'div',
+                        { className: 'text-danger' },
+                        script.subjects.error
+                      )
+                    )
+                  ),
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12 col-sm-6' },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'input-title' },
+                      'Anos*'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'form-group ' + (script.years.touched && script.years.invalid ? 'has-error' : '') },
+                      _this4.renderYears(script, index),
+                      script.years.touched && script.years.error && _react2.default.createElement(
+                        'div',
+                        { className: 'text-danger' },
+                        script.years.error
+                      )
+                    )
+                  )
+                ),
+                _this4.renderDomains(script, index),
+                _react2.default.createElement(
+                  'div',
+                  { className: 'row' },
+                  _react2.default.createElement(
+                    'div',
+                    { className: 'col-xs-12' },
+                    _react2.default.createElement(
+                      'label',
+                      { className: 'input-title' },
+                      'Proposta de Operacionalização*'
+                    ),
+                    _react2.default.createElement(
+                      'div',
+                      { className: 'form-group ' + (script.op_proposal.touched && script.op_proposal.invalid ? 'has-error' : '') },
+                      _react2.default.createElement(_textarea2.default, _extends({ max: 800, min: 20, className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado', initVal: script.op_proposal.value }, script.op_proposal)),
+                      script.op_proposal.touched && script.op_proposal.error && _react2.default.createElement(
+                        'div',
+                        { className: 'text-danger' },
+                        script.op_proposal.error
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          );
+        }),
+        _react2.default.createElement(
+          'button',
+          { type: 'button', className: 'cta primary more-script', onClick: function onClick() {
+              scripts.addField();
+            } },
+          _react2.default.createElement('i', { className: 'fa fa-plus' }),
+          ' Novo guião'
+        ),
+        _react2.default.createElement(
+          'section',
+          { className: 'terms-conditions' },
+          _react2.default.createElement(
+            'div',
+            { className: 'row' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-xs-12' },
+              _react2.default.createElement(
+                'h1',
+                null,
+                'Termos e Condições'
+              ),
+              _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: mapProps.terms.data.acceptance } }),
+              _react2.default.createElement(
+                'div',
+                { className: 'license' },
+                _react2.default.createElement(
+                  'a',
+                  { rel: 'license', href: 'http://creativecommons.org/licenses/by-sa/4.0/' },
+                  _react2.default.createElement('img', { alt: 'Licença Creative Commons', src: 'https://i.creativecommons.org/l/by-sa/4.0/88x31.png', className: 'img-responsive' })
+                )
+              ),
+              _react2.default.createElement(
+                'div',
+                { className: 'buttons' },
+                _react2.default.createElement('input', _extends({ type: 'checkbox', value: 'accept_terms', id: 'accept_terms' }, accept_terms)),
+                _react2.default.createElement(
+                  'label',
+                  { htmlFor: 'accept_terms' },
+                  'Li e concordo com os “Termos e condições” de submissão.'
+                ),
+                accept_terms.touched && accept_terms.error && _react2.default.createElement(
+                  'div',
+                  { className: 'text-danger' },
+                  accept_terms.error
+                )
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'footer',
+          { className: 'form-buttons' },
+          _react2.default.createElement(
+            'button',
+            { type: 'submit', disabled: submitting, className: 'cta primary' },
+            submitting ? _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin' }) : "",
+            ' Submeter Guiões'
+          ),
+          _react2.default.createElement(
+            _reactRouter.Link,
+            { to: '/painel', className: 'cta no-bg' },
+            'Cancelar'
+          )
+        )
+      );
+    }
+  }]);
+
+  return NewScriptForm;
+}(_react.Component);
+
+NewScriptForm.propTypes = {
+  fields: _react.PropTypes.object.isRequired,
+  handleSubmit: _react.PropTypes.func.isRequired,
+  submitting: _react.PropTypes.bool.isRequired
+};
+
+exports.default = (0, _reduxForm.reduxForm)({
+  form: 'newScript', // <------ same form name
+  fields: fields, // <------ all fields on last wizard page
+  validate: _validate2.default // <------ only validates the fields on this page
+})(NewScriptForm);
+
+},{"../common/collapse":"/var/www/devbox/app/assets/scripts/components/common/collapse.js","../common/radioGroup":"/var/www/devbox/app/assets/scripts/components/common/radioGroup.js","../common/textarea":"/var/www/devbox/app/assets/scripts/components/common/textarea.js","./common/domains":"/var/www/devbox/app/assets/scripts/components/scripts/common/domains.js","./validate":"/var/www/devbox/app/assets/scripts/components/scripts/validate.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/components/scripts/validate.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var requireFields = function requireFields() {
+  for (var _len = arguments.length, names = Array(_len), _key = 0; _key < _len; _key++) {
+    names[_key] = arguments[_key];
+  }
+
+  return function (data) {
+    return names.reduce(function (errors, name) {
+      if (!data[name]) {
+        errors[name] = 'Required';
+      }
+      return errors;
+    }, {});
+  };
+};
+
+var validateScript = function validateScript(values) {
+  var errors = {};
+
+  // Title
+  if (!values.title) {
+    errors.title = 'O campo é obrigatório';
+  }
+
+  // Email
+  if (!values.email) {
+    errors.email = 'O campo é obrigatório';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'E-mail inserido não é válido';
+  }
+
+  // Organization
+  if (!values.organization) {
+    errors.organization = 'O campo é obrigatório';
+  }
+
+  // Subjects
+  if (!values.subjects || values.subjects.length == 0) {
+    errors.subjects = 'Campo é obrigatório';
+  }
+
+  // Domains
+  if (!values.domains || values.domains.length == 0) {
+    errors.domains = 'Campo é obrigatório';
+  }
+
+  // Years
+  if (!values.years || values.years.length == 0) {
+    errors.years = 'Campo é obrigatório';
+  }
+
+  // Op Proposal
+  if (!values.description) {
+    errors.description = 'O campo é obrigatório';
+  } else if (values.description.length < 20) {
+    errors.description = 'Deve ter pelo menos 20 caracteres';
+  } else if (values.description.length > 300) {
+    errors.description = 'Apenas deve conter no máximo 300 caracteres';
+  }
+
+  // Op Proposal
+  if (!values.op_proposal) {
+    errors.op_proposal = 'O campo é obrigatório';
+  } else if (values.op_proposal.length < 20) {
+    errors.op_proposal = 'Deve ter pelo menos 20 caracteres';
+  } else if (values.op_proposal.length > 800) {
+    errors.op_proposal = 'Apenas deve conter no máximo 300 caracteres';
+  }
+
+  return errors;
+};
+
+var validateScriptForm = function validateScriptForm(data) {
+  var errors = {};
+
+  // Accepted terms
+  if (!data.accept_terms) {
+    errors.accept_terms = 'Deve aceitar os termos e condições para criar o recurso';
+  }
+
+  errors.scripts = data.scripts.map(validateScript);
+  return errors;
+};
+
+exports.default = validateScriptForm;
+
+},{}],"/var/www/devbox/app/assets/scripts/components/search/searchBar.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7363,7 +8309,36 @@ function requireAuth(Component) {
     return (0, _reactRedux.connect)(mapStateToProps)(AuthenticatedComponent);
 }
 
-},{"react":"react","react-redux":"react-redux","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/containers/comments/commentForm.js":[function(require,module,exports){
+},{"react":"react","react-redux":"react-redux","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/containers/blocks/contribute.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _redux = require('redux');
+
+var _contribute = require('../../components/blocks/contribute');
+
+var _contribute2 = _interopRequireDefault(_contribute);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(_contribute2.default);
+
+},{"../../components/blocks/contribute":"/var/www/devbox/app/assets/scripts/components/blocks/contribute.js","react":"react","react-redux":"react-redux","redux":"redux"}],"/var/www/devbox/app/assets/scripts/containers/comments/commentForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7704,7 +8679,139 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NewResourceFormContainer);
 
-},{"../../actions/access":"/var/www/devbox/app/assets/scripts/actions/access.js","../../actions/domains":"/var/www/devbox/app/assets/scripts/actions/domains.js","../../actions/formats":"/var/www/devbox/app/assets/scripts/actions/formats.js","../../actions/languages":"/var/www/devbox/app/assets/scripts/actions/languages.js","../../actions/subjects":"/var/www/devbox/app/assets/scripts/actions/subjects.js","../../actions/terms":"/var/www/devbox/app/assets/scripts/actions/terms.js","../../actions/years":"/var/www/devbox/app/assets/scripts/actions/years.js","../../components/resources/newResource/newResourceFormFirstPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/containers/filters/index.js":[function(require,module,exports){
+},{"../../actions/access":"/var/www/devbox/app/assets/scripts/actions/access.js","../../actions/domains":"/var/www/devbox/app/assets/scripts/actions/domains.js","../../actions/formats":"/var/www/devbox/app/assets/scripts/actions/formats.js","../../actions/languages":"/var/www/devbox/app/assets/scripts/actions/languages.js","../../actions/subjects":"/var/www/devbox/app/assets/scripts/actions/subjects.js","../../actions/terms":"/var/www/devbox/app/assets/scripts/actions/terms.js","../../actions/years":"/var/www/devbox/app/assets/scripts/actions/years.js","../../components/resources/newResource/newResourceFormFirstPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"/var/www/devbox/app/assets/scripts/components/resources/newResource/newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/containers/dashboard/newScriptForm.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _subjects = require('../../actions/subjects');
+
+var _domains = require('../../actions/domains');
+
+var _years = require('../../actions/years');
+
+var _terms = require('../../actions/terms');
+
+var _redux = require('redux');
+
+var _reduxForm = require('redux-form');
+
+var _newScriptForm = require('../../components/scripts/newScriptForm');
+
+var _newScriptForm2 = _interopRequireDefault(_newScriptForm);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NewScriptFormContainer = function (_Component) {
+  _inherits(NewScriptFormContainer, _Component);
+
+  function NewScriptFormContainer(props) {
+    _classCallCheck(this, NewScriptFormContainer);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewScriptFormContainer).call(this, props));
+
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  _createClass(NewScriptFormContainer, [{
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.props.resetForm();
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit() {
+      // MAKE SUBMITION
+      return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+          resolve();
+        }, 5000); // simulate server latency
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'new-resource' },
+        _react2.default.createElement(
+          'header',
+          { className: 'new-form-header text-center' },
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Gerir Guiões'
+          ),
+          _react2.default.createElement(
+            'span',
+            null,
+            'Recurso X > ',
+            _react2.default.createElement(
+              'strong',
+              null,
+              'Guiões'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'new-resource__container' },
+          _react2.default.createElement(
+            'section',
+            { className: 'container' },
+            _react2.default.createElement(_newScriptForm2.default, { onSubmit: this.handleSubmit, mapProps: this.props })
+          )
+        )
+      );
+    }
+  }]);
+
+  return NewScriptFormContainer;
+}(_react.Component);
+
+NewScriptFormContainer.propTypes = {};
+
+function mapStateToProps(state) {
+  return {
+    subjects: state.subjects,
+    domains: state.domains,
+    years: state.years,
+    terms: state.terms
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    fetchSubjects: _subjects.fetchSubjects,
+    fetchDomains: _domains.fetchDomains,
+    fetchYears: _years.fetchYears,
+    fetchTerms: _terms.fetchTerms,
+    resetForm: function resetForm() {
+      return dispatch((0, _reduxForm.reset)('newScript'));
+    }
+  }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NewScriptFormContainer);
+
+},{"../../actions/domains":"/var/www/devbox/app/assets/scripts/actions/domains.js","../../actions/subjects":"/var/www/devbox/app/assets/scripts/actions/subjects.js","../../actions/terms":"/var/www/devbox/app/assets/scripts/actions/terms.js","../../actions/years":"/var/www/devbox/app/assets/scripts/actions/years.js","../../components/scripts/newScriptForm":"/var/www/devbox/app/assets/scripts/components/scripts/newScriptForm.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"/var/www/devbox/app/assets/scripts/containers/filters/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8325,7 +9432,7 @@ var DiscoverPage = function (_Component) {
           transitionEnter: false, transitionLeave: false },
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(_breadcrumbs.AppBreadcrumbs, { routes: this.props.routes, params: this.props.params, setDocumentTitle: true }),
-        _react2.default.createElement(_resources2.default, null),
+        _react2.default.createElement(_resources2.default, { location: this.props.location }),
         _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
       );
     }
@@ -8365,7 +9472,7 @@ var _recent = require('../containers/resources/recent');
 
 var _recent2 = _interopRequireDefault(_recent);
 
-var _contribute = require('../components/blocks/contribute');
+var _contribute = require('../containers/blocks/contribute');
 
 var _contribute2 = _interopRequireDefault(_contribute);
 
@@ -8420,7 +9527,7 @@ var IndexPage = function (_Component) {
 
 exports.default = IndexPage;
 
-},{"../components/blocks/contribute":"/var/www/devbox/app/assets/scripts/components/blocks/contribute.js","../components/blocks/explore":"/var/www/devbox/app/assets/scripts/components/blocks/explore.js","../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/formats":"/var/www/devbox/app/assets/scripts/containers/formats/index.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","../containers/resources/recent":"/var/www/devbox/app/assets/scripts/containers/resources/recent.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/pages/newResourcePage.js":[function(require,module,exports){
+},{"../components/blocks/explore":"/var/www/devbox/app/assets/scripts/components/blocks/explore.js","../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/blocks/contribute":"/var/www/devbox/app/assets/scripts/containers/blocks/contribute.js","../containers/formats":"/var/www/devbox/app/assets/scripts/containers/formats/index.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","../containers/resources/recent":"/var/www/devbox/app/assets/scripts/containers/resources/recent.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/pages/newResourcePage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8489,7 +9596,76 @@ var NewResourcePage = function (_Component) {
 
 exports.default = NewResourcePage;
 
-},{"../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/dashboard/newResourceForm":"/var/www/devbox/app/assets/scripts/containers/dashboard/newResourceForm.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/pages/notFoundPage.js":[function(require,module,exports){
+},{"../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/dashboard/newResourceForm":"/var/www/devbox/app/assets/scripts/containers/dashboard/newResourceForm.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/pages/newScriptPage.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _header = require('../containers/header');
+
+var _header2 = _interopRequireDefault(_header);
+
+var _newScriptForm = require('../containers/dashboard/newScriptForm');
+
+var _newScriptForm2 = _interopRequireDefault(_newScriptForm);
+
+var _bottomNav = require('../components/navigation/bottomNav');
+
+var _bottomNav2 = _interopRequireDefault(_bottomNav);
+
+var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
+
+var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Animation
+
+
+var NewResourcePage = function (_Component) {
+  _inherits(NewResourcePage, _Component);
+
+  function NewResourcePage() {
+    _classCallCheck(this, NewResourcePage);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourcePage).apply(this, arguments));
+  }
+
+  _createClass(NewResourcePage, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactAddonsCssTransitionGroup2.default,
+        { transitionName: 'transition',
+          transitionAppear: true, transitionAppearTimeout: 500,
+          transitionEnter: false, transitionLeave: false },
+        _react2.default.createElement(_header2.default, { location: this.props.location }),
+        _react2.default.createElement(_newScriptForm2.default, null),
+        _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
+      );
+    }
+  }]);
+
+  return NewResourcePage;
+}(_react.Component);
+
+exports.default = NewResourcePage;
+
+},{"../components/navigation/bottomNav":"/var/www/devbox/app/assets/scripts/components/navigation/bottomNav.js","../containers/dashboard/newScriptForm":"/var/www/devbox/app/assets/scripts/containers/dashboard/newScriptForm.js","../containers/header":"/var/www/devbox/app/assets/scripts/containers/header/index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"/var/www/devbox/app/assets/scripts/pages/notFoundPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9361,6 +10537,10 @@ var _newResourcePage = require('../pages/newResourcePage');
 
 var _newResourcePage2 = _interopRequireDefault(_newResourcePage);
 
+var _newScriptPage = require('../pages/newScriptPage');
+
+var _newScriptPage2 = _interopRequireDefault(_newScriptPage);
+
 var _notFoundPage = require('../pages/notFoundPage');
 
 var _notFoundPage2 = _interopRequireDefault(_notFoundPage);
@@ -9369,6 +10549,7 @@ var _requireAuth = require('../containers/auth/requireAuth');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// Pages
 exports.default = _react2.default.createElement(
   _reactRouter.Route,
   { path: '/', name: 'Início', component: _app2.default },
@@ -9379,7 +10560,7 @@ exports.default = _react2.default.createElement(
     { name: 'Descobrir', path: 'descobrir', component: _app2.default },
     _react2.default.createElement(_reactRouter.Route, { name: 'Detalhes de Recurso', path: 'detalhes-recurso/:resource', component: _resourceDetailsPage2.default })
   ),
-  _react2.default.createElement(_reactRouter.Route, { name: 'Novo Guião', path: 'novoguiao/:resource', component: _discoverPage2.default }),
+  _react2.default.createElement(_reactRouter.Route, { name: 'Gerir Guiões', path: 'gerirguioes/:resource', component: _newScriptPage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Painel de Gestão', path: 'painel', component: _dashboardPage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Novo Recurso', path: 'novorecurso', component: _newResourcePage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Não Encontrado', path: '*', component: _notFoundPage2.default })
@@ -9387,10 +10568,7 @@ exports.default = _react2.default.createElement(
 
 // Required
 
-
-// Pages
-
-},{"../containers/auth/requireAuth":"/var/www/devbox/app/assets/scripts/containers/auth/requireAuth.js","../layouts/app":"/var/www/devbox/app/assets/scripts/layouts/app.js","../pages/dashboardPage":"/var/www/devbox/app/assets/scripts/pages/dashboardPage.js","../pages/discoverPage":"/var/www/devbox/app/assets/scripts/pages/discoverPage.js","../pages/indexPage":"/var/www/devbox/app/assets/scripts/pages/indexPage.js","../pages/newResourcePage":"/var/www/devbox/app/assets/scripts/pages/newResourcePage.js","../pages/notFoundPage":"/var/www/devbox/app/assets/scripts/pages/notFoundPage.js","../pages/resourceDetailsPage":"/var/www/devbox/app/assets/scripts/pages/resourceDetailsPage.js","react":"react","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/utils/index.js":[function(require,module,exports){
+},{"../containers/auth/requireAuth":"/var/www/devbox/app/assets/scripts/containers/auth/requireAuth.js","../layouts/app":"/var/www/devbox/app/assets/scripts/layouts/app.js","../pages/dashboardPage":"/var/www/devbox/app/assets/scripts/pages/dashboardPage.js","../pages/discoverPage":"/var/www/devbox/app/assets/scripts/pages/discoverPage.js","../pages/indexPage":"/var/www/devbox/app/assets/scripts/pages/indexPage.js","../pages/newResourcePage":"/var/www/devbox/app/assets/scripts/pages/newResourcePage.js","../pages/newScriptPage":"/var/www/devbox/app/assets/scripts/pages/newScriptPage.js","../pages/notFoundPage":"/var/www/devbox/app/assets/scripts/pages/notFoundPage.js","../pages/resourceDetailsPage":"/var/www/devbox/app/assets/scripts/pages/resourceDetailsPage.js","react":"react","react-router":"react-router"}],"/var/www/devbox/app/assets/scripts/utils/index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

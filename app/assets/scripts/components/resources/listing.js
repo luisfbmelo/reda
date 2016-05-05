@@ -44,15 +44,15 @@ export default class ResourcesListing extends Component {
     	console.log(keyword);
     }
 
+    // Alert that user is not authenticated
     renderAlert(){
     	return(
     		<section className="row">
     			<div className="col-xs-12">
 		    		<Alert bsStyle="warning" className="alert">
-		    			<p>A listagem disponível está limitada a utilizadores não autenticados. Para obter mais recursos, é aconselhado
-		que entre na plataforma.</p>
+		    			<p>Esta listagem pode conter resultados restritos ao utilizador não registado, pelo que aconselhamos que realize a sua autenticação.</p>
 						<div className="text-center">
-							<LoginButton className="btn btn-warning">
+							<LoginButton className="btn btn-warning" location={this.props.location.pathname}>
 								Entrar na REDA
 							</LoginButton>
 						</div>
@@ -62,6 +62,7 @@ export default class ResourcesListing extends Component {
     	);
     }
 
+    // Render new resource button according to auth
     renderNewResourceBtn(obj, target){
 		if (this.props.auth.isAuthenticated){
 			return (

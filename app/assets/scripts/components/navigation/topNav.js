@@ -27,7 +27,7 @@ export default class TopNav extends Component {
 		if (!isAuthenticated){
 			return(
 				<li>
-					<LoginButton>
+					<LoginButton location={this.props.location.pathname}>
 						Entrar
 					</LoginButton>
 				</li>
@@ -49,6 +49,7 @@ export default class TopNav extends Component {
 
 	render() {
 		const { isAuthenticated } = this.props.auth;
+
 		return (  
 			<Navbar>
 				<Navbar.Header>

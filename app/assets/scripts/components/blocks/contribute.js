@@ -38,21 +38,22 @@ export default class ContributeBlock extends Component {
 
 	renderSections(){
 		return this.state.sections.map((section, index) => {
-			// Set if this column has an offset
-			var hasOffset = (index==0) ? " col-md-offset-2" : "";
 	
 			return(
-				<div className={"col-xs-12 col-sm-6 col-md-4 block__contribute--col" + ((index==0) ? " col-md-offset-2" : "")} key={index}>
+				<div className={"col-xs-12 col-sm-6 col-md-4 block__contribute--col" + ((index==0) ? " col-md-offset-2" : null)} key={index}>
 					<h2>{section.title}</h2>
 					<SvgComponent element={section.icon} color="#ffffff"/>
 					<p>{section.text}</p>
 					{(() => {
 						if (section.button.type=="login"){
-							return(
+							return !this.props.auth.isAuthenticated ?
 								<LoginButton className="cta white outline">
 									{section.button.text}
-								</LoginButton>
-							)
+								</LoginButton>							
+							: 
+							<Link to="/painel" className="cta white outline">
+								{section.button.text}
+							</Link>
 						}else if(section.button.type=="feedback"){
 							return<button className="cta white outline">{section.button.text}</button>
 						}

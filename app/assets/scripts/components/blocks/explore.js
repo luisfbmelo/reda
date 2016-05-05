@@ -45,7 +45,7 @@ export default class ExploreBlock extends Component {
 				</div>
 				<div className="block__side block__side--right block__side--text">
 					<h1>{this.state.title}</h1>
-					<span>{this.state.text}</span>
+					<span dangerouslySetInnerHTML={{__html: this.state.text}}></span>
 					<Link to="experimenta" className="cta primary outline">{this.state.button}</Link>
 				</div>
 				

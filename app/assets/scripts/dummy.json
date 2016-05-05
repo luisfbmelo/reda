@@ -4,7 +4,7 @@
 	},
 	"explore": {
 		"title": "Explora. Aprende.",
-		"text": "Phasellus a est. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. In hac habitasse platea dictumst. Proin faucibus arcu quis ante. Nunc interdum lacus sit amet orci.",
+		"text": "Este espaço é para ti. <br/>Dos jogos aos museus virtuais, aqui encontrarás notícias e novidades de várias disciplinas, do 1.º ao 12.º ano. Também vais encontrar recursos que te vão ajudar a estudar o que aprendes na sala de aula.<br/>Poderás sugerir outras páginas e aplicações, utilizando o formulário de contacto (Fale connosco), partilhar nas tuas redes sociais ou enviar aos teus amigos.<br/>Aventura-te pelos sítios que encontrámos, para manteres a tua mente ativa!",
 		"button": "Experimenta",
 		"image": {
 			"src": "/assets/graphics/bg/explore.jpg",
@@ -53,6 +53,7 @@
 				"src": "/assets/graphics/bg/home-bg.jpg",
 				"alt": "some alt"
 			},
+			"protected": true,
 			"text": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from"
 		},
 		{

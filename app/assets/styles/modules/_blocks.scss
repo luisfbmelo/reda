@@ -35,15 +35,6 @@
 
 	&__side{		
 		width:50%;
-
-		@include media-query(48em){ //768px/16px
-			width:100%;
-		}
-
-		@include media-query-min(48em){ //768px/16px
-			height:300px;
-		}
-
 		&--left{
 			float:left;
 		}
@@ -68,6 +59,38 @@
 
 				color:$body-color;
 			}
+
+			@include media-query(48em){ //768px/16px
+				padding-bottom:60px;
+			}
+		}
+
+		@include media-query(48em){ //768px/16px
+			width:100%;
+
+			&--left{
+				display:none;
+			}
+
+			&--right{
+				float:none;
+			}
+		}
+
+		@include media-query(48em){ //768px/16px
+			height:400px;
+		}
+
+		@include media-query-min(48em){
+			height:450px;
+		}
+
+		@include media-query-min(62em){
+			height:400px;
+		}
+
+		@include media-query-min(75em){
+			height:350px;
 		}
 	}	
 }

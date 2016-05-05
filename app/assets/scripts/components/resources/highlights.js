@@ -20,11 +20,12 @@ export default class ResourceHighlights extends Component {
 		}
 
 		return (
-			<HighlightsCarousel data={this.props.highlights} settings={settings}/>
+			<HighlightsCarousel data={this.props.highlights} settings={settings} isAuthenticated={this.props.auth.isAuthenticated}/>
 		);
 	}
 }
 
 ResourceHighlights.propTypes = {
-	highlights: React.PropTypes.object.isRequired
+	highlights: React.PropTypes.object.isRequired,
+	auth: React.PropTypes.object.isRequired
 }

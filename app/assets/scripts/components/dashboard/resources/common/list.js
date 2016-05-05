@@ -58,7 +58,7 @@ var renderList = (list, props) => {
 			      			</div>	      			
 			      			<div className="fRight right-col">
 								<Link to={"/descobrir/detalhes-recurso/" + el.id } className="cta primary outline small">Ver Recurso</Link>
-								<Link to={"/novoguiao/" + el.id } className="cta primary outline small">Gerir Guiões</Link>
+								<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Gerir Guiões</Link>
 			      				<i className={"action-btn fa fa-" + (el.highlight ? "star" : "star-o")} onClick={()=> props.setHighlight(el.id)} title="Recurso do Mês"></i>
 			      			</div>
 			      		</footer>

@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import LoginFormContainer from '../../containers/auth/loginForm';
 
 import { Modal } from 'react-bootstrap';
+import { Link } from 'react-router';
 
 
 export default class LoginButton extends Component {
@@ -27,6 +28,9 @@ export default class LoginButton extends Component {
 
 
   render() {
+    // Set target
+    let target = this.props.location || null;
+
     return (
       <div>
         <button onClick={this.open} className={this.props.className}>{this.props.children}</button>
@@ -38,7 +42,8 @@ export default class LoginButton extends Component {
             <Modal.Title>Entrar na REDA</Modal.Title>
           </Modal.Header>
           <Modal.Body >
-            <LoginFormContainer />
+            <LoginFormContainer target={target}/>
+            <Link to="/registar" className="cta primary outline block text-center">Registar</Link>
           </Modal.Body>
           <Modal.Footer >
             <small>Acesso disponível apenas para utilizadores azores.gov.pt</small>

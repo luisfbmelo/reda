@@ -32,7 +32,7 @@ export default class ResourcesFilters extends Component {
 
 	render() {
 		if (!this.props.formats.data)
-			return <div>Loading...</div>;
+			return null;
 
 		return (
 			<div className="resources__filter">

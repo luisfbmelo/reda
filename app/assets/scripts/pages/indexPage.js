@@ -6,7 +6,7 @@ import HeaderContainer from '../containers/header';
 import FormatsContainer from '../containers/formats';
 import ExploreBlock from '../components/blocks/explore';
 import RecentContainer from '../containers/resources/recent';
-import ContributeBlock from '../components/blocks/contribute';
+import ContributeBlockContainer from '../containers/blocks/contribute';
 import BottomNav from '../components/navigation/bottomNav';
 
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
@@ -21,7 +21,7 @@ export default class IndexPage extends Component {
         <FormatsContainer />	
         <ExploreBlock />
         <RecentContainer />
-        <ContributeBlock />
+        <ContributeBlockContainer />
         <BottomNav location={this.props.location} />
     	</ReactCSSTransitionGroup>
     );

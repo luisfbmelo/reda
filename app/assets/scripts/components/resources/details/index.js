@@ -39,6 +39,8 @@ export default class ResourceDetails extends Component {
 				// If this requires auth and not authed, go back
 				if (this.requiresAuth()){
 					this.context.router.push('/descobrir');
+
+				// If allowed, get the favorite
 				}else{
 					this.setState({
 						isFavorite: this.props.resource.data.favorite || false

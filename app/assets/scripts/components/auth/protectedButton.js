@@ -36,17 +36,20 @@ export default class ProtectedButton extends Component {
             <section>
               <i className="fa fa-lock"></i>
             </section>
-            <Modal.Title>Parece que não se autenticou...</Modal.Title>
+            <Modal.Title>Parece que ainda não se autenticou na plataforma...</Modal.Title>
           </Modal.Header>
           <Modal.Body >
             <p>
-              Alguns conteúdos da REDA estão reservados apenas para docentes. Aconselhamos autenticar-se na plataforma.
+              Para que tenha acesso a todos os recursos disponíveis, terá de efetuar a sua autentificação.
+            </p>
+            <p>
+              Caso ainda não esteja registado, aproveite esta oportunidade para o fazer!
             </p>
             <LoginFormContainer target={this.props.target}/>
           </Modal.Body>
           <Modal.Footer>
             <p>
-              Não é docente? Pode na mesma ver...
+              Não é professor? Não deixe de explorar as sugestões que temos para todos.
             </p>
             <Link to="sugestoes" className="cta primary outline small">Sugestões</Link>
             <Link to="aplicacoes" className="cta primary outline small">Aplicações</Link>

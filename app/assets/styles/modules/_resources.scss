@@ -79,7 +79,19 @@
 
 		.rating{
 			width:70%;
-		}		
+		}	
+
+		&--buttons{
+			display:block;
+			text-align: center;
+			a{
+				display: block; 
+
+			    & + a{
+			    	margin-top:10px;
+			    }
+			}
+		}	
 	}
 
 	&__dashboard{
@@ -179,6 +191,7 @@
 			}
 		}
 	}
+
 }
 
 .rating{

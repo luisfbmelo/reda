@@ -282,7 +282,7 @@ button{
 }
 
 .login-form{
-  max-width:300px;
+  /* max-width:300px; */
   margin:0 auto;
 
   input{
@@ -333,6 +333,9 @@ button{
     }
 
     .form{     
+      .form-buttons{
+        margin-top:30px;
+      }
 
       .form-buttons > .cta + .cta{
         margin-left:30px;
@@ -356,8 +359,7 @@ button{
   }
 
   .terms-conditions{
-    margin-bottom:30px;
-    
+    margin-top:30px;
   }
   
   label.input-title{
@@ -386,5 +388,54 @@ button{
 
   small{
     color:$meta-color;
+  }
+}
+
+.script__form{
+  &--collapsible{
+    display:table;
+    width:100%;
+    padding:0;
+
+    & > i {
+      display:table-cell;
+      width:15px;
+      padding:8px 10px 8px 20px;
+
+      &:hover{
+        cursor:pointer;
+      }
+    }
+    
+    button{
+      padding:8px 10px;
+      display:table-cell;
+      border:none;
+      background:none;
+      width:100%;
+      text-align: left;
+
+      i{
+        float:right;
+        margin-top:2px;
+      }
+    }
+  }
+
+  .collapse-container{    
+    margin-bottom:15px;
+
+    .collapse,.collapsing{
+      /* background-color: white; */
+      padding:20px 20px 0;
+
+      border-bottom:1px solid $meta-color;
+    }
+
+    .buttons{  
+
+      &.cta:not(.open){
+      }
+    }    
   }
 }

@@ -5,7 +5,7 @@
 	input,
 	select,
 	button{
-		height:35px;
+		height:40px;
 		width:100%;
 		margin-bottom:10px!important;
 	}
@@ -46,10 +46,11 @@
 .single-search{
 	margin:0 auto;
 	text-align:center;
-	input[type='text']{
+	input[type='text'],
+	button{
 		width:auto;
 		border-radius:0;
-		height:38px;
+		height:40px;
 	}
 
 	.form-control{

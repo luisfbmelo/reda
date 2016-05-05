@@ -60,7 +60,12 @@ export const ResourceElement = (props) => {
 
 		      	{(() => {
 		      		if (addscript && isAuthenticated){
-		      			return <Link to={"/novoguiao/" + el.id } className="cta primary outline small">Adicionar Guião</Link>
+		      			return (
+		      				<span className="list__element--buttons">
+				      			<Link to={"/descobrir/detalhes-recurso/" + el.id} className="cta primary outline small">Ver Recurso</Link>
+				      			<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Adicionar Guião</Link>
+			      			</span>
+		      			)
 		      		}
 
 		      		if ((viewmore || addscript) && (!el.protected || isAuthenticated)){

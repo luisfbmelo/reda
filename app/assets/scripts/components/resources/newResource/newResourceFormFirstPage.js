@@ -11,6 +11,9 @@ import RadioGroup from '../../common/radioGroup';
 import FileInput from '../../common/fileInput';
 import TextArea from '../../common/textarea';
 
+// Validation
+import validate from './validateFirstPage';
+
 export const fields = [ 
   'title',
   'author', 
@@ -21,96 +24,13 @@ export const fields = [
   'file',
   'embed',
   'link',
+  'duration',
   'access',
   'techResources',
   'description',
   'exclusive',
   'isOnline'
 ]
-
-const allowedExt = ["gif","jpeg","jpg","png","rtf", "doc","docx","odt","txt","mp3","wav","wma","jar","ggb","swf","jnlp"];
-
-const validate = values => {
-  const errors = {}
-
-  // Title
-  if (!values.title) {
-    errors.title = 'O campo é obrigatório'
-  }
-
-  // Author
-  if (!values.author) {
-    errors.author = 'O campo é obrigatório'
-  }
-
-  // Email
-  if (!values.email) {
-    errors.email = 'O campo é obrigatório'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'E-mail inserido não é válido';
-  }
-
-  // Organization
-  if (!values.organization) {
-    errors.organization = 'O campo é obrigatório'
-  }
-
-  // Keywords
-  if (!values.keywords) {
-    errors.keywords = 'O campo é obrigatório'
-  } else if (values.keywords.length > 5) {
-    errors.keywords = 'Deve ter entre 1 e 5 palavras-chave'
-  }
-
-  // Formats
-  if (!values.format) {
-    errors.format = 'O campo é obrigatório'
-  }
-
-  // File
-  if (!values.isOnline && !values.file){
-    errors.file = 'Campo é obrigatório'
-  }else if (!values.isOnline && values.file && values.file.size && values.file.size>1000000) {
-    errors.file = 'Ficheiro não deve exceder os 1 MB'
-  }else if(!values.isOnline && values.file && values.file.extension && allowedExt.indexOf(values.file.extension.toLowerCase())<0){
-    errors.file = `Extensão .${values.file.extension} não é permitida`
-  }
-
-  // Embed
-  if (values.format && values.format.type=="video" && !values.embed){
-    errors.embed = 'Campo é obrigatório'
-  }
-
-  // Link
-  if (values.isOnline && (!values.link && !values.embed)){
-    errors.embed = 'Campo é obrigatório'
-  }
-
-  // Access modes
-  if (!values.access) {
-    errors.access = 'O campo é obrigatório'
-  }
-
-  // Tech Resources
-  if (!values.techResources) {
-    errors.techResources = 'O campo é obrigatório'
-  } else if (values.techResources.length < 20) {
-    errors.techResources = 'Deve ter pelo menos 20 caracteres'
-  } else if (values.techResources.length > 300) {
-    errors.techResources = 'Apenas deve conter no máximo 300 caracteres'
-  }
-
-  // Description
-  if (!values.description) {
-    errors.description = 'O campo é obrigatório'
-  } else if (values.description.length < 20) {
-    errors.description = 'Deve ter pelo menos 20 caracteres'
-  } else if (values.description.length > 300) {
-    errors.description = 'Apenas deve conter no máximo 300 caracteres'
-  }
-
-  return errors
-}
 
 
 /**
@@ -146,6 +66,18 @@ class NewResourceFormFirstPage extends Component {
   // On change FORMATS
   setFormat(format){
     this.props.fields.format.onChange(format);
+
+    // Set access mode
+    _.forEach(this.props.mapProps.access.data, (mode) =>{    
+      // If video, is online
+      if (format.type=="video" && mode.title=="Online"){
+        this.props.fields.access.onChange(mode);
+      // If not, and if resource is not online, set to downloadable
+      }else if (format.type!="video" && !this.props.fields.isOnline.value && mode.title=="Descarregável"){
+        this.props.fields.access.onChange(mode);          
+      }
+    })
+    
   }
 
   // On change FORMATS
@@ -160,15 +92,17 @@ class NewResourceFormFirstPage extends Component {
 
   // On change FILE
   onlineChange(e){
-    const { isOnline } = this.props.fields;
+    const { isOnline, format } = this.props.fields;
 
     this.props.fields.isOnline.onChange(e);
 
-    // Clear to none
+    // Set access mode based on resource location
     if (this.props.mapProps.access && this.props.mapProps.access.data!=null){      
       _.forEach(this.props.mapProps.access.data, (mode) =>{    
+        // If is online and this mode is online
         if (isOnline.value && mode.title=="Online"){
           this.props.fields.access.onChange(mode);
+        // If is not online and is a file, set to downloadable
         }else if (!isOnline.value && mode.title=="Descarregável"){
           this.props.fields.access.onChange(mode);          
         }
@@ -178,7 +112,7 @@ class NewResourceFormFirstPage extends Component {
 
   render() {
     const {
-      fields: { title, author, email, organization, keywords, file, link, embed, format, access, techResources, description, exclusive, isOnline },
+      fields: { title, author, email, organization, keywords, file, link, embed, duration, format, access, techResources, description, exclusive, isOnline },
       handleSubmit
     } = this.props;
 
@@ -264,6 +198,23 @@ class NewResourceFormFirstPage extends Component {
           </div>
         </div>
 
+        {/* VIDEO DURATION IF SO */}
+        {(() => {
+            if(format.value.type=='video'){
+              return(
+                <div className="row">
+                  <div className="col-xs-12 col-sm-6">
+                    <label className="input-title">Duração do vídeo*</label>
+                    <div className={`form-group ${duration.touched && duration.invalid ? 'has-error' : ''}`}>
+                      <input type="text" className="form-control" name="video-duration" placeholder="ex: 01:02:00s" {...duration} />
+                      {duration.touched && duration.error && <div className="text-danger">{duration.error}</div>}
+                    </div>            
+                  </div>
+                </div>
+              )
+            }
+          })()}
+
         {/* File */}
         <div className="row">
           <div className="col-xs-12 col-sm-6">
@@ -282,9 +233,10 @@ class NewResourceFormFirstPage extends Component {
               
               {/* CONDITIONAL INPUT FIELD */}
               {(() => {
+                // If it is not online, and it is not a vide, set as a file upload
                 if(!isOnline.value && format.value.type!='video'){
                     return (
-                      <div className={`form-group ${(file.touched && file.invalid) ? 'has-error' : ''}`}>
+                      <div className={`form-group ${((file.touched || file.dirty) && file.invalid) ? 'has-error' : ''}`}>
                         <FileInput setFile={this.setFile}/>
                         <p><small>Tamanho máximo de ficheiro é de 100MB</small></p>
                         {file.value && !file.error && <p><strong>Ficheiro: {file.value.name}.{file.value.extension}</strong></p>}
@@ -292,6 +244,7 @@ class NewResourceFormFirstPage extends Component {
                       </div>
                     )
                 }else if (isOnline.value || format.value.type=='video') {
+                  // If it is online or is a video, set the link or embed field
                   return (
                     <div className={`form-group ${(link.touched && link.invalid) || (embed.touched && embed.invalid) ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" name="link" placeholder="Indique o endereço do recurso" {...link} />
@@ -299,6 +252,7 @@ class NewResourceFormFirstPage extends Component {
                       <small>ou</small>
                       <input type="text" className="form-control" name="embed-video" placeholder="Insira o código de incorporação" {...embed} />
                       {embed.touched && embed.error && <div className="text-danger">{embed.error}</div>}
+                      
                     </div>
                   )
                 }
