@@ -17,8 +17,10 @@ import {
 	RELATED_RESOURCES_REQUEST, 
 	RELATED_RESOURCES_SUCCESS,
 	RELATED_RESOURCES_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
+import * as alertMessages from './message-types';
+import * as alertActions from './alerts';
 
 // HIGHLIGHTS
 function requestHighlights(){

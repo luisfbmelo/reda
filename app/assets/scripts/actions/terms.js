@@ -7,7 +7,7 @@ import {
 	TERMSANDCONDITIONS_REQUEST, 
 	TERMSANDCONDITIONS_SUCCESS,
 	TERMSANDCONDITIONS_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // FORMATS

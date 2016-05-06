@@ -7,7 +7,7 @@ import {
 	YEARS_REQUEST, 
 	YEARS_SUCCESS,
 	YEARS_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // FORMATS

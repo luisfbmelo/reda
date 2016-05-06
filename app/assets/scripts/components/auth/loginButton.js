@@ -43,10 +43,9 @@ export default class LoginButton extends Component {
           </Modal.Header>
           <Modal.Body >
             <LoginFormContainer target={target}/>
-            <Link to="/registar" className="cta primary outline block text-center">Registar</Link>
           </Modal.Body>
           <Modal.Footer >
-            <small>Acesso disponível apenas para utilizadores azores.gov.pt</small>
+            <small>Acesso disponível apenas para utilizadores <strong>azores.gov.pt</strong></small>
           </Modal.Footer>
         </Modal>
       </div>

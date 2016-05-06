@@ -7,7 +7,7 @@ import {
 	ACCESS_REQUEST, 
 	ACCESS_SUCCESS,
 	ACCESS_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // FORMATS

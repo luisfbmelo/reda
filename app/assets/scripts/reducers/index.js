@@ -13,6 +13,7 @@ import years  from './years';
 import terms  from './terms';
 import auth from './auth';
 import user from './user';
+import alerts  from './alerts';
 import config from './config';
 
 const rootReducer = combineReducers({
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
 	relatedResources,
 	terms,
 	auth,
-	user
+	user,
+	alerts
 }); 
 
 export default rootReducer;

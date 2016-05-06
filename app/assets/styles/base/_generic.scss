@@ -55,3 +55,9 @@ body { height: 100%; }
 .fLeft{
   float:left;
 }
+
+.link-effect{
+  &:hover{
+    cursor:pointer;
+  }
+}

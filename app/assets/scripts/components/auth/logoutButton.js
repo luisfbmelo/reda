@@ -19,7 +19,7 @@ export default class LogoutButton extends Component {
   render() {
     return (
       <li>
-        <button onClick={this.logout}>Sair</button>
+        <button onClick={this.logout} className="link-effect">Sair</button>
       </li>
     )
   }

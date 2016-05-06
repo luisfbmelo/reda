@@ -7,7 +7,7 @@ import {
 	SUBJECTS_REQUEST, 
 	SUBJECTS_SUCCESS,
 	SUBJECTS_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // FORMATS

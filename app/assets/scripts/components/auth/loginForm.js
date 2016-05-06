@@ -1,6 +1,8 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
+
+import { Link } from 'react-router';
 
 
 export default class LoginForm extends Component {
@@ -50,11 +52,12 @@ export default class LoginForm extends Component {
           <div className={`form-group ${password.touched && password.invalid ? 'has-error' : ''}`}>
             <input type="password" className="form-control" placeholder="Palavra-chave" {...password}/>
             {password.touched && password.error && <div className="text-danger">{password.error}</div>}
-          </div>
+          </div>          
           <div>
             <button type="submit" disabled={ fetching || asyncValidating } className="cta primary">
               {fetching ? <i className='fa fa-spinner fa-spin'></i> : ""}Entrar
             </button>
+            <Link to="/recuperar-password" className="cta primary no-bg recover-password">Esqueceu-se da sua palavra-chave?</Link>
           </div>
         </form>
       </div>

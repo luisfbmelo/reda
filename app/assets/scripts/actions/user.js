@@ -5,7 +5,7 @@ import {
 	USER_REQUEST, 
 	USER_SUCCESS,
 	USER_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // CONFFIG

@@ -7,7 +7,7 @@ import {
 	DOMAINS_REQUEST, 
 	DOMAINS_SUCCESS,
 	DOMAINS_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // FORMATS

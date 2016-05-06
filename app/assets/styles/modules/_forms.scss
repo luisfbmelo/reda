@@ -281,7 +281,19 @@ button{
   border-radius:0!important;
 }
 
-.login-form{
+label.input-title{
+  font:{
+    family:$lato;
+    weight:400;
+  }
+
+  text-transform: uppercase;
+}
+
+/* User form */
+.login-form,
+.signup-form
+{
   /* max-width:300px; */
   margin:0 auto;
 
@@ -293,11 +305,30 @@ button{
     width:100%;
     margin-bottom:15px;
   }
+
+  .recover-password{
+    padding:0;
+    margin-bottom:15px;
+    color:$soft-label-color!important;
+  }
 }
 
 .comment-form{
   textarea{
     height:150px;
+  }
+}
+
+.signup-form{
+  padding:60px 0;
+
+  h1{
+    margin-bottom:30px;
+  }
+
+  p{
+    color:$soft-label-color;
+    margin-bottom:30px;
   }
 }
 
@@ -362,14 +393,7 @@ button{
     margin-top:30px;
   }
   
-  label.input-title{
-    font:{
-      family:$lato;
-      weight:400;
-    }
-
-    text-transform: uppercase;
-  }
+  
 
   input,
   select,
@@ -417,7 +441,6 @@ button{
 
       i{
         float:right;
-        margin-top:2px;
       }
     }
   }

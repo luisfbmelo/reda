@@ -12,7 +12,7 @@ export default class TopNav extends Component {
 	constructor(props){
 		super(props);
 
-		this.renderUserTools = this.renderUserTools.bind(this);
+		this.renderSmallNav = this.renderSmallNav.bind(this);
 		this.renderLogout = this.renderLogout.bind(this);
 	}
 
@@ -23,21 +23,33 @@ export default class TopNav extends Component {
 		return location === target ? 'active' : '';
 	}
 
-	renderUserTools(isAuthenticated){
-		if (!isAuthenticated){
-			return(
-				<li>
-					<LoginButton location={this.props.location.pathname}>
-						Entrar
-					</LoginButton>
-				</li>
-			);
-		}
+	renderSmallNav(isAuthenticated){
 		return(
-			<li className={this.isActive(this.props.location.pathname, 'painel')}>
-           		<Link to="/painel">Minha Conta</Link>
-           	</li>
-		);
+			<ul className="nav navbar-nav small-nav">
+				{!isAuthenticated && 
+					<li>
+						<LoginButton location={this.props.location.pathname}>
+							Entrar
+						</LoginButton>
+					</li>
+				}
+
+				{!isAuthenticated && 
+					<li className={this.isActive(this.props.location.pathname, 'registar')}>
+						<Link to="/registar">Registar</Link>
+					</li>
+				}
+				{isAuthenticated && 
+					<li className={this.isActive(this.props.location.pathname, 'painel')}>
+		           		<Link to="/painel">Minha Conta</Link>
+		           	</li>
+				}
+				<li className={this.isActive(this.props.location.pathname, 'ajuda')}>
+					<Link to="/ajuda">Ajuda</Link>
+				</li>
+				{this.renderLogout(isAuthenticated)}
+			</ul>
+		)
 	}
 
 	renderLogout(isAuthenticated){
@@ -60,13 +72,8 @@ export default class TopNav extends Component {
 				</Navbar.Header>
 				<Navbar.Collapse>
 					<div className="pull-right menu-container">
-						<ul className="nav navbar-nav small-nav">
-			              {this.renderUserTools(isAuthenticated)}
-			              <li className={this.isActive(this.props.location.pathname, 'ajuda')}>
-			                <Link to="/ajuda">Ajuda</Link>
-			              </li>
-			              {this.renderLogout(isAuthenticated)}
-			            </ul>
+
+		              	{this.renderSmallNav(isAuthenticated)}
 
 						<ul className="nav navbar-nav big-nav">
 			              <li className={this.isActive(this.props.location.pathname, '/')}>

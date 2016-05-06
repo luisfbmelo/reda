@@ -7,7 +7,7 @@ import {
 	COMMENTS_REQUEST, 
 	COMMENTS_SUCCESS,
 	COMMENTS_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 function requestComments(){
 	return {

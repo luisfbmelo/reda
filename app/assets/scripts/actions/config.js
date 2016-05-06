@@ -7,7 +7,7 @@ import {
 	CONFIG_REQUEST, 
 	CONFIG_SUCCESS,
 	CONFIG_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // CONFFIG

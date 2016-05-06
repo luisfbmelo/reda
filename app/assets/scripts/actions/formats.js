@@ -7,7 +7,7 @@ import {
 	FORMATS_REQUEST, 
 	FORMATS_SUCCESS,
 	FORMATS_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // FORMATS

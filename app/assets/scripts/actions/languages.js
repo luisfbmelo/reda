@@ -7,7 +7,7 @@ import {
 	LANGUAGES_REQUEST, 
 	LANGUAGES_SUCCESS,
 	LANGUAGES_FAILURE
-} from '../actions/action-types';
+} from './action-types';
 
 
 // FORMATS
