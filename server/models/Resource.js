@@ -7,12 +7,24 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		slug: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
 		description: {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},
+		operation: {
+			type: DataTypes.TEXT,
+			allowNull: false
+		},
+		tech_req: {
+			type: DataTypes.TEXT,
+			allowNull: false
+		},
 		author: {
-			type: DataTypes.STRING(45),
+			type: DataTypes.STRING(255),
 			allowNull: false
 		},
 		email: {
@@ -30,21 +42,11 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(45),
 			allowNull: true
 		},
-		acceptedTerms: {
-			type: DataTypes.STRING(45),
-			allowNull: false,
-			field: 'accepted_terms'
-		},
-		featured: {
+		highlight: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: false
-		},
-		status: {
-			type: DataTypes.BOOLEAN,
-			allowNull: false,
-			defaultValue: true
-		},
+		},		
 		reserved: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
@@ -60,6 +62,15 @@ module.exports = function(sequelize, DataTypes) {
 			validate: {
 				isUrl: true,
 			}
+		},
+		author: {
+			type: DataTypes.TEXT,
+			allowNull: false
+		},
+		status: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: true
 		}
 	}, {
 		defaultScope: {
@@ -70,11 +81,14 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods: {
 			associate: function(models) {
 
+				Resource.belongsToMany(models.Language, {through: 'resource_language'});
 				Resource.belongsToMany(models.Year, {through: 'resource_year'});
 				Resource.belongsToMany(models.Mode, {through: 'resource_mode'});
 				Resource.belongsToMany(models.Domain, {through: 'resource_domain'});
 				Resource.belongsToMany(models.Subject, {through: 'resource_subject'});
-				Resource.belongsToMany(models.Author, {through: 'resource_author'});
+				Resource.belongsToMany(models.User, {through: 'resource_favorite'});
+				Resource.belongsTo(models.Format);
+				Resource.belongsTo(models.User);
 
 				Resource.belongsToMany(models.Tag, {
 					through: 'resource_tag',

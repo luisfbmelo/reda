@@ -24,26 +24,6 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		classMethods: {
 			associate: function(models) {
-				Image.hasOne(models.Resource, {
-					foreignKey: {
-						name: 'cover_image_id',
-						allowNull: false
-					}
-				});
-
-				Image.hasOne(models.News, {
-					foreignKey: {
-						name: 'cover_image_id',
-						allowNull: true
-					}
-				});
-
-				Image.hasOne(models.Format, {
-					as: 'Files',
-					foreignKey: {
-						allowNull: false
-					}
-				});
 			}
 		}
 	});

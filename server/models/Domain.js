@@ -3,7 +3,7 @@
  */
 module.exports = function(sequelize, DataTypes) {
 	var Domain = sequelize.define('Domain', {
-		description: {
+		title: {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},

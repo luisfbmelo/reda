@@ -3,7 +3,7 @@
  */
 module.exports = function(sequelize, DataTypes) {
 	var Subject = sequelize.define('Subject', {
-		description: {
+		title: {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},

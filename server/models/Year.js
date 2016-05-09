@@ -3,7 +3,7 @@
  */
 module.exports = function(sequelize, DataTypes) {
 	var Year = sequelize.define('Year', {
-		description: {
+		title: {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},

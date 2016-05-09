@@ -3,8 +3,12 @@
  */
 module.exports = function(sequelize, DataTypes) {
 	var Format = sequelize.define('Format', {
-		description: {
+		title: {
 			type: DataTypes.TEXT,
+			allowNull: false
+		},
+		type: {
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		status: {
@@ -17,8 +21,12 @@ module.exports = function(sequelize, DataTypes) {
 			where: {
 				status: true
 			}
+		},
+		classMethods: {
+			associate: function(models) {
+				Format.belongsTo(models.Image);
+			}
 		}
 	});
-
 	return Format;
 }

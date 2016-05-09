@@ -3,8 +3,12 @@
  */
 module.exports = function(sequelize, DataTypes) {
 	var Mode = sequelize.define('Mode', {
-		description: {
+		title: {
 			type: DataTypes.TEXT,
+			allowNull: false
+		},
+		type: {
+			type: DataTypes.STRING,
 			allowNull: false
 		},
 		status: {

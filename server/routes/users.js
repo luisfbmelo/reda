@@ -1,9 +1,17 @@
+const Authentication = require('../controllers/authenticationController');
+const passportService = require('../services/passport');
+const passport = require('passport');
+
 var express = require('express');
 var router = express.Router();
 var models = require('../models/index');
 
+const requireAuth = passport.authenticate('jwt', { session: false });
+const requireSignin = passport.authenticate('local', { session: false });
+
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get('/', requireAuth, function(req, res, next) {
+  res.send({ message: 'Super secret code is ABC123' });
 
 	/*models.User.create({
     "ldap_id": 1
@@ -39,11 +47,11 @@ router.get('/', function(req, res, next) {
 
   }).catch(function(err){
     console.log("ERROR");
-  });*/
-
+  });
+*/
   
 
-  models.User.findAll({
+  /*models.User.findAll({
   		include: [{
   			model: models.App,
   			as: "Apps",
@@ -55,7 +63,7 @@ router.get('/', function(req, res, next) {
   	
 	}).then(function(user, created){
 		res.send(user);
-	});
+	});*/
 
 	/*models.App.findAll({
   		include: [{
@@ -66,5 +74,8 @@ router.get('/', function(req, res, next) {
 		res.send(user);
 	});*/
 });
+
+router.post('/signin', requireSignin, Authentication.signin);
+router.post('/signup', Authentication.signup);
 
 module.exports = router;

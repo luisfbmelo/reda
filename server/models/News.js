@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		slug: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
 		description: {
 			type: DataTypes.TEXT,
 			allowNull: false

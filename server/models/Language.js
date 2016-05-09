@@ -3,24 +3,9 @@
  */
 module.exports = function(sequelize, DataTypes) {
 	var Language = sequelize.define('Language', {
-		system: {
-			type: DataTypes.STRING(45),
-			allowNull: false
-		},
-		name: {
-			type: DataTypes.STRING(100),
-			allowNull: false
-		},
-		description: {
+		title: {
 			type: DataTypes.TEXT,
 			allowNull: false
-		},
-		link: {
-			type: DataTypes.TEXT,
-			allowNull: true,
-			validate: {
-				isUrl: true,
-			}
 		},
 		status: {
 			type: DataTypes.BOOLEAN,
@@ -28,14 +13,15 @@ module.exports = function(sequelize, DataTypes) {
 			defaultValue: true
 		},
 	},{
+		defaultScope: {
+			where: {
+				status: true
+			}
+		},
 		classMethods: {
 			associate: function(models) {
-				Language.hasMany(models.Link, {
-					as: 'Links',
-					foreignKey: {
-						allowNull: false
-					}
-				});
+				Language.belongsToMany(models.Resource, {through: 'resource_language'});
+				Language.belongsToMany(models.Script, {through: 'script_language'});
 			}
 		}
 	});

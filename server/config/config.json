@@ -44,5 +44,6 @@
     "omitNull": true,
     "paranoid": true,
     "logging": false
-  }
+  },
+  "secret": "thisisasecretjwtcode"
 }

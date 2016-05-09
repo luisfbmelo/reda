@@ -7,12 +7,16 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		slug: {
+			type: DataTypes.STRING,
+			allowNull: false
+		},
 		description: {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},
 		author: {
-			type: DataTypes.STRING(45),
+			type: DataTypes.STRING(255),
 			allowNull: false
 		},
 		email: {
@@ -30,6 +34,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},
+		author: {
+			type: DataTypes.TEXT,
+			allowNull: false
+		},
 		status: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
@@ -43,10 +51,10 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		classMethods: {
 			associate: function(models) {
+				Script.belongsToMany(models.Language, {through: 'script_language'});
 				Script.belongsToMany(models.Year, {through: 'script_year'});
 				Script.belongsToMany(models.Domain, {through: 'script_domain'});
 				Script.belongsToMany(models.Subject, {through: 'script_subject'});
-				Script.belongsToMany(models.Author, {through: 'script_author'});
 				Script.belongsTo(models.User);
 			}
 		}

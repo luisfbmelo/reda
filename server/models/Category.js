@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false
 		},
 		type: {
-			type: DataTypes.ENUM('REC','TRY'),
+			type: DataTypes.ENUM('REC','TRY','APPS','FEEDBACK'),
 			allowNull: false
 		},
 		status: {
@@ -31,6 +31,16 @@ module.exports = function(sequelize, DataTypes) {
 			try: {
 				where: {
 					type: "TRY"
+				}
+			},
+			apps: {
+				where: {
+					type: "APPS"
+				}
+			},
+			feedback: {
+				where: {
+					type: "FEEDBACK"
 				}
 			}
 		},
