@@ -3,7 +3,7 @@
  */
 module.exports = function(sequelize, DataTypes) {
 	var Tag = sequelize.define('Tag', {
-		name: {
+		title: {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
@@ -29,7 +29,7 @@ module.exports = function(sequelize, DataTypes) {
 				});
 
 				Tag.belongsToMany(models.News, {
-					through: 'resource_tag'
+					through: 'news_tag'
 				});
 			}
 		}

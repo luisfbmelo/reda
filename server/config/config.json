@@ -45,5 +45,6 @@
     "paranoid": true,
     "logging": false
   },
-  "secret": "thisisasecretjwtcode"
+  "secret": "thisisasecretjwtcode",
+  "limit": 9
 }

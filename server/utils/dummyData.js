@@ -1,11 +1,11 @@
 // ROLES
 var createRoles = function(models){
-  models.Role.create({value: "Admin"});
+  return models.Role.create({value: "Admin"});
 }
 
 // FORMATS
 var createFormats = function(models){
-  models.Format.create({
+  return models.Format.create({
     title: "Vídeo",
     type: "video",
     Image: {
@@ -14,28 +14,33 @@ var createFormats = function(models){
     }
   }, {
     include: [ models.Image ]
-  });
-  models.Format.create({
-      title: "Simulação",
-      type: "simulation",
-      Image: {
-        name: "simulacao",
-        extension: "svg"
-      }
-    }, {
-    include: [ models.Image ]
-  });
-  models.Format.create({
-      title: "Animação",
-      type: "animation",
-      Image: {
-        name: "animacao",
-        extension: "svg"
-      }
-    }, {
-    include: [ models.Image ]
-  });
-  models.Format.create({
+  })
+  .then(function(){
+    return models.Format.create({
+        title: "Simulação",
+        type: "simulation",
+        Image: {
+          name: "simulacao",
+          extension: "svg"
+        }
+      }, {
+      include: [ models.Image ]
+    })
+  })
+  .then(function(){
+    return models.Format.create({
+        title: "Animação",
+        type: "animation",
+        Image: {
+          name: "animacao",
+          extension: "svg"
+        }
+      }, {
+      include: [ models.Image ]
+    })
+  })
+  .then(function(){
+    return models.Format.create({
       title: "Áudio",
       type: "audio",
       Image: {
@@ -44,8 +49,10 @@ var createFormats = function(models){
       }
     }, {
     include: [ models.Image ]
-  });
-  models.Format.create({
+  })
+  })
+  .then(function(){
+    return models.Format.create({
       title: "Imagem",
       type: "image",
       Image: {
@@ -54,8 +61,10 @@ var createFormats = function(models){
       }
     }, {
     include: [ models.Image ]
-  });
-  models.Format.create({
+  })
+  })
+  .then(function(){
+    return models.Format.create({
       title: "Texto",
       type: "text",
       Image: {
@@ -64,8 +73,10 @@ var createFormats = function(models){
       }
     }, {
     include: [ models.Image ]
-  });
-  models.Format.create({
+  })
+  })
+  .then(function(){
+    return models.Format.create({
       title: "Folha de Cálculo",
       type: "excel",
       Image: {
@@ -74,8 +85,10 @@ var createFormats = function(models){
       }
     }, {
     include: [ models.Image ]
-  });
-  models.Format.create({
+  })
+  })
+  .then(function(){
+    return models.Format.create({
       title: "Jogo Didático",
       type: "game",
       Image: {
@@ -84,8 +97,10 @@ var createFormats = function(models){
       }
     }, {
     include: [ models.Image ]
-  });
-  models.Format.create({
+  })
+  })
+  .then(function(){
+    return models.Format.create({
       title: "Outros",
       type: "others",
       Image: {
@@ -95,24 +110,26 @@ var createFormats = function(models){
     }, {
     include: [ models.Image ]
   });
+  });
 }
 
 // MODES
 var createMode = function(models){
-  models.Mode.create({
+  return models.Mode.create({
     title: "Online",
     type: "online"
-  });
-
-  models.Mode.create({
+  })
+  .then(function(){
+    return models.Mode.create({
     title: "Descarregável",
     type: "downloadable"
+  });
   });
 }
 
 // SUBJECTS
 var createSubjects = function(models){
-  models.Subject.create({
+  return models.Subject.create({
     title: "Matemática",
     Domains: [
       { title: "Números e Operações" },
@@ -125,9 +142,10 @@ var createSubjects = function(models){
     ] 
   },{
     include: [ models.Domain ]
-  });
+  })
+  .then(function(){
 
-  models.Subject.create({
+  return models.Subject.create({
     title: "Português",
     Domains: [
       { title: "Oralidade" },
@@ -141,9 +159,11 @@ var createSubjects = function(models){
     ]
   },{
     include: [ models.Domain ]
-  });
+  })
+  })
+  .then(function(){
 
-  models.Subject.create({
+  return models.Subject.create({
     title: "Ciências Físico-Químicas",
     Domains: [
       { title: "Espaço " },
@@ -161,10 +181,11 @@ var createSubjects = function(models){
     ]
   },{
     include: [ models.Domain ]
-  });
+  })
+  })
+  .then(function(){
 
-
-  models.Subject.bulkCreate([
+  return models.Subject.bulkCreate([
     {
       title: "Estudo do Meio"
     },
@@ -181,11 +202,12 @@ var createSubjects = function(models){
       title: "Outros"
     }
   ]);
+  });
 }
 
 // DOMAINS
 var createDomains = function(models){
-  models.Domain.bulkCreate([
+  return models.Domain.bulkCreate([
     {
       title: "Oralidade"
     },
@@ -215,7 +237,7 @@ var createDomains = function(models){
 
 // LANGUAGES
 var createLanguages = function(models){
-  models.Language.bulkCreate([
+  return models.Language.bulkCreate([
     {
       title: "Português (PT)"
     },
@@ -242,7 +264,7 @@ var createLanguages = function(models){
 
 // YEARS
 var createYears = function(models){
-  models.Year.bulkCreate([
+  return models.Year.bulkCreate([
     {
       title: "1.º"
     },
@@ -273,48 +295,85 @@ var createYears = function(models){
   ]);
 }
 
-var createResource = function(models){
-  models.Resource.create({
+// Tags
+var createTags = function(models){
+  return models.Tag.bulkCreate([
+    {
+      title: "Tag1"
+    },
+    {
+      title: "Tag2"
+    },
+    {
+      title: "Tag3"
+    }
+  ]);
+}
+
+exports.createResource = function(models){
+  return models.Resource.create({
     title: "Media heading",
-    slug: "media-heading",
+    slug: "media-heading-3",
     description: "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
     format_id: 1,
     author:" Luis Melo",
     organization: "Escola X",
     email: "geral@luisfbmelo.com",
-    highlight: true,
-    reserved: true,
+    highlight: false,
+    reserved: false,
     embed: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/eIho2S0ZahI\" frameborder=\"0\" allowfullscreen></iframe>",
     tech_req: "asd",
     operation: "asdasd",
-    Subjects: [
-      { id: 1 },
-      { id: 2 }
-    ],
-    Domains: [
-      { id: 1 },
-      { id: 2 }
-    ],
-    Years: [
-      { id: 1 },
-      { id: 2 }
-    ],
-    Modes: [{id: 1}],
-    Languages: [{id: 1}],
+    operation_author: "asdasdasd",
     user_id: 1
   },{
     include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language ]
-  }).catch(function(err){
+  }).then(function(item){
+    item.setSubjects([
+      1,
+      2
+    ]);
+
+    item.setDomains([
+      1,
+      2
+    ]);
+
+    item.setYears([
+      1,
+      2
+    ]);
+
+    item.setModes([
+      1
+    ]);
+
+    item.setLanguages([
+      1
+    ]);
+
+    item.setTags([
+      1,
+      2
+    ]);
+
+    item.setFavorites([
+      1
+    ])
+
+  })
+  .catch(function(err){
     console.log(err);
   });
 }
 
 exports.createData = function(models){
-  createRoles(models);
-  createFormats(models);
-  createMode(models);
-  createSubjects(models);
-  createLanguages(models);
-  createYears(models);
-  createResource(models);
+  createRoles(models)
+  .then(createFormats(models))
+  .then(createMode(models))
+  .then(createSubjects(models))
+  .then(createLanguages(models))
+  .then(createYears(models))
+  .then(createTags(models));
+  //.then(createResource(models));
 }

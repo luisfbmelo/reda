@@ -19,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},
+		operation_author: {
+			type: DataTypes.STRING(255),
+			allowNull: false
+		},
 		tech_req: {
 			type: DataTypes.TEXT,
 			allowNull: false
@@ -78,6 +82,34 @@ module.exports = function(sequelize, DataTypes) {
 				status: true
 			}
 		},
+		scopes: {
+			generic: {
+				where: {
+					reserved: false,
+					highlight: false,
+					status: true
+				}
+			},
+			highlight: {
+				where: {
+					highlight: true,
+					status: true
+				}
+			},
+			recent: {
+				order: [
+		  			['created_at', 'DESC']
+		  		]
+			},
+			recentGeneric: {
+				where: {
+					reserved: false
+				},
+				order: [
+		  			['created_at', 'DESC']
+		  		]
+			}
+		},
 		classMethods: {
 			associate: function(models) {
 
@@ -85,10 +117,17 @@ module.exports = function(sequelize, DataTypes) {
 				Resource.belongsToMany(models.Year, {through: 'resource_year'});
 				Resource.belongsToMany(models.Mode, {through: 'resource_mode'});
 				Resource.belongsToMany(models.Domain, {through: 'resource_domain'});
-				Resource.belongsToMany(models.Subject, {through: 'resource_subject'});
-				Resource.belongsToMany(models.User, {through: 'resource_favorite'});
+				Resource.belongsToMany(models.Subject, {through: 'resource_subject'});				
 				Resource.belongsTo(models.Format);
 				Resource.belongsTo(models.User);
+
+				Resource.belongsToMany(models.User, {
+					as: {
+						singular: 'Favorite',
+						plural: 'Favorites'
+					},
+					through: 'resource_favorite'
+				});
 
 				Resource.belongsToMany(models.Tag, {
 					through: 'resource_tag',
