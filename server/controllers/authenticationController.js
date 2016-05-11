@@ -1,4 +1,3 @@
-const jwt = require('jwt-simple');
 const models = require('../models/index');
 const config = require('../config/config.json');
 const jwtUtil = require('../utils/jwt');

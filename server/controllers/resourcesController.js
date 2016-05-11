@@ -1,6 +1,7 @@
 const models = require('../models/index');
 const config = require('../config/config.json');
 const jwtUtil = require('../utils/jwt');
+const dataUtil = require('../utils/dataManipulation');
 
 exports.list = function(req, res, next) {
 	// Set includes
@@ -318,4 +319,136 @@ exports.details = function(req, res, next){
 			return next(err);
 		});
 	});
+}
+
+exports.create = function(req, res, next){
+	/*
+	{
+	  "title": "Media heading",
+	  "slug": "media-heading-3",
+	  "description": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
+	  "format": 1,
+	  "author":"Luis Melo",
+	  "organization": "Escola X",
+	  "email": "geral@luisfbmelo.com",
+	  "highlight": false,
+	  "exclusive": false,
+	  "embed": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/eIho2S0ZahI\" frameborder=\"0\" allowfullscreen></iframe>",
+	  "techResources": "asd",
+	  "operation": "asdasd",
+	  "operation_author": "asdasdasd",
+	  "subjects": [1,2],
+	  "domains": [1,2],
+	  "years": [1,2],
+	  "access": 1,
+	  "language": 1,
+	  "keywords":["tag1","tag2"],
+	  "file": {
+	    "name": "asd",
+	    "extension": "swf"
+	  }
+	}
+	 */
+	
+	// Check AUTH
+	jwtUtil.userExists(req.headers.authorization)
+	.then(function(userExists){
+
+		if (userExists){
+			//
+			//	Check data extension
+			//
+			const checkData = dataUtil.checkFile(req.body.file);
+			if (checkData.error){
+				return res.status(403).send(checkData);
+			}
+
+			//
+			//	Check for existing tags according to provided
+			//			
+			
+			models.Tag.findAll({
+				where:{
+					title: {
+						$in: req.body.keywords
+					}
+				}
+			})
+			.then(function(items){
+
+				var existingTags = [];
+				var newTags = req.body.keywords;
+
+				//
+				//	Replace repeated tags for the ones form DB
+				//
+				for(var tag of items){
+					var index = dataUtil.arrayToLowercase(newTags).indexOf(tag.title.toLowerCase());
+					
+					if (index>=0){
+						newTags.splice(index, 1);
+						existingTags.push(tag.id);
+					}
+				}
+
+				//
+				//	Prepare new tags to insert
+				//
+				newTags.forEach(function(tag, index){
+					newTags[index] = {
+						title: tag,
+						type: 'RES'
+					};
+				});
+
+				//
+				//	Create resource with everything prepared
+				//
+				
+				models.Resource.create({
+				    title: req.body.title,
+				    slug: dataUtil.createSlug(req.body.title),
+				    description: req.body.description,
+				    format_id: req.body.format,
+				    author: req.body.author,
+				    organization: req.body.organization,
+				    email: req.body.email,
+				    highlight: false,
+				    exclusive: req.body.exclusive,
+				    embed: req.body.embed,
+				    techResources: req.body.techResources,
+				    operation: req.body.operation,
+				    operation_author: req.body.operation_author,
+				    user_id: 1,
+				    Files: {
+				    	name: req.body.file.name,
+				    	extension: req.body.file.extension
+				    },
+				    Tags: newTags
+				  },{
+				    include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language, models.Tag, models.File ]
+				  }).then(function(item){
+				    item.setSubjects(req.body.subjects);
+
+				    item.setDomains(req.body.domains);
+
+				    item.setYears(req.body.years);
+
+				    item.addMode(req.body.access);
+
+				    item.addLanguage(req.body.language);
+
+				    item.setTags(existingTags);
+
+				    return res.status(200).send(item);
+				 })
+				 .catch(function(err){
+					return res.status(403).send(err);
+				});
+			});
+			//return res.status(200).send("done");
+		}else{
+			return res.status(401).send({error: 'Not allowed to create this resource1'})
+		}
+	})
 }

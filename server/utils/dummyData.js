@@ -320,9 +320,9 @@ exports.createResource = function(models){
     organization: "Escola X",
     email: "geral@luisfbmelo.com",
     highlight: false,
-    reserved: false,
+    exclusive: false,
     embed: "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/eIho2S0ZahI\" frameborder=\"0\" allowfullscreen></iframe>",
-    tech_req: "asd",
+    techResources: "asd",
     operation: "asdasd",
     operation_author: "asdasdasd",
     user_id: 1

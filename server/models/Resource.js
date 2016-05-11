@@ -23,7 +23,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(255),
 			allowNull: false
 		},
-		tech_req: {
+		techResources: {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},
@@ -51,7 +51,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false,
 			defaultValue: false
 		},		
-		reserved: {
+		exclusive: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: false
@@ -151,7 +151,6 @@ module.exports = function(sequelize, DataTypes) {
 				});
 
 				Resource.hasMany(models.File, {
-					as: 'Files',
 					foreignKey: {
 						allowNull: true
 					}
