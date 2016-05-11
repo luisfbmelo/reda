@@ -2,7 +2,11 @@ const models = require('../models/index');
 const config = require('../config/config.json');
 const jwtUtil = require('../utils/jwt');
 const dataUtil = require('../utils/dataManipulation');
+const validate = require('../utils/validateResources').validate;
 
+//
+//	Return generic lsit of resources
+//
 exports.list = function(req, res, next) {
 	// Set includes
 	var includes = [
@@ -19,6 +23,9 @@ exports.list = function(req, res, next) {
 	models.Resource.findAll({
 		include: includes,
 		limit: config.limit,
+		where: {
+			exclusive: false
+		},
   		attributes: [
 	  		'title', 
 	  		'slug', 
@@ -37,6 +44,9 @@ exports.list = function(req, res, next) {
 	})
 };
 
+//
+//	Return most recent resources
+//
 exports.recent = function(req, res, next){
 	// Check AUTH
 	jwtUtil.userExists(req.headers.authorization)
@@ -81,6 +91,9 @@ exports.recent = function(req, res, next){
 	});
 }
 
+//
+//	List of Resources that are highlights
+//
 exports.highlight = function(req, res, next){
 	// Set includes
 	var includes = [
@@ -115,6 +128,9 @@ exports.highlight = function(req, res, next){
 	})
 }
 
+//
+//	Return list of searched resources
+//
 exports.search = function(req, res, next){
 	//req.body
 	//req.query
@@ -275,6 +291,9 @@ exports.search = function(req, res, next){
 	});
 }
 
+//
+//	Get details from resource
+//
 exports.details = function(req, res, next){
 	var slug = req.params.slug;
 
@@ -321,34 +340,10 @@ exports.details = function(req, res, next){
 	});
 }
 
-exports.create = function(req, res, next){
-	/*
-	{
-	  "title": "Media heading",
-	  "slug": "media-heading-3",
-	  "description": "Are you one of the thousands of Iphone owners who has no idea that they can get free games for their Iphone? It’s pretty cool to download things from Itunes, but with a little research you can find thousands of other places to download from",
-	  "format": 1,
-	  "author":"Luis Melo",
-	  "organization": "Escola X",
-	  "email": "geral@luisfbmelo.com",
-	  "highlight": false,
-	  "exclusive": false,
-	  "embed": "<iframe width=\"560\" height=\"315\" src=\"https://www.youtube.com/embed/eIho2S0ZahI\" frameborder=\"0\" allowfullscreen></iframe>",
-	  "techResources": "asd",
-	  "operation": "asdasd",
-	  "operation_author": "asdasdasd",
-	  "subjects": [1,2],
-	  "domains": [1,2],
-	  "years": [1,2],
-	  "access": 1,
-	  "language": 1,
-	  "keywords":["tag1","tag2"],
-	  "file": {
-	    "name": "asd",
-	    "extension": "swf"
-	  }
-	}
-	 */
+//
+//	Create Resource
+//
+exports.createOrCreate = function(req, res, next){	
 	
 	// Check AUTH
 	jwtUtil.userExists(req.headers.authorization)
@@ -356,11 +351,11 @@ exports.create = function(req, res, next){
 
 		if (userExists){
 			//
-			//	Check data extension
+			//	Check form validation
 			//
-			const checkData = dataUtil.checkFile(req.body.file);
-			if (checkData.error){
-				return res.status(403).send(checkData);
+			const checkData = validate(req.body);
+			if (Object.keys(checkData).length != 0 && checkData.constructor === Object){
+				return res.status(403).send({form_errors: checkData});
 			}
 
 			//
@@ -404,51 +399,171 @@ exports.create = function(req, res, next){
 				//
 				//	Create resource with everything prepared
 				//
+				var action = req.params.id ? 'update' : 'create';
+				upsertResource(req, res, newTags, existingTags, action, userExists.id);
 				
-				models.Resource.create({
-				    title: req.body.title,
-				    slug: dataUtil.createSlug(req.body.title),
-				    description: req.body.description,
-				    format_id: req.body.format,
-				    author: req.body.author,
-				    organization: req.body.organization,
-				    email: req.body.email,
-				    highlight: false,
-				    exclusive: req.body.exclusive,
-				    embed: req.body.embed,
-				    techResources: req.body.techResources,
-				    operation: req.body.operation,
-				    operation_author: req.body.operation_author,
-				    user_id: 1,
-				    Files: {
-				    	name: req.body.file.name,
-				    	extension: req.body.file.extension
-				    },
-				    Tags: newTags
-				  },{
-				    include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language, models.Tag, models.File ]
-				  }).then(function(item){
-				    item.setSubjects(req.body.subjects);
-
-				    item.setDomains(req.body.domains);
-
-				    item.setYears(req.body.years);
-
-				    item.addMode(req.body.access);
-
-				    item.addLanguage(req.body.language);
-
-				    item.setTags(existingTags);
-
-				    return res.status(200).send(item);
-				 })
-				 .catch(function(err){
-					return res.status(403).send(err);
-				});
 			});
 			//return res.status(200).send("done");
 		}else{
 			return res.status(401).send({error: 'Not allowed to create this resource1'})
 		}
 	})
+}
+
+function upsertResource(req, res, newTags, existingTags, action, userId){
+	var setWhere = {};
+	var slug = "";
+
+	//
+	//	Create a slug
+	//
+	dataUtil.createSlug(req.body.title)
+	.then(function(str){
+		slug = str;
+
+		if (req.params.id && action=='update'){
+			setWhere = {
+				id: req.params.id
+			}
+
+			//
+			//	Get instance in order to update
+			//
+			return models.Resource.findOne({
+				where:{
+					id: req.params.id
+				},
+				include: [ {model:models.Tag, required:false} ]
+			})
+			.then(function(resource){					    
+
+				//
+				//	Update resource
+				//
+				return resource.updateAttributes({
+				    title: req.body.title,
+				    description: req.body.description,
+				    format_id: req.body.format.id,
+				    author: req.body.author,
+				    organization: req.body.organization,
+				    email: req.body.email,
+				    highlight: req.body.highlight,
+				    exclusive: req.body.exclusive,
+				    embed: req.body.embed,
+				    techResources: req.body.techResources,
+				    operation: req.body.op_proposal,
+				    operation_author: req.body.op_proposal_author,
+				  }).then(function(item){			 
+				  	resource.setSubjects(req.body.subjects);
+
+				    resource.setDomains(req.body.domains);
+
+				    resource.setYears(req.body.years);
+
+				    resource.setModes(req.body.access);
+
+				    resource.setLanguages(req.body.language);
+
+				    //
+				    //	Remove all tags and insert new ones
+				    //
+				    resource.removeTags(resource.Tags);
+				    resource.setTags(existingTags);
+
+				    newTags.forEach(function(tag){
+				    	models.Tag.create(tag)
+				    	.then(function(newTag){
+				    		resource.addTag(newTag);
+				    	});		    	
+				    })
+
+				    //
+				    //	Remove all files and insert new ones if there is no ID
+				    //		    
+				    if (req.body.file && !req.body.file.id){
+				    	// Delete all files existing
+				    	models.File.destroy({
+				    		where:{
+				    			resource_id: req.params.id
+				    		}
+				    	});
+
+				    	//
+				    	//	Delete physical files
+				    	//
+				    	dataUtil.rmDir(resource.dataValues.slug);
+
+				    	//
+					    //	Save file to FileSys
+					    //
+					    dataUtil.saveFile(req, res, resource.dataValues.slug, req.body.file.data, req.body.file.name, req.body.file.extension, req.params.id);
+
+				    	// Create new file
+				    	models.File.create({
+				    		name: req.body.file.name,
+				    		extension: req.body.file.extension
+				    	})
+				    	.then(function(newFile){
+				    		resource.addFile(newFile);
+				    	});
+				    }
+				    return res.status(200).send(item);
+				 })
+				 .catch(function(err){
+					return res.status(403).send(err);
+				});
+			});
+
+		}else if(action=='create'){
+			
+
+			return models.Resource[action]({
+			    title: req.body.title,
+			    slug: slug,
+			    description: req.body.description,
+			    format_id: req.body.format.id,
+			    author: req.body.author,
+			    organization: req.body.organization,
+			    email: req.body.email,
+			    highlight: false,
+			    exclusive: req.body.exclusive,
+			    embed: req.body.embed,
+			    techResources: req.body.techResources,
+			    operation: req.body.op_proposal,
+			    operation_author: req.body.op_proposal_author,
+			    user_id: userId,
+			    Files: {
+			    	name: req.body.file.name,
+			    	extension: req.body.file.extension
+			    },
+			    Tags: newTags
+			  },{
+			    include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language, models.Tag, models.File ],
+			    where: setWhere
+			  }).then(function(item){
+			    item.setSubjects(req.body.subjects);
+
+			    item.setDomains(req.body.domains);
+
+			    item.setYears(req.body.years);
+
+			    item.addMode(req.body.access);
+
+			    item.addLanguage(req.body.language);
+
+			    item.setTags(existingTags);
+
+			    //
+			    //	Save file to FileSys
+			    //
+			    dataUtil.saveFile(req, res, slug, req.body.file.data, req.body.file.name, req.body.file.extension, item.id);
+
+			    return res.status(200).send(item);
+			 })
+			 .catch(function(err){
+				return res.status(403).send(err);
+			});
+		}
+
+	});
 }

@@ -46,5 +46,6 @@
     "logging": false
   },
   "secret": "thisisasecretjwtcode",
-  "limit": 9
+  "limit": 9,
+  "files_path": "public/files/"
 }

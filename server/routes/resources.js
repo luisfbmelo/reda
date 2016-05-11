@@ -8,6 +8,7 @@ router.get('/recent', ResourcesController.recent);
 router.get('/highlight', ResourcesController.highlight);
 router.get('/search', ResourcesController.search);
 router.get('/details/:slug', ResourcesController.details);
-router.post('/new-resource', jwtUtil.requireAuth, ResourcesController.create);
+router.post('/', jwtUtil.requireAuth, ResourcesController.createOrCreate);
+router.put('/:id', jwtUtil.requireAuth, ResourcesController.createOrCreate);
 
 module.exports = router;
