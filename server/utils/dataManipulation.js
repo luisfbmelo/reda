@@ -1,5 +1,6 @@
+const debug = require('debug')('app');
 const fs = require('fs');
-var path = require('path');
+const path = require('path');
 const config = require('../config/config.json');
 const models = require('../models/index');
 
@@ -121,3 +122,15 @@ exports.rmDir = function(slug) {
     }
   fs.rmdirSync(dirPath);
 };
+
+//
+//  Used more for scripts, check if inner array has any errors
+//
+exports.scriptsHasErrors = function(scripts){
+  var hasErrors = false;
+  scripts.map(function(script){
+    hasErrors = (Object.keys(script).length != 0 && script.constructor === Object) || hasErrors;
+  });
+
+  return hasErrors;
+}

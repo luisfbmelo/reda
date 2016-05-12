@@ -1,3 +1,4 @@
+const debug = require('debug')('app');
 const jwt = require('jwt-simple');
 const models = require('../models/index');
 const config = require('../config/config.json');
@@ -15,8 +16,8 @@ exports.userExists = function(token){
 				resolve(false);
 			}
 
-			return models.User.findById(payload.sub).then(function(user) {
-				
+			return models.User.findOne({where: {id:payload.sub}, include:[models.Role]}).then(function(user) {
+
 			    if (user) {
 			      resolve(user);
 			    } else {

@@ -2,11 +2,35 @@ const models = require('../models/index');
 const config = require('../config/config.json');
 
 exports.list = function(req, res, next) {
-	models.Subject.findAll().then(function(subjects){
-		return res.json({result: subjects});
-	}).catch(function(err){
-		return next(err);
-	})
+
+	if (!req.query.required){
+		models.Subject.findAll().then(function(Subjects){
+			return res.json({result: Subjects});
+		}).catch(function(err){
+			return next(err);
+		})
+	}else{
+		// Set includes
+		var includes = [ 
+			{
+				seperate: true,
+				attributes: ['id'], 
+				model: models.Resource,
+				required: true,
+				through: {
+		            attributes: []
+		        }
+			}
+		];
+
+		models.Subject.findAll({
+			include: includes
+		}).then(function(Subjects){
+			return res.json({result: Subjects});
+		}).catch(function(err){
+			return next(err);
+		})
+	}
 };
 
 exports.listWithDomains = function(req, res, next) {

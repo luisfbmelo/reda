@@ -7,10 +7,6 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
-		slug: {
-			type: DataTypes.STRING,
-			allowNull: false
-		},
 		description: {
 			type: DataTypes.TEXT,
 			allowNull: false
@@ -56,6 +52,7 @@ module.exports = function(sequelize, DataTypes) {
 				Script.belongsToMany(models.Domain, {through: 'script_domain'});
 				Script.belongsToMany(models.Subject, {through: 'script_subject'});
 				Script.belongsTo(models.User);
+				Script.belongsTo(models.Resource);
 			}
 		}
 	});

@@ -25,6 +25,12 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods: {
 			associate: function(models) {
 				Format.belongsTo(models.Image);
+				Format.hasMany(models.Resource, {
+					as: 'Resources',
+					foreignKey: {
+						allowNull: false
+					}
+				});
 			}
 		}
 	});

@@ -1,6 +1,7 @@
 var routes = function(app){
 	app.use('/', require('./initial.js'));
 	app.use('/resources', require('./resources.js'));
+	app.use('/scripts', require('./scripts.js'));
 	app.use('/formats', require('./formats.js'));
 	app.use('/modes', require('./modes.js'));	
 	app.use('/languages', require('./languages.js'));	

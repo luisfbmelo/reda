@@ -320,6 +320,59 @@ exports.details = function(req, res, next){
 					id: userExists.id
 				},
 				attributes: ["id"]
+			},
+			{
+				seperate: true, 
+				model: models.Subject,
+				required: false,
+				through: {
+					attributes: []
+				}
+			},
+			{
+				seperate: true, 
+				model: models.Domain,
+				required: false,
+				through: {
+					attributes: []
+				}
+			},
+			{
+				seperate: true, 
+				model: models.Year,
+				required: false,
+				through: {
+					attributes: []
+				}
+			},
+			{
+				seperate: true, 
+				model: models.Language,
+				required: false,
+				through: {
+					attributes: []
+				}
+			},
+			{
+				seperate: true, 
+				model: models.Mode,
+				required: false,
+				through: {
+					attributes: []
+				}
+			},
+			{
+				seperate: true, 
+				model: models.Tag,
+				required: false,
+				through: {
+					attributes: []
+				}
+			},
+			{
+				seperate: true, 
+				model: models.File,
+				required: false
 			}
 		];
 
@@ -343,7 +396,7 @@ exports.details = function(req, res, next){
 //
 //	Create Resource
 //
-exports.createOrCreate = function(req, res, next){	
+exports.createOrUpdate = function(req, res, next){	
 	
 	// Check AUTH
 	jwtUtil.userExists(req.headers.authorization)
@@ -411,7 +464,6 @@ exports.createOrCreate = function(req, res, next){
 }
 
 function upsertResource(req, res, newTags, existingTags, action, userId){
-	var setWhere = {};
 	var slug = "";
 
 	//
@@ -422,9 +474,6 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 		slug = str;
 
 		if (req.params.id && action=='update'){
-			setWhere = {
-				id: req.params.id
-			}
 
 			//
 			//	Get instance in order to update
@@ -432,96 +481,104 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			return models.Resource.findOne({
 				where:{
 					id: req.params.id
-				},
-				include: [ {model:models.Tag, required:false} ]
+				}
 			})
-			.then(function(resource){					    
+			.then(function(resource){
 
-				//
-				//	Update resource
-				//
-				return resource.updateAttributes({
-				    title: req.body.title,
-				    description: req.body.description,
-				    format_id: req.body.format.id,
-				    author: req.body.author,
-				    organization: req.body.organization,
-				    email: req.body.email,
-				    highlight: req.body.highlight,
-				    exclusive: req.body.exclusive,
-				    embed: req.body.embed,
-				    techResources: req.body.techResources,
-				    operation: req.body.op_proposal,
-				    operation_author: req.body.op_proposal_author,
-				  }).then(function(item){			 
-				  	resource.setSubjects(req.body.subjects);
+				if(resource){
+					//
+					//	Update resource
+					//
+					return resource.updateAttributes({
+					    title: req.body.title,
+					    description: req.body.description,
+					    format_id: req.body.format.id,
+					    duration: req.body.duration,
+					    author: req.body.author,
+					    organization: req.body.organization,
+					    email: req.body.email,
+					    highlight: req.body.highlight,
+					    exclusive: req.body.exclusive,
+					    embed: req.body.embed,
+					    techResources: req.body.techResources,
+					    operation: req.body.op_proposal,
+					    operation_author: req.body.op_proposal_author,
+					  }).then(function(item){			 
+					  	resource.setSubjects(req.body.subjects);
 
-				    resource.setDomains(req.body.domains);
+					    resource.setDomains(req.body.domains);
 
-				    resource.setYears(req.body.years);
+					    resource.setYears(req.body.years);
 
-				    resource.setModes(req.body.access);
+					    resource.setModes(req.body.access);
 
-				    resource.setLanguages(req.body.language);
+					    resource.setLanguages(req.body.language);
 
-				    //
-				    //	Remove all tags and insert new ones
-				    //
-				    resource.removeTags(resource.Tags);
-				    resource.setTags(existingTags);
-
-				    newTags.forEach(function(tag){
-				    	models.Tag.create(tag)
-				    	.then(function(newTag){
-				    		resource.addTag(newTag);
-				    	});		    	
-				    })
-
-				    //
-				    //	Remove all files and insert new ones if there is no ID
-				    //		    
-				    if (req.body.file && !req.body.file.id){
-				    	// Delete all files existing
-				    	models.File.destroy({
-				    		where:{
-				    			resource_id: req.params.id
-				    		}
-				    	});
-
-				    	//
-				    	//	Delete physical files
-				    	//
-				    	dataUtil.rmDir(resource.dataValues.slug);
-
-				    	//
-					    //	Save file to FileSys
 					    //
-					    dataUtil.saveFile(req, res, resource.dataValues.slug, req.body.file.data, req.body.file.name, req.body.file.extension, req.params.id);
+					    //	Remove all tags and insert new ones
+					    //
+					    resource.setTags([]).then(function(){
+					    	resource.setTags(existingTags);
 
-				    	// Create new file
-				    	models.File.create({
-				    		name: req.body.file.name,
-				    		extension: req.body.file.extension
-				    	})
-				    	.then(function(newFile){
-				    		resource.addFile(newFile);
-				    	});
-				    }
-				    return res.status(200).send(item);
-				 })
-				 .catch(function(err){
-					return res.status(403).send(err);
-				});
+						    newTags.forEach(function(tag){
+						    	models.Tag.create(tag)
+						    	.then(function(newTag){
+						    		resource.addTag(newTag);
+						    	});		    	
+						    })	
+					    });
+					    
+
+					    //
+					    //	Remove all files and insert new ones if there is no ID
+					    //		    
+					    if (req.body.file && !req.body.file.id){
+					    	// Delete all files existing
+					    	models.File.destroy({
+					    		where:{
+					    			resource_id: req.params.id
+					    		}
+					    	});
+
+					    	//
+					    	//	Delete physical files
+					    	//
+					    	dataUtil.rmDir(resource.dataValues.slug);
+
+					    	//
+						    //	Save file to FileSys
+						    //
+						    dataUtil.saveFile(req, res, resource.dataValues.slug, req.body.file.data, req.body.file.name, req.body.file.extension, req.params.id);
+
+					    	// Create new file
+					    	models.File.create({
+					    		name: req.body.file.name,
+					    		extension: req.body.file.extension
+					    	})
+					    	.then(function(newFile){
+					    		resource.addFile(newFile);
+					    	});
+					    }
+					    return res.status(200).send(item);
+					 })
+					 .catch(function(err){
+						return res.status(403).send(err);
+					});
+				}
+			})
+			.catch(function(err){
+				return res.status(403).send(err);
 			});
 
 		}else if(action=='create'){
 			
 
-			return models.Resource[action]({
+			return models.Resource.create({
 			    title: req.body.title,
 			    slug: slug,
 			    description: req.body.description,
 			    format_id: req.body.format.id,
+			    duration: req.body.duration,
 			    author: req.body.author,
 			    organization: req.body.organization,
 			    email: req.body.email,
@@ -538,8 +595,7 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			    },
 			    Tags: newTags
 			  },{
-			    include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language, models.Tag, models.File ],
-			    where: setWhere
+			    include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language, models.Tag, models.File ]
 			  }).then(function(item){
 			    item.setSubjects(req.body.subjects);
 
