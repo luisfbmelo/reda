@@ -3,11 +3,7 @@
  */
 module.exports = function(sequelize, DataTypes) {
 	var App = sequelize.define('App', {
-		system: {
-			type: DataTypes.STRING(45),
-			allowNull: false
-		},
-		name: {
+		title: {
 			type: DataTypes.STRING(100),
 			allowNull: false
 		},
@@ -22,6 +18,10 @@ module.exports = function(sequelize, DataTypes) {
 				isUrl: true,
 			}
 		},
+		theme: {
+			type: DataTypes.STRING(100),
+			allowNull: false
+		},
 		status: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
@@ -35,6 +35,15 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		classMethods: {
 			associate: function(models) {
+				App.belongsToMany(models.Category, {
+					through: 'app_category'
+				});
+				App.belongsToMany(models.System, {
+					through: 'app_system'
+				});
+				App.belongsToMany(models.Theme, {
+					through: 'app_theme'
+				});
 				App.belongsTo(models.User);
 			}
 		}

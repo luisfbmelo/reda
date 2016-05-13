@@ -2,13 +2,9 @@
  * Create Model
  */
 module.exports = function(sequelize, DataTypes) {
-	var Tag = sequelize.define('Tag', {
+	var Cycle = sequelize.define('Cycle', {
 		title: {
 			type: DataTypes.STRING,
-			allowNull: false
-		},
-		type: {
-			type: DataTypes.ENUM('RES','NEWS','REC'),
 			allowNull: false
 		},
 		status: {
@@ -24,20 +20,12 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		classMethods: {
 			associate: function(models) {
-				Tag.belongsToMany(models.Resource, {
-					through: 'resource_tag'
-				});
-
-				Tag.belongsToMany(models.News, {
-					through: 'news_tag'
-				});
-
-				Tag.belongsToMany(models.Link, {
-					through: 'link_tag'
+				Cycle.belongsToMany(models.Link, {
+					through: 'link_cycle'
 				});
 			}
 		}
 	});
 
-	return Tag;
+	return Cycle;
 }

@@ -49,6 +49,10 @@ module.exports = function(sequelize, DataTypes) {
 				Category.belongsToMany(models.Link, {
 					through: 'link_category'
 				});
+
+				Category.belongsToMany(models.App, {
+					through: 'app_category'
+				});
 			}
 		}
 	});

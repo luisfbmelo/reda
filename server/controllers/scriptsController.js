@@ -13,7 +13,7 @@ exports.details = function(req, res, next){
 	var resource = req.params.resource;
 
 	// Check AUTH
-	jwtUtil.userExists(req.headers.authorization)
+	jwtUtil.userExists(req, res, req.headers.authorization)
 	.then(function(userExists){
 
 		var includes = [];
@@ -54,7 +54,7 @@ exports.userScripts = function(req, res, next){
 	var setWhere = {};
 
 	// Check AUTH
-	jwtUtil.userExists(req.headers.authorization)
+	jwtUtil.userExists(req, res, req.headers.authorization)
 	.then(function(userExists){
 
 		if (userExists){
@@ -99,7 +99,7 @@ exports.userScripts = function(req, res, next){
 exports.create = function(req, res, next){	
 	
 	// Check AUTH
-	jwtUtil.userExists(req.headers.authorization)
+	jwtUtil.userExists(req, res, req.headers.authorization)
 	.then(function(userExists){
 
 		if (userExists){
@@ -130,7 +130,7 @@ exports.create = function(req, res, next){
 exports.update = function(req, res, next){	
 	
 	// Check AUTH
-	jwtUtil.userExists(req.headers.authorization)
+	jwtUtil.userExists(req, res, req, res, req.headers.authorization)
 	.then(function(userExists){
 
 		if (userExists){

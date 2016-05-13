@@ -54,6 +54,17 @@ module.exports = function(sequelize, DataTypes) {
 				Link.belongsToMany(models.Category, {
 					through: 'link_category'
 				});
+
+				Link.belongsToMany(models.Cycle, {
+					through: 'link_cycle'
+				});
+
+				Link.belongsToMany(models.Tag, {
+					through: 'links_tag',
+					scope: {
+					    type: "REC"
+					}
+				});
 			}
 		}
 	});

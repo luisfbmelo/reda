@@ -43,8 +43,8 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
     if (user) {
 
       // Check if expired
-      if (payload.expires < new Date().getTime()){
-        return done(null, false, { token : jwtUtil.tokenForUser(user) });
+      if (new Date(payload.expires).getTime() < new Date().getTime()){
+        return done(null, false, { new_token : jwtUtil.tokenForUser(user) });
       }
 
       done(null, user);

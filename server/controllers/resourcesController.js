@@ -49,7 +49,7 @@ exports.list = function(req, res, next) {
 //
 exports.recent = function(req, res, next){
 	// Check AUTH
-	jwtUtil.userExists(req.headers.authorization)
+	jwtUtil.userExists(req, res, req.headers.authorization)
 	.then(function(userExists){
 
 		// Set scope
@@ -136,7 +136,7 @@ exports.search = function(req, res, next){
 	//req.query
 	//req.param
 	// Check AUTH
-	jwtUtil.userExists(req.headers.authorization)
+	jwtUtil.userExists(req, res, req.headers.authorization)
 	.then(function(userExists){
 
 		var setWhere = {};
@@ -298,7 +298,7 @@ exports.details = function(req, res, next){
 	var slug = req.params.slug;
 
 	// Check AUTH
-	jwtUtil.userExists(req.headers.authorization)
+	jwtUtil.userExists(req, res, req.headers.authorization)
 	.then(function(userExists){
 
 		// Set includes
@@ -399,7 +399,7 @@ exports.details = function(req, res, next){
 exports.createOrUpdate = function(req, res, next){	
 	
 	// Check AUTH
-	jwtUtil.userExists(req.headers.authorization)
+	jwtUtil.userExists(req, res, req.headers.authorization)
 	.then(function(userExists){
 
 		if (userExists){
