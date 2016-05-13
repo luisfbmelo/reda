@@ -1,0 +1,22 @@
+.breadcrumbs{
+	padding:20px 0 0;
+	font: {
+		family: $lato;
+	}
+
+	@include font-size(14px);
+
+	span,
+	a{
+		color:$soft-label-color;
+	}
+
+}
+
+.header-container{
+	&:not(.detalhes-recurso){
+		& + .breadcrumbs-container{
+			background-color:$light-background;
+		}
+	}
+}

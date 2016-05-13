@@ -1,0 +1,39 @@
+.alert{	
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	z-index:10;
+	margin:0;
+	text-align:center;
+
+	border-radius:0;
+
+	font-weight:bold;
+}
+
+@include keyframes(animateHide) {
+  from {
+    @include opacity(1);
+  }
+  to {
+    @include opacity(0);
+  }
+}
+
+@include keyframes(animateShow) {
+  from {
+    @include opacity(0);
+  }
+  to {
+    @include opacity(1);
+  }
+}
+
+.animate-hide{
+	@include animation(animateHide 0.5s ease);
+}
+
+.animate-show{
+	@include animation(animateShow 0.5s ease);
+}

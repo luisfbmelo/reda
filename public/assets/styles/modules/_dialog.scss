@@ -1,0 +1,72 @@
+.modal-backdrop{
+	bottom:0;
+}
+
+.login-dialog{
+
+	.modal-header{
+		border:none;
+
+		section{
+			display:block;			
+			width:100px;
+			height:100px;
+			@include font-size(48px);
+			color:$light-green;
+			text-align: center;
+			line-height: 1.9;
+			
+			margin: 0 auto;
+
+			border:2px solid $light-green;
+			border-radius: 50%;			
+		}
+	}
+
+	.modal-title{
+		text-align:center;
+		margin-top:20px;
+	}
+
+	.modal-footer{
+		border:none;
+		text-align: center;
+
+		p{
+			color:$soft-label-color;
+
+			@include font-size(12px);
+
+			font-family:$opensans;
+		}
+
+		.cta + .cta{
+			margin-left:15px;
+		}
+
+		.cta{
+			margin-bottom:10px;
+		}
+	}
+
+	.modal-body{
+		max-width:350px;
+		margin:0 auto;
+
+		p{
+			text-align:center;
+			font: {
+				family:$opensans;
+			}
+
+			color:$soft-label-color;
+
+			@include font-size(12px);
+		}
+	}
+
+	small{
+	  @include font-size(10px);
+	  color:$meta-color;
+	}
+}

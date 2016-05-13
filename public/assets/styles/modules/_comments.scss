@@ -1,0 +1,47 @@
+.comments{
+	margin:60px 0 60px;
+
+	&__children{
+		padding-top:15px;
+	}
+
+	&__parent{
+		padding-bottom:15px;
+	}
+
+	&__container{
+		& > .row > div[class^="col"] > .comments__children{
+			padding-top:0;
+		}
+
+		h6{
+			margin-bottom:30px;
+			margin-top:30px;
+		}
+	}	
+
+	.user-image{
+		width:50px;
+		height:50px;
+	}
+
+	.media{
+		.meta-info,
+		span,
+		p{
+			font-family:$opensans;
+			@include font-size(13px);
+		}
+
+		.meta-info{
+			display:block;
+			font-style: italic;
+			padding-bottom:5px;
+			color:$soft-label-color;
+		}
+
+		.cta{
+			padding:0;
+		}
+	}
+}

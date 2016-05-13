@@ -1,0 +1,67 @@
+/*
+*
+* FONT SIZES
+* 
+*/
+/*
+p {
+  @include font-size(14px)
+}
+ */
+@function calculateRem($size) {
+  $remSize: $size / 10px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+// Using media queries with like this:
+// @include media-query($on-palm) {
+//     .wrapper {
+//         padding-right: $spacing-unit / 2;
+//         padding-left: $spacing-unit / 2;
+//     }
+// }
+@mixin media-query($device) {
+    @media screen and (max-width: $device) {
+        @content;
+    }
+}
+
+@mixin media-query-min($device) {
+    @media screen and (min-width: $device) {
+        @content;
+    }
+}
+
+@mixin media-query-range($device1, $device2) {
+    @media screen and (min-width: $device1) and (max-width:$device2) {
+        @content;
+    }
+}
+
+/**
+ *
+ * USER SELECT
+ * 
+ */
+@mixin user-select($arg){
+  -webkit-user-select: $arg;
+  -moz-user-select: $arg;
+  -ms-user-select: $arg;
+  user-select: $arg;
+}
+
+/**
+ *
+ * OPACITY
+ * 
+ */
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}

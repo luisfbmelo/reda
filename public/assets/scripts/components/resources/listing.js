@@ -1,0 +1,147 @@
+import React, { PropTypes } from 'react';
+import { Component } from 'react';
+import { Link } from 'react-router';
+import { ResourcesList } from './common/list';
+import ResourcesOrdering from './common/order';
+import SearchBar from '../search/searchBar';
+import ResourcesFilters from '../../containers/filters';
+import LoginButton from '../auth/loginButton';
+import ProtectedButton from '../auth/protectedButton';
+
+import { Pagination, Alert, Button } from 'react-bootstrap';
+
+export default class ResourcesListing extends Component {
+	constructor(props){
+		super(props);
+		this.onChangePage = this.onChangePage.bind(this);
+
+		this.state = {
+			activePage: 1
+		}
+	}
+
+	componentDidMount(){
+		this.props.fetchResources();
+		this.onChangePage(1);		
+	}
+
+	// Handle pagination
+	onChangePage(event, selectedEvent) {
+		if (selectedEvent){
+			this.setState({
+				activePage: selectedEvent.eventKey
+			});
+		}		
+    }
+
+    // Handle list ordering
+    onListOrder(order){
+    	console.log(order);
+    }
+
+    // Search resources by keyword
+    onSearchSubmit(keyword){
+    	console.log(keyword);
+    }
+
+    // Alert that user is not authenticated
+    renderAlert(){
+    	return(
+    		<section className="row">
+    			<div className="col-xs-12">
+		    		<Alert bsStyle="warning" className="alert">
+		    			<p>Esta listagem pode conter resultados restritos ao utilizador não registado, pelo que aconselhamos que realize a sua autenticação.</p>
+						<div className="text-center">
+							<LoginButton className="btn btn-warning" location={this.props.location.pathname}>
+								Entrar na REDA
+							</LoginButton>
+						</div>
+		    		</Alert>
+	    		</div>
+    		</section>
+    	);
+    }
+
+    // Render new resource button according to auth
+    renderNewResourceBtn(obj, target){
+		if (this.props.auth.isAuthenticated){
+			return (
+				<Link to={target} className="cta primary">
+		      		{obj}
+		      	</Link>
+	      	)
+	  	}
+
+	  	return(
+			<ProtectedButton target={target} className="cta primary">
+	      		{obj}
+	      	</ProtectedButton>
+	  	);
+	}
+
+	render() {
+		if (!this.props.resources)
+			return null;
+		
+		const { isAuthenticated } = this.props.auth;
+
+		return (
+			<div className="resources__page">
+				<div className="container">
+					<div className="row">
+						<div className="col-xs-12 col-md-3">
+							{/* Filters */}
+							<ResourcesFilters />
+							
+							{/* Contribute */}
+							<section>
+								<h6>Comece a contribuir</h6>
+								{this.renderNewResourceBtn("Introduzir Recursos","novorecurso")}
+							</section>
+							
+						</div>
+						<div className="col-xs-12 col-md-9">
+							{/* Search bar */}
+							<SearchBar onSubmit={this.onSearchSubmit} className="resources-search" />
+
+							<section className="row">
+								<div className="col-xs-6">
+									{/* Total Results */}
+									<h4><strong>8000</strong> <span className="de-emphasize">Resultados</span></h4>
+								</div>
+								<div className="col-xs-6">
+									{/* Ordering Options */}
+									<ResourcesOrdering onChange={this.onListOrder} />
+								</div>
+							</section>
+
+							{/* Warnings */}
+							{!this.props.auth.isAuthenticated ? this.renderAlert() : ""}
+
+							{/* Resources List */}
+							<ResourcesList list={this.props.resources} maxcol={3} addscript isAuthenticated={isAuthenticated} />
+
+							{/* Pagination */}
+							<Pagination
+						        prev
+						        next
+						        first
+						        last
+						        ellipsis
+						        boundaryLinks
+						        items={20}
+						        maxButtons={5}
+						        activePage={this.state.activePage}
+						        onSelect={this.onChangePage} />
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		);
+	}
+}
+
+ResourcesListing.propTypes = {
+	resources: PropTypes.object.isRequired
+}

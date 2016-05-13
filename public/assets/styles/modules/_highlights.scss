@@ -1,0 +1,84 @@
+.app-carousel{
+	padding-bottom:40px;
+
+	.media{
+		color:white;
+		margin-top:20px;
+		margin-bottom:40px;
+
+		h1{
+			font-family: $opensans;
+		}
+
+		a{
+			color:white;
+
+			@include transition(all 0.3s ease);
+
+			&:hover{
+				color:$light-green;
+				text-decoration: none;
+			}
+		}
+
+		&__img{
+			@include media-query(48em){ //768/16
+				display:block;
+				text-align: center;
+
+				span{
+					margin:0 auto 30px;
+				}
+			}
+		}
+
+		.protected-button{
+			button{
+				padding:0;
+				
+				@include transition(all 0.3s ease);
+
+				&:hover{
+					color:$green;
+				}
+			}
+		}
+	}
+
+	.cta{
+		margin-top:10px;
+	}
+
+	.carousel-control{
+		background:none!important;
+		i{
+			position:absolute;
+			top:50%;
+		}
+	}
+
+	&__img{
+		display:block;
+		width:200px;
+		height:200px;
+		overflow:hidden;
+		border-radius: 50%;
+		margin-right:20px;
+		background-size:cover;
+		background-position: center center;
+
+		@include media-query(48em){ //768/16
+			width:150px;
+			height:150px;
+		}
+	}
+
+	&__text{
+		font: {
+			family:$opensans;
+			size: em(16);
+		}
+		line-height:1.5;
+		margin-top:20px;
+	}
+}

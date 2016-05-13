@@ -1,0 +1,184 @@
+.btn{
+	border-radius: 0;
+}
+
+.cta{
+	line-height: 1;
+	display:inline-block;
+	@include font-size(14px);
+
+	border:none;
+	padding:10px 20px;	
+
+	@include transition(all 0.3s ease);
+
+	i{
+		margin-right:10px;
+	}
+
+	&:disabled,
+	&:disabled:hover{
+		opacity: 0.5!important;
+	}
+
+	&.block{
+		display:block;
+	}
+
+	&.primary{
+		color:white;
+		background-color:$green;
+		border:1px solid $green;
+
+		&.outline{
+			color:$green;			
+
+			&:hover{
+				background-color:$green;
+				color:white;
+			}
+		}
+
+		&.no-bg{
+			color:$green;
+			border-color:$green;
+		}
+
+		&:hover{
+			opacity: 0.8;
+			text-decoration:none;
+		}
+	}
+
+	&.secundary{
+		color:white;
+		background-color:$light-green;
+		border:1px solid $light-green;
+
+		&.outline{
+			color:$light-green;
+		}
+
+		&.no-bg{
+			color:$light-green;
+			border-color:$light-green;
+		}
+	}
+
+	&.white{
+		color:$soft-label-color;
+		background-color:white;
+
+		&.outline{
+			color:white;
+			border-color:white;
+
+			&:hover,
+			&.active{
+				background-color:white;
+				color:$soft-label-color;
+			}
+		}
+
+		&.no-bg{
+			color:white;
+			border-color:white;
+		}
+
+		&:not(.outline):hover{
+			opacity: 0.8;
+			text-decoration:none;
+		}
+	}
+
+	&.gray{
+		color:$soft-label-color;
+		background-color:$light-background;
+
+		&.outline{
+			color:$light-background;
+			border-color:$light-background;
+
+			&:hover,
+			&.active{
+				background-color:$light-background;
+				color:$soft-label-color;
+			}
+		}
+
+		&.no-bg{
+			color:$light-background;
+			border-color:$light-background;
+		}
+
+		&:not(.outline):hover{
+			opacity: 0.8;
+			text-decoration:none;
+		}
+	}
+
+	&.no-bg{
+		background:none;
+		border:none;
+		color:$green;
+
+		&:hover{
+			text-decoration: underline!important;
+		}
+	}
+
+	&.small{
+		@include font-size(12px);
+		padding:8px 10px;
+	}
+
+	&.outline{
+		background:none;
+		border:1px solid;
+	}
+
+	&:hover,
+	&:active,
+	&:focus{
+		text-decoration:none;
+	}
+}
+
+.protected-button{
+	width: 100%;
+	
+	button{
+		/* padding:0;
+		margin:0; */
+		background:none;
+		border:none;
+		display:block;
+		text-align: left;
+
+		&:active,
+		&:focus{
+			outline: none;
+		}
+
+		&:not(.cta){
+			width:100%;
+		}
+	}
+}
+
+/* Make protected button paddings and margins right */
+.list__element{
+	& > .protected-button{
+		button:not(.action-btn){
+			margin:0;
+			padding:0;
+		}
+	}
+}
+
+
+.action-btn{
+	&:hover{
+		cursor:pointer;
+	}
+}

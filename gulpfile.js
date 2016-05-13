@@ -16,6 +16,8 @@ var exit = require('gulp-exit');
 var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var notifier = require('node-notifier');
+var historyApiFallback = require('connect-history-api-fallback');
+var connect = require('gulp-connect');
 
 // /////////////////////////////////////////////////////////////////////////////
 // --------------------------- Variables -------------------------------------//
@@ -45,21 +47,54 @@ gulp.task('default', ['clean'], function () {
   gulp.start('build');
 });
 
-gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'fonts'], function () {
-  gulp.watch('public/assets/styles/**/*.scss', ['styles']);
-  gulp.watch('public/assets/fonts/**/*', ['fonts']);
-  gulp.watch('package.json', ['vendorScripts']);
+gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function () {
+
+  /*browserSync({
+    port: 3000,
+    server: {
+      baseDir: ['public/.tmp', 'app'],
+      routes: {
+        '/node_modules': './node_modules'
+      },
+      middleware: [ historyApiFallback() ]
+    }
+  });
+
+  nodemon({ script: 'bin/www'})
+    .on('restart', function () {
+      console.log('restarted!')
+    })*/
+
+    //
+    //  SOME PACKAGES MISSING
+    //
+    //"sequelize": "^3.21.0"
+    //"pg": "^4.5.5",
+    //"pg-hstore": "^2.3.2",
+
+ /* connect.server({
+        livereload: true
+    });*/
+
+  // watch for changes
+  gulp.watch([
+    'public/*.html',
+    'public/assets/graphics/**/*'
+  ], { usePolling: true });
+
+  gulp.watch('public/assets/styles/**/*.scss', { usePolling: true }, ['styles']);
+  gulp.watch('package.json', { usePolling: true }, ['vendorScripts']);
 });
 
 gulp.task('clean', function () {
-  return del(['.tmp', 'dist'])
+  return del(['public/.tmp', 'public/dist'])
     .then(function () {
       $.cache.clearAll();
     });
 });
 
 gulp.task('build', ['vendorScripts', 'javascript'], function () {
-  gulp.start(['html', 'images', 'fonts', 'extras'], function () {
+  gulp.start(['html', 'images', 'extras'], function () {
     return gulp.src('public/dist/**/*')
       .pipe($.size({title: 'build', gzip: true}))
       .pipe(exit());
@@ -73,15 +108,15 @@ gulp.task('build', ['vendorScripts', 'javascript'], function () {
 
 // Compiles the user's script files to bundle.js.
 // When including the file in the index.html we need to refer to bundle.js not
-// main.js
+// app.js
 gulp.task('javascript', function () {
   var watcher = watchify(browserify({
-    entries: ['./client/app.js'],
+    entries: ['./public/assets/scripts/app.js'],
     debug: true,
     cache: {},
     packageCache: {},
     fullPaths: true
-  }).transform("babelify"));
+  }), {poll: true});
 
   function bundler () {
     if (pkg.dependencies) {
@@ -102,7 +137,7 @@ gulp.task('javascript', function () {
       // Source maps.
       .pipe(sourcemaps.init({loadMaps: true}))
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('.tmp/assets/scripts'))
+      .pipe(gulp.dest('public/.tmp/assets/scripts'))
       .pipe(reload({stream: true}));
   }
 
@@ -128,7 +163,7 @@ gulp.task('vendorScripts', function () {
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('.tmp/assets/scripts/'))
+    .pipe(gulp.dest('public/.tmp/assets/scripts/'))
     .pipe(reload({stream: true}));
 });
 
@@ -151,16 +186,17 @@ gulp.task('styles', function () {
     .pipe($.sourcemaps.init())
     .pipe($.sass({
       outputStyle: 'expanded',
-      precision: 10
+      precision: 10,
+      includePaths: ['.'].concat(require('node-bourbon').includePaths)
     }))
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('.tmp/assets/styles'))
+    .pipe(gulp.dest('public/.tmp/assets/styles'))
     .pipe(reload({stream: true}));
 });
 
 gulp.task('html', ['styles'], function () {
   return gulp.src('public/*.html')
-    .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
+    .pipe($.useref({searchPath: ['public/.tmp', 'app', '.']}))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))
     .pipe($.if(/\.(css|js)$/, rev()))
@@ -177,19 +213,15 @@ gulp.task('images', function () {
       // as hooks for embedding and styling
       svgoPlugins: [{cleanupIDs: false}]
     })))
-    .pipe(gulp.dest('public/dist/assets/graphics'));
-});
-
-gulp.task('fonts', function () {
-  return gulp.src('public/assets/fonts/**/*')
-    .pipe(gulp.dest('.tmp/assets/fonts'))
-    .pipe(gulp.dest('public/dist/assets/fonts'));
+    .pipe(gulp.dest('public/dist/assets/graphics'))
+    .pipe(gulp.dest('public/.tmp/assets/graphics'));
 });
 
 gulp.task('extras', function () {
   return gulp.src([
     'public/**/*',
     '!public/*.html',
+    '!public/files/**',
     '!public/assets/graphics/**',
     '!public/assets/vendor/**',
     '!public/assets/styles/**',
