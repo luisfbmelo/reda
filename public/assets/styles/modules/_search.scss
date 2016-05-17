@@ -2,12 +2,26 @@
 	width:100%;
 	margin-bottom:40px;
 
+	.tags-search{
+		display:block;
+		margin-bottom:10px;
+		min-height:39px;
+
+		input{
+			height:38px;
+			width:auto;
+		}
+	}
+
 	input,
 	select,
 	button{
 		height:40px;
 		width:100%;
-		margin-bottom:10px!important;
+
+		&:not(.react-tagsinput-input){
+			margin-bottom:10px!important;
+		}
 	}
 }
 
@@ -27,7 +41,7 @@
 
 .header-container{
 	&:not(.home-page){
-		& + .search-container{
+		& + .resource-detail-search{
 			background-color:$light-background;
 
 			.search-form{
@@ -43,6 +57,10 @@
 	}
 }
 
+.tags-search{
+	display:inline-block;
+}
+
 .single-search{
 	margin:0 auto;
 	text-align:center;
@@ -51,6 +69,13 @@
 		width:auto;
 		border-radius:0;
 		height:40px;
+	}
+
+	.tags-search{
+
+		input{
+			height:39px;
+		}
 	}
 
 	.form-control{

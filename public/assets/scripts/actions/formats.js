@@ -8,6 +8,7 @@ import {
 	FORMATS_SUCCESS,
 	FORMATS_FAILURE
 } from './action-types';
+import { CALL_API } from '../middleware/api';
 
 
 // FORMATS
@@ -32,7 +33,7 @@ function formatsError(message){
 }
 
 export function fetchFormats(){
-	return dispatch => {
+	/*return dispatch => {
 		dispatch(requestFormats());
 
 		return fetch('/assets/scripts/dummy.json')
@@ -48,5 +49,12 @@ export function fetchFormats(){
 		.catch(message => {
 			dispatch(formatsError(message));
 		})
+	}*/
+
+	return {
+		[CALL_API]: {
+		  endpoint: 'formats',
+		  types: [FORMATS_REQUEST, FORMATS_SUCCESS, FORMATS_FAILURE]
+		}
 	}
 }

@@ -13,16 +13,56 @@ import { Pagination, Alert, Button } from 'react-bootstrap';
 export default class ResourcesListing extends Component {
 	constructor(props){
 		super(props);
-		this.onChangePage = this.onChangePage.bind(this);
-
+		
 		this.state = {
-			activePage: 1
+			activePage: 1,
+			keywords: [],
+			order: 0
 		}
+
+		//
+		//	Event Handlers
+		//
+		this.onChangePage = this.onChangePage.bind(this);
+		this.onSearchSubmit = this.onSearchSubmit.bind(this);
+		this.onListOrder = this.onListOrder.bind(this);
+		this.onFilterChange = this.onFilterChange.bind(this);
+
+		//
+		//	Handle all changes
+		//
+		this.requestNewResources = this.requestNewResources.bind(this);
 	}
 
 	componentDidMount(){
-		this.props.fetchResources();
-		this.onChangePage(1);		
+		this.props.fetchResources('search')
+		.then(() => {
+			this.setState({activePage: this.props.resources.curPage || 1 });
+		})
+		this.props.fetchConfig();		
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		const { activePage, keywords, order } = this.state;
+
+		// If there are any changes, get new resources
+	 	if(((prevState.activePage && prevState.activePage != activePage) 
+	 		|| (prevState.keywords && prevState.keywords!=keywords) 
+	 		|| (prevState.order && prevState.order!=order))){
+	 		this.requestNewResources();
+	 	}    
+	}
+
+	//
+	//	REQUEST NEW RESOURCES
+	//
+	requestNewResources(){
+		console.log(this.state);
+	}
+
+	// When filters change
+	onFilterChange(filters){
+		console.log(filters);
 	}
 
 	// Handle pagination
@@ -36,12 +76,16 @@ export default class ResourcesListing extends Component {
 
     // Handle list ordering
     onListOrder(order){
-    	console.log(order);
+    	this.setState({
+			order
+		});
     }
 
     // Search resources by keyword
-    onSearchSubmit(keyword){
-    	console.log(keyword);
+    onSearchSubmit(keywords){
+    	this.setState({
+			keywords
+		});
     }
 
     // Alert that user is not authenticated
@@ -80,7 +124,9 @@ export default class ResourcesListing extends Component {
 	}
 
 	render() {
-		if (!this.props.resources)
+		const { resources } = this.props;
+
+		if (!resources.data)
 			return null;
 		
 		const { isAuthenticated } = this.props.auth;
@@ -91,7 +137,7 @@ export default class ResourcesListing extends Component {
 					<div className="row">
 						<div className="col-xs-12 col-md-3">
 							{/* Filters */}
-							<ResourcesFilters />
+							<ResourcesFilters onFilterChange={this.onFilterChange}/>
 							
 							{/* Contribute */}
 							<section>
@@ -107,7 +153,7 @@ export default class ResourcesListing extends Component {
 							<section className="row">
 								<div className="col-xs-6">
 									{/* Total Results */}
-									<h4><strong>8000</strong> <span className="de-emphasize">Resultados</span></h4>
+									<h4><strong>{resources.total}</strong> <span className="de-emphasize">Resultados</span></h4>
 								</div>
 								<div className="col-xs-6">
 									{/* Ordering Options */}
@@ -119,7 +165,7 @@ export default class ResourcesListing extends Component {
 							{!this.props.auth.isAuthenticated ? this.renderAlert() : ""}
 
 							{/* Resources List */}
-							<ResourcesList list={this.props.resources} maxcol={3} addscript isAuthenticated={isAuthenticated} />
+							<ResourcesList list={this.props.resources} config={this.props.config.data} maxcol={3} addscript isAuthenticated={isAuthenticated} />
 
 							{/* Pagination */}
 							<Pagination
@@ -129,7 +175,7 @@ export default class ResourcesListing extends Component {
 						        last
 						        ellipsis
 						        boundaryLinks
-						        items={20}
+						        items={resources.totalPages}
 						        maxButtons={5}
 						        activePage={this.state.activePage}
 						        onSelect={this.onChangePage} />
@@ -143,5 +189,6 @@ export default class ResourcesListing extends Component {
 }
 
 ResourcesListing.propTypes = {
-	resources: PropTypes.object.isRequired
+	resources: PropTypes.object.isRequired,
+	config: PropTypes.object.isRequired
 }

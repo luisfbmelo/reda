@@ -10,7 +10,8 @@ export default class RecentResources extends Component {
 
 	componentDidMount(){
 		let { resource } = this.props;
-		this.props.fetchRelatedResources(resource);		
+		this.props.fetchRelatedResources(resource);	
+		this.props.fetchConfig();		
 	}
 
 	render() {
@@ -27,7 +28,7 @@ export default class RecentResources extends Component {
 							<h2 className="resources__title">Outros recursos relacionados</h2>
 						</div>
 					</div>
-					<ResourcesList list={this.props.relatedResources} maxcol={3} viewmore isAuthenticated={isAuthenticated}/>
+					<ResourcesList list={this.props.relatedResources} config={this.props.config.data} maxcol={3} viewmore isAuthenticated={isAuthenticated}/>
 				</div>
 			</section>
 		);
@@ -36,5 +37,6 @@ export default class RecentResources extends Component {
 
 RecentResources.propTypes = {
 	relatedResources: React.PropTypes.object.isRequired,
-	origin: React.PropTypes.object.isRequired
+	origin: React.PropTypes.object.isRequired,
+	config: React.PropTypes.object.isRequired
 }

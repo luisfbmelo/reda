@@ -9,6 +9,7 @@ export default class AlertsBox extends Component {
 	    super(props);
 
 	    this.setTimer = this.setTimer.bind(this);
+	    this.dismissAlert = this.dismissAlert.bind(this);
 
 	    this.state = {
 	    	visible: false
@@ -26,6 +27,11 @@ export default class AlertsBox extends Component {
 	    	this.setTimer();
 	    	this.setState({visible: true});
 	    }
+	}
+
+	dismissAlert(){
+		this.setState({visible: false});
+		clearTimeout(this._timer);
 	}
 
 	// Set timer to hide alert box
@@ -47,7 +53,8 @@ export default class AlertsBox extends Component {
 		const { visible } = this.state;
 
 		return(
-			<div className={"alert" + (resultType ? " alert-"+resultType : "") + (!message || !visible ? " hide" : "") + (message && visible ? " animate-show" : "")}>
+			<div className={"alert-fixed alert" + (resultType ? " alert-"+resultType : "") + (!message || !visible ? " hide" : "") + (message && visible ? " animate-show" : "")}>
+				<button type="button" className="close" data-dismiss="alert" aria-label="Close" onClick={this.dismissAlert}><span aria-hidden="true">&times;</span></button>
 				{message}
 			</div>
 		);

@@ -8,6 +8,7 @@ import {
 	YEARS_SUCCESS,
 	YEARS_FAILURE
 } from './action-types';
+import { CALL_API } from '../middleware/api';
 
 
 // FORMATS
@@ -32,21 +33,10 @@ function yearsError(message){
 }
 
 export function fetchYears(){
-	return dispatch => {
-		dispatch(requestYears());
-
-		return fetch('/assets/scripts/dummy.json')
-		.then(response => {
-			if (response.status >= 400) {
-	          throw new Error('Bad response');
-	        }
-	        return response.json();
-		})
-		.then(json => {
-			dispatch(receiveYears(json.years));
-		})
-		.catch(message => {
-			dispatch(yearsError(message));
-		})
+	return {
+		[CALL_API]: {
+		  endpoint: 'years',
+		  types: [YEARS_REQUEST, YEARS_SUCCESS, YEARS_FAILURE]
+		}
 	}
 }

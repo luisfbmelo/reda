@@ -18,6 +18,7 @@ import {
 	RELATED_RESOURCES_SUCCESS,
 	RELATED_RESOURCES_FAILURE
 } from './action-types';
+import { CALL_API } from '../middleware/api';
 
 import * as alertMessages from './message-types';
 import * as alertActions from './alerts';
@@ -51,7 +52,7 @@ export function setHighlight(resourceId){
 }
 
 export function fetchHighlights(params){
-	return dispatch => {
+	/*return dispatch => {
 		dispatch(requestHighlights());
 
 		return fetch('/assets/scripts/dummy.json')
@@ -67,6 +68,14 @@ export function fetchHighlights(params){
 		.catch(message => {
 			dispatch(highlightsError(message));
 		})
+	}*/
+
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources/highlight',
+		  sendToken: true,
+		  types: [HIGHLIGHTS_REQUEST, HIGHLIGHTS_SUCCESS, HIGHLIGHTS_FAILURE]
+		}
 	}
 }
 
@@ -91,8 +100,8 @@ function resourcesError(message){
 	}
 }
 
-export function fetchResources(params){
-	return dispatch => {
+export function fetchResources(type, params){
+	/*return dispatch => {
 		dispatch(requestResources());
 
 		return fetch('/assets/scripts/dummy.json')
@@ -108,6 +117,17 @@ export function fetchResources(params){
 		.catch(message => {
 			dispatch(resourcesError(message));
 		})
+	}*/
+
+	const endpoint = type ? 'resources/'+type : 'resources';
+
+	return {
+		[CALL_API]: {
+		  endpoint: endpoint,
+		  sendToken: true,
+		  method: 'GET',
+		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
+		}
 	}
 }
 

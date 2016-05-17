@@ -55,3 +55,10 @@ export const setUrl = (content) => {
 
     return content;
 }
+
+//
+//  Sort with locale the TITLE property
+//
+export const sortByTitle = function(s1, s2){
+    return s1.title.localeCompare(s2.title);
+}

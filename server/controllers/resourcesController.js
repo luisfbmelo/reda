@@ -1,3 +1,4 @@
+const debug = require('debug')('app');
 const models = require('../models/index');
 const config = require('../config/config.json');
 const jwtUtil = require('../utils/jwt');
@@ -31,7 +32,7 @@ exports.list = function(req, res, next) {
 	  		'slug', 
 	  		'description', 
 	  		'highlight', 
-	  		'reserved', 
+	  		'exclusive', 
 	  		'status', 
 	  		'created_at', 
 	  		'updated_at'
@@ -53,9 +54,11 @@ exports.recent = function(req, res, next){
 	.then(function(userExists){
 
 		// Set scope
-		// RECENT - if no auth, show only not reserved
+		// RECENT - if no auth, show only not exclusive
 		// RECENTGENERIC - if with auth, show all
 		var scope = userExists ? 'recent' : 'recentGeneric';
+
+		var limit = parseInt(req.query.limit) || 8;
 
 		// Set includes
 		var includes = [
@@ -71,13 +74,14 @@ exports.recent = function(req, res, next){
 
 		models.Resource.scope(scope).findAll({
 			include: includes,
-			limit: 8,
+			limit: limit,
 	  		attributes: [
+	  			'id',
 		  		'title', 
 		  		'slug', 
 		  		'description', 
 		  		'highlight', 
-		  		'reserved', 
+		  		'exclusive', 
 		  		'status', 
 		  		'created_at', 
 		  		'updated_at'
@@ -111,11 +115,12 @@ exports.highlight = function(req, res, next){
 		include: includes,
 		limit: config.limit,
   		attributes: [
+  			'id',
 	  		'title', 
 	  		'slug', 
 	  		'description', 
 	  		'highlight', 
-	  		'reserved', 
+	  		'exclusive', 
 	  		'status', 
 	  		'created_at', 
 	  		'updated_at'
@@ -267,7 +272,7 @@ exports.search = function(req, res, next){
 		  		'slug', 
 		  		'description', 
 		  		'highlight', 
-		  		'reserved', 
+		  		'exclusive', 
 		  		'status', 
 		  		'created_at', 
 		  		'updated_at'
@@ -280,6 +285,7 @@ exports.search = function(req, res, next){
 			// ROWS - total results with limit and offset
 			return res.json({
 				page,
+				totalPages: Math.ceil(resources.count/limit),
 				limit,
 				count: resources.rows.length,
 				total: resources.count, 
@@ -381,8 +387,8 @@ exports.details = function(req, res, next){
 			where: {slug}
 		})
 		.then(function(resource){
-			// Check if is reserved and user is not loggedin
-			if (resource.reserved==true && !userExists){
+			// Check if is exclusive and user is not loggedin
+			if (resource.exclusive==true && !userExists){
 				return res.status(401).send({error: 'Not allowed to access this resource'})
 			}
 

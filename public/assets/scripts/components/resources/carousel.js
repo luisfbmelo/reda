@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import ProtectedButton from '../auth/protectedButton';
 
 var renderProtected = (obj, target, el, isAuth) => {
-	if (!el.protected || isAuth){
+	if (!el.exclusive || isAuth){
 		return (
 			<Link to={target}>
 	      		{obj}
@@ -25,25 +25,25 @@ var renderProtected = (obj, target, el, isAuth) => {
 var renderList = (list, isAuth) => {
 	return list.map((element) => {
       return (
-      	<Carousel.Item key={element.id}>
+      	<Carousel.Item key={element.slug}>
 	        <div className="media col-xs-9 col-sm-8 col-xs-offset-2 col-sm-offset-2">
 			  <div className="media-left media__img">
 			  	{
-	      			renderProtected(
+	      			/*renderProtected(
 		      			<span className="app-carousel__img" style={{"backgroundImage": `url(${element.image.src})`}} />
-			      	,"/descobrir/detalhes-recurso/" + element.id, element, isAuth)
+			      	,"/descobrir/detalhes-recurso/" + element.slug, element, isAuth)*/
 		      	}
 			  </div>
 			  <div className="media-body">
 			  	{
 	      			renderProtected(
 		      			<h1 className="media-heading">{element.title}</h1>
-			      	,"/descobrir/detalhes-recurso/" + element.id, element, isAuth)
+			      	,"/descobrir/detalhes-recurso/" + element.slug, element, isAuth)
 		      	}
 			    <div className="app-carousel__text">
-			    	{element.text}
+			    	{element.description}
 			    </div>
-			    {renderProtected(<span className="cta secundary no-bg pull-right">Ler mais...</span>, "/descobrir/detalhes-recurso/"+element.id, element, isAuth)}
+			    {renderProtected(<span className="cta secundary no-bg pull-right">Ler mais...</span>, "/descobrir/detalhes-recurso/"+element.slug, element, isAuth)}
 			  </div>
 			</div>
 		</Carousel.Item>

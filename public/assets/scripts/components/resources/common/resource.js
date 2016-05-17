@@ -11,7 +11,7 @@ import SvgComponent from '../../common/svg';
 import ProtectedButton from '../../auth/protectedButton';
 
 var renderProtected = (obj, target, props) => {
-	if (!props.el.protected || props.isAuthenticated){
+	if (!props.el.exclusive || props.isAuthenticated){
 		return (
 			<Link to={target}>
 	      		{obj}
@@ -32,7 +32,7 @@ export const ResourceElement = (props) => {
 		return null
 	}
 
-	const { addscript, viewmore, isAuthenticated, el, classColCount, index, maxcol } = props;
+	const { addscript, viewmore, isAuthenticated, el, classColCount, index, maxcol, config } = props;
 
 	// Clearfix classes
 	let breaker = "";
@@ -43,7 +43,7 @@ export const ResourceElement = (props) => {
 
 	// Type tooltip
 	const tooltip = (
-		<Tooltip id={"resource_" + el.id}>{el.format.title}</Tooltip>
+		<Tooltip id={"resource_" + el.id}>{el.Format.title}</Tooltip>
 	);
 
 	return(		
@@ -53,25 +53,25 @@ export const ResourceElement = (props) => {
 	      			renderProtected(
 		      			<header>
 			      			<h1>{el.title}</h1>
-				      		<p>{el.text}</p>
+				      		<p>{el.description}</p>
 			      		</header>
-			      	,"/descobrir/detalhes-recurso/" + el.id, props)
+			      	,"/descobrir/detalhes-recurso/" + el.slug, props)
 		      	}
 
 		      	{(() => {
 		      		if (addscript && isAuthenticated){
 		      			return (
 		      				<span className="list__element--buttons">
-				      			<Link to={"/descobrir/detalhes-recurso/" + el.id} className="cta primary outline small">Ver Recurso</Link>
+				      			<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
 				      			<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Adicionar Guião</Link>
 			      			</span>
 		      			)
 		      		}
 
-		      		if ((viewmore || addscript) && (!el.protected || isAuthenticated)){
-		      			return <Link to={"/descobrir/detalhes-recurso/" + el.id} className="cta primary outline small">Ver Recurso</Link>
+		      		if ((viewmore || addscript) && (!el.exclusive || isAuthenticated)){
+		      			return <Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
 		      		}else {
-		      			return <ProtectedButton className="cta primary outline small action-btn" target={"/descobrir/detalhes-recurso/" + el.id}>Ver Recurso</ProtectedButton>
+		      			return <ProtectedButton className="cta primary outline small action-btn" target={"/descobrir/detalhes-recurso/" + el.slug}>Ver Recurso</ProtectedButton>
 		      		}
 		      	})()}	
 		      	{
@@ -84,7 +84,7 @@ export const ResourceElement = (props) => {
 			      			<div className="type">
 			      				<OverlayTrigger placement="left" overlay={tooltip}>
 				      				<span>
-				      					<SvgComponent element={el.format.image.src} color="#b4b4b4"/>
+				      					<SvgComponent element={config.formatIcons+"/"+el.Format.Image.name+"."+el.Format.Image.extension} color="#b4b4b4"/>
 			      					</span>
 			      				</OverlayTrigger>
 			      			</div>			      			
@@ -103,5 +103,6 @@ ResourceElement.propTypes = {
 	addscript: PropTypes.bool,
 	viewmore: PropTypes.bool,
 	isAuthenticated: PropTypes.bool.isRequired,
-	classColCount: PropTypes.number
+	classColCount: PropTypes.number,
+	config: PropTypes.object
 }

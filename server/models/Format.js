@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		priority: {
+			type: DataTypes.INTEGER,
+			allowNull: false
+		},
 		status: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,

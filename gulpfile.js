@@ -17,7 +17,6 @@ var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
 var notifier = require('node-notifier');
 var historyApiFallback = require('connect-history-api-fallback');
-var connect = require('gulp-connect');
 
 // /////////////////////////////////////////////////////////////////////////////
 // --------------------------- Variables -------------------------------------//
@@ -49,10 +48,10 @@ gulp.task('default', ['clean'], function () {
 
 gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function () {
 
-  /*browserSync({
+  browserSync({
     port: 3000,
     server: {
-      baseDir: ['public/.tmp', 'app'],
+      baseDir: ['public/.tmp', 'public'],
       routes: {
         '/node_modules': './node_modules'
       },
@@ -60,27 +59,11 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function
     }
   });
 
-  nodemon({ script: 'bin/www'})
-    .on('restart', function () {
-      console.log('restarted!')
-    })*/
-
-    //
-    //  SOME PACKAGES MISSING
-    //
-    //"sequelize": "^3.21.0"
-    //"pg": "^4.5.5",
-    //"pg-hstore": "^2.3.2",
-
- /* connect.server({
-        livereload: true
-    });*/
-
   // watch for changes
   gulp.watch([
     'public/*.html',
     'public/assets/graphics/**/*'
-  ], { usePolling: true });
+  ], { usePolling: true }).on('change', reload);
 
   gulp.watch('public/assets/styles/**/*.scss', { usePolling: true }, ['styles']);
   gulp.watch('package.json', { usePolling: true }, ['vendorScripts']);

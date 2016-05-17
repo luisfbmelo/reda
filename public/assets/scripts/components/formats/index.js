@@ -8,13 +8,14 @@ export default class FormatsBanner extends Component {
 	}
 
 	componentDidMount(){
-		this.props.fetchFormats();		
+		this.props.fetchFormats();	
+		this.props.fetchConfig();	
 	}
 
 	render() {
 		return (
 			<div className="formats">
-				<FormatsList formats={this.props.formats} />
+				<FormatsList formats={this.props.formats} config={this.props.config}/>
 			</div>
 		);
 	}

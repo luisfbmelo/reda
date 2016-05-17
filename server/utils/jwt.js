@@ -5,6 +5,15 @@ const config = require('../config/config.json');
 const passport = require('passport');
 const passportService = require('../services/passport');
 
+var exports = module.exports;
+
+exports.tokenForUser = function(user) {
+  const timestamp = new Date().getTime();
+  // Expires in 1 day
+  const tomorrow = new Date(timestamp + (24 * 60 * 60 * 1000));
+  return jwt.encode({ sub: user.id, iat: timestamp, expires: tomorrow }, config.secret);
+}
+
 exports.userExists = function(req, res, token){
 	var promise = new Promise(function(resolve, reject){
 
@@ -15,8 +24,8 @@ exports.userExists = function(req, res, token){
 			    if (user) {
 			    	// Check if expired
 					if (new Date(payload.expires).getTime() < new Date().getTime()){
-						reject();
-						return res.status(401).send({ new_token : jwtUtil.tokenForUser(user) })
+						reject();						
+						return res.status(401).send({ error: "token_expired",  new_token : exports.tokenForUser(user) })
 					}
 			      resolve(user);
 			    } else {
@@ -34,13 +43,6 @@ exports.userExists = function(req, res, token){
 	return promise;		
 }
 
-exports.tokenForUser = function(user) {
-  const timestamp = new Date().getTime();
-  // Expires in 1 day
-  const tomorrow = new Date(timestamp + (24 * 60 * 60 * 1000));
-  return jwt.encode({ sub: user.id, iat: timestamp, expires: tomorrow }, config.secret);
-}
-
 // Check if token is valid
 exports.requireAuth = function(req, res, next) {
   passport.authenticate('jwt', { session: false }, function(err, user, info){
@@ -49,8 +51,11 @@ exports.requireAuth = function(req, res, next) {
       // If no user and a new token is given      
       return res.status(401).send({ error: "token_expired", new_token: info.new_token });
     }else if(!user){
-      return res.status(401).send({ error: "Unauthorized"});
+      return res.status(401).send("Unauthorized");
     }
     next();
   })(req, res, next);
 };
+
+
+module.exports = exports;

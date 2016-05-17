@@ -14,7 +14,7 @@ var renderList = (list, props) => {
 	return list.map((el, index) => {
 		// Type tooltip
 		const tooltip = (
-			<Tooltip id={"resource_" + el.id}>{el.format.title}</Tooltip>
+			<Tooltip id={"resource_" + el.id}>{el.Format.title}</Tooltip>
 		);
 		
 		return (
@@ -27,17 +27,17 @@ var renderList = (list, props) => {
 
 					<div className="list__dashboard--container">
 						<header className="list__dashboard--heading">
-							<Link to={"/descobrir/detalhes-recurso/" + el.id} className="left-col fLeft">
+							<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="left-col fLeft">
 								<h1>{el.title}</h1>
-					      		<p>{el.text}</p>						      				      		
+					      		<p>{el.description}</p>						      				      		
 							</Link>
 							
 							<div className="top-icons fRight">
-								<i className={"fa fa-" + (el.favorite ? "heart" : "heart-o")} title="Favorito"></i>
+								<i className={"fa fa-" + ((el.Favorites && el.Favorites.length>0) ? "heart" : "heart-o")} title="Favorito"></i>
 								<div className="type">
 									<OverlayTrigger placement="left" overlay={tooltip}>
 					      				<span>
-					      					<SvgComponent element={el.format.image.src} color="#b4b4b4"/>
+					      					<SvgComponent element={props.config.formatIcons+"/"+el.Format.Image.name+"."+el.Format.Image.extension} color="#b4b4b4"/>
 				      					</span>
 				      				</OverlayTrigger>
 								</div>		      				
@@ -57,7 +57,7 @@ var renderList = (list, props) => {
 			      				<Rating readonly initialRate={el.rating_avg}/>
 			      			</div>	      			
 			      			<div className="fRight right-col">
-								<Link to={"/descobrir/detalhes-recurso/" + el.id } className="cta primary outline small">Ver Recurso</Link>
+								<Link to={"/descobrir/detalhes-recurso/" + el.slug } className="cta primary outline small">Ver Recurso</Link>
 								<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Gerir Guiões</Link>
 			      				<i className={"action-btn fa fa-" + (el.highlight ? "star" : "star-o")} onClick={()=> props.setHighlight(el.id)} title="Recurso do Mês"></i>
 			      			</div>

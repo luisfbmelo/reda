@@ -1,10 +1,11 @@
+const debug = require('debug')('app');
 const passport = require('passport');
 const models = require('../models/index');
 const config = require('../config/config.json');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
-var jwtUtil = require('../utils/jwt');
+const jwtUtil = require('../utils/jwt');
 
 // Create local strategy
 const localOptions = { usernameField: 'email' };

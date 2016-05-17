@@ -85,7 +85,7 @@ module.exports = function(sequelize, DataTypes) {
 		scopes: {
 			generic: {
 				where: {
-					reserved: false,
+					exclusive: false,
 					highlight: false,
 					status: true
 				}
@@ -103,7 +103,7 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			recentGeneric: {
 				where: {
-					reserved: false
+					exclusive: false
 				},
 				order: [
 		  			['created_at', 'DESC']

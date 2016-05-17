@@ -4,7 +4,10 @@ const config = require('../config/config.json');
 exports.list = function(req, res, next) {
 	// Set includes
 	var includes = [
-		{ seperate: true, model: models.Image }
+		{ 
+			seperate: true, 
+			model: models.Image
+		}
 	];
 
 	if (!req.query.required){

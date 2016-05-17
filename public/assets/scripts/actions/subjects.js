@@ -8,6 +8,7 @@ import {
 	SUBJECTS_SUCCESS,
 	SUBJECTS_FAILURE
 } from './action-types';
+import { CALL_API } from '../middleware/api';
 
 
 // FORMATS
@@ -32,7 +33,7 @@ function subjectsError(message){
 }
 
 export function fetchSubjects(){
-	return dispatch => {
+	/*return dispatch => {
 		dispatch(requestSubjects());
 
 		return fetch('/assets/scripts/dummy.json')
@@ -48,5 +49,12 @@ export function fetchSubjects(){
 		.catch(message => {
 			dispatch(subjectsError(message));
 		})
+	}*/
+
+	return {
+		[CALL_API]: {
+		  endpoint: 'subjects',
+		  types: [SUBJECTS_REQUEST, SUBJECTS_SUCCESS, SUBJECTS_FAILURE]
+		}
 	}
 }

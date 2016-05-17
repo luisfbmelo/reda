@@ -8,6 +8,7 @@ import {
 	ACCESS_SUCCESS,
 	ACCESS_FAILURE
 } from './action-types';
+import { CALL_API } from '../middleware/api';
 
 
 // FORMATS
@@ -32,7 +33,7 @@ function accessError(message){
 }
 
 export function fetchAccess(){
-	return dispatch => {
+	/*return dispatch => {
 		dispatch(requestAccess());
 
 		return fetch('/assets/scripts/dummy.json')
@@ -48,5 +49,11 @@ export function fetchAccess(){
 		.catch(message => {
 			dispatch(accessError(message));
 		})
+	}*/
+	return {
+		[CALL_API]: {
+		  endpoint: 'modes',
+		  types: [ACCESS_REQUEST, ACCESS_SUCCESS, ACCESS_FAILURE]
+		}
 	}
 }

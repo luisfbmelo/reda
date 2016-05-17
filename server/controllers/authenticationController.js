@@ -5,7 +5,13 @@ const jwtUtil = require('../utils/jwt');
 exports.signin = function(req, res, next) {
   // User has already had their email and password auth'd
   // We just need to give them a token
-  res.send({ token: jwtUtil.tokenForUser(req.user) });
+  res.send({ 
+    token: jwtUtil.tokenForUser(req.user),
+    user: {
+      id: req.user.id,
+      email: req.user.email
+    }
+  });
 }
 
 exports.signup = function(req, res, next) {

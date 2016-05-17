@@ -14,6 +14,7 @@ import terms  from './terms';
 import auth from './auth';
 import user from './user';
 import alerts  from './alerts';
+import filters from './filters';
 import config from './config';
 
 const rootReducer = combineReducers({
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
 	terms,
 	auth,
 	user,
+	filters,
 	alerts
 }); 
 

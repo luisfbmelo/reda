@@ -23,7 +23,7 @@ function requestLogin(){
 	}
 }
 
-function receiveLogin(data){
+export function receiveLogin(data){
 	return {
 		type: LOGIN_SUCCESS,
 		data: data
@@ -38,37 +38,46 @@ function loginError(errors){
 }
 
 export function loginUser(props){
+	let config = {
+		method: 'POST',
+		headers: { 'Content-Type':'application/x-www-form-urlencoded' },
+		body: `email=${props.email}&password=${props.password}`
+	}
+
 	return dispatch => {
 		dispatch(requestLogin());
 
 		/* Change this to API Call */
-		return fetch('/assets/scripts/dummy.json')
+		return fetch('http://devbox.dev/api/users/signin', config)
 		.then(response => {
-			if (response.status >= 400) {
-	          throw new Error('Bad response');
+			if (!response.ok) {	 
+				let message = response.status == 401 ? "Email ou Palavra-chave incorretos" : "Não foi possível entrar. Contate o administrador da REDA";
+          		dispatch(loginError(message));
+          		return Promise.reject(message);
 	        }
 
 	        return response.json();
 		})
 		.then(json => {
+			console.log(json);
+			// If login was successful, set the token in local storage
+          	localStorage.setItem('token', json.token);
+          	localStorage.setItem('user', JSON.stringify(json.user));
+
 			dispatch(alertActions.addAlert(alertMessages.ALERT_LOGIN_SUCCESS, alertMessages.SUCCESS))
-	        dispatch(receiveLogin(json.users[0]));			
+	        dispatch(receiveLogin(json.token));			
 		})
 		.catch(errors => {
-
-			// Errors simulation
-			let data = {
-				email: "Email já existe",
-				password: "Faltam caracteres"
-			}
-
-			dispatch(loginError(data));
+			dispatch(loginError(errors));
 		})
 	}
 }
 
 export function logout(){
 	return dispatch => {
+		localStorage.removeItem('token');
+      	localStorage.removeItem('user');
+
 		dispatch(requestLogout());
 		dispatch(alertActions.addAlert(alertMessages.ALERT_LOGOUT_SUCCESS, alertMessages.SUCCESS))
 	}

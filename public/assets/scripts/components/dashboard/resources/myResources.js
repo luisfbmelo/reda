@@ -33,7 +33,12 @@ export default class MyResources extends Component {
 	}
 
 	componentDidMount(){
-		this.props.fetchResources();
+		this.props.fetchResources('search')
+		.then(() => {
+			this.setState({activePage: this.props.resources.curPage || 1 });
+		});
+		this.props.fetchConfig();
+
 		this.onChangePage(1);		
 	}
 
@@ -104,10 +109,12 @@ export default class MyResources extends Component {
     	})
     }
 
+    // Delete list of selected items
     delList(){
     	console.log(this.state.checkedResources);
     }
 
+    // Delete single element
     delEl(id){
     	console.log(id);
     }
@@ -117,7 +124,9 @@ export default class MyResources extends Component {
     }
 
 	render() {
-		if (!this.props.resources)
+		const { resources } = this.props;
+
+		if (!resources.data)
 			return null;
 		
 		const { isAuthenticated } = this.props.auth;
@@ -159,6 +168,7 @@ export default class MyResources extends Component {
 
 						{/* Resources List */}
 						<ResourcesList 
+							config={this.props.config.data}
 							list={this.props.resources} 
 							user={this.props.auth.data} 
 							setHighlight={this.setHighlight} 
@@ -176,7 +186,7 @@ export default class MyResources extends Component {
 					        last
 					        ellipsis
 					        boundaryLinks
-					        items={20}
+					        items={resources.totalPages}
 					        maxButtons={5}
 					        activePage={this.state.activePage}
 					        onSelect={this.onChangePage} />
@@ -188,5 +198,7 @@ export default class MyResources extends Component {
 }
 
 MyResources.propTypes = {
-	resources: PropTypes.object.isRequired
+	resources: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired,
+	config: PropTypes.object.isRequired
 }

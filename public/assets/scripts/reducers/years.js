@@ -14,11 +14,10 @@ export default function(state = INITIAL_STATE, action) {
         fetching: true
       })
     case YEARS_SUCCESS:
-
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       })
     case YEARS_FAILURE:
       return assign({}, state, {

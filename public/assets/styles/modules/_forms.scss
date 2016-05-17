@@ -195,25 +195,24 @@ input:checked + .slider:before {
 .react-tagsinput {
   background-color: #fff;
   border: 1px solid #ccc;
-  overflow: hidden;
+  /*overflow: hidden;*/
   padding-left: 5px;
 
 }
 
 .react-tagsinput-tag {
-  background-color: #cde69c;
+  background-color: $green;
   border-radius: 2px;
   border: 1px solid #a5d24a;
-  color: #638421;
+  color: white;
   display: inline-block;
-  font-family: sans-serif;
+  font-family: $opensans;
   font-size: 13px;
   font-weight: 400;
-  margin-bottom: 5px;
-  margin-top:5px;
-  margin-right: 5px;
-  padding: 2px;
-
+  margin-bottom: 2px;
+  margin-top:2px;
+  margin-right: 2px;
+  padding: 5px;
 }
 
 .react-tagsinput-remove {
@@ -238,7 +237,7 @@ input:checked + .slider:before {
   font-family: sans-serif;
   font-size: 13px;
   font-weight: 400;
-  margin-top: 1px;
+  /*margin-top: 1px;*/
   outline: none;
   padding: 5px;
   width: 80px;
@@ -288,6 +287,14 @@ label.input-title{
   }
 
   text-transform: uppercase;
+}
+
+select[value="0"]{
+  color:white;
+}
+
+option[default]{
+  color:gray;
 }
 
 /* User form */

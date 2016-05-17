@@ -19,7 +19,7 @@ var renderList = (list, props) => {
 	const { addscript, viewmore, isAuthenticated } = props;
 
 	return list.map((el, index) => {
-		return <ResourceElement maxcol={maxcol} classColCount={classColCount} addscript={addscript} viewmore={viewmore} isAuthenticated={isAuthenticated} el={el} index={index} key={index}/>
+		return <ResourceElement maxcol={maxcol} classColCount={classColCount} addscript={addscript} viewmore={viewmore} isAuthenticated={isAuthenticated} el={el} index={index} key={index} config={props.config}/>
     });
 }
 

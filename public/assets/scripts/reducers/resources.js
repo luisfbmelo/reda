@@ -27,7 +27,7 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       })
     case HIGHLIGHTS_FAILURE:
       return assign({}, state, {
@@ -49,7 +49,10 @@ export function resources(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        curPage: action.data.page,
+        total: action.data.total,
+        totalPages: action.data.totalPages,
+        data: action.data.result
       })
     case RESOURCES_FAILURE:
       return assign({}, state, {
@@ -78,7 +81,7 @@ export function resource(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       })
     case RESOURCE_FAILURE:
       return assign({}, state, {
@@ -108,7 +111,7 @@ export function relatedResources(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       })
     case RELATED_RESOURCES_FAILURE:
       return assign({}, state, {

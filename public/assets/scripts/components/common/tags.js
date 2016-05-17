@@ -1,6 +1,5 @@
 'user strict';
 
-
 import React, { Component } from 'react';
 import Tags from 'react-tagsinput'
 
@@ -25,12 +24,17 @@ export default class TagsInput extends Component{
     }
 
     render() {
+        let inputProps={
+            className: 'react-tagsinput-input',
+            placeholder: this.props.placeholder
+        }
         return (
-            <div>
+            <div className={this.props.className}>
                 <Tags 
                     value={this.state.tags} 
                     onChange={this.handleChange} 
-                    addKeys={[188,9,13,32]}/>
+                    addKeys={[188,9,13,32]} 
+                    inputProps={inputProps}/>
             </div>
         )
     }

@@ -18,7 +18,7 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       })
     case SUBJECTS_FAILURE:
       return assign({}, state, {
@@ -29,4 +29,3 @@ export default function(state = INITIAL_STATE, action) {
       return state;
   }
 }
-

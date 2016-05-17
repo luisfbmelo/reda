@@ -8,6 +8,7 @@ var createFormats = function(models){
   return models.Format.create({
     title: "Vídeo",
     type: "video",
+    priority: 1,
     Image: {
       name: "video",
       extension: "svg"
@@ -19,6 +20,7 @@ var createFormats = function(models){
     return models.Format.create({
         title: "Simulação",
         type: "simulation",
+        priority: 2,
         Image: {
           name: "simulacao",
           extension: "svg"
@@ -31,6 +33,7 @@ var createFormats = function(models){
     return models.Format.create({
         title: "Animação",
         type: "animation",
+        priority: 3,
         Image: {
           name: "animacao",
           extension: "svg"
@@ -43,6 +46,7 @@ var createFormats = function(models){
     return models.Format.create({
       title: "Áudio",
       type: "audio",
+      priority: 4,
       Image: {
         name: "audio",
         extension: "svg"
@@ -55,8 +59,9 @@ var createFormats = function(models){
     return models.Format.create({
       title: "Imagem",
       type: "image",
+      priority: 5,
       Image: {
-        name: "simulacao",
+        name: "imagem",
         extension: "svg"
       }
     }, {
@@ -67,6 +72,7 @@ var createFormats = function(models){
     return models.Format.create({
       title: "Texto",
       type: "text",
+      priority: 9,
       Image: {
         name: "texto",
         extension: "svg"
@@ -79,6 +85,7 @@ var createFormats = function(models){
     return models.Format.create({
       title: "Folha de Cálculo",
       type: "excel",
+      priority: 7,
       Image: {
         name: "folha_calculo",
         extension: "svg"
@@ -91,6 +98,7 @@ var createFormats = function(models){
     return models.Format.create({
       title: "Jogo Didático",
       type: "game",
+      priority: 8,
       Image: {
         name: "jogo_didatico",
         extension: "svg"
@@ -103,6 +111,7 @@ var createFormats = function(models){
     return models.Format.create({
       title: "Outros",
       type: "others",
+      priority: 6,
       Image: {
         name: "outros",
         extension: "svg"

@@ -12,7 +12,11 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 var _actionTypes = require('./action-types');
 
+var _api = require('../middleware/api');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 require('es6-promise').polyfill();
 
@@ -39,23 +43,29 @@ function accessError(message) {
 }
 
 function fetchAccess() {
-	return function (dispatch) {
-		dispatch(requestAccess());
-
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			dispatch(receiveAccess(json.access));
-		}).catch(function (message) {
-			dispatch(accessError(message));
-		});
-	};
+	/*return dispatch => {
+ 	dispatch(requestAccess());
+ 		return fetch('/assets/scripts/dummy.json')
+ 	.then(response => {
+ 		if (response.status >= 400) {
+           throw new Error('Bad response');
+         }
+         return response.json();
+ 	})
+ 	.then(json => {
+ 		dispatch(receiveAccess(json.access));
+ 	})
+ 	.catch(message => {
+ 		dispatch(accessError(message));
+ 	})
+ }*/
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'modes',
+		types: [_actionTypes.ACCESS_REQUEST, _actionTypes.ACCESS_SUCCESS, _actionTypes.ACCESS_FAILURE]
+	});
 }
 
-},{"./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js":[function(require,module,exports){
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js":[function(require,module,exports){
 'use strict';
 
 // CONFIG
@@ -141,6 +151,11 @@ var USER_REQUEST = exports.USER_REQUEST = 'USER_REQUEST';
 var USER_SUCCESS = exports.USER_SUCCESS = 'USER_SUCCESS';
 var USER_FAILURE = exports.USER_FAILURE = 'USER_FAILURE';
 
+// USER
+var FILTERS_REQUEST = exports.FILTERS_REQUEST = 'FILTERS_REQUEST';
+var FILTERS_SUCCESS = exports.FILTERS_SUCCESS = 'FILTERS_SUCCESS';
+var FILTERS_FAILURE = exports.FILTERS_FAILURE = 'FILTERS_FAILURE';
+
 // TERMS AND CONDITIONS
 var TERMSANDCONDITIONS_REQUEST = exports.TERMSANDCONDITIONS_REQUEST = 'TERMSANDCONDITIONS_REQUEST';
 var TERMSANDCONDITIONS_SUCCESS = exports.TERMSANDCONDITIONS_SUCCESS = 'TERMSANDCONDITIONS_SUCCESS';
@@ -194,6 +209,7 @@ function removeAlert(data) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.receiveLogin = receiveLogin;
 exports.loginUser = loginUser;
 exports.logout = logout;
 exports.signupUser = signupUser;
@@ -241,34 +257,43 @@ function loginError(errors) {
 }
 
 function loginUser(props) {
+	var config = {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		body: 'email=' + props.email + '&password=' + props.password
+	};
+
 	return function (dispatch) {
 		dispatch(requestLogin());
 
 		/* Change this to API Call */
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
+		return (0, _isomorphicFetch2.default)('http://devbox.dev/api/users/signin', config).then(function (response) {
+			if (!response.ok) {
+				var message = response.status == 401 ? "Email ou Palavra-chave incorretos" : "Não foi possível entrar. Contate o administrador da REDA";
+				dispatch(loginError(message));
+				return Promise.reject(message);
 			}
 
 			return response.json();
 		}).then(function (json) {
+			console.log(json);
+			// If login was successful, set the token in local storage
+			localStorage.setItem('token', json.token);
+			localStorage.setItem('user', JSON.stringify(json.user));
+
 			dispatch(alertActions.addAlert(alertMessages.ALERT_LOGIN_SUCCESS, alertMessages.SUCCESS));
-			dispatch(receiveLogin(json.users[0]));
+			dispatch(receiveLogin(json.token));
 		}).catch(function (errors) {
-
-			// Errors simulation
-			var data = {
-				email: "Email já existe",
-				password: "Faltam caracteres"
-			};
-
-			dispatch(loginError(data));
+			dispatch(loginError(errors));
 		});
 	};
 }
 
 function logout() {
 	return function (dispatch) {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+
 		dispatch(requestLogout());
 		dispatch(alertActions.addAlert(alertMessages.ALERT_LOGOUT_SUCCESS, alertMessages.SUCCESS));
 	};
@@ -465,7 +490,11 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 var _actionTypes = require('./action-types');
 
+var _api = require('../middleware/api');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 require('es6-promise').polyfill();
 
@@ -492,23 +521,29 @@ function domainsError(message) {
 }
 
 function fetchDomains() {
-	return function (dispatch) {
-		dispatch(requestDomains());
-
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			dispatch(receiveDomains(json.domains));
-		}).catch(function (message) {
-			dispatch(domainsError(message));
-		});
-	};
+	/*return dispatch => {
+ 	dispatch(requestDomains());
+ 		return fetch('/assets/scripts/dummy.json')
+ 	.then(response => {
+ 		if (response.status >= 400) {
+           throw new Error('Bad response');
+         }
+         return response.json();
+ 	})
+ 	.then(json => {
+ 		dispatch(receiveDomains(json.domains));
+ 	})
+ 	.catch(message => {
+ 		dispatch(domainsError(message));
+ 	})
+ }*/
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'domains',
+		types: [_actionTypes.DOMAINS_REQUEST, _actionTypes.DOMAINS_SUCCESS, _actionTypes.DOMAINS_FAILURE]
+	});
 }
 
-},{"./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js":[function(require,module,exports){
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -522,7 +557,80 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 var _actionTypes = require('./action-types');
 
+var _api = require('../middleware/api');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+require('es6-promise').polyfill();
+
+
+// FORMATS
+function requestFilters() {
+	return {
+		type: _actionTypes.FILTERS_REQUEST
+	};
+}
+
+function receiveFilters(data) {
+	return {
+		type: _actionTypes.FILTERS_SUCCESS,
+		data: data
+	};
+}
+
+function filtersError(message) {
+	return {
+		type: _actionTypes.FILTERS_FAILURE,
+		message: message
+	};
+}
+
+function fetchFormats() {
+	/*return dispatch => {
+ 	dispatch(requestFormats());
+ 
+ 	return fetch('/assets/scripts/dummy.json')
+ 	.then(response => {
+ 		if (response.status >= 400) {
+           throw new Error('Bad response');
+         }
+         return response.json();
+ 	})
+ 	.then(json => {
+ 		dispatch(receiveFormats(json.formats));
+ 	})
+ 	.catch(message => {
+ 		dispatch(formatsError(message));
+ 	})
+ }*/
+
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'formats',
+		types: [_actionTypes.FILTERS_REQUEST, _actionTypes.FILTERS_SUCCESS, _actionTypes.FILTERS_FAILURE]
+	});
+}
+
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.fetchFormats = fetchFormats;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('./action-types');
+
+var _api = require('../middleware/api');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 require('es6-promise').polyfill();
 
@@ -549,23 +657,30 @@ function formatsError(message) {
 }
 
 function fetchFormats() {
-	return function (dispatch) {
-		dispatch(requestFormats());
+	/*return dispatch => {
+ 	dispatch(requestFormats());
+ 		return fetch('/assets/scripts/dummy.json')
+ 	.then(response => {
+ 		if (response.status >= 400) {
+           throw new Error('Bad response');
+         }
+         return response.json();
+ 	})
+ 	.then(json => {
+ 		dispatch(receiveFormats(json.formats));
+ 	})
+ 	.catch(message => {
+ 		dispatch(formatsError(message));
+ 	})
+ }*/
 
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			dispatch(receiveFormats(json.formats));
-		}).catch(function (message) {
-			dispatch(formatsError(message));
-		});
-	};
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'formats',
+		types: [_actionTypes.FORMATS_REQUEST, _actionTypes.FORMATS_SUCCESS, _actionTypes.FORMATS_FAILURE]
+	});
 }
 
-},{"./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\languages.js":[function(require,module,exports){
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\languages.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -664,6 +779,8 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 var _actionTypes = require('./action-types');
 
+var _api = require('../middleware/api');
+
 var _messageTypes = require('./message-types');
 
 var alertMessages = _interopRequireWildcard(_messageTypes);
@@ -675,6 +792,8 @@ var alertActions = _interopRequireWildcard(_alerts);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 require('es6-promise').polyfill();
 
@@ -708,20 +827,28 @@ function setHighlight(resourceId) {
 }
 
 function fetchHighlights(params) {
-	return function (dispatch) {
-		dispatch(requestHighlights());
+	/*return dispatch => {
+ 	dispatch(requestHighlights());
+ 		return fetch('/assets/scripts/dummy.json')
+ 	.then(response => {
+ 		if (response.status >= 400) {
+           throw new Error('Bad response');
+         }
+         return response.json();
+ 	})
+ 	.then(json => {
+ 		dispatch(receiveHighlights(json.highlights));
+ 	})
+ 	.catch(message => {
+ 		dispatch(highlightsError(message));
+ 	})
+ }*/
 
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			dispatch(receiveHighlights(json.highlights));
-		}).catch(function (message) {
-			dispatch(highlightsError(message));
-		});
-	};
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'resources/highlight',
+		sendToken: true,
+		types: [_actionTypes.HIGHLIGHTS_REQUEST, _actionTypes.HIGHLIGHTS_SUCCESS, _actionTypes.HIGHLIGHTS_FAILURE]
+	});
 }
 
 // RESOURCES
@@ -745,21 +872,32 @@ function resourcesError(message) {
 	};
 }
 
-function fetchResources(params) {
-	return function (dispatch) {
-		dispatch(requestResources());
+function fetchResources(type, params) {
+	/*return dispatch => {
+ 	dispatch(requestResources());
+ 		return fetch('/assets/scripts/dummy.json')
+ 	.then(response => {
+ 		if (response.status >= 400) {
+           throw new Error('Bad response');
+         }
+         return response.json();
+ 	})
+ 	.then(json => {
+ 		dispatch(receiveResources(json.resources));
+ 	})
+ 	.catch(message => {
+ 		dispatch(resourcesError(message));
+ 	})
+ }*/
 
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			dispatch(receiveResources(json.resources));
-		}).catch(function (message) {
-			dispatch(resourcesError(message));
-		});
-	};
+	var endpoint = type ? 'resources/' + type : 'resources';
+
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: endpoint,
+		sendToken: true,
+		method: 'GET',
+		types: [_actionTypes.RESOURCES_REQUEST, _actionTypes.RESOURCES_SUCCESS, _actionTypes.RESOURCES_FAILURE]
+	});
 }
 
 // SINGLE RESOURCE
@@ -847,7 +985,7 @@ function fetchRelatedResources(resourceId) {
 	};
 }
 
-},{"./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","./message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js":[function(require,module,exports){
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","./message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -861,7 +999,11 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 var _actionTypes = require('./action-types');
 
+var _api = require('../middleware/api');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 require('es6-promise').polyfill();
 
@@ -888,23 +1030,30 @@ function subjectsError(message) {
 }
 
 function fetchSubjects() {
-	return function (dispatch) {
-		dispatch(requestSubjects());
+	/*return dispatch => {
+ 	dispatch(requestSubjects());
+ 		return fetch('/assets/scripts/dummy.json')
+ 	.then(response => {
+ 		if (response.status >= 400) {
+           throw new Error('Bad response');
+         }
+         return response.json();
+ 	})
+ 	.then(json => {
+ 		dispatch(receiveSubjects(json.subjects));
+ 	})
+ 	.catch(message => {
+ 		dispatch(subjectsError(message));
+ 	})
+ }*/
 
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			dispatch(receiveSubjects(json.subjects));
-		}).catch(function (message) {
-			dispatch(subjectsError(message));
-		});
-	};
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'subjects',
+		types: [_actionTypes.SUBJECTS_REQUEST, _actionTypes.SUBJECTS_SUCCESS, _actionTypes.SUBJECTS_FAILURE]
+	});
 }
 
-},{"./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\terms.js":[function(require,module,exports){
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\terms.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1043,7 +1192,11 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 var _actionTypes = require('./action-types');
 
+var _api = require('../middleware/api');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 require('es6-promise').polyfill();
 
@@ -1070,23 +1223,13 @@ function yearsError(message) {
 }
 
 function fetchYears() {
-	return function (dispatch) {
-		dispatch(requestYears());
-
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			dispatch(receiveYears(json.years));
-		}).catch(function (message) {
-			dispatch(yearsError(message));
-		});
-	};
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'years',
+		types: [_actionTypes.YEARS_REQUEST, _actionTypes.YEARS_SUCCESS, _actionTypes.YEARS_FAILURE]
+	});
 }
 
-},{"./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\app.js":[function(require,module,exports){
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\app.js":[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -1107,6 +1250,10 @@ var _reduxThunk = require('redux-thunk');
 
 var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
+var _api = require('./middleware/api');
+
+var _api2 = _interopRequireDefault(_api);
+
 var _reducers = require('./reducers');
 
 var _reducers2 = _interopRequireDefault(_reducers);
@@ -1115,9 +1262,19 @@ var _routes = require('./routes');
 
 var _routes2 = _interopRequireDefault(_routes);
 
+var _auth = require('./actions/auth');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var store = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore)(_reducers2.default);
+var store = (0, _redux.applyMiddleware)(_reduxThunk2.default, _api2.default)(_redux.createStore)(_reducers2.default);
+
+// Actions
+
+
+var token = localStorage.getItem('token');
+if (token !== null) {
+  store.dispatch((0, _auth.receiveLogin)(token));
+}
 
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
@@ -1125,7 +1282,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory, routes: _routes2.default })
 ), document.getElementById('site-canvas'));
 
-},{"./reducers":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\index.js","./routes":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\routes\\index.js","react":"react","react-dom":"react-dom","react-redux":"react-redux","react-router":"react-router","redux":"redux","redux-thunk":"redux-thunk"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js":[function(require,module,exports){
+},{"./actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","./middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./reducers":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\index.js","./routes":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\routes\\index.js","react":"react","react-dom":"react-dom","react-redux":"react-redux","react-router":"react-router","redux":"redux","redux-thunk":"redux-thunk"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1289,22 +1446,17 @@ var LoginForm = function (_Component) {
 
       return new Promise(function (resolve, reject) {
         _this2.props.loginUser(props).then(function () {
+          var errors = _this2.props.auth.errors;
 
-          // Are there any errors?
-          if (_this2.props.auth.errors) {
-            reject(_this2.props.auth.errors);
+
+          if (!errors) {
+            if (_this2.props.target) {
+              _this2.context.router.push(_this2.props.target);
+            } else {
+              _this2.context.router.push('/painel');
+            }
           }
-
-          resolve();
-
-          if (_this2.props.target) {
-            _this2.context.router.push(_this2.props.target);
-          } else {
-            _this2.context.router.push('/painel');
-          }
-        }).catch(function (error) {
-          console.log(error);
-        });
+        }).catch(function (error) {});
       });
     }
   }, {
@@ -1318,7 +1470,9 @@ var LoginForm = function (_Component) {
       var resetForm = _props.resetForm;
       var handleSubmit = _props.handleSubmit;
       var submitting = _props.submitting;
-      var fetching = this.props.auth.fetching;
+      var _props$auth = this.props.auth;
+      var fetching = _props$auth.fetching;
+      var errors = _props$auth.errors;
 
 
       return _react2.default.createElement(
@@ -1329,7 +1483,7 @@ var LoginForm = function (_Component) {
           { onSubmit: handleSubmit(this.onSubmit) },
           _react2.default.createElement(
             'div',
-            { className: 'form-group ' + (email.touched && email.invalid ? 'has-error' : '') },
+            { className: 'form-group ' + (email.touched && (email.invalid || errors) ? 'has-error' : '') },
             _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Email' }, email)),
             asyncValidating === 'email' && _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin' }),
             email.touched && email.error && _react2.default.createElement(
@@ -1340,7 +1494,7 @@ var LoginForm = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'form-group ' + (password.touched && password.invalid ? 'has-error' : '') },
+            { className: 'form-group ' + (password.touched && (password.invalid || errors) ? 'has-error' : '') },
             _react2.default.createElement('input', _extends({ type: 'password', className: 'form-control', placeholder: 'Palavra-chave' }, password)),
             password.touched && password.error && _react2.default.createElement(
               'div',
@@ -1348,6 +1502,15 @@ var LoginForm = function (_Component) {
               password.error
             )
           ),
+          function () {
+            if (errors) {
+              return _react2.default.createElement(
+                'div',
+                { className: 'form-group text-danger' },
+                errors
+              );
+            }
+          }(),
           _react2.default.createElement(
             'div',
             null,
@@ -2083,6 +2246,7 @@ var AlertsBox = function (_Component) {
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AlertsBox).call(this, props));
 
 		_this.setTimer = _this.setTimer.bind(_this);
+		_this.dismissAlert = _this.dismissAlert.bind(_this);
 
 		_this.state = {
 			visible: false
@@ -2107,6 +2271,12 @@ var AlertsBox = function (_Component) {
 				this.setTimer();
 				this.setState({ visible: true });
 			}
+		}
+	}, {
+		key: 'dismissAlert',
+		value: function dismissAlert() {
+			this.setState({ visible: false });
+			clearTimeout(this._timer);
 		}
 
 		// Set timer to hide alert box
@@ -2136,7 +2306,16 @@ var AlertsBox = function (_Component) {
 
 			return _react2.default.createElement(
 				'div',
-				{ className: "alert" + (resultType ? " alert-" + resultType : "") + (!message || !visible ? " hide" : "") + (message && visible ? " animate-show" : "") },
+				{ className: "alert-fixed alert" + (resultType ? " alert-" + resultType : "") + (!message || !visible ? " hide" : "") + (message && visible ? " animate-show" : "") },
+				_react2.default.createElement(
+					'button',
+					{ type: 'button', className: 'close', 'data-dismiss': 'alert', 'aria-label': 'Close', onClick: this.dismissAlert },
+					_react2.default.createElement(
+						'span',
+						{ 'aria-hidden': 'true' },
+						'×'
+					)
+				),
 				message
 			);
 		}
@@ -2247,6 +2426,8 @@ var Collapsible = function (_Component) {
 		value: function render() {
 			var _this2 = this;
 
+			var deleteTitle = this.props.deleteTitle || "Remover";
+
 			return _react2.default.createElement(
 				'div',
 				{ className: 'collapse-container' },
@@ -2257,7 +2438,7 @@ var Collapsible = function (_Component) {
 						if (_this2.props.deleteEl) {
 							return _react2.default.createElement('i', { className: _this2.props.deleteIcon || null, onClick: function onClick() {
 									return _this2.props.deleteEl();
-								}, title: 'Remover Guião' });
+								}, title: deleteTitle });
 						}
 					}(),
 					_react2.default.createElement(
@@ -2591,13 +2772,18 @@ var TagsInput = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var inputProps = {
+                className: 'react-tagsinput-input',
+                placeholder: this.props.placeholder
+            };
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: this.props.className },
                 _react2.default.createElement(_reactTagsinput2.default, {
                     value: this.state.tags,
                     onChange: this.handleChange,
-                    addKeys: [188, 9, 13, 32] })
+                    addKeys: [188, 9, 13, 32],
+                    inputProps: inputProps })
             );
         }
     }]);
@@ -2872,7 +3058,7 @@ var renderList = function renderList(list, props) {
 		var tooltip = _react2.default.createElement(
 			_reactBootstrap.Tooltip,
 			{ id: "resource_" + el.id },
-			el.format.title
+			el.Format.title
 		);
 
 		return _react2.default.createElement(
@@ -2897,7 +3083,7 @@ var renderList = function renderList(list, props) {
 						{ className: 'list__dashboard--heading' },
 						_react2.default.createElement(
 							_reactRouter.Link,
-							{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'left-col fLeft' },
+							{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'left-col fLeft' },
 							_react2.default.createElement(
 								'h1',
 								null,
@@ -2906,13 +3092,13 @@ var renderList = function renderList(list, props) {
 							_react2.default.createElement(
 								'p',
 								null,
-								el.text
+								el.description
 							)
 						),
 						_react2.default.createElement(
 							'div',
 							{ className: 'top-icons fRight' },
-							_react2.default.createElement('i', { className: "fa fa-" + (el.favorite ? "heart" : "heart-o"), title: 'Favorito' }),
+							_react2.default.createElement('i', { className: "fa fa-" + (el.Favorites && el.Favorites.length > 0 ? "heart" : "heart-o"), title: 'Favorito' }),
 							_react2.default.createElement(
 								'div',
 								{ className: 'type' },
@@ -2922,7 +3108,7 @@ var renderList = function renderList(list, props) {
 									_react2.default.createElement(
 										'span',
 										null,
-										_react2.default.createElement(_svg2.default, { element: el.format.image.src, color: '#b4b4b4' })
+										_react2.default.createElement(_svg2.default, { element: props.config.formatIcons + "/" + el.Format.Image.name + "." + el.Format.Image.extension, color: '#b4b4b4' })
 									)
 								)
 							)
@@ -2957,7 +3143,7 @@ var renderList = function renderList(list, props) {
 							{ className: 'fRight right-col' },
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'cta primary outline small' },
+								{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'cta primary outline small' },
 								'Ver Recurso'
 							),
 							_react2.default.createElement(
@@ -3068,7 +3254,13 @@ var MyResources = function (_Component) {
 	_createClass(MyResources, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			this.props.fetchResources();
+			var _this2 = this;
+
+			this.props.fetchResources('search').then(function () {
+				_this2.setState({ activePage: _this2.props.resources.curPage || 1 });
+			});
+			this.props.fetchConfig();
+
 			this.onChangePage(1);
 		}
 
@@ -3174,11 +3366,17 @@ var MyResources = function (_Component) {
 				checkAll: allChecked
 			});
 		}
+
+		// Delete list of selected items
+
 	}, {
 		key: 'delList',
 		value: function delList() {
 			console.log(this.state.checkedResources);
 		}
+
+		// Delete single element
+
 	}, {
 		key: 'delEl',
 		value: function delEl(id) {
@@ -3192,7 +3390,10 @@ var MyResources = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			if (!this.props.resources) return null;
+			var resources = this.props.resources;
+
+
+			if (!resources.data) return null;
 
 			var isAuthenticated = this.props.auth.isAuthenticated;
 
@@ -3258,6 +3459,7 @@ var MyResources = function (_Component) {
 							)
 						),
 						_react2.default.createElement(_list.ResourcesList, {
+							config: this.props.config.data,
 							list: this.props.resources,
 							user: this.props.auth.data,
 							setHighlight: this.setHighlight,
@@ -3273,7 +3475,7 @@ var MyResources = function (_Component) {
 							last: true,
 							ellipsis: true,
 							boundaryLinks: true,
-							items: 20,
+							items: resources.totalPages,
 							maxButtons: 5,
 							activePage: this.state.activePage,
 							onSelect: this.onChangePage })
@@ -3290,7 +3492,9 @@ exports.default = MyResources;
 
 
 MyResources.propTypes = {
-	resources: _react.PropTypes.object.isRequired
+	resources: _react.PropTypes.object.isRequired,
+	auth: _react.PropTypes.object.isRequired,
+	config: _react.PropTypes.object.isRequired
 };
 
 },{"../../../containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","../../resources/common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","../../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\common\\list.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js":[function(require,module,exports){
@@ -3329,6 +3533,7 @@ var FormatsBanner = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.props.fetchFormats();
+			this.props.fetchConfig();
 		}
 	}, {
 		key: 'render',
@@ -3336,7 +3541,7 @@ var FormatsBanner = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'formats' },
-				_react2.default.createElement(_list.FormatsList, { formats: this.props.formats })
+				_react2.default.createElement(_list.FormatsList, { formats: this.props.formats, config: this.props.config })
 			);
 		}
 	}]);
@@ -3367,22 +3572,24 @@ var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var renderList = function renderList(list) {
-	return list.map(function (format) {
-		return _react2.default.createElement(
-			'article',
-			{ className: 'col-xs-6 col-sm-3 col-md-2 formats__element', key: format.id },
-			_react2.default.createElement(
-				_reactRouter.Link,
-				{ to: 'descobrir?formato=' + format.id },
-				_react2.default.createElement('img', { src: format.image.src, alt: format.image.alt, className: 'img-responsive' }),
+var renderList = function renderList(list, config) {
+	return _.sortBy(list, 'priority').map(function (format, index) {
+		if (index <= 5) {
+			return _react2.default.createElement(
+				'article',
+				{ className: 'col-xs-6 col-sm-3 col-md-2 formats__element', key: format.id },
 				_react2.default.createElement(
-					'span',
-					null,
-					format.title
+					_reactRouter.Link,
+					{ to: 'descobrir?formato=' + format.id },
+					_react2.default.createElement('img', { src: config.formatIcons + "/" + format.Image.name + "." + format.Image.extension, alt: format.Image.alt, className: 'img-responsive' }),
+					_react2.default.createElement(
+						'span',
+						null,
+						format.title
+					)
 				)
-			)
-		);
+			);
+		}
 	});
 };
 
@@ -3397,7 +3604,7 @@ var FormatsList = exports.FormatsList = function FormatsList(props) {
 		_react2.default.createElement(
 			'div',
 			{ className: 'row' },
-			renderList(props.formats.data)
+			renderList(props.formats.data, props.config.data)
 		)
 	);
 };
@@ -4202,7 +4409,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 var renderProtected = function renderProtected(obj, target, el, isAuth) {
-	if (!el.protected || isAuth) {
+	if (!el.exclusive || isAuth) {
 		return _react2.default.createElement(
 			_reactRouter.Link,
 			{ to: target },
@@ -4221,15 +4428,11 @@ var renderList = function renderList(list, isAuth) {
 	return list.map(function (element) {
 		return _react2.default.createElement(
 			_reactBootstrap.Carousel.Item,
-			{ key: element.id },
+			{ key: element.slug },
 			_react2.default.createElement(
 				'div',
 				{ className: 'media col-xs-9 col-sm-8 col-xs-offset-2 col-sm-offset-2' },
-				_react2.default.createElement(
-					'div',
-					{ className: 'media-left media__img' },
-					renderProtected(_react2.default.createElement('span', { className: 'app-carousel__img', style: { "backgroundImage": 'url(' + element.image.src + ')' } }), "/descobrir/detalhes-recurso/" + element.id, element, isAuth)
-				),
+				_react2.default.createElement('div', { className: 'media-left media__img' }),
 				_react2.default.createElement(
 					'div',
 					{ className: 'media-body' },
@@ -4237,17 +4440,17 @@ var renderList = function renderList(list, isAuth) {
 						'h1',
 						{ className: 'media-heading' },
 						element.title
-					), "/descobrir/detalhes-recurso/" + element.id, element, isAuth),
+					), "/descobrir/detalhes-recurso/" + element.slug, element, isAuth),
 					_react2.default.createElement(
 						'div',
 						{ className: 'app-carousel__text' },
-						element.text
+						element.description
 					),
 					renderProtected(_react2.default.createElement(
 						'span',
 						{ className: 'cta secundary no-bg pull-right' },
 						'Ler mais...'
-					), "/descobrir/detalhes-recurso/" + element.id, element, isAuth)
+					), "/descobrir/detalhes-recurso/" + element.slug, element, isAuth)
 				)
 			)
 		);
@@ -4600,6 +4803,12 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _utils = require('../../../utils');
+
 var _collapse = require('../../common/collapse');
 
 var _collapse2 = _interopRequireDefault(_collapse);
@@ -4616,6 +4825,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Utils
+
+
+// Components
+
+
 var ResourcesFilters = function (_Component) {
 	_inherits(ResourcesFilters, _Component);
 
@@ -4625,10 +4840,35 @@ var ResourcesFilters = function (_Component) {
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ResourcesFilters).call(this, props));
 
 		_this.state = {
-			formats: []
+			formats: [],
+			subjects: [],
+			domains: [],
+			years: [],
+			access: []
 		};
 
+		//
+		//	Submition
+		//
+		_this.submitFilters = _this.submitFilters.bind(_this);
+
+		//
+		//	Change events
+		//
 		_this.formatChange = _this.formatChange.bind(_this);
+		_this.subjectChange = _this.subjectChange.bind(_this);
+		_this.domainChange = _this.domainChange.bind(_this);
+		_this.yearChange = _this.yearChange.bind(_this);
+		_this.accessChange = _this.accessChange.bind(_this);
+
+		//
+		//	Renders
+		//
+		_this.renderFormats = _this.renderFormats.bind(_this);
+		_this.renderSubjects = _this.renderSubjects.bind(_this);
+		_this.renderDomains = _this.renderDomains.bind(_this);
+		_this.renderYears = _this.renderYears.bind(_this);
+		_this.renderAccess = _this.renderAccess.bind(_this);
 		return _this;
 	}
 
@@ -4636,10 +4876,30 @@ var ResourcesFilters = function (_Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.props.fetchFormats();
+			this.props.fetchSubjects();
+			this.props.fetchDomains();
+			this.props.fetchYears();
+			this.props.fetchAccess();
 		}
 	}, {
-		key: 'renderFilters',
-		value: function renderFilters(filters) {}
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate(prevProps, prevState) {
+
+			//If previous state is different, then warn container
+			if (prevState != this.state) {
+				this.submitFilters();
+			}
+		}
+	}, {
+		key: 'submitFilters',
+		value: function submitFilters() {
+			this.props.onFilterChange(this.state);
+		}
+
+		//
+		//	Handle Changes
+		//
+
 	}, {
 		key: 'formatChange',
 		value: function formatChange(data) {
@@ -4648,9 +4908,222 @@ var ResourcesFilters = function (_Component) {
 			});
 		}
 	}, {
+		key: 'subjectChange',
+		value: function subjectChange(data) {
+			this.setState({
+				subjects: data
+			});
+		}
+	}, {
+		key: 'domainChange',
+		value: function domainChange(data) {
+			this.setState({
+				domains: data
+			});
+		}
+	}, {
+		key: 'yearChange',
+		value: function yearChange(data) {
+			this.setState({
+				years: data
+			});
+		}
+	}, {
+		key: 'accessChange',
+		value: function accessChange(data) {
+			this.setState({
+				access: data
+			});
+		}
+
+		//
+		//	RENDER DATA
+		//
+		// Render formats list
+
+	}, {
+		key: 'renderFormats',
+		value: function renderFormats() {
+			var data = this.props.formats.data;
+
+			return _react2.default.createElement(
+				_reactCheckboxGroup2.default,
+				{
+					name: 'subjects',
+					value: this.state.formats,
+					onChange: this.formatChange
+				},
+				function (Checkbox) {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						data.sort(_utils.sortByTitle).map(function (item, index) {
+							return _react2.default.createElement(
+								'div',
+								{ key: item.id, className: 'col-xs-12' },
+								_react2.default.createElement(Checkbox, { value: item.id, id: "format-" + item.id }),
+								_react2.default.createElement(
+									'label',
+									{ htmlFor: "format-" + item.id },
+									item.title
+								)
+							);
+						})
+					);
+				}
+			);
+		}
+
+		// Render subjects list
+
+	}, {
+		key: 'renderSubjects',
+		value: function renderSubjects() {
+			var data = this.props.subjects.data;
+
+			return _react2.default.createElement(
+				_reactCheckboxGroup2.default,
+				{
+					name: 'subjects',
+					value: this.state.subjects,
+					onChange: this.subjectChange
+				},
+				function (Checkbox) {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						data.sort(_utils.sortByTitle).map(function (item, index) {
+							return _react2.default.createElement(
+								'div',
+								{ key: item.id, className: 'col-xs-12' },
+								_react2.default.createElement(Checkbox, { value: item.id, id: "subject-" + item.id }),
+								_react2.default.createElement(
+									'label',
+									{ htmlFor: "subject-" + item.id },
+									item.title
+								)
+							);
+						})
+					);
+				}
+			);
+		}
+
+		// Render domains list
+
+	}, {
+		key: 'renderDomains',
+		value: function renderDomains() {
+			var data = this.props.domains.data;
+
+			return _react2.default.createElement(
+				_reactCheckboxGroup2.default,
+				{
+					name: 'domains',
+					value: this.state.domains,
+					onChange: this.domainChange
+				},
+				function (Checkbox) {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						data.sort(_utils.sortByTitle).map(function (item, index) {
+							return _react2.default.createElement(
+								'div',
+								{ key: item.id, className: 'col-xs-12' },
+								_react2.default.createElement(Checkbox, { value: item.id, id: "domain-" + item.id }),
+								_react2.default.createElement(
+									'label',
+									{ htmlFor: "domain-" + item.id },
+									item.title
+								)
+							);
+						})
+					);
+				}
+			);
+		}
+
+		// Render years list
+
+	}, {
+		key: 'renderYears',
+		value: function renderYears() {
+			var data = this.props.years.data;
+
+			return _react2.default.createElement(
+				_reactCheckboxGroup2.default,
+				{
+					name: 'years',
+					value: this.state.years,
+					onChange: this.yearChange
+				},
+				function (Checkbox) {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						data.sort(_utils.sortByTitle).map(function (item, index) {
+							return _react2.default.createElement(
+								'div',
+								{ key: item.id, className: 'col-xs-6' },
+								_react2.default.createElement(Checkbox, { value: item.id, id: "year-" + item.id }),
+								_react2.default.createElement(
+									'label',
+									{ htmlFor: "year-" + item.id },
+									item.title
+								)
+							);
+						})
+					);
+				}
+			);
+		}
+
+		// Render access modes list
+
+	}, {
+		key: 'renderAccess',
+		value: function renderAccess() {
+			var data = this.props.access.data;
+
+			return _react2.default.createElement(
+				_reactCheckboxGroup2.default,
+				{
+					name: 'access',
+					value: this.state.access,
+					onChange: this.accessChange
+				},
+				function (Checkbox) {
+					return _react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						data.sort(_utils.sortByTitle).map(function (item, index) {
+							return _react2.default.createElement(
+								'div',
+								{ key: item.id, className: 'col-xs-6' },
+								_react2.default.createElement(Checkbox, { value: item.id, id: "access-" + item.id }),
+								_react2.default.createElement(
+									'label',
+									{ htmlFor: "access-" + item.id },
+									item.title
+								)
+							);
+						})
+					);
+				}
+			);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
-			if (!this.props.formats.data) return null;
+			var _props = this.props;
+			var formats = _props.formats;
+			var subjects = _props.subjects;
+			var domains = _props.domains;
+			var years = _props.years;
+			var access = _props.access;
+
+			if (!formats.data || !subjects.data || !domains.data || !years.data || !access.data) return null;
 
 			return _react2.default.createElement(
 				'div',
@@ -4663,75 +5136,28 @@ var ResourcesFilters = function (_Component) {
 						{ className: 'col-xs-12' },
 						_react2.default.createElement(
 							_collapse2.default,
-							{ title: 'Formatos', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down' },
-							_react2.default.createElement(
-								_reactCheckboxGroup2.default,
-								{
-									name: 'formats',
-									value: this.state.formats,
-									onChange: this.formatChange
-								},
-								function (Checkbox) {
-									return _react2.default.createElement(
-										'form',
-										null,
-										_react2.default.createElement(Checkbox, { value: 'apple', id: 'apple' }),
-										_react2.default.createElement(
-											'label',
-											{ htmlFor: 'apple' },
-											'Apple'
-										),
-										_react2.default.createElement(Checkbox, { value: 'apple2', id: 'apple2' }),
-										_react2.default.createElement(
-											'label',
-											{ htmlFor: 'apple2' },
-											'Apple'
-										),
-										_react2.default.createElement(Checkbox, { value: 'apple3', id: 'apple3' }),
-										_react2.default.createElement(
-											'label',
-											{ htmlFor: 'apple3' },
-											'Apple'
-										)
-									);
-								}
-							)
+							{ title: 'Anos', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down' },
+							this.renderYears()
+						),
+						_react2.default.createElement(
+							_collapse2.default,
+							{ title: 'Disciplinas', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down' },
+							this.renderSubjects()
+						),
+						_react2.default.createElement(
+							_collapse2.default,
+							{ title: 'Domínios', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down' },
+							this.renderDomains()
 						),
 						_react2.default.createElement(
 							_collapse2.default,
 							{ title: 'Formatos', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down' },
-							_react2.default.createElement(
-								_reactCheckboxGroup2.default,
-								{
-									name: 'formats',
-									value: this.state.formats,
-									onChange: this.formatChange
-								},
-								function (Checkbox) {
-									return _react2.default.createElement(
-										'form',
-										null,
-										_react2.default.createElement(Checkbox, { value: 'orange', id: 'orange' }),
-										_react2.default.createElement(
-											'label',
-											{ htmlFor: 'orange' },
-											'orange'
-										),
-										_react2.default.createElement(Checkbox, { value: 'orange2', id: 'orange2' }),
-										_react2.default.createElement(
-											'label',
-											{ htmlFor: 'orange2' },
-											'orange'
-										),
-										_react2.default.createElement(Checkbox, { value: 'orange3', id: 'orange3' }),
-										_react2.default.createElement(
-											'label',
-											{ htmlFor: 'orange3' },
-											'Apple'
-										)
-									);
-								}
-							)
+							this.renderFormats()
+						),
+						_react2.default.createElement(
+							_collapse2.default,
+							{ title: 'Modos de utilização', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down' },
+							this.renderAccess()
 						)
 					)
 				)
@@ -4744,7 +5170,13 @@ var ResourcesFilters = function (_Component) {
 
 exports.default = ResourcesFilters;
 
-},{"../../common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","react":"react","react-checkbox-group":"react-checkbox-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js":[function(require,module,exports){
+
+ResourcesFilters.propTypes = {
+	formats: _react.PropTypes.object.isRequired,
+	subjects: _react.PropTypes.object.isRequired
+};
+
+},{"../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4790,7 +5222,7 @@ var renderList = function renderList(list, props) {
 
 
 	return list.map(function (el, index) {
-		return _react2.default.createElement(_resource.ResourceElement, { maxcol: maxcol, classColCount: classColCount, addscript: addscript, viewmore: viewmore, isAuthenticated: isAuthenticated, el: el, index: index, key: index });
+		return _react2.default.createElement(_resource.ResourceElement, { maxcol: maxcol, classColCount: classColCount, addscript: addscript, viewmore: viewmore, isAuthenticated: isAuthenticated, el: el, index: index, key: index, config: props.config });
 	});
 };
 
@@ -4935,7 +5367,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 
 var renderProtected = function renderProtected(obj, target, props) {
-	if (!props.el.protected || props.isAuthenticated) {
+	if (!props.el.exclusive || props.isAuthenticated) {
 		return _react2.default.createElement(
 			_reactRouter.Link,
 			{ to: target },
@@ -4966,6 +5398,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 	var classColCount = props.classColCount;
 	var index = props.index;
 	var maxcol = props.maxcol;
+	var config = props.config;
 
 	// Clearfix classes
 
@@ -4978,7 +5411,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 	var tooltip = _react2.default.createElement(
 		_reactBootstrap.Tooltip,
 		{ id: "resource_" + el.id },
-		el.format.title
+		el.Format.title
 	);
 
 	return _react2.default.createElement(
@@ -4998,9 +5431,9 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 				_react2.default.createElement(
 					'p',
 					null,
-					el.text
+					el.description
 				)
-			), "/descobrir/detalhes-recurso/" + el.id, props),
+			), "/descobrir/detalhes-recurso/" + el.slug, props),
 			function () {
 				if (addscript && isAuthenticated) {
 					return _react2.default.createElement(
@@ -5008,7 +5441,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 						{ className: 'list__element--buttons' },
 						_react2.default.createElement(
 							_reactRouter.Link,
-							{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'cta primary outline small' },
+							{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'cta primary outline small' },
 							'Ver Recurso'
 						),
 						_react2.default.createElement(
@@ -5019,16 +5452,16 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 					);
 				}
 
-				if ((viewmore || addscript) && (!el.protected || isAuthenticated)) {
+				if ((viewmore || addscript) && (!el.exclusive || isAuthenticated)) {
 					return _react2.default.createElement(
 						_reactRouter.Link,
-						{ to: "/descobrir/detalhes-recurso/" + el.id, className: 'cta primary outline small' },
+						{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'cta primary outline small' },
 						'Ver Recurso'
 					);
 				} else {
 					return _react2.default.createElement(
 						_protectedButton2.default,
-						{ className: 'cta primary outline small action-btn', target: "/descobrir/detalhes-recurso/" + el.id },
+						{ className: 'cta primary outline small action-btn', target: "/descobrir/detalhes-recurso/" + el.slug },
 						'Ver Recurso'
 					);
 				}
@@ -5050,7 +5483,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 						_react2.default.createElement(
 							'span',
 							null,
-							_react2.default.createElement(_svg2.default, { element: el.format.image.src, color: '#b4b4b4' })
+							_react2.default.createElement(_svg2.default, { element: config.formatIcons + "/" + el.Format.Image.name + "." + el.Format.Image.extension, color: '#b4b4b4' })
 						)
 					)
 				)
@@ -5065,7 +5498,8 @@ ResourceElement.propTypes = {
 	addscript: _react.PropTypes.bool,
 	viewmore: _react.PropTypes.bool,
 	isAuthenticated: _react.PropTypes.bool.isRequired,
-	classColCount: _react.PropTypes.number
+	classColCount: _react.PropTypes.number,
+	config: _react.PropTypes.object
 };
 
 },{"../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js":[function(require,module,exports){
@@ -5769,19 +6203,68 @@ var ResourcesListing = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ResourcesListing).call(this, props));
 
-		_this.onChangePage = _this.onChangePage.bind(_this);
-
 		_this.state = {
-			activePage: 1
+			activePage: 1,
+			keywords: [],
+			order: 0
 		};
+
+		//
+		//	Event Handlers
+		//
+		_this.onChangePage = _this.onChangePage.bind(_this);
+		_this.onSearchSubmit = _this.onSearchSubmit.bind(_this);
+		_this.onListOrder = _this.onListOrder.bind(_this);
+		_this.onFilterChange = _this.onFilterChange.bind(_this);
+
+		//
+		//	Handle all changes
+		//
+		_this.requestNewResources = _this.requestNewResources.bind(_this);
 		return _this;
 	}
 
 	_createClass(ResourcesListing, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			this.props.fetchResources();
-			this.onChangePage(1);
+			var _this2 = this;
+
+			this.props.fetchResources('search').then(function () {
+				_this2.setState({ activePage: _this2.props.resources.curPage || 1 });
+			});
+			this.props.fetchConfig();
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate(prevProps, prevState) {
+			var _state = this.state;
+			var activePage = _state.activePage;
+			var keywords = _state.keywords;
+			var order = _state.order;
+
+			// If there are any changes, get new resources
+
+			if (prevState.activePage && prevState.activePage != activePage || prevState.keywords && prevState.keywords != keywords || prevState.order && prevState.order != order) {
+				this.requestNewResources();
+			}
+		}
+
+		//
+		//	REQUEST NEW RESOURCES
+		//
+
+	}, {
+		key: 'requestNewResources',
+		value: function requestNewResources() {
+			console.log(this.state);
+		}
+
+		// When filters change
+
+	}, {
+		key: 'onFilterChange',
+		value: function onFilterChange(filters) {
+			console.log(filters);
 		}
 
 		// Handle pagination
@@ -5801,15 +6284,19 @@ var ResourcesListing = function (_Component) {
 	}, {
 		key: 'onListOrder',
 		value: function onListOrder(order) {
-			console.log(order);
+			this.setState({
+				order: order
+			});
 		}
 
 		// Search resources by keyword
 
 	}, {
 		key: 'onSearchSubmit',
-		value: function onSearchSubmit(keyword) {
-			console.log(keyword);
+		value: function onSearchSubmit(keywords) {
+			this.setState({
+				keywords: keywords
+			});
 		}
 
 		// Alert that user is not authenticated
@@ -5867,7 +6354,10 @@ var ResourcesListing = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			if (!this.props.resources) return null;
+			var resources = this.props.resources;
+
+
+			if (!resources.data) return null;
 
 			var isAuthenticated = this.props.auth.isAuthenticated;
 
@@ -5884,7 +6374,7 @@ var ResourcesListing = function (_Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'col-xs-12 col-md-3' },
-							_react2.default.createElement(_filters2.default, null),
+							_react2.default.createElement(_filters2.default, { onFilterChange: this.onFilterChange }),
 							_react2.default.createElement(
 								'section',
 								null,
@@ -5912,7 +6402,7 @@ var ResourcesListing = function (_Component) {
 										_react2.default.createElement(
 											'strong',
 											null,
-											'8000'
+											resources.total
 										),
 										' ',
 										_react2.default.createElement(
@@ -5929,7 +6419,7 @@ var ResourcesListing = function (_Component) {
 								)
 							),
 							!this.props.auth.isAuthenticated ? this.renderAlert() : "",
-							_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, maxcol: 3, addscript: true, isAuthenticated: isAuthenticated }),
+							_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, config: this.props.config.data, maxcol: 3, addscript: true, isAuthenticated: isAuthenticated }),
 							_react2.default.createElement(_reactBootstrap.Pagination, {
 								prev: true,
 								next: true,
@@ -5937,7 +6427,7 @@ var ResourcesListing = function (_Component) {
 								last: true,
 								ellipsis: true,
 								boundaryLinks: true,
-								items: 20,
+								items: resources.totalPages,
 								maxButtons: 5,
 								activePage: this.state.activePage,
 								onSelect: this.onChangePage })
@@ -5955,7 +6445,8 @@ exports.default = ResourcesListing;
 
 
 ResourcesListing.propTypes = {
-	resources: _react.PropTypes.object.isRequired
+	resources: _react.PropTypes.object.isRequired,
+	config: _react.PropTypes.object.isRequired
 };
 
 },{"../../containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
@@ -7247,12 +7738,13 @@ var RecentResources = function (_Component) {
 	_createClass(RecentResources, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			this.props.fetchResources();
+			this.props.fetchResources('recent');
+			this.props.fetchConfig();
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			if (!this.props.resources) return null;
+			if (!this.props.resources.data || !this.props.resources.fetched) return null;
 
 			var isAuthenticated = this.props.auth.isAuthenticated;
 
@@ -7276,7 +7768,7 @@ var RecentResources = function (_Component) {
 							)
 						)
 					),
-					_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, maxcol: 4, viewmore: true, isAuthenticated: isAuthenticated })
+					_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, config: this.props.config.data, maxcol: 4, viewmore: true, isAuthenticated: isAuthenticated })
 				)
 			);
 		}
@@ -7289,7 +7781,8 @@ exports.default = RecentResources;
 
 
 RecentResources.propTypes = {
-	resources: _react2.default.PropTypes.object.isRequired
+	resources: _react2.default.PropTypes.object.isRequired,
+	config: _react2.default.PropTypes.object.isRequired
 };
 
 },{"./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\related.js":[function(require,module,exports){
@@ -7330,6 +7823,7 @@ var RecentResources = function (_Component) {
 			var resource = this.props.resource;
 
 			this.props.fetchRelatedResources(resource);
+			this.props.fetchConfig();
 		}
 	}, {
 		key: 'render',
@@ -7358,7 +7852,7 @@ var RecentResources = function (_Component) {
 							)
 						)
 					),
-					_react2.default.createElement(_list.ResourcesList, { list: this.props.relatedResources, maxcol: 3, viewmore: true, isAuthenticated: isAuthenticated })
+					_react2.default.createElement(_list.ResourcesList, { list: this.props.relatedResources, config: this.props.config.data, maxcol: 3, viewmore: true, isAuthenticated: isAuthenticated })
 				)
 			);
 		}
@@ -7372,7 +7866,8 @@ exports.default = RecentResources;
 
 RecentResources.propTypes = {
 	relatedResources: _react2.default.PropTypes.object.isRequired,
-	origin: _react2.default.PropTypes.object.isRequired
+	origin: _react2.default.PropTypes.object.isRequired,
+	config: _react2.default.PropTypes.object.isRequired
 };
 
 },{"./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js":[function(require,module,exports){
@@ -8277,6 +8772,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _tags = require('../common/tags');
+
+var _tags2 = _interopRequireDefault(_tags);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8284,6 +8783,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Components
+
 
 var SearchBar = function (_Component) {
   _inherits(SearchBar, _Component);
@@ -8293,7 +8795,7 @@ var SearchBar = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchBar).call(this, props));
 
-    _this.state = { keyword: "" };
+    _this.state = { keywords: [] };
     _this.changeKeyword = _this.changeKeyword.bind(_this);
     _this.onSubmitForm = _this.onSubmitForm.bind(_this);
     return _this;
@@ -8301,9 +8803,9 @@ var SearchBar = function (_Component) {
 
   _createClass(SearchBar, [{
     key: 'changeKeyword',
-    value: function changeKeyword(e) {
+    value: function changeKeyword(tags) {
       this.setState({
-        keyword: e.target.value
+        keyword: tags
       });
     }
   }, {
@@ -8318,7 +8820,7 @@ var SearchBar = function (_Component) {
       return _react2.default.createElement(
         'form',
         { onSubmit: this.onSubmitForm, className: "input-group single-search" },
-        _react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'keyword', placeholder: 'Palavras-chave', onChange: this.changeKeyword, value: this.state.keyword }),
+        _react2.default.createElement(_tags2.default, { setTags: this.changeKeyword, tags: this.state.keywords, className: 'tags-search', placeholder: 'Palavras-chave' }),
         _react2.default.createElement(
           'button',
           { className: 'cta primary' },
@@ -8339,7 +8841,7 @@ SearchBar.propTypes = {
   onSubmit: _react2.default.PropTypes.func.isRequired
 };
 
-},{"react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js":[function(require,module,exports){
+},{"../common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8352,6 +8854,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _tags = require('../common/tags');
+
+var _tags2 = _interopRequireDefault(_tags);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8359,6 +8865,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Components
+
 
 var SearchForm = function (_Component) {
 	_inherits(SearchForm, _Component);
@@ -8368,11 +8877,37 @@ var SearchForm = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchForm).call(this, props));
 
+		_this.state = {
+			keywords: [],
+			subject: "0",
+			domain: "0",
+			format: "0",
+			year: "0"
+		};
+
 		_this.onFormSubmit = _this.onFormSubmit.bind(_this);
+		_this.handleChange = _this.handleChange.bind(_this);
+		_this.changeKeyword = _this.changeKeyword.bind(_this);
+
+		//
+		//	Renders
+		//
+		_this.renderYears = _this.renderYears.bind(_this);
+		_this.renderSubjects = _this.renderSubjects.bind(_this);
+		_this.renderDomains = _this.renderDomains.bind(_this);
+		_this.renderFormats = _this.renderFormats.bind(_this);
 		return _this;
 	}
 
 	_createClass(SearchForm, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			this.props.fetchYears();
+			this.props.fetchSubjects();
+			this.props.fetchDomains();
+			this.props.fetchFormats();
+		}
+	}, {
 		key: 'onFormSubmit',
 		value: function onFormSubmit(event) {
 			event.preventDefault();
@@ -8386,16 +8921,107 @@ var SearchForm = function (_Component) {
 	}, {
 		key: 'handleChange',
 		value: function handleChange() {}
+
+		// Handle keywords change
+
+	}, {
+		key: 'changeKeyword',
+		value: function changeKeyword(tags) {
+			this.setState({
+				keyword: tags
+			});
+		}
 	}, {
 		key: 'calcColCount',
 		value: function calcColCount(cols) {
 			return Math.floor(12 / cols);
+		}
+
+		// Render years
+
+	}, {
+		key: 'renderYears',
+		value: function renderYears() {
+			var _props$years = this.props.years;
+			var data = _props$years.data;
+			var fetched = _props$years.fetched;
+
+			if (fetched) {
+				return _.sortBy(data, 'title').map(function (year) {
+					return _react2.default.createElement(
+						'option',
+						{ value: year.id, key: year.id },
+						year.title
+					);
+				});
+			}
+		}
+
+		// Render subjects
+
+	}, {
+		key: 'renderSubjects',
+		value: function renderSubjects() {
+			var _props$subjects = this.props.subjects;
+			var data = _props$subjects.data;
+			var fetched = _props$subjects.fetched;
+
+			if (fetched) {
+				return _.sortBy(data, 'title').map(function (subject) {
+					return _react2.default.createElement(
+						'option',
+						{ value: subject.id, key: subject.id },
+						subject.title
+					);
+				});
+			}
+		}
+
+		// Render domains
+
+	}, {
+		key: 'renderDomains',
+		value: function renderDomains() {
+			var _props$domains = this.props.domains;
+			var data = _props$domains.data;
+			var fetched = _props$domains.fetched;
+
+			if (fetched) {
+				return _.sortBy(data, 'title').map(function (domain) {
+					return _react2.default.createElement(
+						'option',
+						{ value: domain.id, key: domain.id },
+						domain.title
+					);
+				});
+			}
+		}
+
+		// Render formats
+
+	}, {
+		key: 'renderFormats',
+		value: function renderFormats() {
+			var _props$formats = this.props.formats;
+			var data = _props$formats.data;
+			var fetched = _props$formats.fetched;
+
+			if (fetched) {
+				return _.sortBy(data, 'title').map(function (format) {
+					return _react2.default.createElement(
+						'option',
+						{ value: format.id, key: format.id },
+						format.title
+					);
+				});
+			}
 		}
 	}, {
 		key: 'render',
 		value: function render() {
 			var _this2 = this;
 
+			// Count total cols
 			var maxcol = 6;
 			var classColCount = this.calcColCount(maxcol);
 
@@ -8418,126 +9044,78 @@ var SearchForm = function (_Component) {
 							if (searchKeywords) {
 								return _react2.default.createElement(
 									'div',
-									{ className: "col-xs-6 col-sm-4 col-md-" + classColCount },
-									_react2.default.createElement('input', { type: 'text', className: 'form-control', name: 'keywords', placeholder: 'Palavras-chave', onChange: _this2.handleChange })
+									{ className: "col-xs-12" },
+									_react2.default.createElement(_tags2.default, { setTags: _this2.changeKeyword, tags: _this2.state.keywords, className: 'tags-search', placeholder: 'Palavras-chave' })
 								);
 							}
 						}(),
 						_react2.default.createElement(
 							'div',
-							{ className: "col-xs-6 col-sm-4 col-md-" + classColCount + (!searchKeywords ? " col-md-offset-1" : "") },
+							{ className: "col-xs-6 col-sm-4 col-md-3" },
 							_react2.default.createElement(
 								'select',
-								{ className: 'form-control', value: '0', onChange: this.handleChange },
+								{ className: 'form-control', value: this.state.subject, onChange: function onChange(item) {
+										return _this2.setState({ subject: item.target.value });
+									} },
 								_react2.default.createElement(
 									'option',
-									{ value: '0' },
+									{ value: '0', 'default': true },
 									'Disciplina'
 								),
-								_react2.default.createElement(
-									'option',
-									{ value: '1' },
-									'2'
-								),
-								_react2.default.createElement(
-									'option',
-									{ value: '2' },
-									'3'
-								),
-								_react2.default.createElement(
-									'option',
-									{ value: '3' },
-									'4'
-								)
+								this.renderSubjects()
 							)
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: "col-xs-6 col-sm-4 col-md-" + classColCount },
+							{ className: "col-xs-6 col-sm-4 col-md-3" },
 							_react2.default.createElement(
 								'select',
-								{ className: 'form-control', value: '0', onChange: this.handleChange },
+								{ className: 'form-control', value: this.state.domain, onChange: function onChange(item) {
+										return _this2.setState({ domain: item.target.value });
+									} },
 								_react2.default.createElement(
 									'option',
-									{ value: '0' },
+									{ value: '0', 'default': true },
 									'Domínio'
 								),
-								_react2.default.createElement(
-									'option',
-									{ value: '1' },
-									'2'
-								),
-								_react2.default.createElement(
-									'option',
-									{ value: '2' },
-									'3'
-								),
-								_react2.default.createElement(
-									'option',
-									{ value: '3' },
-									'4'
-								)
+								this.renderDomains()
 							)
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: "col-xs-6 col-sm-4 col-md-" + classColCount },
+							{ className: "col-xs-6 col-sm-4 col-md-2" },
 							_react2.default.createElement(
 								'select',
-								{ className: 'form-control', value: '0', onChange: this.handleChange },
+								{ className: 'form-control', value: this.state.format, onChange: function onChange(item) {
+										return _this2.setState({ format: item.target.value });
+									} },
 								_react2.default.createElement(
 									'option',
-									{ value: '0' },
+									{ value: '0', 'default': true },
 									'Formato'
 								),
-								_react2.default.createElement(
-									'option',
-									{ value: '1' },
-									'2'
-								),
-								_react2.default.createElement(
-									'option',
-									{ value: '2' },
-									'3'
-								),
-								_react2.default.createElement(
-									'option',
-									{ value: '3' },
-									'4'
-								)
+								this.renderFormats()
 							)
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: "col-xs-6 col-sm-4 col-md-" + classColCount },
+							{ className: "col-xs-6 col-sm-4 col-md-2" },
 							_react2.default.createElement(
 								'select',
-								{ className: 'form-control', value: '0', onChange: this.handleChange },
+								{ className: 'form-control', value: this.state.year, onChange: function onChange(item) {
+										return _this2.setState({ year: item.target.value });
+									} },
 								_react2.default.createElement(
 									'option',
-									{ value: '0' },
+									{ value: '0', 'default': true },
 									'Ano'
 								),
-								_react2.default.createElement(
-									'option',
-									{ value: '1' },
-									'2'
-								),
-								_react2.default.createElement(
-									'option',
-									{ value: '2' },
-									'3'
-								),
-								_react2.default.createElement(
-									'option',
-									{ value: '3' },
-									'4'
-								)
+								this.renderYears()
 							)
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: "col-xs-12 col-sm-4 col-md-" + (searchKeywords ? classColCount : 2) },
+							{ className: "col-xs-12 col-sm-4 col-md-2" },
 							_react2.default.createElement(
 								'button',
 								{ type: 'submit', className: 'cta primary' },
@@ -8556,7 +9134,7 @@ var SearchForm = function (_Component) {
 
 exports.default = SearchForm;
 
-},{"react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\user\\resume.js":[function(require,module,exports){
+},{"../common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\user\\resume.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9073,6 +9651,8 @@ var _reactRedux = require('react-redux');
 
 var _resources = require('../../actions/resources');
 
+var _config = require('../../actions/config');
+
 var _redux = require('redux');
 
 var _myResources = require('../../components/dashboard/resources/myResources');
@@ -9084,17 +9664,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapStateToProps(state) {
   return {
     resources: state.resources,
-    auth: state.auth
+    auth: state.auth,
+    config: state.config
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchResources: _resources.fetchResources, setHighlight: _resources.setHighlight }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchResources: _resources.fetchResources, setHighlight: _resources.setHighlight, fetchConfig: _config.fetchConfig }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_myResources2.default);
 
-},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/dashboard/resources/myResources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js":[function(require,module,exports){
+},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/dashboard/resources/myResources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9426,25 +10007,49 @@ var _reactRedux = require('react-redux');
 
 var _formats = require('../../actions/formats');
 
+var _subjects = require('../../actions/subjects');
+
+var _domains = require('../../actions/domains');
+
+var _years = require('../../actions/years');
+
+var _access = require('../../actions/access');
+
+var _filters = require('../../actions/filters');
+
 var _redux = require('redux');
 
-var _filters = require('../../components/resources/common/filters');
+var _filters2 = require('../../components/resources/common/filters');
 
-var _filters2 = _interopRequireDefault(_filters);
+var _filters3 = _interopRequireDefault(_filters2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapStateToProps(state) {
-  return { formats: state.formats };
+  return {
+    formats: state.formats,
+    subjects: state.subjects,
+    domains: state.domains,
+    years: state.years,
+    access: state.access,
+    filters: state.filters
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchFormats: _formats.fetchFormats }, dispatch);
+  return (0, _redux.bindActionCreators)({
+    fetchFormats: _formats.fetchFormats,
+    fetchSubjects: _subjects.fetchSubjects,
+    fetchDomains: _domains.fetchDomains,
+    fetchYears: _years.fetchYears,
+    fetchAccess: _access.fetchAccess,
+    submitFilters: _filters.submitFilters
+  }, dispatch);
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_filters2.default);
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_filters3.default);
 
-},{"../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../components/resources/common/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\filters.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\formats\\index.js":[function(require,module,exports){
+},{"../../actions/access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\access.js","../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/resources/common/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\filters.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\formats\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9459,6 +10064,8 @@ var _reactRedux = require('react-redux');
 
 var _formats = require('../../actions/formats');
 
+var _config = require('../../actions/config');
+
 var _redux = require('redux');
 
 var _formats2 = require('../../components/formats');
@@ -9468,16 +10075,19 @@ var _formats3 = _interopRequireDefault(_formats2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapStateToProps(state) {
-  return { formats: state.formats };
+  return {
+    formats: state.formats,
+    config: state.config
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchFormats: _formats.fetchFormats }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchFormats: _formats.fetchFormats, fetchConfig: _config.fetchConfig }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_formats3.default);
 
-},{"../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../components/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js":[function(require,module,exports){
+},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../components/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9520,12 +10130,9 @@ var Header = function (_Component) {
 	_inherits(Header, _Component);
 
 	function Header(props) {
-		var _this;
-
 		_classCallCheck(this, Header);
 
-		(_this = _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props)), _this), _this.onSearch = _this.onSearch.bind(_this);
-		return _this;
+		return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props));
 	}
 
 	/* Get Page Type from LOCATION */
@@ -9539,13 +10146,8 @@ var Header = function (_Component) {
 			return location === "/" ? "home-page" : location;
 		}
 	}, {
-		key: 'onSearch',
-		value: function onSearch() {}
-	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
-
 			var curPage = this.headerType(this.props.location.pathname);
 			return _react2.default.createElement(
 				'div',
@@ -9557,7 +10159,7 @@ var Header = function (_Component) {
 						return [_react2.default.createElement(_highlights2.default, { key: 'highlights-container' }), _react2.default.createElement(
 							'div',
 							{ className: 'container', key: 'search-container' },
-							_react2.default.createElement(_search2.default, { key: 'search-container', searchKeywords: true, onSubmit: _this2.onSearch })
+							_react2.default.createElement(_search2.default, { key: 'search-container', searchKeywords: true })
 						)];
 					}
 
@@ -9672,6 +10274,8 @@ var _reactRedux = require('react-redux');
 
 var _resources = require('../../actions/resources');
 
+var _config = require('../../actions/config');
+
 var _redux = require('redux');
 
 var _listing = require('../../components/resources/listing');
@@ -9683,17 +10287,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapStateToProps(state) {
   return {
     resources: state.resources,
-    auth: state.auth
+    auth: state.auth,
+    config: state.config
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchResources: _resources.fetchResources }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchResources: _resources.fetchResources, fetchConfig: _config.fetchConfig }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_listing2.default);
 
-},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/listing":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\listing.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js":[function(require,module,exports){
+},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/listing":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\listing.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9707,6 +10312,8 @@ var _react2 = _interopRequireDefault(_react);
 var _reactRedux = require('react-redux');
 
 var _resources = require('../../actions/resources');
+
+var _config = require('../../actions/config');
 
 var _redux = require('redux');
 
@@ -9719,17 +10326,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapStateToProps(state) {
   return {
     resources: state.resources,
-    auth: state.auth
+    auth: state.auth,
+    config: state.config
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchResources: _resources.fetchResources }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchResources: _resources.fetchResources, fetchConfig: _config.fetchConfig }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_recent2.default);
 
-},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/recent":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\recent.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js":[function(require,module,exports){
+},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/recent":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\recent.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9744,6 +10352,8 @@ var _reactRedux = require('react-redux');
 
 var _resources = require('../../actions/resources');
 
+var _config = require('../../actions/config');
+
 var _redux = require('redux');
 
 var _related = require('../../components/resources/related');
@@ -9755,21 +10365,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapStateToProps(state) {
   return {
     relatedResources: state.relatedResources,
-    auth: state.auth
+    auth: state.auth,
+    config: state.config
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchRelatedResources: _resources.fetchRelatedResources }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchRelatedResources: _resources.fetchRelatedResources, fetchConfig: _config.fetchConfig }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_related2.default);
 
-},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\related.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js":[function(require,module,exports){
+},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\related.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -9777,6 +10388,18 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _years = require('../../actions/years');
+
+var _subjects = require('../../actions/subjects');
+
+var _domains = require('../../actions/domains');
+
+var _formats = require('../../actions/formats');
+
+var _redux = require('redux');
 
 var _searchForm = require('../../components/search/searchForm');
 
@@ -9791,27 +10414,45 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var SearchContainer = function (_Component) {
-	_inherits(SearchContainer, _Component);
+  _inherits(SearchContainer, _Component);
 
-	function SearchContainer() {
-		_classCallCheck(this, SearchContainer);
+  function SearchContainer() {
+    _classCallCheck(this, SearchContainer);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(SearchContainer).apply(this, arguments));
-	}
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(SearchContainer).apply(this, arguments));
+  }
 
-	_createClass(SearchContainer, [{
-		key: 'render',
-		value: function render() {
-			return _react2.default.createElement(_searchForm2.default, this.props);
-		}
-	}]);
+  _createClass(SearchContainer, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(_searchForm2.default, this.props);
+    }
+  }]);
 
-	return SearchContainer;
+  return SearchContainer;
 }(_react.Component);
 
-exports.default = SearchContainer;
+function mapStateToProps(state) {
+  return {
+    years: state.years,
+    subjects: state.subjects,
+    domains: state.domains,
+    formats: state.formats
+  };
+}
 
-},{"../../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\user\\resume.js":[function(require,module,exports){
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    fetchYears: _years.fetchYears,
+    fetchSubjects: _subjects.fetchSubjects,
+    fetchDomains: _domains.fetchDomains,
+    fetchFormats: _formats.fetchFormats
+  }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchContainer);
+
+},{"../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\user\\resume.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9868,6 +10509,10 @@ var _alerts = require('../containers/common/alerts');
 
 var _alerts2 = _interopRequireDefault(_alerts);
 
+var _reactProgress = require('react-progress-2');
+
+var _reactProgress2 = _interopRequireDefault(_reactProgress);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9894,6 +10539,7 @@ var App = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
+        _react2.default.createElement(_reactProgress2.default.Component, null),
         _react2.default.createElement(_alerts2.default, null),
         this.props.children
       );
@@ -9905,7 +10551,117 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"../containers/common/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\common\\alerts.js","react":"react","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js":[function(require,module,exports){
+},{"../containers/common/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\common\\alerts.js","react":"react","react-progress-2":"react-progress-2","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CALL_API = undefined;
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _reactProgress = require('react-progress-2');
+
+var _reactProgress2 = _interopRequireDefault(_reactProgress);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+require('es6-promise').polyfill();
+
+// Components
+
+var BASE_URL = 'http://devbox.dev/api/';
+
+function callApi(endpoint, sendToken, mustAuth, method) {
+
+  var token = localStorage.getItem('token') || null;
+  var config = {
+    method: method || 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  if (sendToken) {
+    if (token) {
+      config.headers.Authorization = '' + token;
+    } else if (mustAuth) {
+      throw "No token saved!";
+    }
+  }
+
+  return (0, _isomorphicFetch2.default)(BASE_URL + endpoint, config).then(function (response) {
+    return response.json().then(function (json) {
+      return { json: json, response: response };
+    });
+  }).then(function (_ref) {
+    var json = _ref.json;
+    var response = _ref.response;
+
+    if (!response.ok) {
+      return Promise.reject(json);
+    }
+
+    return json;
+  }).catch(function (err) {
+    return console.log(err);
+  });
+}
+
+var CALL_API = exports.CALL_API = Symbol('Call API');
+
+exports.default = function (store) {
+  return function (next) {
+    return function (action) {
+
+      var callAPI = action[CALL_API];
+
+      // So the middleware doesn't get applied to every single action
+      if (typeof callAPI === 'undefined') {
+        return next(action);
+      }
+
+      var endpoint = callAPI.endpoint;
+      var types = callAPI.types;
+      var sendToken = callAPI.sendToken;
+      var mustAuth = callAPI.mustAuth;
+      var method = callAPI.method;
+
+      var _types = _slicedToArray(types, 3);
+
+      var requestType = _types[0];
+      var successType = _types[1];
+      var errorType = _types[2];
+
+
+      _reactProgress2.default.show();
+
+      // Passing the authenticated boolean back in our data will let us distinguish between normal and secret quotes
+      return callApi(endpoint, sendToken, mustAuth, method).then(function (response) {
+        _reactProgress2.default.hide();
+
+        next({
+          data: response,
+          type: successType
+        });
+      }).catch(function (error) {
+        _reactProgress2.default.hide();
+
+        next({
+          error: error.message || 'There was an error.',
+          type: errorType
+        });
+      });
+    };
+  };
+};
+
+},{"es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch","react-progress-2":"react-progress-2"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10362,6 +11118,10 @@ var _searchForm = require('../components/search/searchForm');
 
 var _searchForm2 = _interopRequireDefault(_searchForm);
 
+var _search = require('../containers/search');
+
+var _search2 = _interopRequireDefault(_search);
+
 var _details = require('../containers/resources/details');
 
 var _details2 = _interopRequireDefault(_details);
@@ -10400,7 +11160,15 @@ var ResourceDetailsPage = function (_Component) {
           transitionAppear: true, transitionAppearTimeout: 500,
           transitionEnter: false, transitionLeave: false },
         _react2.default.createElement(_header2.default, { location: this.props.location }),
-        _react2.default.createElement(_searchForm2.default, null),
+        _react2.default.createElement(
+          'div',
+          { className: 'resource-detail-search' },
+          _react2.default.createElement(
+            'div',
+            { className: 'container' },
+            _react2.default.createElement(_search2.default, { searchKeywords: false })
+          )
+        ),
         _react2.default.createElement(_breadcrumbs.AppBreadcrumbs, { routes: this.props.routes, params: this.props.params, setDocumentTitle: true }),
         _react2.default.createElement(_details2.default, { params: this.props.params }),
         _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
@@ -10413,7 +11181,7 @@ var ResourceDetailsPage = function (_Component) {
 
 exports.default = ResourceDetailsPage;
 
-},{"../components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js":[function(require,module,exports){
+},{"../components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js","../containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10503,7 +11271,7 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.ACCESS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -10729,9 +11497,52 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.DOMAINS_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+
+},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\filters.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.FILTERS_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.FILTERS_SUCCESS:
+
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data
+      });
+    case _actionTypes.FILTERS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         errorMessage: action.message
@@ -10772,7 +11583,7 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.FORMATS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -10853,6 +11664,10 @@ var _alerts = require('./alerts');
 
 var _alerts2 = _interopRequireDefault(_alerts);
 
+var _filters = require('./filters');
+
+var _filters2 = _interopRequireDefault(_filters);
+
 var _config = require('./config');
 
 var _config2 = _interopRequireDefault(_config);
@@ -10876,12 +11691,13 @@ var rootReducer = (0, _redux.combineReducers)({
 	terms: _terms2.default,
 	auth: _auth2.default,
 	user: _user2.default,
+	filters: _filters2.default,
 	alerts: _alerts2.default
 });
 
 exports.default = rootReducer;
 
-},{"./access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\access.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\alerts.js","./auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\auth.js","./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\comments.js","./config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\config.js","./domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\domains.js","./formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\formats.js","./languages":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\languages.js","./resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\resources.js","./subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\subjects.js","./terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\terms.js","./user":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\user.js","./years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\years.js","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\languages.js":[function(require,module,exports){
+},{"./access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\access.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\alerts.js","./auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\auth.js","./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\comments.js","./config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\config.js","./domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\domains.js","./filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\filters.js","./formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\formats.js","./languages":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\languages.js","./resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\resources.js","./subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\subjects.js","./terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\terms.js","./user":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\user.js","./years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\years.js","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\languages.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10902,7 +11718,7 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.LANGUAGES_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -10944,7 +11760,7 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.HIGHLIGHTS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -10983,7 +11799,10 @@ function resources() {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        curPage: action.data.page,
+        total: action.data.total,
+        totalPages: action.data.totalPages,
+        data: action.data.result
       });
     case _actionTypes.RESOURCES_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -11017,7 +11836,7 @@ function resource() {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.RESOURCE_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -11050,7 +11869,7 @@ function relatedResources() {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.RELATED_RESOURCES_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -11083,7 +11902,7 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.SUBJECTS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -11208,11 +12027,10 @@ exports.default = function () {
         fetching: true
       });
     case _actionTypes.YEARS_SUCCESS:
-
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data
+        data: action.data.result
       });
     case _actionTypes.YEARS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
@@ -11316,7 +12134,7 @@ exports.default = _react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.setUrl = exports.setDateFormat = undefined;
+exports.sortByTitle = exports.setUrl = exports.setDateFormat = undefined;
 
 var _moment = require('moment');
 
@@ -11378,6 +12196,13 @@ var setUrl = exports.setUrl = function setUrl(content) {
     }
 
     return content;
+};
+
+//
+//  Sort with locale the TITLE property
+//
+var sortByTitle = exports.sortByTitle = function sortByTitle(s1, s2) {
+    return s1.title.localeCompare(s2.title);
 };
 
 },{"moment":"moment"}]},{},["C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\app.js"])

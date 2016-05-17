@@ -8,6 +8,7 @@ import {
 	DOMAINS_SUCCESS,
 	DOMAINS_FAILURE
 } from './action-types';
+import { CALL_API } from '../middleware/api';
 
 
 // FORMATS
@@ -32,7 +33,7 @@ function domainsError(message){
 }
 
 export function fetchDomains(){
-	return dispatch => {
+	/*return dispatch => {
 		dispatch(requestDomains());
 
 		return fetch('/assets/scripts/dummy.json')
@@ -48,5 +49,11 @@ export function fetchDomains(){
 		.catch(message => {
 			dispatch(domainsError(message));
 		})
+	}*/
+	return {
+		[CALL_API]: {
+		  endpoint: 'domains',
+		  types: [DOMAINS_REQUEST, DOMAINS_SUCCESS, DOMAINS_FAILURE]
+		}
 	}
 }

@@ -1,19 +1,21 @@
 import React from 'react';
 import { Component } from 'react';
 
+// Components
+import Tags from '../common/tags';
 
 export default class SearchBar extends Component {
   constructor(props){
     super(props);
 
-    this.state= {keyword: ""}
+    this.state= {keywords: []}
     this.changeKeyword = this.changeKeyword.bind(this);
     this.onSubmitForm = this.onSubmitForm.bind(this);
   }
 
-  changeKeyword(e){
+  changeKeyword(tags){
     this.setState({
-      keyword: e.target.value
+      keyword: tags
     });
   }
 
@@ -25,7 +27,7 @@ export default class SearchBar extends Component {
   render() {
     return (
     	<form onSubmit={this.onSubmitForm} className={"input-group single-search"}>
-        <input type="text" className="form-control" name="keyword" placeholder="Palavras-chave" onChange={this.changeKeyword} value={ this.state.keyword }/>
+        <Tags setTags={this.changeKeyword} tags={this.state.keywords} className="tags-search" placeholder="Palavras-chave"/>
         <button className="cta primary"><i className="fa fa-search" aria-hidden="true"></i> Pesquisar</button>
     	</form>
     );
