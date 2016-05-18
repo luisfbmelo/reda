@@ -2,7 +2,8 @@ import assign from 'object-assign';
 import { 
 	ACCESS_REQUEST, 
 	ACCESS_SUCCESS,
-	ACCESS_FAILURE
+	ACCESS_FAILURE,
+  ACCESS_RESET
 } from '../actions/action-types';
 
 const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
@@ -14,7 +15,6 @@ export default function(state = INITIAL_STATE, action) {
         fetching: true
       })
     case ACCESS_SUCCESS:
-
       return assign({}, state, {
         fetching: false,
         fetched: true,
@@ -24,6 +24,13 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         errorMessage: action.message
+      })
+    case ACCESS_RESET:
+      return assign({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       })
     default:
       return state;

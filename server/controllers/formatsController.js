@@ -10,13 +10,8 @@ exports.list = function(req, res, next) {
 		}
 	];
 
-	if (!req.query.required){
-		models.Format.findAll({ include: includes }).then(function(Formats){
-			return res.json({result: Formats});
-		}).catch(function(err){
-			return next(err);
-		})
-	}else{
+
+	if (req.query.required){
 		// Set includes
 		includes.push({ 
 				seperate: true,
@@ -26,13 +21,14 @@ exports.list = function(req, res, next) {
 				required: true
 			}
 		);
-
-		models.Format.findAll({
-			include: includes
-		}).then(function(formats){
-			return res.json({result: formats});
-		}).catch(function(err){
-			return next(err);
-		})
 	}
+	
+	models.Format.findAll({
+		include: includes
+	}).then(function(formats){
+		return res.json({result: formats});
+	}).catch(function(err){
+		return next(err);
+	})
+	
 };

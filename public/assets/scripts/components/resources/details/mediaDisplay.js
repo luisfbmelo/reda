@@ -68,12 +68,16 @@ const game = (meta) => {
 	return showPlaceholder("game");
 }
 
+//
+//	Convert given TYPE to FUNCTION and execute with given DATA
+//
 const evalFunc = (func, props) => {
 	return eval(func).call(this, props);
 }
 
 export default (props) => {
-	const { type } = props.data.format; 
+	const { type } = props.data.Format; 
+	console.log(type);
 	return (
 		<span>
 			{type ? evalFunc(type, props.data) : ""}

@@ -6,7 +6,8 @@ import fetch from 'isomorphic-fetch';
 import { 
 	COMMENTS_REQUEST, 
 	COMMENTS_SUCCESS,
-	COMMENTS_FAILURE
+	COMMENTS_FAILURE,
+	COMMENTS_RESET
 } from './action-types';
 
 function requestComments(){
@@ -26,6 +27,12 @@ function commentsError(errors){
 	return {
 		type: COMMENTS_FAILURE,
 		errors
+	}
+}
+
+export function resetComments(){
+	return {
+		type: COMMENTS_RESET
 	}
 }
 

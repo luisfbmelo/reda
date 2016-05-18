@@ -4,6 +4,7 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.resetAccess = resetAccess;
 exports.fetchAccess = fetchAccess;
 
 var _isomorphicFetch = require('isomorphic-fetch');
@@ -42,7 +43,13 @@ function accessError(message) {
 	};
 }
 
-function fetchAccess() {
+function resetAccess() {
+	return {
+		type: _actionTypes.ACCESS_RESET
+	};
+}
+
+function fetchAccess(isRequired) {
 	/*return dispatch => {
  	dispatch(requestAccess());
  		return fetch('/assets/scripts/dummy.json')
@@ -59,8 +66,15 @@ function fetchAccess() {
  		dispatch(accessError(message));
  	})
  }*/
+
+	var params = '';
+
+	if (isRequired) {
+		params = '?required=true';
+	}
+
 	return _defineProperty({}, _api.CALL_API, {
-		endpoint: 'modes',
+		endpoint: 'modes' + params,
 		types: [_actionTypes.ACCESS_REQUEST, _actionTypes.ACCESS_SUCCESS, _actionTypes.ACCESS_FAILURE]
 	});
 }
@@ -81,52 +95,62 @@ var CONFIG_FAILURE = exports.CONFIG_FAILURE = 'CONFIG_FAILURE';
 var RESOURCES_REQUEST = exports.RESOURCES_REQUEST = 'RESOURCES_REQUEST';
 var RESOURCES_SUCCESS = exports.RESOURCES_SUCCESS = 'RESOURCES_SUCCESS';
 var RESOURCES_FAILURE = exports.RESOURCES_FAILURE = 'RESOURCES_FAILURE';
+var RESOURCES_RESET = exports.RESOURCES_RESET = 'RESOURCES_RESET';
 
 // SINGLE RESOURCE
 var RESOURCE_REQUEST = exports.RESOURCE_REQUEST = 'RESOURCE_REQUEST';
 var RESOURCE_SUCCESS = exports.RESOURCE_SUCCESS = 'RESOURCE_SUCCESS';
 var RESOURCE_FAILURE = exports.RESOURCE_FAILURE = 'RESOURCE_FAILURE';
+var RESOURCE_RESET = exports.RESOURCE_RESET = 'RESOURCE_RESET';
 
 // RELATED RESOURCES
 var RELATED_RESOURCES_REQUEST = exports.RELATED_RESOURCES_REQUEST = 'RELATED_RESOURCES_REQUEST';
 var RELATED_RESOURCES_SUCCESS = exports.RELATED_RESOURCES_SUCCESS = 'RELATED_RESOURCES_SUCCESS';
 var RELATED_RESOURCES_FAILURE = exports.RELATED_RESOURCES_FAILURE = 'RELATED_RESOURCES_FAILURE';
+var RELATED_RESOURCES_RESET = exports.RELATED_RESOURCES_RESET = 'RELATED_RESOURCES_RESET';
 
 // HIGHLIGHTS
 var HIGHLIGHTS_REQUEST = exports.HIGHLIGHTS_REQUEST = 'HIGHLIGHTS_REQUEST';
 var HIGHLIGHTS_SUCCESS = exports.HIGHLIGHTS_SUCCESS = 'HIGHLIGHTS_SUCCESS';
 var HIGHLIGHTS_FAILURE = exports.HIGHLIGHTS_FAILURE = 'HIGHLIGHTS_FAILURE';
+var HIGHLIGHTS_RESET = exports.HIGHLIGHTS_RESET = 'HIGHLIGHTS_RESET';
 var TOGGLE_HIGHLIGHT_RESOURCE = exports.TOGGLE_HIGHLIGHT_RESOURCE = 'TOGGLE_HIGHLIGHT_RESOURCE';
 
 // FORMATS
 var FORMATS_REQUEST = exports.FORMATS_REQUEST = 'FORMATS_REQUEST';
 var FORMATS_SUCCESS = exports.FORMATS_SUCCESS = 'FORMATS_SUCCESS';
 var FORMATS_FAILURE = exports.FORMATS_FAILURE = 'FORMATS_FAILURE';
+var FORMATS_RESET = exports.FORMATS_RESET = 'FORMATS_RESET';
 
 // ACCESS
 var ACCESS_REQUEST = exports.ACCESS_REQUEST = 'ACCESS_REQUEST';
 var ACCESS_SUCCESS = exports.ACCESS_SUCCESS = 'ACCESS_SUCCESS';
 var ACCESS_FAILURE = exports.ACCESS_FAILURE = 'ACCESS_FAILURE';
+var ACCESS_RESET = exports.ACCESS_RESET = 'ACCESS_RESET';
 
 // SUBJECTS
 var SUBJECTS_REQUEST = exports.SUBJECTS_REQUEST = 'SUBJECTS_REQUEST';
 var SUBJECTS_SUCCESS = exports.SUBJECTS_SUCCESS = 'SUBJECTS_SUCCESS';
 var SUBJECTS_FAILURE = exports.SUBJECTS_FAILURE = 'SUBJECTS_FAILURE';
+var SUBJECTS_RESET = exports.SUBJECTS_RESET = 'SUBJECTS_RESET';
 
 // DOMAINS
 var DOMAINS_REQUEST = exports.DOMAINS_REQUEST = 'DOMAINS_REQUEST';
 var DOMAINS_SUCCESS = exports.DOMAINS_SUCCESS = 'DOMAINS_SUCCESS';
 var DOMAINS_FAILURE = exports.DOMAINS_FAILURE = 'DOMAINS_FAILURE';
+var DOMAINS_RESET = exports.DOMAINS_RESET = 'DOMAINS_RESET';
 
 // YEARS
 var YEARS_REQUEST = exports.YEARS_REQUEST = 'YEARS_REQUEST';
 var YEARS_SUCCESS = exports.YEARS_SUCCESS = 'YEARS_SUCCESS';
 var YEARS_FAILURE = exports.YEARS_FAILURE = 'YEARS_FAILURE';
+var YEARS_RESET = exports.YEARS_RESET = 'YEARS_RESET';
 
 // LANGUAGES
 var LANGUAGES_REQUEST = exports.LANGUAGES_REQUEST = 'LANGUAGES_REQUEST';
 var LANGUAGES_SUCCESS = exports.LANGUAGES_SUCCESS = 'LANGUAGES_SUCCESS';
 var LANGUAGES_FAILURE = exports.LANGUAGES_FAILURE = 'LANGUAGES_FAILURE';
+var LANGUAGES_RESET = exports.LANGUAGES_RESET = 'LANGUAGES_RESET';
 
 // LOGIN
 var LOGIN_REQUEST = exports.LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -145,6 +169,7 @@ var LOGOUT_REQUEST = exports.LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 var COMMENTS_REQUEST = exports.COMMENTS_REQUEST = 'COMMENTS_REQUEST';
 var COMMENTS_SUCCESS = exports.COMMENTS_SUCCESS = 'COMMENTS_SUCCESS';
 var COMMENTS_FAILURE = exports.COMMENTS_FAILURE = 'COMMENTS_FAILURE';
+var COMMENTS_RESET = exports.COMMENTS_RESET = 'COMMENTS_RESET';
 
 // USER
 var USER_REQUEST = exports.USER_REQUEST = 'USER_REQUEST';
@@ -152,9 +177,9 @@ var USER_SUCCESS = exports.USER_SUCCESS = 'USER_SUCCESS';
 var USER_FAILURE = exports.USER_FAILURE = 'USER_FAILURE';
 
 // USER
-var FILTERS_REQUEST = exports.FILTERS_REQUEST = 'FILTERS_REQUEST';
-var FILTERS_SUCCESS = exports.FILTERS_SUCCESS = 'FILTERS_SUCCESS';
-var FILTERS_FAILURE = exports.FILTERS_FAILURE = 'FILTERS_FAILURE';
+var FILTERS_GET = exports.FILTERS_GET = 'FILTERS_GET';
+var FILTERS_SET = exports.FILTERS_SET = 'FILTERS_SET';
+var FILTERS_RESET = exports.FILTERS_RESET = 'FILTERS_RESET';
 
 // TERMS AND CONDITIONS
 var TERMSANDCONDITIONS_REQUEST = exports.TERMSANDCONDITIONS_REQUEST = 'TERMSANDCONDITIONS_REQUEST';
@@ -359,6 +384,7 @@ function signupUser(props) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.resetComments = resetComments;
 exports.fetchComments = fetchComments;
 
 var _isomorphicFetch = require('isomorphic-fetch');
@@ -389,6 +415,12 @@ function commentsError(errors) {
 	return {
 		type: _actionTypes.COMMENTS_FAILURE,
 		errors: errors
+	};
+}
+
+function resetComments() {
+	return {
+		type: _actionTypes.COMMENTS_RESET
 	};
 }
 
@@ -482,7 +514,9 @@ function fetchConfig() {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.resetDomains = resetDomains;
 exports.fetchDomains = fetchDomains;
+exports.fetchDomainsFromSubject = fetchDomainsFromSubject;
 
 var _isomorphicFetch = require('isomorphic-fetch');
 
@@ -520,25 +554,35 @@ function domainsError(message) {
 	};
 }
 
-function fetchDomains() {
-	/*return dispatch => {
- 	dispatch(requestDomains());
- 		return fetch('/assets/scripts/dummy.json')
- 	.then(response => {
- 		if (response.status >= 400) {
-           throw new Error('Bad response');
-         }
-         return response.json();
- 	})
- 	.then(json => {
- 		dispatch(receiveDomains(json.domains));
- 	})
- 	.catch(message => {
- 		dispatch(domainsError(message));
- 	})
- }*/
+function resetDomains() {
+	return {
+		type: _actionTypes.DOMAINS_RESET
+	};
+}
+
+function fetchDomains(isRequired) {
+	var params = '';
+
+	if (isRequired) {
+		params = '?required=true';
+	}
+
 	return _defineProperty({}, _api.CALL_API, {
-		endpoint: 'domains',
+		endpoint: 'domains' + params,
+		types: [_actionTypes.DOMAINS_REQUEST, _actionTypes.DOMAINS_SUCCESS, _actionTypes.DOMAINS_FAILURE]
+	});
+}
+
+function fetchDomainsFromSubject(subId, isRequired) {
+
+	var params = '?subject=' + subId;
+
+	if (isRequired) {
+		params += '&required=true';
+	}
+
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'domains/from-subject' + params,
 		types: [_actionTypes.DOMAINS_REQUEST, _actionTypes.DOMAINS_SUCCESS, _actionTypes.DOMAINS_FAILURE]
 	});
 }
@@ -549,11 +593,16 @@ function fetchDomains() {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-exports.fetchFormats = fetchFormats;
+exports.getFilters = getFilters;
+exports.setFilters = setFilters;
+exports.resetFilters = resetFilters;
+exports.searchResourcesFilters = searchResourcesFilters;
 
 var _isomorphicFetch = require('isomorphic-fetch');
 
 var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _utils = require('../utils');
 
 var _actionTypes = require('./action-types');
 
@@ -565,59 +614,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 require('es6-promise').polyfill();
 
+// Utils
 
 // FORMATS
-function requestFilters() {
+function getFilters() {
 	return {
-		type: _actionTypes.FILTERS_REQUEST
+		type: _actionTypes.FILTERS_GET
 	};
 }
 
-function receiveFilters(data) {
+function setFilters(filters) {
 	return {
-		type: _actionTypes.FILTERS_SUCCESS,
-		data: data
+		type: _actionTypes.FILTERS_SET,
+		filters: filters
 	};
 }
 
-function filtersError(message) {
+function resetFilters() {
 	return {
-		type: _actionTypes.FILTERS_FAILURE,
-		message: message
+		type: _actionTypes.FILTERS_RESET
 	};
 }
 
-function fetchFormats() {
-	/*return dispatch => {
- 	dispatch(requestFormats());
- 
- 	return fetch('/assets/scripts/dummy.json')
- 	.then(response => {
- 		if (response.status >= 400) {
-           throw new Error('Bad response');
-         }
-         return response.json();
- 	})
- 	.then(json => {
- 		dispatch(receiveFormats(json.formats));
- 	})
- 	.catch(message => {
- 		dispatch(formatsError(message));
- 	})
- }*/
-
+function searchResourcesFilters(filters) {
 	return _defineProperty({}, _api.CALL_API, {
-		endpoint: 'formats',
-		types: [_actionTypes.FILTERS_REQUEST, _actionTypes.FILTERS_SUCCESS, _actionTypes.FILTERS_FAILURE]
+		endpoint: 'resources/search?' + (0, _utils.toQueryString)(filters),
+		types: [_actionTypes.RESOURCES_REQUEST, _actionTypes.RESOURCES_SUCCESS, _actionTypes.RESOURCES_FAILURE]
 	});
 }
 
-},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js":[function(require,module,exports){
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.resetFormats = resetFormats;
 exports.fetchFormats = fetchFormats;
 
 var _isomorphicFetch = require('isomorphic-fetch');
@@ -656,7 +688,13 @@ function formatsError(message) {
 	};
 }
 
-function fetchFormats() {
+function resetFormats() {
+	return {
+		type: _actionTypes.FORMATS_RESET
+	};
+}
+
+function fetchFormats(isRequired) {
 	/*return dispatch => {
  	dispatch(requestFormats());
  		return fetch('/assets/scripts/dummy.json')
@@ -674,8 +712,14 @@ function fetchFormats() {
  	})
  }*/
 
+	var params = '';
+
+	if (isRequired) {
+		params = '?required=true';
+	}
+
 	return _defineProperty({}, _api.CALL_API, {
-		endpoint: 'formats',
+		endpoint: 'formats' + params,
 		types: [_actionTypes.FORMATS_REQUEST, _actionTypes.FORMATS_SUCCESS, _actionTypes.FORMATS_FAILURE]
 	});
 }
@@ -686,6 +730,7 @@ function fetchFormats() {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.resetLanguages = resetLanguages;
 exports.fetchLanguages = fetchLanguages;
 
 var _isomorphicFetch = require('isomorphic-fetch');
@@ -695,6 +740,8 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 var _actionTypes = require('./action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 require('es6-promise').polyfill();
 
@@ -720,21 +767,23 @@ function languagesError(message) {
 	};
 }
 
-function fetchLanguages() {
-	return function (dispatch) {
-		dispatch(requestLanguages());
-
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			dispatch(receiveLanguages(json.languages));
-		}).catch(function (message) {
-			dispatch(languagesError(message));
-		});
+function resetLanguages() {
+	return {
+		type: _actionTypes.LANGUAGES_RESET
 	};
+}
+
+function fetchLanguages(isRequired) {
+	var params = '';
+
+	if (isRequired) {
+		params = '?required=true';
+	}
+
+	return _defineProperty({}, CALL_API, {
+		endpoint: 'languages' + params,
+		types: [_actionTypes.LANGUAGES_REQUEST, _actionTypes.LANGUAGES_SUCCESS, _actionTypes.LANGUAGES_FAILURE]
+	});
 }
 
 },{"./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js":[function(require,module,exports){
@@ -767,15 +816,22 @@ var ALERT_SCRIPT_EDIT_SUCCESS = exports.ALERT_SCRIPT_EDIT_SUCCESS = 'O guião fo
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.resetHighlights = resetHighlights;
 exports.setHighlight = setHighlight;
 exports.fetchHighlights = fetchHighlights;
+exports.resetResources = resetResources;
 exports.fetchResources = fetchResources;
+exports.searchResources = searchResources;
+exports.resetResource = resetResource;
 exports.fetchResource = fetchResource;
+exports.resetRelatedResources = resetRelatedResources;
 exports.fetchRelatedResources = fetchRelatedResources;
 
 var _isomorphicFetch = require('isomorphic-fetch');
 
 var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _utils = require('../utils');
 
 var _actionTypes = require('./action-types');
 
@@ -797,6 +853,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 require('es6-promise').polyfill();
 
+// Utils
 
 // HIGHLIGHTS
 function requestHighlights() {
@@ -816,6 +873,12 @@ function highlightsError(message) {
 	return {
 		type: _actionTypes.HIGHLIGHTS_FAILURE,
 		message: message
+	};
+}
+
+function resetHighlights() {
+	return {
+		type: _actionTypes.HIGHLIGHTS_RESET
 	};
 }
 
@@ -872,6 +935,12 @@ function resourcesError(message) {
 	};
 }
 
+function resetResources() {
+	return {
+		type: _actionTypes.RESOURCES_RESET
+	};
+}
+
 function fetchResources(type, params) {
 	/*return dispatch => {
  	dispatch(requestResources());
@@ -900,6 +969,13 @@ function fetchResources(type, params) {
 	});
 }
 
+function searchResources(filters) {
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'resources/search?' + (0, _utils.complexToQueryString)(filters),
+		types: [_actionTypes.RESOURCES_REQUEST, _actionTypes.RESOURCES_SUCCESS, _actionTypes.RESOURCES_FAILURE]
+	});
+}
+
 // SINGLE RESOURCE
 function requestResource() {
 	return {
@@ -921,29 +997,18 @@ function resourceError(message) {
 	};
 }
 
-function fetchResource(resourceId) {
-	return function (dispatch) {
-		dispatch(requestResource());
-
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			var filtered = json.resources.filter(function (obj) {
-				return obj.id == resourceId;
-			});
-
-			if (filtered.length == 0) {
-				throw new Error('No data');
-			}
-
-			dispatch(receiveResource(filtered[0]));
-		}).catch(function (message) {
-			dispatch(resourceError(message));
-		});
+function resetResource() {
+	return {
+		type: _actionTypes.RESOURCE_RESET
 	};
+}
+
+function fetchResource(resourceSlug) {
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'resources/details/' + resourceSlug,
+		sendToken: true,
+		types: [_actionTypes.RESOURCE_REQUEST, _actionTypes.RESOURCE_SUCCESS, _actionTypes.RESOURCE_FAILURE]
+	});
 }
 
 // RELATED RESOURCES
@@ -967,6 +1032,12 @@ function relatedResourcesError(message) {
 	};
 }
 
+function resetRelatedResources() {
+	return {
+		type: _actionTypes.RELATED_RESOURCES_RESET
+	};
+}
+
 function fetchRelatedResources(resourceId) {
 	return function (dispatch) {
 		dispatch(requestRelatedResources());
@@ -985,12 +1056,13 @@ function fetchRelatedResources(resourceId) {
 	};
 }
 
-},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","./message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js":[function(require,module,exports){
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","./message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.resetSubjects = resetSubjects;
 exports.fetchSubjects = fetchSubjects;
 
 var _isomorphicFetch = require('isomorphic-fetch');
@@ -1029,7 +1101,13 @@ function subjectsError(message) {
 	};
 }
 
-function fetchSubjects() {
+function resetSubjects() {
+	return {
+		type: _actionTypes.SUBJECTS_RESET
+	};
+}
+
+function fetchSubjects(isRequired) {
 	/*return dispatch => {
  	dispatch(requestSubjects());
  		return fetch('/assets/scripts/dummy.json')
@@ -1047,8 +1125,14 @@ function fetchSubjects() {
  	})
  }*/
 
+	var params = '';
+
+	if (isRequired) {
+		params = '?required=true';
+	}
+
 	return _defineProperty({}, _api.CALL_API, {
-		endpoint: 'subjects',
+		endpoint: 'subjects' + params,
 		types: [_actionTypes.SUBJECTS_REQUEST, _actionTypes.SUBJECTS_SUCCESS, _actionTypes.SUBJECTS_FAILURE]
 	});
 }
@@ -1184,6 +1268,7 @@ function fetchUserData(userId) {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.resetYears = resetYears;
 exports.fetchYears = fetchYears;
 
 var _isomorphicFetch = require('isomorphic-fetch');
@@ -1222,9 +1307,22 @@ function yearsError(message) {
 	};
 }
 
-function fetchYears() {
+function resetYears() {
+	return {
+		type: _actionTypes.YEARS_RESET
+	};
+}
+
+function fetchYears(isRequired) {
+
+	var params = '';
+
+	if (isRequired) {
+		params = '?required=true';
+	}
+
 	return _defineProperty({}, _api.CALL_API, {
-		endpoint: 'years',
+		endpoint: 'years' + params,
 		types: [_actionTypes.YEARS_REQUEST, _actionTypes.YEARS_SUCCESS, _actionTypes.YEARS_FAILURE]
 	});
 }
@@ -2556,6 +2654,9 @@ var FileInput = function (_Component) {
                     // Save file data
                     data = e.target.result;
 
+                    // Convert blob to base64
+                    data = data.split(',')[1];
+
                     // Return file metadata
                     _this2.props.setFile({ name: name, extension: extension, data: data, size: size });
                 };
@@ -2724,8 +2825,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -2736,60 +2835,30 @@ var _reactTagsinput2 = _interopRequireDefault(_reactTagsinput);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var TagsInput = function TagsInput(props) {
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+    var inputProps = {
+        className: 'react-tagsinput-input',
+        placeholder: props.placeholder
+    };
+    return _react2.default.createElement(
+        'div',
+        { className: props.className },
+        _react2.default.createElement(_reactTagsinput2.default, {
+            value: props.tags,
+            onChange: props.setTags,
+            addKeys: [188, 9, 13, 32],
+            inputProps: inputProps,
+            addOnBlur: true,
+            addOnPast: true })
+    );
+};
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TagsInput = function (_Component) {
-    _inherits(TagsInput, _Component);
-
-    function TagsInput(props) {
-        _classCallCheck(this, TagsInput);
-
-        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TagsInput).call(this, props));
-
-        _this.handleChange = _this.handleChange.bind(_this);
-
-        _this.state = {
-            tags: []
-        };
-        return _this;
-    }
-
-    _createClass(TagsInput, [{
-        key: 'componentDidMount',
-        value: function componentDidMount() {
-            this.setState({ tags: this.props.tags || [] });
-        }
-    }, {
-        key: 'handleChange',
-        value: function handleChange(tags) {
-            this.setState({ tags: tags });
-            this.props.setTags(tags);
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var inputProps = {
-                className: 'react-tagsinput-input',
-                placeholder: this.props.placeholder
-            };
-            return _react2.default.createElement(
-                'div',
-                { className: this.props.className },
-                _react2.default.createElement(_reactTagsinput2.default, {
-                    value: this.state.tags,
-                    onChange: this.handleChange,
-                    addKeys: [188, 9, 13, 32],
-                    inputProps: inputProps })
-            );
-        }
-    }]);
-
-    return TagsInput;
-}(_react.Component);
+TagsInput.propTypes = {
+    className: _react2.default.PropTypes.string,
+    tags: _react2.default.PropTypes.array.isRequired,
+    setTags: _react2.default.PropTypes.func.isRequired
+};
 
 exports.default = TagsInput;
 
@@ -3033,6 +3102,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _utils = require('../../../../utils');
+
 var _reactBootstrap = require('react-bootstrap');
 
 var _rating = require('../../../common/rating');
@@ -3136,7 +3207,7 @@ var renderList = function renderList(list, props) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'rating fLeft' },
-							_react2.default.createElement(_rating2.default, { readonly: true, initialRate: el.rating_avg })
+							_react2.default.createElement(_rating2.default, { readonly: true, initialRate: el.ratingAvg })
 						),
 						_react2.default.createElement(
 							'div',
@@ -3165,6 +3236,9 @@ var renderList = function renderList(list, props) {
 // Components
 
 
+// Utils
+
+
 var ResourcesList = exports.ResourcesList = function ResourcesList(props) {
 	if (!props.list || !props.list.data || props.list.fetching) {
 		return _react2.default.createElement('div', null);
@@ -3180,7 +3254,7 @@ ResourcesList.propTypes = {
 	list: _react.PropTypes.object.isRequired
 };
 
-},{"../../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js":[function(require,module,exports){
+},{"../../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3658,7 +3732,7 @@ var BottomNav = function (_Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				'footer',
-				null,
+				{ className: 'bottom-footer' },
 				_react2.default.createElement(
 					'div',
 					{ className: 'bottom-nav' },
@@ -4880,6 +4954,22 @@ var ResourcesFilters = function (_Component) {
 			this.props.fetchDomains();
 			this.props.fetchYears();
 			this.props.fetchAccess();
+
+			// Are there any filters?
+			if (this.props.filters.filters != null) {
+				var _props$filters$filter = this.props.filters.filters;
+				var formats = _props$filters$filter.formats;
+				var subjects = _props$filters$filter.subjects;
+				var domains = _props$filters$filter.domains;
+				var years = _props$filters$filter.years;
+
+				this.setState({
+					formats: formats,
+					subjects: subjects,
+					domains: domains,
+					years: years
+				});
+			}
 		}
 	}, {
 		key: 'componentDidUpdate',
@@ -4890,6 +4980,11 @@ var ResourcesFilters = function (_Component) {
 				this.submitFilters();
 			}
 		}
+
+		//
+		//	On submit
+		//
+
 	}, {
 		key: 'submitFilters',
 		value: function submitFilters() {
@@ -5219,10 +5314,22 @@ var renderList = function renderList(list, props) {
 	var addscript = props.addscript;
 	var viewmore = props.viewmore;
 	var isAuthenticated = props.isAuthenticated;
+	var setHighlight = props.setHighlight;
 
 
 	return list.map(function (el, index) {
-		return _react2.default.createElement(_resource.ResourceElement, { maxcol: maxcol, classColCount: classColCount, addscript: addscript, viewmore: viewmore, isAuthenticated: isAuthenticated, el: el, index: index, key: index, config: props.config });
+		return _react2.default.createElement(_resource.ResourceElement, {
+			maxcol: maxcol,
+			classColCount: classColCount,
+			addscript: addscript,
+			viewmore: viewmore,
+			isAuthenticated: isAuthenticated,
+			el: el,
+			index: index,
+			key: index,
+			config: props.config,
+			setHighlight: setHighlight
+		});
 	});
 };
 
@@ -5286,9 +5393,6 @@ var ResourcesOrdering = function (_Component) {
 	}
 
 	_createClass(ResourcesOrdering, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {}
-	}, {
 		key: 'onOrderChange',
 		value: function onOrderChange(e) {
 			this.setState({ value: e.target.value });
@@ -5303,7 +5407,7 @@ var ResourcesOrdering = function (_Component) {
 				_react2.default.createElement(
 					'label',
 					{ htmlFor: 'order-box' },
-					'Ordenar por:'
+					'Ordem:'
 				),
 				_react2.default.createElement(
 					'select',
@@ -5316,7 +5420,17 @@ var ResourcesOrdering = function (_Component) {
 					_react2.default.createElement(
 						'option',
 						{ value: 'alfa' },
-						'Alfabeticamente'
+						'Alfabética'
+					),
+					_react2.default.createElement(
+						'option',
+						{ value: 'rating--desc' },
+						'Avaliações (maior)'
+					),
+					_react2.default.createElement(
+						'option',
+						{ value: 'rating--asc' },
+						'Avaliações (menor)'
 					)
 				)
 			);
@@ -5347,6 +5461,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _utils = require('../../../utils');
+
 var _reactBootstrap = require('react-bootstrap');
 
 var _rating = require('../../common/rating');
@@ -5363,9 +5479,12 @@ var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//	Render button according to app status
+//
+
+
 // Boostrap
-
-
 var renderProtected = function renderProtected(obj, target, props) {
 	if (!props.el.exclusive || props.isAuthenticated) {
 		return _react2.default.createElement(
@@ -5382,8 +5501,56 @@ var renderProtected = function renderProtected(obj, target, props) {
 	);
 };
 
+//
+//	Render option buttons
+//
+
+
 // Components
 
+
+// Utils
+var optionsRender = function optionsRender(el, isAuthenticated, addscript, viewmore) {
+	if (addscript && isAuthenticated) {
+		return _react2.default.createElement(
+			'span',
+			{ className: 'list__element--buttons' },
+			_react2.default.createElement(
+				_reactRouter.Link,
+				{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'cta primary outline small' },
+				'Ver Recurso'
+			),
+			_react2.default.createElement(
+				_reactRouter.Link,
+				{ to: "/gerirguioes/" + el.id, className: 'cta primary outline small' },
+				'Adicionar Guião'
+			)
+		);
+	}
+
+	if ((viewmore || addscript) && (!el.exclusive || isAuthenticated)) {
+		return _react2.default.createElement(
+			_reactRouter.Link,
+			{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'cta primary outline small' },
+			'Ver Recurso'
+		);
+	} else {
+		return _react2.default.createElement(
+			_protectedButton2.default,
+			{ className: 'cta primary outline small action-btn', target: "/descobrir/detalhes-recurso/" + el.slug },
+			'Ver Recurso'
+		);
+	}
+};
+
+//
+//	Render favorite button
+//
+var renderFav = function renderFav(el, isAuthenticated, setHighlight) {
+	if (isAuthenticated) {
+		return _react2.default.createElement('i', { className: "list__element--fav fa fa-" + (el.Favorites && el.Favorites.length > 0 ? "heart" : "heart-o"), title: 'Favorito', onClick: setHighlight });
+	}
+};
 
 var ResourceElement = exports.ResourceElement = function ResourceElement(props) {
 
@@ -5399,6 +5566,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 	var index = props.index;
 	var maxcol = props.maxcol;
 	var config = props.config;
+	var setHighlight = props.setHighlight;
 
 	// Clearfix classes
 
@@ -5420,6 +5588,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 		_react2.default.createElement(
 			'div',
 			{ className: 'list__element' },
+			renderFav(el, isAuthenticated, setHighlight),
 			renderProtected(_react2.default.createElement(
 				'header',
 				null,
@@ -5434,45 +5603,14 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 					el.description
 				)
 			), "/descobrir/detalhes-recurso/" + el.slug, props),
-			function () {
-				if (addscript && isAuthenticated) {
-					return _react2.default.createElement(
-						'span',
-						{ className: 'list__element--buttons' },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'cta primary outline small' },
-							'Ver Recurso'
-						),
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: "/gerirguioes/" + el.id, className: 'cta primary outline small' },
-							'Adicionar Guião'
-						)
-					);
-				}
-
-				if ((viewmore || addscript) && (!el.exclusive || isAuthenticated)) {
-					return _react2.default.createElement(
-						_reactRouter.Link,
-						{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'cta primary outline small' },
-						'Ver Recurso'
-					);
-				} else {
-					return _react2.default.createElement(
-						_protectedButton2.default,
-						{ className: 'cta primary outline small action-btn', target: "/descobrir/detalhes-recurso/" + el.slug },
-						'Ver Recurso'
-					);
-				}
-			}(),
+			optionsRender(el, isAuthenticated, addscript, viewmore),
 			renderProtected(_react2.default.createElement(
 				'footer',
 				null,
 				_react2.default.createElement(
 					'div',
 					{ className: 'rating' },
-					_react2.default.createElement(_rating2.default, { readonly: true, initialRate: el.rating_avg })
+					_react2.default.createElement(_rating2.default, { readonly: true, initialRate: el.ratingAvg })
 				),
 				_react2.default.createElement(
 					'div',
@@ -5502,7 +5640,7 @@ ResourceElement.propTypes = {
 	config: _react.PropTypes.object
 };
 
-},{"../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js":[function(require,module,exports){
+},{"../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5516,6 +5654,8 @@ var _react = require('react');
 var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
+
+var _utils = require('../../../utils');
 
 var _mediaDisplay = require('./mediaDisplay');
 
@@ -5557,6 +5697,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Utils
+
+
+// Components
+
+
 var ResourceDetails = function (_Component) {
 	_inherits(ResourceDetails, _Component);
 
@@ -5587,21 +5733,21 @@ var ResourceDetails = function (_Component) {
 			var resource = this.props.params.resource;
 
 
-			this.props.fetchConfig().then(function () {
-				_this2.props.fetchResource(resource).then(function () {
+			this.props.fetchResource(resource).then(function () {
 
-					// If this requires auth and not authed, go back
-					if (_this2.requiresAuth()) {
-						_this2.context.router.push('/descobrir');
+				// If this requires auth and not authed, go back
+				if (_this2.requiresAuth()) {
+					_this2.context.router.push('/descobrir');
 
-						// If allowed, get the favorite
-					} else {
-							_this2.setState({
-								isFavorite: _this2.props.resource.data.favorite || false
-							});
-						}
-				});
+					// If allowed, get the favorite
+				} else {
+						_this2.setState({
+							isFavorite: _this2.props.resource.data.favorite || false
+						});
+					}
 			});
+
+			this.props.fetchConfig();
 		}
 	}, {
 		key: 'componentWillReceiveProps',
@@ -5621,7 +5767,7 @@ var ResourceDetails = function (_Component) {
 		key: 'requiresAuth',
 		value: function requiresAuth() {
 			// If no Auth and is protected and finished fetching
-			if (this.props.resource.fetched && !this.props.auth.isAuthenticated && this.props.resource.data.protected) {
+			if (this.props.resource.fetched && !this.props.auth.isAuthenticated && this.props.resource.data.exclusive) {
 				return true;
 			}
 			return false;
@@ -5703,7 +5849,7 @@ var ResourceDetails = function (_Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'rating' },
-								_react2.default.createElement(_rating2.default, { initialRate: resource.rating_avg, readonly: !isAuthenticated })
+								_react2.default.createElement(_rating2.default, { initialRate: (0, _utils.getAvg)(resource.Ratings), readonly: !isAuthenticated })
 							),
 							this.printMeta("Autor", resource.author),
 							this.printMeta("Organização", resource.organization),
@@ -5711,7 +5857,7 @@ var ResourceDetails = function (_Component) {
 							_react2.default.createElement(
 								'p',
 								null,
-								resource.text
+								resource.description
 							)
 						)
 					),
@@ -5807,7 +5953,7 @@ ResourceDetails.contextTypes = {
 	router: _react.PropTypes.object
 };
 
-},{"../../../containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","../../../containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","../../../containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
+},{"../../../containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","../../../containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","../../../containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5887,13 +6033,17 @@ var game = function game(meta) {
 	return showPlaceholder("game");
 };
 
+//
+//	Convert given TYPE to FUNCTION and execute with given DATA
+//
 var evalFunc = function evalFunc(func, props) {
 	return eval(func).call(undefined, props);
 };
 
 exports.default = function (props) {
-	var type = props.data.format.type;
+	var type = props.data.Format.type;
 
+	console.log(type);
 	return _react2.default.createElement(
 		'span',
 		null,
@@ -6163,6 +6313,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 var _list = require('./common/list');
 
 var _order = require('./common/order');
@@ -6195,6 +6349,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Components
+
+
 var ResourcesListing = function (_Component) {
 	_inherits(ResourcesListing, _Component);
 
@@ -6205,17 +6362,20 @@ var ResourcesListing = function (_Component) {
 
 		_this.state = {
 			activePage: 1,
-			keywords: [],
-			order: 0
+			tags: [],
+			order: "recent",
+			filters: {}
 		};
 
 		//
 		//	Event Handlers
 		//
 		_this.onChangePage = _this.onChangePage.bind(_this);
+		_this.onChangeTags = _this.onChangeTags.bind(_this);
 		_this.onSearchSubmit = _this.onSearchSubmit.bind(_this);
 		_this.onListOrder = _this.onListOrder.bind(_this);
 		_this.onFilterChange = _this.onFilterChange.bind(_this);
+		_this.setHighlight = _this.setHighlight.bind(_this);
 
 		//
 		//	Handle all changes
@@ -6229,22 +6389,41 @@ var ResourcesListing = function (_Component) {
 		value: function componentDidMount() {
 			var _this2 = this;
 
-			this.props.fetchResources('search').then(function () {
-				_this2.setState({ activePage: _this2.props.resources.curPage || 1 });
-			});
+			// If there is any search, don't search again.
+			// Else, do!
+			if (!this.props.resources.fetched || this.props.resources.total == null || this.props.resources.total == undefined) {
+				this.props.fetchResources('search').then(function () {
+					// Reset all filters and set current page if new request
+					_this2.props.resetFilters();
+					_this2.setState({ activePage: _this2.props.resources.curPage || 1 });
+				});
+			} else {
+				this.setState({
+					activePage: 1,
+					tags: this.props.filters.filters.tags
+				});
+			}
+
+			// Get configurations
 			this.props.fetchConfig();
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			this.props.resetResources();
 		}
 	}, {
 		key: 'componentDidUpdate',
 		value: function componentDidUpdate(prevProps, prevState) {
 			var _state = this.state;
 			var activePage = _state.activePage;
-			var keywords = _state.keywords;
+			var tags = _state.tags;
 			var order = _state.order;
 
-			// If there are any changes, get new resources
+			// Request new resources if there is any change AND tags didn't change.
+			// This avoids request new resources each time adding a new tag in the input. It is required to press the button
 
-			if (prevState.activePage && prevState.activePage != activePage || prevState.keywords && prevState.keywords != keywords || prevState.order && prevState.order != order) {
+			if (JSON.stringify(prevState) !== JSON.stringify(this.state) && prevState.tags == tags) {
 				this.requestNewResources();
 			}
 		}
@@ -6256,7 +6435,7 @@ var ResourcesListing = function (_Component) {
 	}, {
 		key: 'requestNewResources',
 		value: function requestNewResources() {
-			console.log(this.state);
+			this.props.searchResources(this.state);
 		}
 
 		// When filters change
@@ -6264,7 +6443,7 @@ var ResourcesListing = function (_Component) {
 	}, {
 		key: 'onFilterChange',
 		value: function onFilterChange(filters) {
-			console.log(filters);
+			this.setState({ filters: filters });
 		}
 
 		// Handle pagination
@@ -6293,10 +6472,28 @@ var ResourcesListing = function (_Component) {
 
 	}, {
 		key: 'onSearchSubmit',
-		value: function onSearchSubmit(keywords) {
+		value: function onSearchSubmit() {
+			this.requestNewResources();
+		}
+
+		// Handle tags change to search by tag
+
+	}, {
+		key: 'onChangeTags',
+		value: function onChangeTags(tags) {
 			this.setState({
-				keywords: keywords
+				tags: tags
 			});
+		}
+
+		// Set as highlighted
+
+	}, {
+		key: 'setHighlight',
+		value: function setHighlight(resourceId) {
+			/* REQUEST UPDATE AS HIGHLIGHT AND GET THE NEW ITEM IN THE REDUCER IN ORDER TO RE-RENDER */
+			//console.log(this.props);
+			this.props.setHighlight(resourceId);
 		}
 
 		// Alert that user is not authenticated
@@ -6354,6 +6551,8 @@ var ResourcesListing = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this3 = this;
+
 			var resources = this.props.resources;
 
 
@@ -6389,7 +6588,7 @@ var ResourcesListing = function (_Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'col-xs-12 col-md-9' },
-							_react2.default.createElement(_searchBar2.default, { onSubmit: this.onSearchSubmit, className: 'resources-search' }),
+							_react2.default.createElement(_searchBar2.default, { onSubmit: this.onSearchSubmit, onChangeTags: this.onChangeTags, tags: this.state.tags, className: 'resources-search' }),
 							_react2.default.createElement(
 								'section',
 								{ className: 'row' },
@@ -6419,18 +6618,29 @@ var ResourcesListing = function (_Component) {
 								)
 							),
 							!this.props.auth.isAuthenticated ? this.renderAlert() : "",
-							_react2.default.createElement(_list.ResourcesList, { list: this.props.resources, config: this.props.config.data, maxcol: 3, addscript: true, isAuthenticated: isAuthenticated }),
-							_react2.default.createElement(_reactBootstrap.Pagination, {
-								prev: true,
-								next: true,
-								first: true,
-								last: true,
-								ellipsis: true,
-								boundaryLinks: true,
-								items: resources.totalPages,
-								maxButtons: 5,
-								activePage: this.state.activePage,
-								onSelect: this.onChangePage })
+							_react2.default.createElement(_list.ResourcesList, {
+								list: resources,
+								config: this.props.config.data,
+								maxcol: 3,
+								addscript: true,
+								isAuthenticated: isAuthenticated,
+								setHighlight: this.setHighlight
+							}),
+							function () {
+								if (resources.data && resources.data.length > 0) {
+									return _react2.default.createElement(_reactBootstrap.Pagination, {
+										prev: true,
+										next: true,
+										first: true,
+										last: true,
+										ellipsis: true,
+										boundaryLinks: true,
+										items: resources.totalPages,
+										maxButtons: 5,
+										activePage: _this3.state.activePage,
+										onSelect: _this3.onChangePage });
+								}
+							}()
 						)
 					)
 				)
@@ -6449,7 +6659,7 @@ ResourcesListing.propTypes = {
 	config: _react.PropTypes.object.isRequired
 };
 
-},{"../../containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
+},{"../../containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","lodash":"lodash","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8766,8 +8976,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -8778,68 +8986,30 @@ var _tags2 = _interopRequireDefault(_tags);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+var SearchBar = function SearchBar(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: "input-group single-search" },
+    _react2.default.createElement(_tags2.default, { setTags: props.onChangeTags, tags: props.tags, className: 'tags-search', placeholder: 'Palavras-chave' }),
+    _react2.default.createElement(
+      'button',
+      { className: 'cta primary', onClick: props.onSubmit },
+      _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
+      ' Pesquisar'
+    )
+  );
+};
 
 // Components
 
 
-var SearchBar = function (_Component) {
-  _inherits(SearchBar, _Component);
-
-  function SearchBar(props) {
-    _classCallCheck(this, SearchBar);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchBar).call(this, props));
-
-    _this.state = { keywords: [] };
-    _this.changeKeyword = _this.changeKeyword.bind(_this);
-    _this.onSubmitForm = _this.onSubmitForm.bind(_this);
-    return _this;
-  }
-
-  _createClass(SearchBar, [{
-    key: 'changeKeyword',
-    value: function changeKeyword(tags) {
-      this.setState({
-        keyword: tags
-      });
-    }
-  }, {
-    key: 'onSubmitForm',
-    value: function onSubmitForm(e) {
-      e.preventDefault();
-      this.props.onSubmit(this.state.keyword);
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'form',
-        { onSubmit: this.onSubmitForm, className: "input-group single-search" },
-        _react2.default.createElement(_tags2.default, { setTags: this.changeKeyword, tags: this.state.keywords, className: 'tags-search', placeholder: 'Palavras-chave' }),
-        _react2.default.createElement(
-          'button',
-          { className: 'cta primary' },
-          _react2.default.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' }),
-          ' Pesquisar'
-        )
-      );
-    }
-  }]);
-
-  return SearchBar;
-}(_react.Component);
+SearchBar.propTypes = {
+  onSubmit: _react2.default.PropTypes.func.isRequired,
+  tags: _react2.default.PropTypes.array.isRequired,
+  onChangeTags: _react2.default.PropTypes.func.isRequired
+};
 
 exports.default = SearchBar;
-
-
-SearchBar.propTypes = {
-  onSubmit: _react2.default.PropTypes.func.isRequired
-};
 
 },{"../common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js":[function(require,module,exports){
 'use strict';
@@ -8878,16 +9048,19 @@ var SearchForm = function (_Component) {
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchForm).call(this, props));
 
 		_this.state = {
-			keywords: [],
-			subject: "0",
-			domain: "0",
-			format: "0",
-			year: "0"
+			tags: [],
+			subjects: null,
+			domains: null,
+			formats: null,
+			years: null
 		};
 
+		//
+		//	Event handlers
+		//
 		_this.onFormSubmit = _this.onFormSubmit.bind(_this);
-		_this.handleChange = _this.handleChange.bind(_this);
-		_this.changeKeyword = _this.changeKeyword.bind(_this);
+		_this.changeTags = _this.changeTags.bind(_this);
+		_this.onSubjectChange = _this.onSubjectChange.bind(_this);
 
 		//
 		//	Renders
@@ -8904,32 +9077,38 @@ var SearchForm = function (_Component) {
 		value: function componentDidMount() {
 			this.props.fetchYears();
 			this.props.fetchSubjects();
-			this.props.fetchDomains();
 			this.props.fetchFormats();
 		}
+
+		// Submit search
+
 	}, {
 		key: 'onFormSubmit',
 		value: function onFormSubmit(event) {
 			event.preventDefault();
-
-			// We need to go and fetch weather data
-			//this.props.fetchWeather(this.state.term);
-			//this.setState({ term: '' });
-
-			this.props.onSubmit();
+			this.props.onSubmit(this.state);
 		}
-	}, {
-		key: 'handleChange',
-		value: function handleChange() {}
 
-		// Handle keywords change
+		// Handle tags change
 
 	}, {
-		key: 'changeKeyword',
-		value: function changeKeyword(tags) {
+		key: 'changeTags',
+		value: function changeTags(tags) {
 			this.setState({
-				keyword: tags
+				tags: tags
 			});
+		}
+
+		//Handle subject change
+
+	}, {
+		key: 'onSubjectChange',
+		value: function onSubjectChange(subject) {
+			this.setState({
+				subjects: subject.target.value,
+				domains: null
+			});
+			this.props.fetchDomainsFromSubject(subject.target.value);
 		}
 	}, {
 		key: 'calcColCount',
@@ -9026,9 +9205,10 @@ var SearchForm = function (_Component) {
 			var classColCount = this.calcColCount(maxcol);
 
 			var _props = this.props;
-			var searchKeywords = _props.searchKeywords;
+			var searchTags = _props.searchTags;
 			var iconClass = _props.iconClass;
 			var buttonText = _props.buttonText;
+			var domains = _props.domains;
 
 
 			return _react2.default.createElement(
@@ -9041,11 +9221,11 @@ var SearchForm = function (_Component) {
 						'div',
 						{ className: 'row' },
 						function () {
-							if (searchKeywords) {
+							if (searchTags) {
 								return _react2.default.createElement(
 									'div',
 									{ className: "col-xs-12" },
-									_react2.default.createElement(_tags2.default, { setTags: _this2.changeKeyword, tags: _this2.state.keywords, className: 'tags-search', placeholder: 'Palavras-chave' })
+									_react2.default.createElement(_tags2.default, { setTags: _this2.changeTags, tags: _this2.state.tags, className: 'tags-search', placeholder: 'Palavras-chave' })
 								);
 							}
 						}(),
@@ -9054,12 +9234,10 @@ var SearchForm = function (_Component) {
 							{ className: "col-xs-6 col-sm-4 col-md-3" },
 							_react2.default.createElement(
 								'select',
-								{ className: 'form-control', value: this.state.subject, onChange: function onChange(item) {
-										return _this2.setState({ subject: item.target.value });
-									} },
+								{ className: 'form-control', value: this.state.subjects, onChange: this.onSubjectChange },
 								_react2.default.createElement(
 									'option',
-									{ value: '0', 'default': true },
+									{ value: '', 'default': true },
 									'Disciplina'
 								),
 								this.renderSubjects()
@@ -9070,12 +9248,12 @@ var SearchForm = function (_Component) {
 							{ className: "col-xs-6 col-sm-4 col-md-3" },
 							_react2.default.createElement(
 								'select',
-								{ className: 'form-control', value: this.state.domain, onChange: function onChange(item) {
-										return _this2.setState({ domain: item.target.value });
+								{ className: 'form-control', disabled: !domains.data || domains.data.length == 0, value: this.state.domains, onChange: function onChange(item) {
+										return _this2.setState({ domains: item.target.value });
 									} },
 								_react2.default.createElement(
 									'option',
-									{ value: '0', 'default': true },
+									{ value: '', 'default': true },
 									'Domínio'
 								),
 								this.renderDomains()
@@ -9086,12 +9264,12 @@ var SearchForm = function (_Component) {
 							{ className: "col-xs-6 col-sm-4 col-md-2" },
 							_react2.default.createElement(
 								'select',
-								{ className: 'form-control', value: this.state.format, onChange: function onChange(item) {
-										return _this2.setState({ format: item.target.value });
+								{ className: 'form-control', value: this.state.formats, onChange: function onChange(item) {
+										return _this2.setState({ formats: item.target.value });
 									} },
 								_react2.default.createElement(
 									'option',
-									{ value: '0', 'default': true },
+									{ value: '', 'default': true },
 									'Formato'
 								),
 								this.renderFormats()
@@ -9102,12 +9280,12 @@ var SearchForm = function (_Component) {
 							{ className: "col-xs-6 col-sm-4 col-md-2" },
 							_react2.default.createElement(
 								'select',
-								{ className: 'form-control', value: this.state.year, onChange: function onChange(item) {
-										return _this2.setState({ year: item.target.value });
+								{ className: 'form-control', value: this.state.years, onChange: function onChange(item) {
+										return _this2.setState({ years: item.target.value });
 									} },
 								_react2.default.createElement(
 									'option',
-									{ value: '0', 'default': true },
+									{ value: '', 'default': true },
 									'Ano'
 								),
 								this.renderYears()
@@ -10043,7 +10221,10 @@ function mapDispatchToProps(dispatch) {
     fetchDomains: _domains.fetchDomains,
     fetchYears: _years.fetchYears,
     fetchAccess: _access.fetchAccess,
-    submitFilters: _filters.submitFilters
+    setFilters: _filters.setFilters,
+    getFilters: _filters.getFilters,
+    resetFilters: _filters.resetFilters,
+    searchResourcesFilters: _filters.searchResourcesFilters
   }, dispatch);
 }
 
@@ -10159,7 +10340,7 @@ var Header = function (_Component) {
 						return [_react2.default.createElement(_highlights2.default, { key: 'highlights-container' }), _react2.default.createElement(
 							'div',
 							{ className: 'container', key: 'search-container' },
-							_react2.default.createElement(_search2.default, { key: 'search-container', searchKeywords: true })
+							_react2.default.createElement(_search2.default, { key: 'search-container', searchTags: true })
 						)];
 					}
 
@@ -10276,6 +10457,8 @@ var _resources = require('../../actions/resources');
 
 var _config = require('../../actions/config');
 
+var _filters = require('../../actions/filters');
+
 var _redux = require('redux');
 
 var _listing = require('../../components/resources/listing');
@@ -10288,17 +10471,25 @@ function mapStateToProps(state) {
   return {
     resources: state.resources,
     auth: state.auth,
-    config: state.config
+    config: state.config,
+    filters: state.filters
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchResources: _resources.fetchResources, fetchConfig: _config.fetchConfig }, dispatch);
+  return (0, _redux.bindActionCreators)({
+    fetchResources: _resources.fetchResources,
+    fetchConfig: _config.fetchConfig,
+    setHighlight: _resources.setHighlight,
+    resetFilters: _filters.resetFilters,
+    searchResources: _resources.searchResources,
+    resetResources: _resources.resetResources
+  }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_listing2.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/listing":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\listing.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js":[function(require,module,exports){
+},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/listing":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\listing.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10383,6 +10574,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
@@ -10398,6 +10591,8 @@ var _subjects = require('../../actions/subjects');
 var _domains = require('../../actions/domains');
 
 var _formats = require('../../actions/formats');
+
+var _filters = require('../../actions/filters');
 
 var _redux = require('redux');
 
@@ -10416,16 +10611,37 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var SearchContainer = function (_Component) {
   _inherits(SearchContainer, _Component);
 
-  function SearchContainer() {
+  function SearchContainer(props) {
     _classCallCheck(this, SearchContainer);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(SearchContainer).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchContainer).call(this, props));
+
+    _this.onSubmit = _this.onSubmit.bind(_this);
+    return _this;
   }
 
+  //
+  //  Submit search form
+  //
+
+
   _createClass(SearchContainer, [{
+    key: 'onSubmit',
+    value: function onSubmit(filters) {
+      var _this2 = this;
+
+      // Request new resources
+      // Save filters for further use
+      // Redirect to results page
+      this.props.searchResourcesFilters(filters).then(function () {
+        _this2.props.setFilters(filters);
+        _this2.context.router.push('/descobrir');
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(_searchForm2.default, this.props);
+      return _react2.default.createElement(_searchForm2.default, _extends({}, this.props, { onSubmit: this.onSubmit }));
     }
   }]);
 
@@ -10446,13 +10662,20 @@ function mapDispatchToProps(dispatch) {
     fetchYears: _years.fetchYears,
     fetchSubjects: _subjects.fetchSubjects,
     fetchDomains: _domains.fetchDomains,
-    fetchFormats: _formats.fetchFormats
+    fetchDomainsFromSubject: _domains.fetchDomainsFromSubject,
+    fetchFormats: _formats.fetchFormats,
+    setFilters: _filters.setFilters,
+    searchResourcesFilters: _filters.searchResourcesFilters
   }, dispatch);
 }
 
+SearchContainer.contextTypes = {
+  router: _react.PropTypes.object
+};
+
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchContainer);
 
-},{"../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\user\\resume.js":[function(require,module,exports){
+},{"../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\user\\resume.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10551,7 +10774,55 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"../containers/common/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\common\\alerts.js","react":"react","react-progress-2":"react-progress-2","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js":[function(require,module,exports){
+},{"../containers/common/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\common\\alerts.js","react":"react","react-progress-2":"react-progress-2","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\empty.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Empty = function (_Component) {
+  _inherits(Empty, _Component);
+
+  function Empty() {
+    _classCallCheck(this, Empty);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Empty).apply(this, arguments));
+  }
+
+  _createClass(Empty, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
+        this.props.children
+      );
+    }
+  }]);
+
+  return Empty;
+}(_react.Component);
+
+exports.default = Empty;
+
+},{"react":"react","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11267,7 +11538,6 @@ exports.default = function () {
         fetching: true
       });
     case _actionTypes.ACCESS_SUCCESS:
-
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
@@ -11277,6 +11547,13 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         errorMessage: action.message
+      });
+    case _actionTypes.ACCESS_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       });
     default:
       return state;
@@ -11419,6 +11696,13 @@ exports.default = function () {
         fetching: false,
         errors: action.errors
       });
+    case _actionTypes.COMMENTS_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      });
     default:
       return state;
   }
@@ -11504,6 +11788,13 @@ exports.default = function () {
         fetching: false,
         errorMessage: action.message
       });
+    case _actionTypes.DOMAINS_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      });
     default:
       return state;
   }
@@ -11531,21 +11822,15 @@ exports.default = function () {
   var action = arguments[1];
 
   switch (action.type) {
-    case _actionTypes.FILTERS_REQUEST:
+    case _actionTypes.FILTERS_GET:
+      return state;
+    case _actionTypes.FILTERS_SET:
       return (0, _objectAssign2.default)({}, state, {
-        fetching: true
+        filters: action.filters
       });
-    case _actionTypes.FILTERS_SUCCESS:
-
+    case _actionTypes.FILTERS_RESET:
       return (0, _objectAssign2.default)({}, state, {
-        fetching: false,
-        fetched: true,
-        data: action.data
-      });
-    case _actionTypes.FILTERS_FAILURE:
-      return (0, _objectAssign2.default)({}, state, {
-        fetching: false,
-        errorMessage: action.message
+        filters: null
       });
     default:
       return state;
@@ -11560,7 +11845,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { filters: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\formats.js":[function(require,module,exports){
 'use strict';
@@ -11589,6 +11874,13 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         errorMessage: action.message
+      });
+    case _actionTypes.FORMATS_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       });
     default:
       return state;
@@ -11725,6 +12017,13 @@ exports.default = function () {
         fetching: false,
         errorMessage: action.message
       });
+    case _actionTypes.LANGUAGES_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      });
     default:
       return state;
   }
@@ -11766,6 +12065,13 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         errorMessage: action.message
+      });
+    case _actionTypes.HIGHLIGHTS_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       });
     default:
       return state;
@@ -11809,6 +12115,13 @@ function resources() {
         fetching: false,
         errorMessage: action.message
       });
+    case _actionTypes.RESOURCES_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      });
     case _actionTypes.TOGGLE_HIGHLIGHT_RESOURCE:
 
       // CALL SINGLE RESOURCE REDUCER TO MAKE THE CHANGE
@@ -11843,6 +12156,13 @@ function resource() {
         fetching: false,
         errorMessage: action.message
       });
+    case _actionTypes.RESOURCE_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      });
     case _actionTypes.TOGGLE_HIGHLIGHT_RESOURCE:
       if (state.id != action.id) {
         return state;
@@ -11876,6 +12196,13 @@ function relatedResources() {
         fetching: false,
         errorMessage: action.message
       });
+    case _actionTypes.RELATED_RESOURCES_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      });
     default:
       return state;
   }
@@ -11908,6 +12235,13 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         errorMessage: action.message
+      });
+    case ~_actionTypes.SUBJECTS_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       });
     default:
       return state;
@@ -12037,6 +12371,13 @@ exports.default = function () {
         fetching: false,
         errorMessage: action.message
       });
+    case _actionTypes.YEARS_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      });
     default:
       return state;
   }
@@ -12069,6 +12410,10 @@ var _reactRouter = require('react-router');
 var _app = require('../layouts/app');
 
 var _app2 = _interopRequireDefault(_app);
+
+var _empty = require('../layouts/empty');
+
+var _empty2 = _interopRequireDefault(_empty);
 
 var _indexPage = require('../pages/indexPage');
 
@@ -12113,7 +12458,7 @@ exports.default = _react2.default.createElement(
   _react2.default.createElement(_reactRouter.Route, { name: 'Descobrir', path: 'descobrir', component: _discoverPage2.default }),
   _react2.default.createElement(
     _reactRouter.Route,
-    { name: 'Descobrir', path: 'descobrir', component: _app2.default },
+    { name: 'Descobrir', path: 'descobrir', component: _empty2.default },
     _react2.default.createElement(_reactRouter.Route, { name: 'Detalhes de Recurso', path: 'detalhes-recurso/:resource', component: _resourceDetailsPage2.default })
   ),
   _react2.default.createElement(_reactRouter.Route, { name: 'Painel de Gestão', path: 'painel', component: _dashboardPage2.default }),
@@ -12128,13 +12473,13 @@ exports.default = _react2.default.createElement(
 
 // Pages
 
-},{"../containers/auth/requireAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\requireAuth.js","../layouts/app":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\app.js","../pages/dashboardPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js","../pages/discoverPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\discoverPage.js","../pages/indexPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\indexPage.js","../pages/newResourcePage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newResourcePage.js","../pages/newScriptPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newScriptPage.js","../pages/notFoundPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\notFoundPage.js","../pages/resourceDetailsPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\resourceDetailsPage.js","../pages/signupFormPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js":[function(require,module,exports){
+},{"../containers/auth/requireAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\requireAuth.js","../layouts/app":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\app.js","../layouts/empty":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\empty.js","../pages/dashboardPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js","../pages/discoverPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\discoverPage.js","../pages/indexPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\indexPage.js","../pages/newResourcePage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newResourcePage.js","../pages/newScriptPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newScriptPage.js","../pages/notFoundPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\notFoundPage.js","../pages/resourceDetailsPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\resourceDetailsPage.js","../pages/signupFormPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.sortByTitle = exports.setUrl = exports.setDateFormat = undefined;
+exports.getAvg = exports.complexToQueryString = exports.toQueryString = exports.sortByTitle = exports.setUrl = exports.setDateFormat = undefined;
 
 var _moment = require('moment');
 
@@ -12142,6 +12487,9 @@ var _moment2 = _interopRequireDefault(_moment);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//
+//  Set date and time localization
+//
 _moment2.default.locale('pt', {
     months: "janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro".split("_"),
     monthsShort: "jan._fev._mar_abr._mai_jun_jul._ago_set._out._nov._dez.".split("_"),
@@ -12185,11 +12533,17 @@ _moment2.default.locale('pt', {
     }
 });
 
+//
+//  Convert date format
+//
 var setDateFormat = exports.setDateFormat = function setDateFormat(date, formatDate) {
     _moment2.default.locale('pt');
     return (0, _moment2.default)(date).format(formatDate);
 };
 
+//
+//  Set string to url if no HTTP exists
+//
 var setUrl = exports.setUrl = function setUrl(content) {
     if (content.indexOf("http://") == -1) {
         return "http://" + content;
@@ -12203,6 +12557,238 @@ var setUrl = exports.setUrl = function setUrl(content) {
 //
 var sortByTitle = exports.sortByTitle = function sortByTitle(s1, s2) {
     return s1.title.localeCompare(s2.title);
+};
+
+//
+//  Build query string to get data
+//
+var toQueryString = exports.toQueryString = function toQueryString(data) {
+    var finalString = "";
+
+    var keys = Object.keys(data);
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var key = _step.value;
+
+            var customKey = customKey == "access" ? "modes" : key;
+
+            if (data[key] instanceof Array) {
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
+
+                try {
+                    for (var _iterator2 = data[key][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var value = _step2.value;
+
+
+                        finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                        finalString += customKey + "[]=" + value;
+                    }
+                } catch (err) {
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
+                        }
+                    } finally {
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
+                        }
+                    }
+                }
+            } else if (data[key]) {
+                finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                finalString += customKey + "[]=" + data[key];
+            }
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+
+    return finalString;
+};
+
+//
+//  Build query string from complex structure
+//
+var complexToQueryString = exports.complexToQueryString = function complexToQueryString(data) {
+    var finalString = "";
+
+    var keys = Object.keys(data);
+
+    var _iteratorNormalCompletion3 = true;
+    var _didIteratorError3 = false;
+    var _iteratorError3 = undefined;
+
+    try {
+        for (var _iterator3 = keys[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+            var key = _step3.value;
+
+            var customKey = customKey == "access" ? "modes" : key;
+
+            if (data[key] instanceof Array) {
+                var _iteratorNormalCompletion4 = true;
+                var _didIteratorError4 = false;
+                var _iteratorError4 = undefined;
+
+                try {
+                    for (var _iterator4 = data[key][Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                        var value = _step4.value;
+
+
+                        finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                        finalString += customKey + "[]=" + value;
+                    }
+                } catch (err) {
+                    _didIteratorError4 = true;
+                    _iteratorError4 = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                            _iterator4.return();
+                        }
+                    } finally {
+                        if (_didIteratorError4) {
+                            throw _iteratorError4;
+                        }
+                    }
+                }
+            }
+
+            // If nested 1 level
+            else if (data[key] instanceof Object) {
+                    var thisKeyObjs = Object.keys(data[key]);
+
+                    // Go for all keys
+                    var _iteratorNormalCompletion5 = true;
+                    var _didIteratorError5 = false;
+                    var _iteratorError5 = undefined;
+
+                    try {
+                        for (var _iterator5 = thisKeyObjs[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                            var thisKey = _step5.value;
+
+                            var _customKey = _customKey == "access" ? "modes" : thisKey;
+
+                            // For each key, get value
+                            var _iteratorNormalCompletion6 = true;
+                            var _didIteratorError6 = false;
+                            var _iteratorError6 = undefined;
+
+                            try {
+                                for (var _iterator6 = data[key][thisKey][Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                                    var _value = _step6.value;
+
+
+                                    finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                                    finalString += _customKey + "[]=" + _value;
+                                }
+                            } catch (err) {
+                                _didIteratorError6 = true;
+                                _iteratorError6 = err;
+                            } finally {
+                                try {
+                                    if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                                        _iterator6.return();
+                                    }
+                                } finally {
+                                    if (_didIteratorError6) {
+                                        throw _iteratorError6;
+                                    }
+                                }
+                            }
+                        }
+                    } catch (err) {
+                        _didIteratorError5 = true;
+                        _iteratorError5 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                                _iterator5.return();
+                            }
+                        } finally {
+                            if (_didIteratorError5) {
+                                throw _iteratorError5;
+                            }
+                        }
+                    }
+                } else if (data[key]) {
+                    finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                    finalString += data[key] instanceof Array ? customKey + "[]=" + data[key] : customKey + "=" + data[key];
+                }
+        }
+    } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                _iterator3.return();
+            }
+        } finally {
+            if (_didIteratorError3) {
+                throw _iteratorError3;
+            }
+        }
+    }
+
+    console.log(finalString);
+    return finalString;
+};
+
+//
+//  Return average
+//
+
+var getAvg = exports.getAvg = function getAvg(ratings) {
+    var total = ratings.length;
+    var sum = 0;
+
+    var _iteratorNormalCompletion7 = true;
+    var _didIteratorError7 = false;
+    var _iteratorError7 = undefined;
+
+    try {
+        for (var _iterator7 = ratings[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
+            var rating = _step7.value;
+
+            sum = sum + parseInt(rating.value);
+        }
+    } catch (err) {
+        _didIteratorError7 = true;
+        _iteratorError7 = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion7 && _iterator7.return) {
+                _iterator7.return();
+            }
+        } finally {
+            if (_didIteratorError7) {
+                throw _iteratorError7;
+            }
+        }
+    }
+
+    return sum / total;
 };
 
 },{"moment":"moment"}]},{},["C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\app.js"])

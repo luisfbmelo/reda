@@ -17,6 +17,11 @@ module.exports = function(sequelize, DataTypes) {
 			where: {
 				status: true
 			}
+		},
+		classMethods: {
+			associate: function(models) {
+				Rating.belongsTo(models.Resource);
+			}
 		}
 	});
 

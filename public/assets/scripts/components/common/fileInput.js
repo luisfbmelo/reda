@@ -46,6 +46,9 @@ export default class FileInput extends Component{
                 // Save file data
                 data = e.target.result; 
 
+                // Convert blob to base64
+                data = data.split(',')[1];
+
                 // Return file metadata
                 this.props.setFile({name, extension, data, size});
             }

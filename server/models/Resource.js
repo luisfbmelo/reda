@@ -137,7 +137,6 @@ module.exports = function(sequelize, DataTypes) {
 				});
 
 				Resource.hasMany(models.Rating, {
-					as: 'Ratings',
 					foreignKey: {
 						allowNull: false
 					}

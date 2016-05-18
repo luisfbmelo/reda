@@ -13,7 +13,7 @@ export default class BottomNav extends Component {
 
 	render() {
 		return ( 
-			<footer> 
+			<footer className="bottom-footer"> 
 				<div className="bottom-nav">
 					<ul>
 						<li className={this.isActive(this.props.location.pathname, 'sobre')}>

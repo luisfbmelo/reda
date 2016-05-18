@@ -6,7 +6,8 @@ import fetch from 'isomorphic-fetch';
 import { 
 	DOMAINS_REQUEST, 
 	DOMAINS_SUCCESS,
-	DOMAINS_FAILURE
+	DOMAINS_FAILURE,
+	DOMAINS_RESET
 } from './action-types';
 import { CALL_API } from '../middleware/api';
 
@@ -32,27 +33,38 @@ function domainsError(message){
 	}
 }
 
-export function fetchDomains(){
-	/*return dispatch => {
-		dispatch(requestDomains());
+export function resetDomains(){
+	return {
+		type: DOMAINS_RESET
+	}
+}
 
-		return fetch('/assets/scripts/dummy.json')
-		.then(response => {
-			if (response.status >= 400) {
-	          throw new Error('Bad response');
-	        }
-	        return response.json();
-		})
-		.then(json => {
-			dispatch(receiveDomains(json.domains));
-		})
-		.catch(message => {
-			dispatch(domainsError(message));
-		})
-	}*/
+export function fetchDomains(isRequired){
+	let params = '';
+
+	if (isRequired){
+		params = '?required=true';
+	}
+
 	return {
 		[CALL_API]: {
-		  endpoint: 'domains',
+		  endpoint: 'domains'+params,
+		  types: [DOMAINS_REQUEST, DOMAINS_SUCCESS, DOMAINS_FAILURE]
+		}
+	}
+}
+
+export function fetchDomainsFromSubject(subId, isRequired){
+
+	let params = '?subject='+subId;
+
+	if (isRequired){
+		params += '&required=true'
+	}
+
+	return {
+		[CALL_API]: {
+		  endpoint: 'domains/from-subject'+params,
 		  types: [DOMAINS_REQUEST, DOMAINS_SUCCESS, DOMAINS_FAILURE]
 		}
 	}

@@ -3,20 +3,27 @@
 require('es6-promise').polyfill();
 import fetch from 'isomorphic-fetch';
 
+// Utils
+import { toQueryString, complexToQueryString } from '../utils';
+
 import { 
 	HIGHLIGHTS_REQUEST, 
 	HIGHLIGHTS_SUCCESS,
 	HIGHLIGHTS_FAILURE,
+	HIGHLIGHTS_RESET,
 	TOGGLE_HIGHLIGHT_RESOURCE,
 	RESOURCES_REQUEST, 
 	RESOURCES_SUCCESS,
 	RESOURCES_FAILURE,
+	RESOURCES_RESET,
 	RESOURCE_REQUEST, 
 	RESOURCE_SUCCESS,
-	RESOURCE_FAILURE,	
+	RESOURCE_FAILURE,
+	RESOURCE_RESET,	
 	RELATED_RESOURCES_REQUEST, 
 	RELATED_RESOURCES_SUCCESS,
-	RELATED_RESOURCES_FAILURE
+	RELATED_RESOURCES_FAILURE,
+	RELATED_RESOURCES_RESET
 } from './action-types';
 import { CALL_API } from '../middleware/api';
 
@@ -43,6 +50,13 @@ function highlightsError(message){
 		message: message
 	}
 }
+
+export function resetHighlights(){
+	return {
+		type: HIGHLIGHTS_RESET
+	}
+}
+
 
 export function setHighlight(resourceId){
 	return {
@@ -100,6 +114,12 @@ function resourcesError(message){
 	}
 }
 
+export function resetResources(){
+	return {
+		type: RESOURCES_RESET
+	}
+}
+
 export function fetchResources(type, params){
 	/*return dispatch => {
 		dispatch(requestResources());
@@ -131,6 +151,15 @@ export function fetchResources(type, params){
 	}
 }
 
+export function searchResources(filters){
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources/search?'+complexToQueryString(filters),
+		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
+		}
+	}
+}
+
 // SINGLE RESOURCE
 function requestResource(){
 	return {
@@ -152,31 +181,19 @@ function resourceError(message){
 	}
 }
 
-export function fetchResource(resourceId){
-	return dispatch => {
-		dispatch(requestResource());
+export function resetResource(){
+	return {
+		type: RESOURCE_RESET
+	}
+}
 
-		return fetch('/assets/scripts/dummy.json')
-		.then(response => {
-			if (response.status >= 400) {
-	          throw new Error('Bad response');
-	        }
-	        return response.json();
-		})
-		.then(json => {
-			var filtered = json.resources.filter((obj) => {				
-				return obj.id == resourceId;
-			})
-			
-			if (filtered.length==0){
-				throw new Error('No data');
-			}
-			
-			dispatch(receiveResource(filtered[0]));
-		})
-		.catch(message => {
-			dispatch(resourceError(message));
-		})
+export function fetchResource(resourceSlug){
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources/details/'+resourceSlug,
+		  sendToken:true,
+		  types: [RESOURCE_REQUEST, RESOURCE_SUCCESS, RESOURCE_FAILURE]
+		}
 	}
 }
 
@@ -198,6 +215,12 @@ function relatedResourcesError(message){
 	return {
 		type: RELATED_RESOURCES_FAILURE,
 		message: message
+	}
+}
+
+export function resetRelatedResources(){
+	return {
+		type: RELATED_RESOURCES_RESET
 	}
 }
 

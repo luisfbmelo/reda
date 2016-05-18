@@ -3,39 +3,29 @@
 import React, { Component } from 'react';
 import Tags from 'react-tagsinput'
 
-export default class TagsInput extends Component{
-    constructor(props){
-        super(props);
+const TagsInput = (props) => {
 
-        this.handleChange = this.handleChange.bind(this);
-
-        this.state = {
-            tags: []
-        }
+    let inputProps={
+        className: 'react-tagsinput-input',
+        placeholder: props.placeholder
     }
-
-    componentDidMount(){
-        this.setState({tags: this.props.tags || []});
-    }
-
-    handleChange(tags) {
-        this.setState({ tags: tags });
-        this.props.setTags(tags);
-    }
-
-    render() {
-        let inputProps={
-            className: 'react-tagsinput-input',
-            placeholder: this.props.placeholder
-        }
-        return (
-            <div className={this.props.className}>
-                <Tags 
-                    value={this.state.tags} 
-                    onChange={this.handleChange} 
-                    addKeys={[188,9,13,32]} 
-                    inputProps={inputProps}/>
-            </div>
-        )
-    }
+    return (
+        <div className={props.className}>
+            <Tags 
+                value={props.tags} 
+                onChange={props.setTags} 
+                addKeys={[188,9,13,32]} 
+                inputProps={inputProps}
+                addOnBlur={true}
+                addOnPast={true}/>
+        </div>
+    )    
 }
+
+TagsInput.propTypes = {
+    className: React.PropTypes.string,
+    tags: React.PropTypes.array.isRequired,
+    setTags: React.PropTypes.func.isRequired
+}
+
+export default TagsInput

@@ -2,6 +2,9 @@ import React from 'react';
 import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
+// Utils
+import { getAvg } from '../../../utils';
+
 // Boostrap
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
@@ -10,7 +13,10 @@ import Rating from '../../common/rating';
 import SvgComponent from '../../common/svg';
 import ProtectedButton from '../../auth/protectedButton';
 
-var renderProtected = (obj, target, props) => {
+//
+//	Render button according to app status
+//
+const renderProtected = (obj, target, props) => {
 	if (!props.el.exclusive || props.isAuthenticated){
 		return (
 			<Link to={target}>
@@ -26,13 +32,43 @@ var renderProtected = (obj, target, props) => {
   	);
 }
 
+//
+//	Render option buttons
+//
+const optionsRender = (el, isAuthenticated, addscript, viewmore) => {
+	if (addscript && isAuthenticated){
+		return (
+			<span className="list__element--buttons">
+  			<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
+  			<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Adicionar Guião</Link>
+			</span>
+		)
+	}
+
+	if ((viewmore || addscript) && (!el.exclusive || isAuthenticated)){
+		return <Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
+	}else {
+		return <ProtectedButton className="cta primary outline small action-btn" target={"/descobrir/detalhes-recurso/" + el.slug}>Ver Recurso</ProtectedButton>
+	}
+}
+
+//
+//	Render favorite button
+//
+const renderFav = (el, isAuthenticated, setHighlight) => {
+	if (isAuthenticated){
+		return <i className={"list__element--fav fa fa-" + ((el.Favorites && el.Favorites.length>0) ? "heart" : "heart-o")} title="Favorito" onClick={setHighlight}></i>
+	}
+}
+
+
 export const ResourceElement = (props) => {
 
 	if (!props.el){
 		return null
 	}
 
-	const { addscript, viewmore, isAuthenticated, el, classColCount, index, maxcol, config } = props;
+	const { addscript, viewmore, isAuthenticated, el, classColCount, index, maxcol, config, setHighlight } = props;
 
 	// Clearfix classes
 	let breaker = "";
@@ -49,6 +85,7 @@ export const ResourceElement = (props) => {
 	return(		
       	<article className={"col-xs-12 col-sm-4 col-md-" + classColCount + " col-lg-" + classColCount + breaker} >
       		<div className="list__element">
+      			{renderFav(el, isAuthenticated, setHighlight)}
 	      		{
 	      			renderProtected(
 		      			<header>
@@ -58,27 +95,13 @@ export const ResourceElement = (props) => {
 			      	,"/descobrir/detalhes-recurso/" + el.slug, props)
 		      	}
 
-		      	{(() => {
-		      		if (addscript && isAuthenticated){
-		      			return (
-		      				<span className="list__element--buttons">
-				      			<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
-				      			<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Adicionar Guião</Link>
-			      			</span>
-		      			)
-		      		}
+		      	{optionsRender(el, isAuthenticated, addscript, viewmore)}	
 
-		      		if ((viewmore || addscript) && (!el.exclusive || isAuthenticated)){
-		      			return <Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
-		      		}else {
-		      			return <ProtectedButton className="cta primary outline small action-btn" target={"/descobrir/detalhes-recurso/" + el.slug}>Ver Recurso</ProtectedButton>
-		      		}
-		      	})()}	
 		      	{
 	      			renderProtected(
 		      			<footer>
 			      			<div className="rating">
-			      				<Rating readonly initialRate={el.rating_avg}/>
+			      				<Rating readonly initialRate={el.ratingAvg}/>
 			      			</div>
 			      			
 			      			<div className="type">

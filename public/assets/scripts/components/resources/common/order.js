@@ -12,10 +12,6 @@ export default class ResourcesOrdering extends Component {
 		}
 	}
 
-	componentDidMount(){		
-			
-	}
-
 	onOrderChange(e){
 		this.setState({value: e.target.value});
 		this.props.onChange(e.target.value);
@@ -24,11 +20,13 @@ export default class ResourcesOrdering extends Component {
 	render() {
 		return (
 			<div className="ordering">
-				<label htmlFor="order-box">Ordenar por:</label>
+				<label htmlFor="order-box">Ordem:</label>
 				
 				<select className="form-control" id="order-box" onChange={this.onOrderChange} value={this.state.value}>
 					<option value="recent">Mais recente</option>
-					<option value="alfa">Alfabeticamente</option>
+					<option value="alfa">Alfabética</option>
+					<option value="rating--desc">Avaliações (maior)</option>
+					<option value="rating--asc">Avaliações (menor)</option>					
 				</select>
 			</div>
 		);

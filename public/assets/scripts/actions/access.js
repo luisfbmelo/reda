@@ -6,7 +6,8 @@ import fetch from 'isomorphic-fetch';
 import { 
 	ACCESS_REQUEST, 
 	ACCESS_SUCCESS,
-	ACCESS_FAILURE
+	ACCESS_FAILURE,
+	ACCESS_RESET
 } from './action-types';
 import { CALL_API } from '../middleware/api';
 
@@ -32,7 +33,13 @@ function accessError(message){
 	}
 }
 
-export function fetchAccess(){
+export function resetAccess(){
+	return {
+		type: ACCESS_RESET
+	}
+}
+
+export function fetchAccess(isRequired){
 	/*return dispatch => {
 		dispatch(requestAccess());
 
@@ -50,9 +57,16 @@ export function fetchAccess(){
 			dispatch(accessError(message));
 		})
 	}*/
+
+	let params = '';
+
+	if (isRequired){
+		params = '?required=true';
+	}
+
 	return {
 		[CALL_API]: {
-		  endpoint: 'modes',
+		  endpoint: 'modes'+params,
 		  types: [ACCESS_REQUEST, ACCESS_SUCCESS, ACCESS_FAILURE]
 		}
 	}

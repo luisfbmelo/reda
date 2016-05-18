@@ -293,6 +293,11 @@ select[value="0"]{
   color:white;
 }
 
+select[disabled]{
+  color:$meta-color;
+  font-style: italic;
+}
+
 option[default]{
   color:gray;
 }

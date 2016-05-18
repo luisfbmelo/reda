@@ -2,15 +2,12 @@ const models = require('../models/index');
 const config = require('../config/config.json');
 
 exports.list = function(req, res, next) {
-	if (!req.query.required){
-		models.Mode.findAll().then(function(Modes){
-			return res.json({result: Modes});
-		}).catch(function(err){
-			return next(err);
-		})
-	}else{
+
+	var includes = [];
+
+	if (req.query.required){
 		// Set includes
-		var includes = [
+		includes = [
 			{ 
 				seperate: true,
 				attributes: ['id'], 
@@ -21,13 +18,14 @@ exports.list = function(req, res, next) {
 		        }
 			}
 		];
-
-		models.Mode.findAll({
-			include: includes
-		}).then(function(modes){
-			return res.json({result: modes});
-		}).catch(function(err){
-			return next(err);
-		})
 	}
+	
+	models.Mode.findAll({
+		include: includes
+	}).then(function(modes){
+		return res.json({result: modes});
+	}).catch(function(err){
+		return next(err);
+	})
+	
 };

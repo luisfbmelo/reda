@@ -30,7 +30,7 @@ class Header extends Component {
 						return[
 							<HighlightsContainer key="highlights-container"/>,
 							<div className="container" key="search-container">
-								<SearchContainer key="search-container" searchKeywords={true}/>
+								<SearchContainer key="search-container" searchTags={true}/>
 							</div>
 						]
 					}

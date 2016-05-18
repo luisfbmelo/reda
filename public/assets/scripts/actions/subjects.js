@@ -6,7 +6,8 @@ import fetch from 'isomorphic-fetch';
 import { 
 	SUBJECTS_REQUEST, 
 	SUBJECTS_SUCCESS,
-	SUBJECTS_FAILURE
+	SUBJECTS_FAILURE,
+	SUBJECTS_RESET
 } from './action-types';
 import { CALL_API } from '../middleware/api';
 
@@ -32,7 +33,13 @@ function subjectsError(message){
 	}
 }
 
-export function fetchSubjects(){
+export function resetSubjects(){
+	return {
+		type: SUBJECTS_RESET
+	}
+}
+
+export function fetchSubjects(isRequired){
 	/*return dispatch => {
 		dispatch(requestSubjects());
 
@@ -51,9 +58,15 @@ export function fetchSubjects(){
 		})
 	}*/
 
+	let params = '';
+
+	if (isRequired){
+		params = '?required=true';
+	}
+
 	return {
 		[CALL_API]: {
-		  endpoint: 'subjects',
+		  endpoint: 'subjects'+params,
 		  types: [SUBJECTS_REQUEST, SUBJECTS_SUCCESS, SUBJECTS_FAILURE]
 		}
 	}

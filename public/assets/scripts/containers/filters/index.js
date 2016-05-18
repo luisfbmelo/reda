@@ -6,7 +6,7 @@ import { fetchSubjects } from '../../actions/subjects';
 import { fetchDomains } from '../../actions/domains';
 import { fetchYears } from '../../actions/years';
 import { fetchAccess } from '../../actions/access';
-import { submitFilters } from '../../actions/filters';
+import { setFilters, getFilters, resetFilters, searchResourcesFilters } from '../../actions/filters';
 import { bindActionCreators } from 'redux';
 import ResourcesFilters from '../../components/resources/common/filters';
 
@@ -28,7 +28,10 @@ function mapDispatchToProps(dispatch) {
   	fetchDomains,
     fetchYears,
     fetchAccess,
-    submitFilters
+    setFilters,
+    getFilters,
+    resetFilters,
+    searchResourcesFilters
   }, dispatch);
 }
 

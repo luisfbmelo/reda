@@ -92,6 +92,24 @@
 			    }
 			}
 		}	
+
+		&--fav{
+		    @include font-size(20px);
+		    margin-top: 20px;
+		    margin-bottom:20px;
+		    color: $green;
+
+		    &:hover{
+		    	cursor:pointer;
+		    }
+
+		    & + a,
+		    & + .protected-button{
+		    	h1{
+		    		margin-top:0;
+		    	}
+		    }
+		}
 	}
 
 	&__dashboard{

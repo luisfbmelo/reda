@@ -6,7 +6,8 @@ import fetch from 'isomorphic-fetch';
 import { 
 	FORMATS_REQUEST, 
 	FORMATS_SUCCESS,
-	FORMATS_FAILURE
+	FORMATS_FAILURE,
+	FORMATS_RESET
 } from './action-types';
 import { CALL_API } from '../middleware/api';
 
@@ -32,7 +33,14 @@ function formatsError(message){
 	}
 }
 
-export function fetchFormats(){
+export function resetFormats(){
+	return {
+		type: FORMATS_RESET
+	}
+}
+
+
+export function fetchFormats(isRequired){
 	/*return dispatch => {
 		dispatch(requestFormats());
 
@@ -51,9 +59,15 @@ export function fetchFormats(){
 		})
 	}*/
 
+	let params = '';
+
+	if (isRequired){
+		params = '?required=true';
+	}
+
 	return {
 		[CALL_API]: {
-		  endpoint: 'formats',
+		  endpoint: 'formats'+params,
 		  types: [FORMATS_REQUEST, FORMATS_SUCCESS, FORMATS_FAILURE]
 		}
 	}

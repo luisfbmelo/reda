@@ -52,6 +52,17 @@ export default class ResourcesFilters extends Component {
 		this.props.fetchDomains();
 		this.props.fetchYears();
 		this.props.fetchAccess();
+
+		// Are there any filters?
+		if (this.props.filters.filters!=null){
+			const { formats, subjects, domains, years } = this.props.filters.filters;
+			this.setState({
+				formats,
+				subjects,
+				domains,
+				years
+			});
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -62,6 +73,9 @@ export default class ResourcesFilters extends Component {
 		}
 	}
 
+	//
+	//	On submit
+	//
 	submitFilters(){
 		this.props.onFilterChange(this.state);
 	}

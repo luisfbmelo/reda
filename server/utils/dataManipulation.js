@@ -134,3 +134,71 @@ exports.scriptsHasErrors = function(scripts){
 
   return hasErrors;
 }
+
+//
+//  Handle order
+//
+exports.extractOrder = function(order, models){
+  var finalOrder = ['created_at', 'DESC'];
+
+  const ordersPossible = [
+    'recent',
+    'rating',
+    'alfa'
+  ];
+
+  const dirsPossible = [
+    'asc',
+    'desc'
+  ];
+
+  const orders = [
+    'created_at',
+    'rating',
+    'title'
+  ];
+
+  const dirs = [
+    'asc',
+    'desc'
+  ];
+
+
+
+  if (order){
+    // Get matches
+    const matchOrder = getMatchingWords(ordersPossible, order);
+    const matchDir = getMatchingWords(dirsPossible, order);
+debug(matchDir);
+    // Get index of those matches with the several options
+    const indexOrder = ordersPossible.indexOf(matchOrder[0]);
+    const indexDir = dirsPossible.indexOf(matchDir[0]);
+
+    if (indexOrder>=0){
+
+      // IF IS RATING, GET BY AVERAGE
+      if (indexOrder==1){
+        finalOrder[0] = models.sequelize.literal('ratingAvg');
+      }else{
+        finalOrder[0] = orders[indexOrder];
+      }      
+    }
+
+    if (indexDir>=0){
+      finalOrder[finalOrder.length-1] = dirs[indexDir];
+    }
+  }
+  debug(finalOrder);
+  return finalOrder;
+}
+
+function getMatchingWords(words, s) {
+    var matches = [],
+        regex = new RegExp("(^|[^a-zA-Z0-9])(" + words.join("|") + ")([^a-zA-Z0-9]|$)", "g");
+
+    s.replace(regex, function(match, $1, $2, $3) {
+        matches.push($2);
+    });
+
+    return matches;
+}

@@ -16,10 +16,21 @@ var renderList = (list, props) => {
 	let maxcol = props.maxcol || 4;
 	let classColCount = Math.floor(12/maxcol);
 
-	const { addscript, viewmore, isAuthenticated } = props;
+	const { addscript, viewmore, isAuthenticated, setHighlight } = props;
 
 	return list.map((el, index) => {
-		return <ResourceElement maxcol={maxcol} classColCount={classColCount} addscript={addscript} viewmore={viewmore} isAuthenticated={isAuthenticated} el={el} index={index} key={index} config={props.config}/>
+		return <ResourceElement 
+			maxcol={maxcol} 
+			classColCount={classColCount} 
+			addscript={addscript} 
+			viewmore={viewmore} 
+			isAuthenticated={isAuthenticated} 
+			el={el} 
+			index={index} 
+			key={index} 
+			config={props.config}
+			setHighlight={setHighlight}
+		/>
     });
 }
 

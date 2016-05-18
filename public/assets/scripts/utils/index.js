@@ -1,5 +1,8 @@
 import moment from 'moment';
 
+//
+//  Set date and time localization
+//
 moment.locale('pt', {
     months : "janeiro_fevereiro_março_abril_maio_junho_julho_agosto_setembro_outubro_novembro_dezembro".split("_"),
     monthsShort : "jan._fev._mar_abr._mai_jun_jul._ago_set._out._nov._dez.".split("_"),
@@ -43,11 +46,18 @@ moment.locale('pt', {
     }
 });
 
+
+//
+//  Convert date format
+//
 export const setDateFormat = (date, formatDate) => {
 	moment.locale('pt');
 	return moment(date).format(formatDate);
 }
 
+//
+//  Set string to url if no HTTP exists
+//
 export const setUrl = (content) => {
     if (content.indexOf("http://") == -1){
         return "http://"+content;
@@ -61,4 +71,93 @@ export const setUrl = (content) => {
 //
 export const sortByTitle = function(s1, s2){
     return s1.title.localeCompare(s2.title);
+}
+
+//
+//  Build query string to get data
+//
+export const toQueryString = function(data){
+    let finalString = "";
+
+    let keys = Object.keys(data);
+
+
+    for(let key of keys){ 
+        let customKey = customKey=="access" ? "modes" : key;
+
+        if (data[key] instanceof Array){
+            for (let value of data[key]){             
+
+                finalString = finalString.length>0 && keys.length>0 ? finalString+"&" : finalString;
+                finalString += customKey+"[]="+value;
+            }
+        }else if(data[key]){
+            finalString = finalString.length>0 && keys.length>0 ? finalString+"&" : finalString;
+            finalString += customKey+"[]="+data[key];
+        }
+    }
+
+    return finalString;
+}
+
+//
+//  Build query string from complex structure
+//
+export const complexToQueryString = function(data){
+    let finalString = "";
+
+    let keys = Object.keys(data);
+
+
+    for(let key of keys){ 
+        let customKey = customKey=="access" ? "modes" : key;
+
+        if (data[key] instanceof Array){
+            for (let value of data[key]){             
+
+                finalString = finalString.length>0 && keys.length>0 ? finalString+"&" : finalString;
+                finalString += customKey+"[]="+value;
+            }
+        }
+
+        // If nested 1 level
+        else if(data[key] instanceof Object){
+            let thisKeyObjs = Object.keys(data[key]);
+
+            // Go for all keys
+            for (let thisKey of thisKeyObjs){   
+                let customKey = customKey=="access" ? "modes" : thisKey;   
+
+                // For each key, get value
+                for (let value of data[key][thisKey]){             
+
+                    finalString = finalString.length>0 && keys.length>0 ? finalString+"&" : finalString;
+                    finalString += customKey+"[]="+value;
+                }       
+            }
+
+        }
+        else if(data[key]){
+            finalString = finalString.length>0 && keys.length>0 ? finalString+"&" : finalString;
+            finalString += data[key] instanceof Array ? customKey+"[]="+data[key] : customKey+"="+data[key];
+        }
+    }
+
+    console.log(finalString);
+    return finalString;
+}
+
+//
+//  Return average
+//
+
+export const getAvg = (ratings) => {
+    let total = ratings.length;
+    let sum = 0;
+
+    for (let rating of ratings){
+        sum = sum + parseInt(rating.value);
+    }
+
+    return sum/total;
 }

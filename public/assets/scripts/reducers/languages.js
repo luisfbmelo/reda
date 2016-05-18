@@ -2,7 +2,8 @@ import assign from 'object-assign';
 import { 
 	LANGUAGES_REQUEST, 
 	LANGUAGES_SUCCESS,
-	LANGUAGES_FAILURE
+	LANGUAGES_FAILURE,
+  LANGUAGES_RESET
 } from '../actions/action-types';
 
 const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
@@ -24,6 +25,13 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         errorMessage: action.message
+      })
+    case LANGUAGES_RESET:
+      return assign({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       })
     default:
       return state;

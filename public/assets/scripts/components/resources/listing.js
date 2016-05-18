@@ -1,13 +1,15 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router';
+import _ from 'lodash';
+
+// Components
 import { ResourcesList } from './common/list';
 import ResourcesOrdering from './common/order';
 import SearchBar from '../search/searchBar';
 import ResourcesFilters from '../../containers/filters';
 import LoginButton from '../auth/loginButton';
 import ProtectedButton from '../auth/protectedButton';
-
 import { Pagination, Alert, Button } from 'react-bootstrap';
 
 export default class ResourcesListing extends Component {
@@ -16,17 +18,20 @@ export default class ResourcesListing extends Component {
 		
 		this.state = {
 			activePage: 1,
-			keywords: [],
-			order: 0
+			tags: [],
+			order: "recent",
+			filters: {}
 		}
 
 		//
 		//	Event Handlers
 		//
 		this.onChangePage = this.onChangePage.bind(this);
+		this.onChangeTags = this.onChangeTags.bind(this);
 		this.onSearchSubmit = this.onSearchSubmit.bind(this);
 		this.onListOrder = this.onListOrder.bind(this);
 		this.onFilterChange = this.onFilterChange.bind(this);
+		this.setHighlight = this.setHighlight.bind(this);
 
 		//
 		//	Handle all changes
@@ -35,34 +40,50 @@ export default class ResourcesListing extends Component {
 	}
 
 	componentDidMount(){
-		this.props.fetchResources('search')
-		.then(() => {
-			this.setState({activePage: this.props.resources.curPage || 1 });
-		})
+		// If there is any search, don't search again.
+		// Else, do!
+		if (!this.props.resources.fetched || this.props.resources.total==null || this.props.resources.total==undefined){
+			this.props.fetchResources('search')
+			.then(() => {
+				// Reset all filters and set current page if new request
+				this.props.resetFilters();
+				this.setState({activePage: this.props.resources.curPage || 1 });
+			})
+		}else{
+			this.setState({
+				activePage: 1,
+				tags: this.props.filters.filters.tags
+			});
+		}
+
+		// Get configurations
 		this.props.fetchConfig();		
 	}
 
-	componentDidUpdate(prevProps, prevState) {
-		const { activePage, keywords, order } = this.state;
+	componentWillUnmount() {
+	 	this.props.resetResources();     
+	}
 
-		// If there are any changes, get new resources
-	 	if(((prevState.activePage && prevState.activePage != activePage) 
-	 		|| (prevState.keywords && prevState.keywords!=keywords) 
-	 		|| (prevState.order && prevState.order!=order))){
+	componentDidUpdate(prevProps, prevState) {
+		const { activePage, tags, order } = this.state;
+
+		// Request new resources if there is any change AND tags didn't change.
+		// This avoids request new resources each time adding a new tag in the input. It is required to press the button
+	 	if (JSON.stringify(prevState) !== JSON.stringify(this.state) && prevState.tags==tags){
 	 		this.requestNewResources();
-	 	}    
+	 	}
 	}
 
 	//
 	//	REQUEST NEW RESOURCES
 	//
 	requestNewResources(){
-		console.log(this.state);
+		this.props.searchResources(this.state);
 	}
 
 	// When filters change
 	onFilterChange(filters){
-		console.log(filters);
+		this.setState({filters});
 	}
 
 	// Handle pagination
@@ -82,10 +103,22 @@ export default class ResourcesListing extends Component {
     }
 
     // Search resources by keyword
-    onSearchSubmit(keywords){
+    onSearchSubmit(){
+    	this.requestNewResources();
+    }
+
+    // Handle tags change to search by tag
+    onChangeTags(tags){
     	this.setState({
-			keywords
+			tags
 		});
+    }
+
+    // Set as highlighted
+    setHighlight(resourceId){
+    	/* REQUEST UPDATE AS HIGHLIGHT AND GET THE NEW ITEM IN THE REDUCER IN ORDER TO RE-RENDER */
+    	//console.log(this.props);
+    	this.props.setHighlight(resourceId);
     }
 
     // Alert that user is not authenticated
@@ -148,7 +181,7 @@ export default class ResourcesListing extends Component {
 						</div>
 						<div className="col-xs-12 col-md-9">
 							{/* Search bar */}
-							<SearchBar onSubmit={this.onSearchSubmit} className="resources-search" />
+							<SearchBar onSubmit={this.onSearchSubmit} onChangeTags={this.onChangeTags} tags={this.state.tags} className="resources-search" />
 
 							<section className="row">
 								<div className="col-xs-6">
@@ -165,20 +198,32 @@ export default class ResourcesListing extends Component {
 							{!this.props.auth.isAuthenticated ? this.renderAlert() : ""}
 
 							{/* Resources List */}
-							<ResourcesList list={this.props.resources} config={this.props.config.data} maxcol={3} addscript isAuthenticated={isAuthenticated} />
+							<ResourcesList 
+								list={resources} 
+								config={this.props.config.data} 
+								maxcol={3} 
+								addscript 
+								isAuthenticated={isAuthenticated} 
+								setHighlight={this.setHighlight} 
+								/>
 
 							{/* Pagination */}
-							<Pagination
-						        prev
-						        next
-						        first
-						        last
-						        ellipsis
-						        boundaryLinks
-						        items={resources.totalPages}
-						        maxButtons={5}
-						        activePage={this.state.activePage}
-						        onSelect={this.onChangePage} />
+							{(() => {
+								if (resources.data && resources.data.length>0){
+									return <Pagination
+									        prev
+									        next
+									        first
+									        last
+									        ellipsis
+									        boundaryLinks
+									        items={resources.totalPages}
+									        maxButtons={5}
+									        activePage={this.state.activePage}
+									        onSelect={this.onChangePage} />
+								}
+							})()}
+							
 						</div>
 					</div>
 					

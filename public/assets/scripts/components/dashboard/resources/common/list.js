@@ -2,6 +2,9 @@ import React from 'react';
 import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
+// Utils
+import { getAvg } from '../../../../utils';
+
 // Boostrap
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
@@ -54,7 +57,7 @@ var renderList = (list, props) => {
 						
 						<footer className="list__dashboard--footer">
 			      			<div className="rating fLeft">
-			      				<Rating readonly initialRate={el.rating_avg}/>
+			      				<Rating readonly initialRate={el.ratingAvg}/>
 			      			</div>	      			
 			      			<div className="fRight right-col">
 								<Link to={"/descobrir/detalhes-recurso/" + el.slug } className="cta primary outline small">Ver Recurso</Link>

@@ -5,21 +5,28 @@ const jwtUtil = require('../utils/jwt');
 const dataUtil = require('../utils/dataManipulation');
 const validate = require('../utils/validateResources').validate;
 
+// Generic Includes
+var includes = [
+	{ 
+		seperate: true, 
+		model: models.Rating,
+		required:false,
+		attributes: []
+	},
+	{ 
+		seperate: true, 
+		model: models.Format,
+		include: [{
+				seperate: true,
+  			model: models.Image
+  		}]
+	}
+];
+
 //
 //	Return generic lsit of resources
 //
 exports.list = function(req, res, next) {
-	// Set includes
-	var includes = [
-		{ 
-			seperate: true, 
-			model: models.Format,
-			include: [{
-  				seperate: true,
-	  			model: models.Image
-	  		}]
-		}
-	];
 
 	models.Resource.findAll({
 		include: includes,
@@ -60,19 +67,8 @@ exports.recent = function(req, res, next){
 
 		var limit = parseInt(req.query.limit) || 8;
 
-		// Set includes
-		var includes = [
-			{ 
-				seperate: true, 
-				model: models.Format,
-				include: [{
-	  				seperate: true,
-		  			model: models.Image
-		  		}]
-			}
-		];
-
 		models.Resource.scope(scope).findAll({
+			group: ['Resource.id'],
 			include: includes,
 			limit: limit,
 	  		attributes: [
@@ -84,7 +80,8 @@ exports.recent = function(req, res, next){
 		  		'exclusive', 
 		  		'status', 
 		  		'created_at', 
-		  		'updated_at'
+		  		'updated_at',
+		  		[models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']
 	  		]
 		})
 		.then(function(resources){
@@ -99,19 +96,8 @@ exports.recent = function(req, res, next){
 //	List of Resources that are highlights
 //
 exports.highlight = function(req, res, next){
-	// Set includes
-	var includes = [
-		{ 
-			seperate: true, 
-			model: models.Format,
-			include: [{
-  				seperate: true,
-	  			model: models.Image
-	  		}]
-		}
-	];
-
 	models.Resource.scope('highlight').findAll({
+		group: ['Resource.id'],
 		include: includes,
 		limit: config.limit,
   		attributes: [
@@ -123,7 +109,8 @@ exports.highlight = function(req, res, next){
 	  		'exclusive', 
 	  		'status', 
 	  		'created_at', 
-	  		'updated_at'
+	  		'updated_at',
+	  		[models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']
   		]
 	})
 	.then(function(resources){
@@ -148,15 +135,15 @@ exports.search = function(req, res, next){
 		var likeTags = [];
 		
 		var limit = parseInt(req.query.limit) || config.limit;
-		var page = parseInt(req.query.page) || 1;
+		var page = parseInt(req.query.activePage) || 1;
 		var formats = req.query.formats || [];
 		var modes = req.query.modes || [];
 		var years = req.query.years || [];
 		var subjects = req.query.subjects || [];
-		var domains = req.query.subjects || [];
+		var domains = req.query.domains || [];
 		var tags = req.query.tags || [];
-		var order = req.query.order || 'created_at';
-		var orderDir = req.query.orderDir || 'DESC';
+		var order = req.query.order || null;
+		order = dataUtil.extractOrder(order, models);
 
 		// Set the where clause if is there any format
 		if (formats.length>0){
@@ -176,9 +163,11 @@ exports.search = function(req, res, next){
 			for(var tag of tags){
 				likeTags.push(
 					{
-						title: { 
-							$like: '%'+tag+'%'
-						}
+						$or: {
+							title: { 
+								$like: tag
+							}	
+						}					
 					}
 				)
 			}
@@ -189,6 +178,12 @@ exports.search = function(req, res, next){
 		// SET REQUIRED FALSE in order to avoid INNERJOIN. Good when there is no value to search for and avoid filtering
 		// SET SEPERATE in order to run queries seperatly (M:M associations)
 		var includes = [
+			{ 
+				seperate: true, 
+				model: models.Rating,
+				required:false,
+				attributes: []
+			},
 			{ 
 				seperate: true, 
 				model: models.Format,
@@ -259,13 +254,8 @@ exports.search = function(req, res, next){
 			}
 		];
 
-		models.Resource.findAndCountAll({
-			include: includes,
-			limit: limit,
-			offset: ((page-1)*limit),
-			order: [
-				[order, orderDir]
-			],
+		models.Resource.findAndCountAll({	
+			group: ['Resource.id'],			
 	  		attributes: [
 	  			'id',
 		  		'title', 
@@ -275,20 +265,26 @@ exports.search = function(req, res, next){
 		  		'exclusive', 
 		  		'status', 
 		  		'created_at', 
-		  		'updated_at'
+		  		'updated_at',
+		  		[models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']
 	  		],
-	  		setWhere
+	  		include: includes,
+	  		limit: limit,
+			offset: ((page-1)*limit),
+	  		setWhere,
+	  		order: [order]
 		})
 		.then(function(resources){
+	
 			// findAndCount
 			// COUNT - total results without limit and offset
 			// ROWS - total results with limit and offset
 			return res.json({
 				page,
-				totalPages: Math.ceil(resources.count/limit),
+				totalPages: Math.ceil(resources.count.length/limit),
 				limit,
 				count: resources.rows.length,
-				total: resources.count, 
+				total: resources.count.length, 
 				result: resources.rows
 			});
 		}).catch(function(err){
@@ -307,16 +303,10 @@ exports.details = function(req, res, next){
 	jwtUtil.userExists(req, res, req.headers.authorization)
 	.then(function(userExists){
 
+		var detailsIncludes = includes.slice(0);
+
 		// Set includes
-		var includes = [
-			{ 
-				seperate: true, 
-				model: models.Format,
-				include: [{
-	  				seperate: true,
-		  			model: models.Image
-		  		}]
-			},
+		detailsIncludes.push(
 			{ 
 				seperate: true, 
 				model: models.User,
@@ -380,10 +370,14 @@ exports.details = function(req, res, next){
 				model: models.File,
 				required: false
 			}
-		];
+		);
 
 		models.Resource.findOne({
-			include: includes,
+			group: ['Resource.id'],
+			attributes: Object.keys(models.Resource.attributes).concat([
+	            [models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']
+	        ]),
+			include: detailsIncludes,
 			where: {slug}
 		})
 		.then(function(resource){

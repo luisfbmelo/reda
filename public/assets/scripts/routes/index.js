@@ -4,6 +4,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
 import App from '../layouts/app';
+import Empty from '../layouts/empty';
 
 // Pages
 import IndexPage from '../pages/indexPage';
@@ -24,7 +25,7 @@ export default (
   	<IndexRoute component={IndexPage} />
 
   	<Route name="Descobrir" path="descobrir" component={DiscoverPage} />
-  	<Route name="Descobrir" path="descobrir" component={App}>  		
+  	<Route name="Descobrir" path="descobrir" component={Empty}>  		
 		  <Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
   	</Route>
     

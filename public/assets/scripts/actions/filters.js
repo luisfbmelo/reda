@@ -3,60 +3,45 @@
 require('es6-promise').polyfill();
 import fetch from 'isomorphic-fetch';
 
+// Utils
+import { toQueryString } from '../utils';
+
 import { 
-	FILTERS_REQUEST, 
-	FILTERS_SUCCESS,
-	FILTERS_FAILURE
+	FILTERS_SET, 
+	FILTERS_GET,
+	FILTERS_RESET,
+	RESOURCES_REQUEST, 
+	RESOURCES_SUCCESS,
+	RESOURCES_FAILURE
 } from './action-types';
 import { CALL_API } from '../middleware/api';
 
 
 // FORMATS
-function requestFilters(){
+export function getFilters(){
 	return {
-		type: FILTERS_REQUEST
+		type: FILTERS_GET
 	}
 }
 
-function receiveFilters(data){
+export function setFilters(filters){
 	return {
-		type: FILTERS_SUCCESS,
-		data: data
+		type: FILTERS_SET,
+		filters
 	}
 }
 
-function filtersError(message){
+export function resetFilters(){
 	return {
-		type: FILTERS_FAILURE,
-		message: message
+		type: FILTERS_RESET
 	}
 }
 
-export function fetchFormats(){
-	/*return dispatch => {
-		dispatch(requestFormats());
-
-		return fetch('/assets/scripts/dummy.json')
-		.then(response => {
-			if (response.status >= 400) {
-	          throw new Error('Bad response');
-	        }
-	        return response.json();
-		})
-		.then(json => {
-			dispatch(receiveFormats(json.formats));
-		})
-		.catch(message => {
-			dispatch(formatsError(message));
-		})
-	}*/
-
-	
-
+export function searchResourcesFilters(filters){
 	return {
 		[CALL_API]: {
-		  endpoint: 'formats',
-		  types: [FILTERS_REQUEST, FILTERS_SUCCESS, FILTERS_FAILURE]
+		  endpoint: 'resources/search?'+toQueryString(filters),
+		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
 		}
 	}
 }

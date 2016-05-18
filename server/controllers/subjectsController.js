@@ -3,15 +3,11 @@ const config = require('../config/config.json');
 
 exports.list = function(req, res, next) {
 
-	if (!req.query.required){
-		models.Subject.findAll().then(function(Subjects){
-			return res.json({result: Subjects});
-		}).catch(function(err){
-			return next(err);
-		})
-	}else{
+	var includes = [];
+
+	if (req.query.required){
 		// Set includes
-		var includes = [ 
+		includes = [ 
 			{
 				seperate: true,
 				attributes: ['id'], 
@@ -22,15 +18,16 @@ exports.list = function(req, res, next) {
 		        }
 			}
 		];
-
-		models.Subject.findAll({
-			include: includes
-		}).then(function(Subjects){
-			return res.json({result: Subjects});
-		}).catch(function(err){
-			return next(err);
-		})
 	}
+
+	models.Subject.findAll({
+		include: includes
+	}).then(function(Subjects){
+		return res.json({result: Subjects});
+	}).catch(function(err){
+		return next(err);
+	})
+	
 };
 
 exports.listWithDomains = function(req, res, next) {

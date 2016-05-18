@@ -2,7 +2,8 @@ import assign from 'object-assign';
 import { 
 	DOMAINS_REQUEST, 
 	DOMAINS_SUCCESS,
-	DOMAINS_FAILURE
+	DOMAINS_FAILURE,
+  DOMAINS_RESET
 } from '../actions/action-types';
 
 const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
@@ -24,6 +25,13 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         errorMessage: action.message
+      })
+    case DOMAINS_RESET:
+      return assign({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       })
     default:
       return state;

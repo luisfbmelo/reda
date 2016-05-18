@@ -4,36 +4,19 @@ import { Component } from 'react';
 // Components
 import Tags from '../common/tags';
 
-export default class SearchBar extends Component {
-  constructor(props){
-    super(props);
-
-    this.state= {keywords: []}
-    this.changeKeyword = this.changeKeyword.bind(this);
-    this.onSubmitForm = this.onSubmitForm.bind(this);
-  }
-
-  changeKeyword(tags){
-    this.setState({
-      keyword: tags
-    });
-  }
-
-  onSubmitForm(e){
-    e.preventDefault();
-    this.props.onSubmit(this.state.keyword);
-  }
-
-  render() {
+const SearchBar = (props) => {
     return (
-    	<form onSubmit={this.onSubmitForm} className={"input-group single-search"}>
-        <Tags setTags={this.changeKeyword} tags={this.state.keywords} className="tags-search" placeholder="Palavras-chave"/>
-        <button className="cta primary"><i className="fa fa-search" aria-hidden="true"></i> Pesquisar</button>
-    	</form>
+    	<div className={"input-group single-search"}>
+	        <Tags setTags={props.onChangeTags} tags={props.tags} className="tags-search" placeholder="Palavras-chave"/>
+	        <button className="cta primary"  onClick={props.onSubmit}><i className="fa fa-search" aria-hidden="true"></i> Pesquisar</button>
+    	</div>
     );
-  }
 }
 
 SearchBar.propTypes = {
-  onSubmit: React.PropTypes.func.isRequired
+  onSubmit: React.PropTypes.func.isRequired,
+  tags: React.PropTypes.array.isRequired,
+  onChangeTags: React.PropTypes.func.isRequired
 }
+
+export default SearchBar

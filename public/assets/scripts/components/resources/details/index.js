@@ -2,6 +2,10 @@ import React from 'react';
 import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
+// Utils
+import { getAvg } from '../../../utils';
+
+// Components
 import MediaDisplay from './mediaDisplay';
 import MediaFooter from './mediaFooter';
 import TechFile from '../techFile';
@@ -31,23 +35,22 @@ export default class ResourceDetails extends Component {
 	componentDidMount(){		
 		let { resource } = this.props.params;
 
-		this.props.fetchConfig()
-		.then(() => {
-			this.props.fetchResource(resource)
-			.then(() => {
+		this.props.fetchResource(resource)
+		.then(() => {				
 
-				// If this requires auth and not authed, go back
-				if (this.requiresAuth()){
-					this.context.router.push('/descobrir');
+			// If this requires auth and not authed, go back
+			if (this.requiresAuth()){
+				this.context.router.push('/descobrir');
 
-				// If allowed, get the favorite
-				}else{
-					this.setState({
-						isFavorite: this.props.resource.data.favorite || false
-					});	
-				}			
-			});
-		});		
+			// If allowed, get the favorite
+			}else{
+				this.setState({
+					isFavorite: this.props.resource.data.favorite || false
+				});	
+			}			
+		});
+
+		this.props.fetchConfig();	
 
 	}
 
@@ -65,7 +68,7 @@ export default class ResourceDetails extends Component {
 
 	requiresAuth(){
 		// If no Auth and is protected and finished fetching
-		if (this.props.resource.fetched && !this.props.auth.isAuthenticated && this.props.resource.data.protected){
+		if (this.props.resource.fetched && !this.props.auth.isAuthenticated && this.props.resource.data.exclusive){
 			return true;
 		}
 		return false;
@@ -113,14 +116,14 @@ export default class ResourceDetails extends Component {
 						<div className="col-xs-12 col-sm-6">
 							<h1>{resource.title}</h1>
 							<div className="rating">
-			      				<Rating initialRate={resource.rating_avg} readonly={!isAuthenticated}/>
+			      				<Rating initialRate={getAvg(resource.Ratings)} readonly={!isAuthenticated}/>
 			      			</div>
 			      			{this.printMeta("Autor", resource.author)}
 			      			{this.printMeta("Organização", resource.organization)}
 			      			{this.printMeta("Email", resource.email)}
 
 			      			<p>
-			      				{resource.text}
+			      				{resource.description}
 			      			</p>
 						</div>
 					</div>

@@ -3,16 +3,20 @@ import {
 	HIGHLIGHTS_REQUEST, 
 	HIGHLIGHTS_SUCCESS,
 	HIGHLIGHTS_FAILURE,
+  HIGHLIGHTS_RESET,
   TOGGLE_HIGHLIGHT_RESOURCE,
   RESOURCES_REQUEST, 
   RESOURCES_SUCCESS,
   RESOURCES_FAILURE,
+  RESOURCES_RESET,
   RESOURCE_REQUEST, 
   RESOURCE_SUCCESS,
   RESOURCE_FAILURE,
+  RESOURCE_RESET,
   RELATED_RESOURCES_REQUEST, 
   RELATED_RESOURCES_SUCCESS,
-  RELATED_RESOURCES_FAILURE
+  RELATED_RESOURCES_FAILURE,
+  RELATED_RESOURCES_RESET
 } from '../actions/action-types';
 
 const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
@@ -33,7 +37,14 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         errorMessage: action.message
-      })    
+      })  
+    case HIGHLIGHTS_RESET:
+      return assign({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      })  
     default:
       return state;
   }
@@ -58,6 +69,13 @@ export function resources(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         errorMessage: action.message
+      })
+    case RESOURCES_RESET:
+      return assign({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       })
     case TOGGLE_HIGHLIGHT_RESOURCE:
       
@@ -88,6 +106,13 @@ export function resource(state = INITIAL_STATE, action) {
         fetching: false,
         errorMessage: action.message
       })
+    case RESOURCE_RESET:
+      return assign({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
+      })
     case TOGGLE_HIGHLIGHT_RESOURCE:
       if (state.id != action.id){
         return state;
@@ -117,6 +142,13 @@ export function relatedResources(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         errorMessage: action.message
+      })
+    case RELATED_RESOURCES_RESET:
+      return assign({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null
       })
     default:
       return state;
