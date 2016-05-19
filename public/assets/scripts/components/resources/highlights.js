@@ -12,6 +12,24 @@ export default class ResourceHighlights extends Component {
 	}
 
 	render() {
+		const { data, fetched, isFetching } = this.props.highlights;
+
+		if (!fetched || !data || data.length==0 || isFetching){
+			return (
+				<div className="container no-highlights-header">
+					<div className="col-xs-12 text-center">
+						<h1>Bem vindo à plataforma REDA</h1>						
+					</div>
+
+					<div className="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
+						<p>
+							REDA é uma plataforma dedicada à disponibilização rápida e fácil de conteúdos educativos para qualquer aluno, professor ou utilizador, sem restrições.
+						</p>					
+					</div>					
+				</div>
+			)
+		}
+
 		var settings = {
 			interval: 5000,
 			indicators: true,

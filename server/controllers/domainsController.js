@@ -1,3 +1,4 @@
+const debug = require('debug')('app');
 const models = require('../models/index');
 const config = require('../config/config.json');
 
@@ -61,7 +62,7 @@ exports.listFromSubject = function(req, res, next) {
 		}
 	];
 
-	if (req.query.isRequired){
+	if (req.query.required){
 		includes.push(
 			{
 				seperate: true,
@@ -74,6 +75,8 @@ exports.listFromSubject = function(req, res, next) {
 			}
 		)
 	}
+
+	debug(includes);
 
 	//var filter = { title: { like: '%gone%'}, 'Author.name' : { like : '%paul%' } };
 

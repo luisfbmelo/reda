@@ -36,11 +36,11 @@ var renderList = (list, props) => {
 							</Link>
 							
 							<div className="top-icons fRight">
-								<i className={"fa fa-" + ((el.Favorites && el.Favorites.length>0) ? "heart" : "heart-o")} title="Favorito"></i>
+								
 								<div className="type">
 									<OverlayTrigger placement="left" overlay={tooltip}>
 					      				<span>
-					      					<SvgComponent element={props.config.formatIcons+"/"+el.Format.Image.name+"."+el.Format.Image.extension} color="#b4b4b4"/>
+					      					<SvgComponent element={props.config.formatIcons+"/"+el.Format.Image.name+"."+el.Format.Image.extension} color="#6a696a"/>
 				      					</span>
 				      				</OverlayTrigger>
 								</div>		      				
@@ -62,6 +62,7 @@ var renderList = (list, props) => {
 			      			<div className="fRight right-col">
 								<Link to={"/descobrir/detalhes-recurso/" + el.slug } className="cta primary outline small">Ver Recurso</Link>
 								<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Gerir Guiões</Link>
+								<i className={"action-btn fa fa-" + ((el.isFavorite) ? "heart" : "heart-o")} title="Favorito" onClick={()=> props.setFavorite(el.id)}></i>
 			      				<i className={"action-btn fa fa-" + (el.highlight ? "star" : "star-o")} onClick={()=> props.setHighlight(el.id)} title="Recurso do Mês"></i>
 			      			</div>
 			      		</footer>

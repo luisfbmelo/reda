@@ -142,17 +142,16 @@ exports.search = function(req, res, next){
 		var subjects = req.query.subjects || [];
 		var domains = req.query.domains || [];
 		var tags = req.query.tags || [];
-		var order = req.query.order || null;
-		order = dataUtil.extractOrder(order, models);
+		var order = dataUtil.extractOrder(req.query.order, models) || null;
+		// Check if there is a type of resources (if admin, or personal resources, etc)
+		var resourcesType = req.query.type || null;
 
 		// Set the where clause if is there any format
 		if (formats.length>0){
 			setWhere = {
-				where: {
-					format_id: {
-						$in: formats
-					}
-				}
+				format_id: {
+					$in: formats
+				}				
 			}
 		}else{
 			setWhere = {};
@@ -173,118 +172,154 @@ exports.search = function(req, res, next){
 			}
 		}
 
+		if (resourcesType){
+			switch(resourcesType){
+				case 'myresources':
+					if (!userExists){
+						return res.status(401).send({error: 'Not allowed to access this list of resources'})
+					}
+					setWhere.user_id = userExists.id;
+				break;
+			}
+		}
 
 		// Set includes
 		// SET REQUIRED FALSE in order to avoid INNERJOIN. Good when there is no value to search for and avoid filtering
 		// SET SEPERATE in order to run queries seperatly (M:M associations)
+		// Since there is a need to disable subqueries due to the use of LIMIT, required must be TRUE
 		var includes = [
-			{ 
-				seperate: true, 
-				model: models.Rating,
-				required:false,
-				attributes: []
-			},
-			{ 
-				seperate: true, 
+			{
 				model: models.Format,
-				required: formats.length>0,
+				required: true,
 				include: [{
 	  				seperate: true,
 		  			model: models.Image
 		  		}]
-			},
-			{ 
-				seperate: true, 
-				model: models.Mode,
-				required: modes.length>0,
-				where: {
-					id: {
-						$in: modes
-					}
-				},
-			},
-			{ 
-				seperate: true, 
-				model: models.Year,
-				required: years.length>0,
-				where: {
-					id: {
-						$in: years
-					}
-				},
-			},
-			{ 
-				seperate: true, 
-				model: models.Subject,
-				required: subjects.length>0,
-				where: {
-					id: {
-						$in: subjects
-					}
-				},
-			},
-			{ 
-				seperate: true, 
-				model: models.Domain,
-				required: domains.length>0,
-				where: {
-					id: {
-						$in: domains
-					}
-				},
-			},
-			{ 
-				seperate: true, 
-				model: models.Tag,
-				required: tags.length>0,
-				where: {
-					$or: likeTags,				
-					type: 'RES'
-				},
-			},
-			{ 
-				seperate: true, 
-				model: models.User,
-				required: false,
-				as: 'Favorites',
-				where: {
-					id: userExists.id
-				},
-				attributes: ["id"]
 			}
 		];
 
-		models.Resource.findAndCountAll({	
-			group: ['Resource.id'],			
-	  		attributes: [
-	  			'id',
-		  		'title', 
-		  		'slug', 
-		  		'description', 
-		  		'highlight', 
-		  		'exclusive', 
-		  		'status', 
-		  		'created_at', 
-		  		'updated_at',
-		  		[models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']
-	  		],
+		if (modes.length>0){
+			includes.push(
+				{
+					model: models.Mode,
+					required: true,
+					where: {
+						id: {
+							$in: modes
+						}
+					}
+				}
+			)
+		}
+
+		if (years.length>0){
+			includes.push(
+				{
+					model: models.Year,
+					required: true,
+					where: {
+						id: {
+							$in: years
+						}
+					}
+				}
+			)
+		}
+
+		if (subjects.length>0){
+			includes.push(
+				{
+					model: models.Subject,
+					required: true,
+					where: {
+						id: {
+							$in: subjects
+						}
+					}
+				}
+			)
+		}
+
+		if (domains.length>0){
+			includes.push(
+				{
+					model: models.Domain,
+					required: true,
+					where: {
+						id: {
+							$in: domains
+						}
+					}
+				}
+			)
+		}
+
+		if (tags.length>0){
+			includes.push(
+				{
+					model: models.Tag,
+					required: true,
+					where: {
+						$or: likeTags,				
+						type: 'RES'
+					},
+				}
+			)
+		}
+
+
+		var attributes = [
+  			'id',
+	  		'title', 
+	  		'slug', 
+	  		'description', 
+	  		'highlight', 
+	  		'exclusive', 
+	  		'status', 
+	  		'created_at', 
+	  		'updated_at'
+  		];
+
+  		// Start literals
+  		// 
+  		// 	MUST REFER TO as Resource.id IN ORDER TO THE SYSTEM UNDERSTAND THAT THE QUERY REFERS TO THE
+  		// 	CURRENT RESOURCE FROM EACH ITERATION
+  		// 
+		var literals = [
+			[models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']			
+		];
+
+		// If user exists, check if is favorite
+		if (userExists){
+			literals.push(
+				[models.sequelize.literal('(SELECT IF(ISNULL(resource_favorite.resource_id),0,1) FROM resource_favorite LEFT JOIN Users on Users.id = resource_favorite.user_id WHERE resource_favorite.resource_id = Resource.id AND resource_favorite.user_id='+userExists.id+' LIMIT 1)'), 'isFavorite']
+			)
+		}
+
+		// Set subQuery: false because we have multiple associations, and the limit will give bad results
+		// with a DESC ordering.
+		// More, it was needed to add require:true to each association that is used while filtering
+		models.Resource.findAndCountAll({						
+	  		attributes: attributes.concat(literals),
 	  		include: includes,
 	  		limit: limit,
 			offset: ((page-1)*limit),
-	  		setWhere,
-	  		order: [order]
+	  		where: setWhere,
+	  		order: [order],
+	  		subQuery:false
 		})
 		.then(function(resources){
+			debug(resources);
 	
 			// findAndCount
 			// COUNT - total results without limit and offset
 			// ROWS - total results with limit and offset
 			return res.json({
 				page,
-				totalPages: Math.ceil(resources.count.length/limit),
+				totalPages: Math.ceil(resources.count/limit),
 				limit,
 				count: resources.rows.length,
-				total: resources.count.length, 
+				total: resources.count, 
 				result: resources.rows
 			});
 		}).catch(function(err){
@@ -301,8 +336,9 @@ exports.details = function(req, res, next){
 
 	// Check AUTH
 	jwtUtil.userExists(req, res, req.headers.authorization)
-	.then(function(userExists){
+	.then(function(userExists){		
 
+		// Duplicate includes
 		var detailsIncludes = includes.slice(0);
 
 		// Set includes
@@ -315,7 +351,10 @@ exports.details = function(req, res, next){
 				where: {
 					id: userExists.id
 				},
-				attributes: ["id"]
+				attributes: ["id"],
+				through: {
+					attributes: []
+				}
 			},
 			{
 				seperate: true, 
@@ -372,17 +411,31 @@ exports.details = function(req, res, next){
 			}
 		);
 
+		// Start literals
+  		// 
+  		// 	MUST REFER TO as Resource.id IN ORDER TO THE SYSTEM UNDERSTAND THAT THE QUERY REFERS TO THE
+  		// 	CURRENT RESOURCE FROM EACH ITERATION
+  		// 
+		var literals = [
+			[models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']			
+		];
+
+		// If user exists, check if is favorite
+		if (userExists){
+			literals.push(
+				[models.sequelize.literal('(SELECT IF(ISNULL(resource_favorite.resource_id),0,1) FROM resource_favorite LEFT JOIN Users on Users.id = resource_favorite.user_id WHERE resource_favorite.resource_id = Resource.id AND resource_favorite.user_id='+userExists.id+' LIMIT 1)'), 'isFavorite']
+			)
+		}
+
 		models.Resource.findOne({
 			group: ['Resource.id'],
-			attributes: Object.keys(models.Resource.attributes).concat([
-	            [models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']
-	        ]),
+			attributes: Object.keys(models.Resource.attributes).concat(literals),
 			include: detailsIncludes,
 			where: {slug}
 		})
 		.then(function(resource){
 			// Check if is exclusive and user is not loggedin
-			if (resource.exclusive==true && !userExists){
+			if (resource && resource.exclusive==true && !userExists){
 				return res.status(401).send({error: 'Not allowed to access this resource'})
 			}
 

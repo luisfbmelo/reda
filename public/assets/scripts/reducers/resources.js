@@ -13,6 +13,7 @@ import {
   RESOURCE_SUCCESS,
   RESOURCE_FAILURE,
   RESOURCE_RESET,
+  TOGGLE_FAVORITE_RESOURCE,
   RELATED_RESOURCES_REQUEST, 
   RELATED_RESOURCES_SUCCESS,
   RELATED_RESOURCES_FAILURE,
@@ -84,6 +85,13 @@ export function resources(state = INITIAL_STATE, action) {
         data: state.data.map(item => resource(item, action))
       })
 
+    case TOGGLE_FAVORITE_RESOURCE:
+      
+      // CALL SINGLE RESOURCE REDUCER TO MAKE THE CHANGE
+      return assign({}, state, {
+        data: state.data.map(item => resource(item, action))
+      })
+
     default:
       return state;
   }
@@ -120,6 +128,14 @@ export function resource(state = INITIAL_STATE, action) {
 
       return assign({}, state, {
         highlight: !state.highlight
+      });
+    case TOGGLE_FAVORITE_RESOURCE:
+      if (state.id != action.id){
+        return state;
+      }
+
+      return assign({}, state, {
+        isFavorite: !state.isFavorite
       });
     default:
       return state;

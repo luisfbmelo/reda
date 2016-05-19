@@ -1,8 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import { searchResources } from '../../actions/resources';
 import { fetchFormats } from '../../actions/formats';
 import { fetchConfig } from '../../actions/config';
+import { setFilters } from '../../actions/filters';
 import { bindActionCreators } from 'redux';
 import FormatsBanner from '../../components/formats';
 
@@ -14,7 +16,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) { 
-  return bindActionCreators({ fetchFormats, fetchConfig }, dispatch);
+  return bindActionCreators({ 
+  	fetchFormats, 
+  	fetchConfig,
+  	searchResources, 
+  	setFilters
+  }, dispatch);
 }
 
 

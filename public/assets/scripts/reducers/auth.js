@@ -21,7 +21,10 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data,
+        data: {
+          token: action.data.token,
+          user: action.data.user
+        },
         isAuthenticated: true
       })
     case LOGIN_FAILURE:

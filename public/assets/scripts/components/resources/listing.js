@@ -8,6 +8,7 @@ import { ResourcesList } from './common/list';
 import ResourcesOrdering from './common/order';
 import SearchBar from '../search/searchBar';
 import ResourcesFilters from '../../containers/filters';
+import IsNotAuthenticated from '../../containers/auth/isNotAuth';
 import LoginButton from '../auth/loginButton';
 import ProtectedButton from '../auth/protectedButton';
 import { Pagination, Alert, Button } from 'react-bootstrap';
@@ -32,6 +33,7 @@ export default class ResourcesListing extends Component {
 		this.onListOrder = this.onListOrder.bind(this);
 		this.onFilterChange = this.onFilterChange.bind(this);
 		this.setHighlight = this.setHighlight.bind(this);
+		this.setFavorite = this.setFavorite.bind(this);
 
 		//
 		//	Handle all changes
@@ -52,7 +54,7 @@ export default class ResourcesListing extends Component {
 		}else{
 			this.setState({
 				activePage: 1,
-				tags: this.props.filters.filters.tags
+				tags: this.props.filters.filters && this.props.filters.filters.tags ? this.props.filters.filters.tags : []
 			});
 		}
 
@@ -60,6 +62,7 @@ export default class ResourcesListing extends Component {
 		this.props.fetchConfig();		
 	}
 
+	// Clear resources on unmount
 	componentWillUnmount() {
 	 	this.props.resetResources();     
 	}
@@ -83,7 +86,7 @@ export default class ResourcesListing extends Component {
 
 	// When filters change
 	onFilterChange(filters){
-		this.setState({filters});
+		this.setState({filters, activePage: 1});
 	}
 
 	// Handle pagination
@@ -98,7 +101,8 @@ export default class ResourcesListing extends Component {
     // Handle list ordering
     onListOrder(order){
     	this.setState({
-			order
+			order,
+			activePage: 1
 		});
     }
 
@@ -110,15 +114,19 @@ export default class ResourcesListing extends Component {
     // Handle tags change to search by tag
     onChangeTags(tags){
     	this.setState({
-			tags
+			tags,
+			activePage: 1
 		});
     }
 
     // Set as highlighted
     setHighlight(resourceId){
-    	/* REQUEST UPDATE AS HIGHLIGHT AND GET THE NEW ITEM IN THE REDUCER IN ORDER TO RE-RENDER */
-    	//console.log(this.props);
     	this.props.setHighlight(resourceId);
+    }
+
+    // Set as favorite
+    setFavorite(resourceId){
+    	this.props.setFavorite(resourceId);
     }
 
     // Alert that user is not authenticated
@@ -195,7 +203,9 @@ export default class ResourcesListing extends Component {
 							</section>
 
 							{/* Warnings */}
-							{!this.props.auth.isAuthenticated ? this.renderAlert() : ""}
+							<IsNotAuthenticated>
+								{this.renderAlert()}
+							</IsNotAuthenticated>
 
 							{/* Resources List */}
 							<ResourcesList 
@@ -205,6 +215,7 @@ export default class ResourcesListing extends Component {
 								addscript 
 								isAuthenticated={isAuthenticated} 
 								setHighlight={this.setHighlight} 
+								setFavorite={this.setFavorite}
 								/>
 
 							{/* Pagination */}

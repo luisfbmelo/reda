@@ -16,7 +16,7 @@ var renderList = (list, props) => {
 	let maxcol = props.maxcol || 4;
 	let classColCount = Math.floor(12/maxcol);
 
-	const { addscript, viewmore, isAuthenticated, setHighlight } = props;
+	const { addscript, viewmore, isAuthenticated, setHighlight, setFavorite } = props;
 
 	return list.map((el, index) => {
 		return <ResourceElement 
@@ -30,6 +30,7 @@ var renderList = (list, props) => {
 			key={index} 
 			config={props.config}
 			setHighlight={setHighlight}
+			setFavorite={setFavorite}
 		/>
     });
 }

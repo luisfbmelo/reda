@@ -59,13 +59,13 @@ export function loginUser(props){
 	        return response.json();
 		})
 		.then(json => {
-			console.log(json);
+
 			// If login was successful, set the token in local storage
           	localStorage.setItem('token', json.token);
           	localStorage.setItem('user', JSON.stringify(json.user));
 
 			dispatch(alertActions.addAlert(alertMessages.ALERT_LOGIN_SUCCESS, alertMessages.SUCCESS))
-	        dispatch(receiveLogin(json.token));			
+	        dispatch(receiveLogin(json));			
 		})
 		.catch(errors => {
 			dispatch(loginError(errors));

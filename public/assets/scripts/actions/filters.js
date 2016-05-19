@@ -41,6 +41,7 @@ export function searchResourcesFilters(filters){
 	return {
 		[CALL_API]: {
 		  endpoint: 'resources/search?'+toQueryString(filters),
+		  sendToken: true,
 		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
 		}
 	}

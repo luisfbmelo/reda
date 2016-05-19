@@ -20,6 +20,7 @@ import {
 	RESOURCE_SUCCESS,
 	RESOURCE_FAILURE,
 	RESOURCE_RESET,	
+	TOGGLE_FAVORITE_RESOURCE,
 	RELATED_RESOURCES_REQUEST, 
 	RELATED_RESOURCES_SUCCESS,
 	RELATED_RESOURCES_FAILURE,
@@ -66,24 +67,6 @@ export function setHighlight(resourceId){
 }
 
 export function fetchHighlights(params){
-	/*return dispatch => {
-		dispatch(requestHighlights());
-
-		return fetch('/assets/scripts/dummy.json')
-		.then(response => {
-			if (response.status >= 400) {
-	          throw new Error('Bad response');
-	        }
-	        return response.json();
-		})
-		.then(json => {
-			dispatch(receiveHighlights(json.highlights));
-		})
-		.catch(message => {
-			dispatch(highlightsError(message));
-		})
-	}*/
-
 	return {
 		[CALL_API]: {
 		  endpoint: 'resources/highlight',
@@ -151,10 +134,24 @@ export function fetchResources(type, params){
 	}
 }
 
+// search resources with specific params
 export function searchResources(filters){
 	return {
 		[CALL_API]: {
 		  endpoint: 'resources/search?'+complexToQueryString(filters),
+		  sendToken: true,
+		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
+		}
+	}
+}
+
+// dashboard myResources
+export function fetchMyResources(filters){
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources/search?type=myresources&'+complexToQueryString(filters),
+		  sendToken: true,
+		  mustAuth: true,
 		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
 		}
 	}
@@ -184,6 +181,13 @@ function resourceError(message){
 export function resetResource(){
 	return {
 		type: RESOURCE_RESET
+	}
+}
+
+export function setFavorite(resourceId){
+	return {
+		type: TOGGLE_FAVORITE_RESOURCE,
+		id: resourceId
 	}
 }
 

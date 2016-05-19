@@ -7,6 +7,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(100),
 			allowNull: false
 		},
+		type: {
+			type: DataTypes.STRING(100),
+			allowNull: false
+		},
 		status: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,

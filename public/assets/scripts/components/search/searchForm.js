@@ -33,9 +33,17 @@ export default class SearchForm extends Component {
 	}
 
 	componentDidMount(){
-		this.props.fetchYears();
-		this.props.fetchSubjects();
-		this.props.fetchFormats();
+		this.props.fetchYears(true);
+		this.props.fetchSubjects(true);
+		this.props.fetchFormats(true);
+	}
+
+	// Reset form on unmount
+	componentWillUnmount() {
+	    this.props.resetYears()
+	    this.props.resetSubjects();
+	    this.props.resetFormats();
+	    this.props.resetDomains();
 	}
 
 	// Submit search
@@ -54,10 +62,10 @@ export default class SearchForm extends Component {
 	//Handle subject change
 	onSubjectChange(subject){
 		this.setState({
-			subjects: subject.target.value,
+			subjects: [parseInt(subject.target.value)],
 			domains: null
 		});
-		this.props.fetchDomainsFromSubject(subject.target.value);
+		this.props.fetchDomainsFromSubject(subject.target.value, true);
 	}
 
 	calcColCount(cols){
@@ -132,21 +140,21 @@ export default class SearchForm extends Component {
 						</div>
 
 						<div className={"col-xs-6 col-sm-4 col-md-3"}>
-							<select className="form-control" disabled={!domains.data || domains.data.length==0} value={this.state.domains} onChange={item => this.setState({domains: item.target.value})}>
+							<select className="form-control" disabled={!domains.data || domains.data.length==0} value={this.state.domains} onChange={item => this.setState({domains: [parseInt(item.target.value)]})}>
 								<option value="" default>Domínio</option>
 								{this.renderDomains()}
 							</select>
 						</div>
 
 						<div className={"col-xs-6 col-sm-4 col-md-2"}>
-							<select className="form-control" value={this.state.formats} onChange={item => this.setState({formats: item.target.value})}>
+							<select className="form-control" value={this.state.formats} onChange={item => this.setState({formats: [parseInt(item.target.value)]})}>
 								<option value="" default>Formato</option>
 								{this.renderFormats()}
 							</select>
 						</div>
 
 						<div className={"col-xs-6 col-sm-4 col-md-2"}>
-							<select className="form-control" value={this.state.years} onChange={item => this.setState({years: item.target.value})}>
+							<select className="form-control" value={this.state.years} onChange={item => this.setState({years: [parseInt(item.target.value)]})}>
 								<option value="" default>Ano</option>
 								{this.renderYears()}
 							</select>

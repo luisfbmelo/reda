@@ -102,6 +102,7 @@ var RESOURCE_REQUEST = exports.RESOURCE_REQUEST = 'RESOURCE_REQUEST';
 var RESOURCE_SUCCESS = exports.RESOURCE_SUCCESS = 'RESOURCE_SUCCESS';
 var RESOURCE_FAILURE = exports.RESOURCE_FAILURE = 'RESOURCE_FAILURE';
 var RESOURCE_RESET = exports.RESOURCE_RESET = 'RESOURCE_RESET';
+var TOGGLE_FAVORITE_RESOURCE = exports.TOGGLE_FAVORITE_RESOURCE = 'TOGGLE_FAVORITE_RESOURCE';
 
 // RELATED RESOURCES
 var RELATED_RESOURCES_REQUEST = exports.RELATED_RESOURCES_REQUEST = 'RELATED_RESOURCES_REQUEST';
@@ -301,13 +302,13 @@ function loginUser(props) {
 
 			return response.json();
 		}).then(function (json) {
-			console.log(json);
+
 			// If login was successful, set the token in local storage
 			localStorage.setItem('token', json.token);
 			localStorage.setItem('user', JSON.stringify(json.user));
 
 			dispatch(alertActions.addAlert(alertMessages.ALERT_LOGIN_SUCCESS, alertMessages.SUCCESS));
-			dispatch(receiveLogin(json.token));
+			dispatch(receiveLogin(json));
 		}).catch(function (errors) {
 			dispatch(loginError(errors));
 		});
@@ -639,6 +640,7 @@ function resetFilters() {
 function searchResourcesFilters(filters) {
 	return _defineProperty({}, _api.CALL_API, {
 		endpoint: 'resources/search?' + (0, _utils.toQueryString)(filters),
+		sendToken: true,
 		types: [_actionTypes.RESOURCES_REQUEST, _actionTypes.RESOURCES_SUCCESS, _actionTypes.RESOURCES_FAILURE]
 	});
 }
@@ -822,7 +824,9 @@ exports.fetchHighlights = fetchHighlights;
 exports.resetResources = resetResources;
 exports.fetchResources = fetchResources;
 exports.searchResources = searchResources;
+exports.fetchMyResources = fetchMyResources;
 exports.resetResource = resetResource;
+exports.setFavorite = setFavorite;
 exports.fetchResource = fetchResource;
 exports.resetRelatedResources = resetRelatedResources;
 exports.fetchRelatedResources = fetchRelatedResources;
@@ -890,23 +894,6 @@ function setHighlight(resourceId) {
 }
 
 function fetchHighlights(params) {
-	/*return dispatch => {
- 	dispatch(requestHighlights());
- 		return fetch('/assets/scripts/dummy.json')
- 	.then(response => {
- 		if (response.status >= 400) {
-           throw new Error('Bad response');
-         }
-         return response.json();
- 	})
- 	.then(json => {
- 		dispatch(receiveHighlights(json.highlights));
- 	})
- 	.catch(message => {
- 		dispatch(highlightsError(message));
- 	})
- }*/
-
 	return _defineProperty({}, _api.CALL_API, {
 		endpoint: 'resources/highlight',
 		sendToken: true,
@@ -969,9 +956,21 @@ function fetchResources(type, params) {
 	});
 }
 
+// search resources with specific params
 function searchResources(filters) {
 	return _defineProperty({}, _api.CALL_API, {
 		endpoint: 'resources/search?' + (0, _utils.complexToQueryString)(filters),
+		sendToken: true,
+		types: [_actionTypes.RESOURCES_REQUEST, _actionTypes.RESOURCES_SUCCESS, _actionTypes.RESOURCES_FAILURE]
+	});
+}
+
+// dashboard myResources
+function fetchMyResources(filters) {
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'resources/search?type=myresources&' + (0, _utils.complexToQueryString)(filters),
+		sendToken: true,
+		mustAuth: true,
 		types: [_actionTypes.RESOURCES_REQUEST, _actionTypes.RESOURCES_SUCCESS, _actionTypes.RESOURCES_FAILURE]
 	});
 }
@@ -1000,6 +999,13 @@ function resourceError(message) {
 function resetResource() {
 	return {
 		type: _actionTypes.RESOURCE_RESET
+	};
+}
+
+function setFavorite(resourceId) {
+	return {
+		type: _actionTypes.TOGGLE_FAVORITE_RESOURCE,
+		id: resourceId
 	};
 }
 
@@ -1370,8 +1376,9 @@ var store = (0, _redux.applyMiddleware)(_reduxThunk2.default, _api2.default)(_re
 
 
 var token = localStorage.getItem('token');
-if (token !== null) {
-  store.dispatch((0, _auth.receiveLogin)(token));
+var user = JSON.parse(localStorage.getItem('user'));
+if (token !== null && user !== null) {
+  store.dispatch((0, _auth.receiveLogin)({ token: token, user: user }));
 }
 
 _reactDom2.default.render(_react2.default.createElement(
@@ -3169,7 +3176,6 @@ var renderList = function renderList(list, props) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'top-icons fRight' },
-							_react2.default.createElement('i', { className: "fa fa-" + (el.Favorites && el.Favorites.length > 0 ? "heart" : "heart-o"), title: 'Favorito' }),
 							_react2.default.createElement(
 								'div',
 								{ className: 'type' },
@@ -3179,7 +3185,7 @@ var renderList = function renderList(list, props) {
 									_react2.default.createElement(
 										'span',
 										null,
-										_react2.default.createElement(_svg2.default, { element: props.config.formatIcons + "/" + el.Format.Image.name + "." + el.Format.Image.extension, color: '#b4b4b4' })
+										_react2.default.createElement(_svg2.default, { element: props.config.formatIcons + "/" + el.Format.Image.name + "." + el.Format.Image.extension, color: '#6a696a' })
 									)
 								)
 							)
@@ -3222,6 +3228,9 @@ var renderList = function renderList(list, props) {
 								{ to: "/gerirguioes/" + el.id, className: 'cta primary outline small' },
 								'Gerir Guiões'
 							),
+							_react2.default.createElement('i', { className: "action-btn fa fa-" + (el.isFavorite ? "heart" : "heart-o"), title: 'Favorito', onClick: function onClick() {
+									return props.setFavorite(el.id);
+								} }),
 							_react2.default.createElement('i', { className: "action-btn fa fa-" + (el.highlight ? "star" : "star-o"), onClick: function onClick() {
 									return props.setHighlight(el.id);
 								}, title: 'Recurso do Mês' })
@@ -3305,20 +3314,34 @@ var MyResources = function (_Component) {
 	function MyResources(props) {
 		_classCallCheck(this, MyResources);
 
+		//
+		//	Event handlers
+		//
+
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(MyResources).call(this, props));
 
 		_this.onChangePage = _this.onChangePage.bind(_this);
+		_this.onChangeTags = _this.onChangeTags.bind(_this);
+		_this.onListOrder = _this.onListOrder.bind(_this);
+		_this.onSearchSubmit = _this.onSearchSubmit.bind(_this);
 		_this.setHighlight = _this.setHighlight.bind(_this);
+		_this.setFavorite = _this.setFavorite.bind(_this);
 		_this.filterList = _this.filterList.bind(_this);
 
+		//
 		// Resources actions
+		//
 		_this.checkAllResources = _this.checkAllResources.bind(_this);
 		_this.checkEl = _this.checkEl.bind(_this);
 		_this.delList = _this.delList.bind(_this);
 		_this.delEl = _this.delEl.bind(_this);
 
+		_this.requestMyResources = _this.requestMyResources.bind(_this);
+
 		_this.state = {
 			activePage: 1,
+			tags: [],
+			order: "recent",
 			checkedResources: [],
 			checkAll: false
 		};
@@ -3330,12 +3353,44 @@ var MyResources = function (_Component) {
 		value: function componentDidMount() {
 			var _this2 = this;
 
-			this.props.fetchResources('search').then(function () {
+			this.props.fetchMyResources().then(function () {
 				_this2.setState({ activePage: _this2.props.resources.curPage || 1 });
 			});
 			this.props.fetchConfig();
 
 			this.onChangePage(1);
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate(prevProps, prevState) {
+			var _state = this.state;
+			var activePage = _state.activePage;
+			var tags = _state.tags;
+			var order = _state.order;
+
+			// Request new resources if there is any change AND tags didn't change.
+			// This avoids request new resources each time adding a new tag in the input. It is required to press the button
+
+			if ((prevState.activePage !== activePage || prevState.order !== order) && prevState.tags == tags) {
+				this.requestMyResources();
+			}
+		}
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			this.props.resetFilters();
+			this.props.resetResources();
+		}
+	}, {
+		key: 'requestMyResources',
+		value: function requestMyResources() {
+			var _state2 = this.state;
+			var activePage = _state2.activePage;
+			var tags = _state2.tags;
+			var order = _state2.order;
+
+
+			this.props.fetchMyResources({ activePage: activePage, tags: tags, order: order });
 		}
 
 		// Handle pagination
@@ -3355,15 +3410,29 @@ var MyResources = function (_Component) {
 	}, {
 		key: 'onListOrder',
 		value: function onListOrder(order) {
-			console.log(order);
+			this.setState({
+				order: order,
+				activePage: 1
+			});
 		}
 
 		// Search resources by keyword
 
 	}, {
 		key: 'onSearchSubmit',
-		value: function onSearchSubmit(keyword) {
-			console.log(keyword);
+		value: function onSearchSubmit() {
+			this.requestMyResources();
+		}
+
+		// Handle tags change to search by tag
+
+	}, {
+		key: 'onChangeTags',
+		value: function onChangeTags(tags) {
+			this.setState({
+				tags: tags,
+				activePage: 1
+			});
 		}
 
 		// Set as highlighted
@@ -3371,9 +3440,15 @@ var MyResources = function (_Component) {
 	}, {
 		key: 'setHighlight',
 		value: function setHighlight(resourceId) {
-			/* REQUEST UPDATE AS HIGHLIGHT AND GET THE NEW ITEM IN THE REDUCER IN ORDER TO RE-RENDER */
-			//console.log(this.props);
 			this.props.setHighlight(resourceId);
+		}
+
+		// Set as favorite
+
+	}, {
+		key: 'setFavorite',
+		value: function setFavorite(resourceId) {
+			this.props.setFavorite(resourceId);
 		}
 
 		// Check elements
@@ -3456,6 +3531,9 @@ var MyResources = function (_Component) {
 		value: function delEl(id) {
 			console.log(id);
 		}
+
+		// Apply Filters
+
 	}, {
 		key: 'filterList',
 		value: function filterList() {
@@ -3500,7 +3578,7 @@ var MyResources = function (_Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'col-xs-12 filter-container' },
-								_react2.default.createElement(_search2.default, { searchKeywords: false, buttonText: 'Filtrar', iconClass: 'fa fa-filter', onSubmit: this.filterList })
+								_react2.default.createElement(_search2.default, { searchTags: false, buttonText: 'Filtrar', iconClass: 'fa fa-filter', onSubmit: this.filterList })
 							)
 						),
 						_react2.default.createElement(
@@ -3509,7 +3587,7 @@ var MyResources = function (_Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'col-xs-12 text-center' },
-								_react2.default.createElement(_searchBar2.default, { onSubmit: this.onSearchSubmit, className: 'resources-search' })
+								_react2.default.createElement(_searchBar2.default, { onSubmit: this.onSearchSubmit, onChangeTags: this.onChangeTags, tags: this.state.tags, className: 'resources-search' })
 							)
 						),
 						_react2.default.createElement(
@@ -3537,6 +3615,7 @@ var MyResources = function (_Component) {
 							list: this.props.resources,
 							user: this.props.auth.data,
 							setHighlight: this.setHighlight,
+							setFavorite: this.setFavorite,
 							checkedList: this.state.checkedResources,
 							checkEl: this.checkEl,
 							allChecked: this.state.checkAll,
@@ -3600,7 +3679,10 @@ var FormatsBanner = function (_Component) {
 	function FormatsBanner(props) {
 		_classCallCheck(this, FormatsBanner);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(FormatsBanner).call(this, props));
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FormatsBanner).call(this, props));
+
+		_this.onFilter = _this.onFilter.bind(_this);
+		return _this;
 	}
 
 	_createClass(FormatsBanner, [{
@@ -3610,12 +3692,58 @@ var FormatsBanner = function (_Component) {
 			this.props.fetchConfig();
 		}
 	}, {
+		key: 'onFilter',
+		value: function onFilter(selectedFormat) {
+			var _this2 = this;
+
+			var formats = this.props.formats;
+
+
+			var formatsToUse = [selectedFormat.id];
+
+			if (formats.data && selectedFormat.type && selectedFormat.type == 'others') {
+				formatsToUse.length = 0;
+
+				var _iteratorNormalCompletion = true;
+				var _didIteratorError = false;
+				var _iteratorError = undefined;
+
+				try {
+					for (var _iterator = formats.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+						var item = _step.value;
+
+						if (item.type != 'others') {
+							formatsToUse.push(item.id);
+						};
+					}
+				} catch (err) {
+					_didIteratorError = true;
+					_iteratorError = err;
+				} finally {
+					try {
+						if (!_iteratorNormalCompletion && _iterator.return) {
+							_iterator.return();
+						}
+					} finally {
+						if (_didIteratorError) {
+							throw _iteratorError;
+						}
+					}
+				}
+			}
+
+			this.props.searchResources({ formats: formatsToUse }).then(function () {
+				_this2.props.setFilters({ formats: formatsToUse });
+				_this2.context.router.push('/descobrir');
+			});
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'formats' },
-				_react2.default.createElement(_list.FormatsList, { formats: this.props.formats, config: this.props.config })
+				_react2.default.createElement(_list.FormatsList, { formats: this.props.formats, onFilter: this.onFilter, config: this.props.config })
 			);
 		}
 	}]);
@@ -3627,7 +3755,11 @@ exports.default = FormatsBanner;
 
 
 FormatsBanner.propTypes = {
-	formats: _react2.default.PropTypes.object.isRequired
+	formats: _react.PropTypes.object.isRequired
+};
+
+FormatsBanner.contextTypes = {
+	router: _react.PropTypes.object
 };
 
 },{"./list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\list.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\list.js":[function(require,module,exports){
@@ -3646,21 +3778,19 @@ var _reactRouter = require('react-router');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var renderList = function renderList(list, config) {
+var renderList = function renderList(list, config, onFilter) {
 	return _.sortBy(list, 'priority').map(function (format, index) {
 		if (index <= 5) {
 			return _react2.default.createElement(
 				'article',
-				{ className: 'col-xs-6 col-sm-3 col-md-2 formats__element', key: format.id },
+				{ className: 'col-xs-6 col-sm-3 col-md-2 formats__element', key: format.id, onClick: function onClick() {
+						return onFilter(format);
+					} },
+				_react2.default.createElement('img', { src: config.formatIcons + "/" + format.Image.name + "." + format.Image.extension, alt: format.Image.alt, className: 'img-responsive' }),
 				_react2.default.createElement(
-					_reactRouter.Link,
-					{ to: 'descobrir?formato=' + format.id },
-					_react2.default.createElement('img', { src: config.formatIcons + "/" + format.Image.name + "." + format.Image.extension, alt: format.Image.alt, className: 'img-responsive' }),
-					_react2.default.createElement(
-						'span',
-						null,
-						format.title
-					)
+					'span',
+					null,
+					format.title
 				)
 			);
 		}
@@ -3668,7 +3798,12 @@ var renderList = function renderList(list, config) {
 };
 
 var FormatsList = exports.FormatsList = function FormatsList(props) {
-	if (!props.formats || !props.formats.data || props.formats.fetching) {
+	var formats = props.formats;
+	var config = props.config;
+	var onFilter = props.onFilter;
+
+
+	if (!formats || !formats.data || formats.fetching) {
 		return _react2.default.createElement('div', null);
 	}
 
@@ -3678,13 +3813,15 @@ var FormatsList = exports.FormatsList = function FormatsList(props) {
 		_react2.default.createElement(
 			'div',
 			{ className: 'row' },
-			renderList(props.formats.data, props.config.data)
+			renderList(formats.data, config.data, onFilter)
 		)
 	);
 };
 
 FormatsList.propTypes = {
-	formats: _react2.default.PropTypes.object.isRequired
+	formats: _react2.default.PropTypes.object.isRequired,
+	config: _react2.default.PropTypes.object.isRequired,
+	onFilter: _react2.default.PropTypes.func.isRequired
 };
 
 },{"react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js":[function(require,module,exports){
@@ -4918,7 +5055,8 @@ var ResourcesFilters = function (_Component) {
 			subjects: [],
 			domains: [],
 			years: [],
-			access: []
+			access: [],
+			update: false
 		};
 
 		//
@@ -4949,11 +5087,11 @@ var ResourcesFilters = function (_Component) {
 	_createClass(ResourcesFilters, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			this.props.fetchFormats();
-			this.props.fetchSubjects();
-			this.props.fetchDomains();
-			this.props.fetchYears();
-			this.props.fetchAccess();
+			this.props.fetchFormats(true);
+			this.props.fetchSubjects(true);
+			this.props.fetchDomains(true);
+			this.props.fetchYears(true);
+			this.props.fetchAccess(true);
 
 			// Are there any filters?
 			if (this.props.filters.filters != null) {
@@ -4971,12 +5109,24 @@ var ResourcesFilters = function (_Component) {
 				});
 			}
 		}
+
+		// Reset filters on unmount
+
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			this.props.resetYears();
+			this.props.resetSubjects();
+			this.props.resetFormats();
+			this.props.resetDomains();
+			this.props.resetAccess();
+		}
 	}, {
 		key: 'componentDidUpdate',
 		value: function componentDidUpdate(prevProps, prevState) {
 
 			//If previous state is different, then warn container
-			if (prevState != this.state) {
+			if (this.state.update) {
 				this.submitFilters();
 			}
 		}
@@ -4988,7 +5138,16 @@ var ResourcesFilters = function (_Component) {
 	}, {
 		key: 'submitFilters',
 		value: function submitFilters() {
-			this.props.onFilterChange(this.state);
+			var _state = this.state;
+			var formats = _state.formats;
+			var subjects = _state.subjects;
+			var domains = _state.domains;
+			var years = _state.years;
+			var access = _state.access;
+
+
+			this.props.onFilterChange({ formats: formats, subjects: subjects, domains: domains, years: years, access: access });
+			this.setState({ update: false });
 		}
 
 		//
@@ -4999,35 +5158,40 @@ var ResourcesFilters = function (_Component) {
 		key: 'formatChange',
 		value: function formatChange(data) {
 			this.setState({
-				formats: data
+				formats: data,
+				update: true
 			});
 		}
 	}, {
 		key: 'subjectChange',
 		value: function subjectChange(data) {
 			this.setState({
-				subjects: data
+				subjects: data,
+				update: true
 			});
 		}
 	}, {
 		key: 'domainChange',
 		value: function domainChange(data) {
 			this.setState({
-				domains: data
+				domains: data,
+				update: true
 			});
 		}
 	}, {
 		key: 'yearChange',
 		value: function yearChange(data) {
 			this.setState({
-				years: data
+				years: data,
+				update: true
 			});
 		}
 	}, {
 		key: 'accessChange',
 		value: function accessChange(data) {
 			this.setState({
-				access: data
+				access: data,
+				update: true
 			});
 		}
 
@@ -5315,6 +5479,7 @@ var renderList = function renderList(list, props) {
 	var viewmore = props.viewmore;
 	var isAuthenticated = props.isAuthenticated;
 	var setHighlight = props.setHighlight;
+	var setFavorite = props.setFavorite;
 
 
 	return list.map(function (el, index) {
@@ -5328,7 +5493,8 @@ var renderList = function renderList(list, props) {
 			index: index,
 			key: index,
 			config: props.config,
-			setHighlight: setHighlight
+			setHighlight: setHighlight,
+			setFavorite: setFavorite
 		});
 	});
 };
@@ -5477,6 +5643,14 @@ var _protectedButton = require('../../auth/protectedButton');
 
 var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
+var _isAuth = require('../../../containers/auth/isAuth');
+
+var _isAuth2 = _interopRequireDefault(_isAuth);
+
+var _isAdmin = require('../../../containers/auth/isAdmin');
+
+var _isAdmin2 = _interopRequireDefault(_isAdmin);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 //
@@ -5546,10 +5720,25 @@ var optionsRender = function optionsRender(el, isAuthenticated, addscript, viewm
 //
 //	Render favorite button
 //
-var renderFav = function renderFav(el, isAuthenticated, setHighlight) {
-	if (isAuthenticated) {
-		return _react2.default.createElement('i', { className: "list__element--fav fa fa-" + (el.Favorites && el.Favorites.length > 0 ? "heart" : "heart-o"), title: 'Favorito', onClick: setHighlight });
-	}
+var renderAuthOptions = function renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite) {
+	return _react2.default.createElement(
+		_isAuth2.default,
+		null,
+		_react2.default.createElement(
+			'div',
+			{ className: 'list__element--fav' },
+			_react2.default.createElement('i', { className: "fa fa-" + (el.isFavorite ? "heart" : "heart-o"), title: 'Favorito', onClick: function onClick() {
+					return setFavorite(el.id);
+				} }),
+			_react2.default.createElement(
+				_isAdmin2.default,
+				null,
+				_react2.default.createElement('i', { className: "fa fa-" + (el.highlight ? "star" : "star-o"), title: 'Recurso do Mês', onClick: function onClick() {
+						return setHighlight(el.id);
+					} })
+			)
+		)
+	);
 };
 
 var ResourceElement = exports.ResourceElement = function ResourceElement(props) {
@@ -5567,6 +5756,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 	var maxcol = props.maxcol;
 	var config = props.config;
 	var setHighlight = props.setHighlight;
+	var setFavorite = props.setFavorite;
 
 	// Clearfix classes
 
@@ -5588,7 +5778,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 		_react2.default.createElement(
 			'div',
 			{ className: 'list__element' },
-			renderFav(el, isAuthenticated, setHighlight),
+			renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite),
 			renderProtected(_react2.default.createElement(
 				'header',
 				null,
@@ -5621,11 +5811,11 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 						_react2.default.createElement(
 							'span',
 							null,
-							_react2.default.createElement(_svg2.default, { element: config.formatIcons + "/" + el.Format.Image.name + "." + el.Format.Image.extension, color: '#b4b4b4' })
+							_react2.default.createElement(_svg2.default, { element: config.formatIcons + "/" + el.Format.Image.name + "." + el.Format.Image.extension, color: '#6a696a' })
 						)
 					)
 				)
-			), "/descobrir/detalhes-recurso/" + el.id, props)
+			), "/descobrir/detalhes-recurso/" + el.slug, props)
 		)
 	);
 };
@@ -5640,7 +5830,7 @@ ResourceElement.propTypes = {
 	config: _react.PropTypes.object
 };
 
-},{"../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js":[function(require,module,exports){
+},{"../../../containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","../../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5849,7 +6039,7 @@ var ResourceDetails = function (_Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'rating' },
-								_react2.default.createElement(_rating2.default, { initialRate: (0, _utils.getAvg)(resource.Ratings), readonly: !isAuthenticated })
+								_react2.default.createElement(_rating2.default, { initialRate: resource.ratingAvg, readonly: !isAuthenticated })
 							),
 							this.printMeta("Autor", resource.author),
 							this.printMeta("Organização", resource.organization),
@@ -6276,6 +6466,37 @@ var ResourceHighlights = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _props$highlights = this.props.highlights;
+			var data = _props$highlights.data;
+			var fetched = _props$highlights.fetched;
+			var isFetching = _props$highlights.isFetching;
+
+
+			if (!fetched || !data || data.length == 0 || isFetching) {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'container no-highlights-header' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 text-center' },
+						_react2.default.createElement(
+							'h1',
+							null,
+							'Bem vindo à plataforma REDA'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 col-sm-6 col-sm-offset-3 text-center' },
+						_react2.default.createElement(
+							'p',
+							null,
+							'REDA é uma plataforma dedicada à disponibilização rápida e fácil de conteúdos educativos para qualquer aluno, professor ou utilizador, sem restrições.'
+						)
+					)
+				);
+			}
+
 			var settings = {
 				interval: 5000,
 				indicators: true,
@@ -6331,6 +6552,10 @@ var _filters = require('../../containers/filters');
 
 var _filters2 = _interopRequireDefault(_filters);
 
+var _isNotAuth = require('../../containers/auth/isNotAuth');
+
+var _isNotAuth2 = _interopRequireDefault(_isNotAuth);
+
 var _loginButton = require('../auth/loginButton');
 
 var _loginButton2 = _interopRequireDefault(_loginButton);
@@ -6376,6 +6601,7 @@ var ResourcesListing = function (_Component) {
 		_this.onListOrder = _this.onListOrder.bind(_this);
 		_this.onFilterChange = _this.onFilterChange.bind(_this);
 		_this.setHighlight = _this.setHighlight.bind(_this);
+		_this.setFavorite = _this.setFavorite.bind(_this);
 
 		//
 		//	Handle all changes
@@ -6400,13 +6626,16 @@ var ResourcesListing = function (_Component) {
 			} else {
 				this.setState({
 					activePage: 1,
-					tags: this.props.filters.filters.tags
+					tags: this.props.filters.filters && this.props.filters.filters.tags ? this.props.filters.filters.tags : []
 				});
 			}
 
 			// Get configurations
 			this.props.fetchConfig();
 		}
+
+		// Clear resources on unmount
+
 	}, {
 		key: 'componentWillUnmount',
 		value: function componentWillUnmount() {
@@ -6443,7 +6672,7 @@ var ResourcesListing = function (_Component) {
 	}, {
 		key: 'onFilterChange',
 		value: function onFilterChange(filters) {
-			this.setState({ filters: filters });
+			this.setState({ filters: filters, activePage: 1 });
 		}
 
 		// Handle pagination
@@ -6464,7 +6693,8 @@ var ResourcesListing = function (_Component) {
 		key: 'onListOrder',
 		value: function onListOrder(order) {
 			this.setState({
-				order: order
+				order: order,
+				activePage: 1
 			});
 		}
 
@@ -6482,7 +6712,8 @@ var ResourcesListing = function (_Component) {
 		key: 'onChangeTags',
 		value: function onChangeTags(tags) {
 			this.setState({
-				tags: tags
+				tags: tags,
+				activePage: 1
 			});
 		}
 
@@ -6491,9 +6722,15 @@ var ResourcesListing = function (_Component) {
 	}, {
 		key: 'setHighlight',
 		value: function setHighlight(resourceId) {
-			/* REQUEST UPDATE AS HIGHLIGHT AND GET THE NEW ITEM IN THE REDUCER IN ORDER TO RE-RENDER */
-			//console.log(this.props);
 			this.props.setHighlight(resourceId);
+		}
+
+		// Set as favorite
+
+	}, {
+		key: 'setFavorite',
+		value: function setFavorite(resourceId) {
+			this.props.setFavorite(resourceId);
 		}
 
 		// Alert that user is not authenticated
@@ -6617,14 +6854,19 @@ var ResourcesListing = function (_Component) {
 									_react2.default.createElement(_order2.default, { onChange: this.onListOrder })
 								)
 							),
-							!this.props.auth.isAuthenticated ? this.renderAlert() : "",
+							_react2.default.createElement(
+								_isNotAuth2.default,
+								null,
+								this.renderAlert()
+							),
 							_react2.default.createElement(_list.ResourcesList, {
 								list: resources,
 								config: this.props.config.data,
 								maxcol: 3,
 								addscript: true,
 								isAuthenticated: isAuthenticated,
-								setHighlight: this.setHighlight
+								setHighlight: this.setHighlight,
+								setFavorite: this.setFavorite
 							}),
 							function () {
 								if (resources.data && resources.data.length > 0) {
@@ -6659,7 +6901,7 @@ ResourcesListing.propTypes = {
 	config: _react.PropTypes.object.isRequired
 };
 
-},{"../../containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","lodash":"lodash","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
+},{"../../containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","../../containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","lodash":"lodash","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9075,9 +9317,20 @@ var SearchForm = function (_Component) {
 	_createClass(SearchForm, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			this.props.fetchYears();
-			this.props.fetchSubjects();
-			this.props.fetchFormats();
+			this.props.fetchYears(true);
+			this.props.fetchSubjects(true);
+			this.props.fetchFormats(true);
+		}
+
+		// Reset form on unmount
+
+	}, {
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			this.props.resetYears();
+			this.props.resetSubjects();
+			this.props.resetFormats();
+			this.props.resetDomains();
 		}
 
 		// Submit search
@@ -9105,10 +9358,10 @@ var SearchForm = function (_Component) {
 		key: 'onSubjectChange',
 		value: function onSubjectChange(subject) {
 			this.setState({
-				subjects: subject.target.value,
+				subjects: [parseInt(subject.target.value)],
 				domains: null
 			});
-			this.props.fetchDomainsFromSubject(subject.target.value);
+			this.props.fetchDomainsFromSubject(subject.target.value, true);
 		}
 	}, {
 		key: 'calcColCount',
@@ -9249,7 +9502,7 @@ var SearchForm = function (_Component) {
 							_react2.default.createElement(
 								'select',
 								{ className: 'form-control', disabled: !domains.data || domains.data.length == 0, value: this.state.domains, onChange: function onChange(item) {
-										return _this2.setState({ domains: item.target.value });
+										return _this2.setState({ domains: [parseInt(item.target.value)] });
 									} },
 								_react2.default.createElement(
 									'option',
@@ -9265,7 +9518,7 @@ var SearchForm = function (_Component) {
 							_react2.default.createElement(
 								'select',
 								{ className: 'form-control', value: this.state.formats, onChange: function onChange(item) {
-										return _this2.setState({ formats: item.target.value });
+										return _this2.setState({ formats: [parseInt(item.target.value)] });
 									} },
 								_react2.default.createElement(
 									'option',
@@ -9281,7 +9534,7 @@ var SearchForm = function (_Component) {
 							_react2.default.createElement(
 								'select',
 								{ className: 'form-control', value: this.state.years, onChange: function onChange(item) {
-										return _this2.setState({ years: item.target.value });
+										return _this2.setState({ years: [parseInt(item.target.value)] });
 									} },
 								_react2.default.createElement(
 									'option',
@@ -9400,7 +9653,176 @@ UserResume.propTypes = {
 	user: _react.PropTypes.object.isRequired
 };
 
-},{"react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\loginForm.js":[function(require,module,exports){
+},{"react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IsAdmin = function (_Component) {
+    _inherits(IsAdmin, _Component);
+
+    function IsAdmin() {
+        _classCallCheck(this, IsAdmin);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(IsAdmin).apply(this, arguments));
+    }
+
+    _createClass(IsAdmin, [{
+        key: 'render',
+        value: function render() {
+            return this.props.isAuthenticated === true && this.props.role == 'admin' ? this.props.children : null;
+        }
+    }]);
+
+    return IsAdmin;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        isAuthenticated: state.auth.isAuthenticated,
+        role: state.auth.data.user.role
+    };
+};
+
+IsAdmin.contextTypes = {
+    router: _react.PropTypes.object
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(IsAdmin);
+
+},{"react":"react","react-redux":"react-redux","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IsAuthenticated = function (_Component) {
+    _inherits(IsAuthenticated, _Component);
+
+    function IsAuthenticated() {
+        _classCallCheck(this, IsAuthenticated);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(IsAuthenticated).apply(this, arguments));
+    }
+
+    _createClass(IsAuthenticated, [{
+        key: 'render',
+        value: function render() {
+            return this.props.isAuthenticated === true ? this.props.children : null;
+        }
+    }]);
+
+    return IsAuthenticated;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    };
+};
+
+IsAuthenticated.contextTypes = {
+    router: _react.PropTypes.object
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(IsAuthenticated);
+
+},{"react":"react","react-redux":"react-redux","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IsNotAuthenticated = function (_Component) {
+    _inherits(IsNotAuthenticated, _Component);
+
+    function IsNotAuthenticated() {
+        _classCallCheck(this, IsNotAuthenticated);
+
+        return _possibleConstructorReturn(this, Object.getPrototypeOf(IsNotAuthenticated).apply(this, arguments));
+    }
+
+    _createClass(IsNotAuthenticated, [{
+        key: 'render',
+        value: function render() {
+            return this.props.isAuthenticated === false ? this.props.children : null;
+        }
+    }]);
+
+    return IsNotAuthenticated;
+}(_react.Component);
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    };
+};
+
+IsNotAuthenticated.contextTypes = {
+    router: _react.PropTypes.object
+};
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(IsNotAuthenticated);
+
+},{"react":"react","react-redux":"react-redux","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\loginForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9829,6 +10251,8 @@ var _reactRedux = require('react-redux');
 
 var _resources = require('../../actions/resources');
 
+var _filters = require('../../actions/filters');
+
 var _config = require('../../actions/config');
 
 var _redux = require('redux');
@@ -9848,12 +10272,19 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchResources: _resources.fetchResources, setHighlight: _resources.setHighlight, fetchConfig: _config.fetchConfig }, dispatch);
+  return (0, _redux.bindActionCreators)({
+    fetchMyResources: _resources.fetchMyResources,
+    setHighlight: _resources.setHighlight,
+    setFavorite: _resources.setFavorite,
+    fetchConfig: _config.fetchConfig,
+    resetFilters: _filters.resetFilters,
+    resetResources: _resources.resetResources
+  }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_myResources2.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/dashboard/resources/myResources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js":[function(require,module,exports){
+},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/dashboard/resources/myResources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10203,6 +10634,8 @@ var _filters3 = _interopRequireDefault(_filters2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function mapStateToProps(state) {
   return {
     formats: state.formats,
@@ -10215,17 +10648,18 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({
+  var _bindActionCreators;
+
+  return (0, _redux.bindActionCreators)((_bindActionCreators = {
     fetchFormats: _formats.fetchFormats,
     fetchSubjects: _subjects.fetchSubjects,
     fetchDomains: _domains.fetchDomains,
     fetchYears: _years.fetchYears,
     fetchAccess: _access.fetchAccess,
-    setFilters: _filters.setFilters,
-    getFilters: _filters.getFilters,
-    resetFilters: _filters.resetFilters,
-    searchResourcesFilters: _filters.searchResourcesFilters
-  }, dispatch);
+    resetYears: _years.resetYears,
+    resetDomains: _domains.resetDomains,
+    resetFormats: _formats.resetFormats
+  }, _defineProperty(_bindActionCreators, 'resetYears', _years.resetYears), _defineProperty(_bindActionCreators, 'resetSubjects', _subjects.resetSubjects), _defineProperty(_bindActionCreators, 'resetAccess', _access.resetAccess), _defineProperty(_bindActionCreators, 'setFilters', _filters.setFilters), _defineProperty(_bindActionCreators, 'getFilters', _filters.getFilters), _defineProperty(_bindActionCreators, 'resetFilters', _filters.resetFilters), _defineProperty(_bindActionCreators, 'searchResourcesFilters', _filters.searchResourcesFilters), _bindActionCreators), dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_filters3.default);
@@ -10243,9 +10677,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
+var _resources = require('../../actions/resources');
+
 var _formats = require('../../actions/formats');
 
 var _config = require('../../actions/config');
+
+var _filters = require('../../actions/filters');
 
 var _redux = require('redux');
 
@@ -10263,12 +10701,17 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchFormats: _formats.fetchFormats, fetchConfig: _config.fetchConfig }, dispatch);
+  return (0, _redux.bindActionCreators)({
+    fetchFormats: _formats.fetchFormats,
+    fetchConfig: _config.fetchConfig,
+    searchResources: _resources.searchResources,
+    setFilters: _filters.setFilters
+  }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_formats3.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../components/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js":[function(require,module,exports){
+},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10481,6 +10924,7 @@ function mapDispatchToProps(dispatch) {
     fetchResources: _resources.fetchResources,
     fetchConfig: _config.fetchConfig,
     setHighlight: _resources.setHighlight,
+    setFavorite: _resources.setFavorite,
     resetFilters: _filters.resetFilters,
     searchResources: _resources.searchResources,
     resetResources: _resources.resetResources
@@ -10602,6 +11046,8 @@ var _searchForm2 = _interopRequireDefault(_searchForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -10658,15 +11104,18 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({
+  var _bindActionCreators;
+
+  return (0, _redux.bindActionCreators)((_bindActionCreators = {
     fetchYears: _years.fetchYears,
     fetchSubjects: _subjects.fetchSubjects,
     fetchDomains: _domains.fetchDomains,
     fetchDomainsFromSubject: _domains.fetchDomainsFromSubject,
     fetchFormats: _formats.fetchFormats,
-    setFilters: _filters.setFilters,
-    searchResourcesFilters: _filters.searchResourcesFilters
-  }, dispatch);
+    resetYears: _years.resetYears,
+    resetDomains: _domains.resetDomains,
+    resetFormats: _formats.resetFormats
+  }, _defineProperty(_bindActionCreators, 'resetYears', _years.resetYears), _defineProperty(_bindActionCreators, 'resetSubjects', _subjects.resetSubjects), _defineProperty(_bindActionCreators, 'setFilters', _filters.setFilters), _defineProperty(_bindActionCreators, 'searchResourcesFilters', _filters.searchResourcesFilters), _bindActionCreators), dispatch);
 }
 
 SearchContainer.contextTypes = {
@@ -11627,7 +12076,10 @@ exports.default = function () {
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data,
+        data: {
+          token: action.data.token,
+          user: action.data.user
+        },
         isAuthenticated: true
       });
     case _actionTypes.LOGIN_FAILURE:
@@ -12131,6 +12583,15 @@ function resources() {
         })
       });
 
+    case _actionTypes.TOGGLE_FAVORITE_RESOURCE:
+
+      // CALL SINGLE RESOURCE REDUCER TO MAKE THE CHANGE
+      return (0, _objectAssign2.default)({}, state, {
+        data: state.data.map(function (item) {
+          return resource(item, action);
+        })
+      });
+
     default:
       return state;
   }
@@ -12170,6 +12631,14 @@ function resource() {
 
       return (0, _objectAssign2.default)({}, state, {
         highlight: !state.highlight
+      });
+    case _actionTypes.TOGGLE_FAVORITE_RESOURCE:
+      if (state.id != action.id) {
+        return state;
+      }
+
+      return (0, _objectAssign2.default)({}, state, {
+        isFavorite: !state.isFavorite
       });
     default:
       return state;
@@ -12565,65 +13034,66 @@ var sortByTitle = exports.sortByTitle = function sortByTitle(s1, s2) {
 var toQueryString = exports.toQueryString = function toQueryString(data) {
     var finalString = "";
 
-    var keys = Object.keys(data);
+    if (data) {
+        var keys = Object.keys(data);
 
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
 
-    try {
-        for (var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var key = _step.value;
-
-            var customKey = customKey == "access" ? "modes" : key;
-
-            if (data[key] instanceof Array) {
-                var _iteratorNormalCompletion2 = true;
-                var _didIteratorError2 = false;
-                var _iteratorError2 = undefined;
-
-                try {
-                    for (var _iterator2 = data[key][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                        var value = _step2.value;
-
-
-                        finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
-                        finalString += customKey + "[]=" + value;
-                    }
-                } catch (err) {
-                    _didIteratorError2 = true;
-                    _iteratorError2 = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                            _iterator2.return();
-                        }
-                    } finally {
-                        if (_didIteratorError2) {
-                            throw _iteratorError2;
-                        }
-                    }
-                }
-            } else if (data[key]) {
-                finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
-                finalString += customKey + "[]=" + data[key];
-            }
-        }
-    } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-    } finally {
         try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
+            for (var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var key = _step.value;
+
+                var customKey = key == "access" ? "modes" : key;
+
+                if (data[key] instanceof Array) {
+                    var _iteratorNormalCompletion2 = true;
+                    var _didIteratorError2 = false;
+                    var _iteratorError2 = undefined;
+
+                    try {
+                        for (var _iterator2 = data[key][Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                            var value = _step2.value;
+
+
+                            finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                            finalString += customKey + "[]=" + value;
+                        }
+                    } catch (err) {
+                        _didIteratorError2 = true;
+                        _iteratorError2 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                _iterator2.return();
+                            }
+                        } finally {
+                            if (_didIteratorError2) {
+                                throw _iteratorError2;
+                            }
+                        }
+                    }
+                } else if (data[key]) {
+                    finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                    finalString += customKey + "[]=" + data[key];
+                }
             }
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
         } finally {
-            if (_didIteratorError) {
-                throw _iteratorError;
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
             }
         }
     }
-
     return finalString;
 };
 
@@ -12633,120 +13103,129 @@ var toQueryString = exports.toQueryString = function toQueryString(data) {
 var complexToQueryString = exports.complexToQueryString = function complexToQueryString(data) {
     var finalString = "";
 
-    var keys = Object.keys(data);
+    if (data) {
+        var keys = Object.keys(data);
 
-    var _iteratorNormalCompletion3 = true;
-    var _didIteratorError3 = false;
-    var _iteratorError3 = undefined;
+        var _iteratorNormalCompletion3 = true;
+        var _didIteratorError3 = false;
+        var _iteratorError3 = undefined;
 
-    try {
-        for (var _iterator3 = keys[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            var key = _step3.value;
+        try {
+            for (var _iterator3 = keys[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                var key = _step3.value;
 
-            var customKey = customKey == "access" ? "modes" : key;
+                var customKey = key == "access" ? "modes" : key;
 
-            if (data[key] instanceof Array) {
-                var _iteratorNormalCompletion4 = true;
-                var _didIteratorError4 = false;
-                var _iteratorError4 = undefined;
-
-                try {
-                    for (var _iterator4 = data[key][Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                        var value = _step4.value;
-
-
-                        finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
-                        finalString += customKey + "[]=" + value;
-                    }
-                } catch (err) {
-                    _didIteratorError4 = true;
-                    _iteratorError4 = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                            _iterator4.return();
-                        }
-                    } finally {
-                        if (_didIteratorError4) {
-                            throw _iteratorError4;
-                        }
-                    }
-                }
-            }
-
-            // If nested 1 level
-            else if (data[key] instanceof Object) {
-                    var thisKeyObjs = Object.keys(data[key]);
-
-                    // Go for all keys
-                    var _iteratorNormalCompletion5 = true;
-                    var _didIteratorError5 = false;
-                    var _iteratorError5 = undefined;
+                if (data[key] instanceof Array) {
+                    var _iteratorNormalCompletion4 = true;
+                    var _didIteratorError4 = false;
+                    var _iteratorError4 = undefined;
 
                     try {
-                        for (var _iterator5 = thisKeyObjs[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                            var thisKey = _step5.value;
-
-                            var _customKey = _customKey == "access" ? "modes" : thisKey;
-
-                            // For each key, get value
-                            var _iteratorNormalCompletion6 = true;
-                            var _didIteratorError6 = false;
-                            var _iteratorError6 = undefined;
-
-                            try {
-                                for (var _iterator6 = data[key][thisKey][Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                                    var _value = _step6.value;
+                        for (var _iterator4 = data[key][Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                            var value = _step4.value;
 
 
-                                    finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
-                                    finalString += _customKey + "[]=" + _value;
-                                }
-                            } catch (err) {
-                                _didIteratorError6 = true;
-                                _iteratorError6 = err;
-                            } finally {
-                                try {
-                                    if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                                        _iterator6.return();
-                                    }
-                                } finally {
-                                    if (_didIteratorError6) {
-                                        throw _iteratorError6;
-                                    }
-                                }
-                            }
+                            finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                            finalString += customKey + "[]=" + value;
                         }
                     } catch (err) {
-                        _didIteratorError5 = true;
-                        _iteratorError5 = err;
+                        _didIteratorError4 = true;
+                        _iteratorError4 = err;
                     } finally {
                         try {
-                            if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                                _iterator5.return();
+                            if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                                _iterator4.return();
                             }
                         } finally {
-                            if (_didIteratorError5) {
-                                throw _iteratorError5;
+                            if (_didIteratorError4) {
+                                throw _iteratorError4;
                             }
                         }
                     }
-                } else if (data[key]) {
-                    finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
-                    finalString += data[key] instanceof Array ? customKey + "[]=" + data[key] : customKey + "=" + data[key];
                 }
-        }
-    } catch (err) {
-        _didIteratorError3 = true;
-        _iteratorError3 = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                _iterator3.return();
+
+                // If nested 1 level
+                else if (data[key] instanceof Object) {
+                        var thisKeyObjs = Object.keys(data[key]);
+
+                        // Go for all keys
+                        var _iteratorNormalCompletion5 = true;
+                        var _didIteratorError5 = false;
+                        var _iteratorError5 = undefined;
+
+                        try {
+                            for (var _iterator5 = thisKeyObjs[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
+                                var thisKey = _step5.value;
+
+                                var _customKey = thisKey == "access" ? "modes" : thisKey;
+
+                                // If is an array
+                                if (data[key][thisKey] instanceof Array) {
+                                    // For each key, get value
+                                    var _iteratorNormalCompletion6 = true;
+                                    var _didIteratorError6 = false;
+                                    var _iteratorError6 = undefined;
+
+                                    try {
+                                        for (var _iterator6 = data[key][thisKey][Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+                                            var _value = _step6.value;
+
+
+                                            finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                                            finalString += _customKey + "[]=" + _value;
+                                        }
+                                        // If it is just a plain value
+                                    } catch (err) {
+                                        _didIteratorError6 = true;
+                                        _iteratorError6 = err;
+                                    } finally {
+                                        try {
+                                            if (!_iteratorNormalCompletion6 && _iterator6.return) {
+                                                _iterator6.return();
+                                            }
+                                        } finally {
+                                            if (_didIteratorError6) {
+                                                throw _iteratorError6;
+                                            }
+                                        }
+                                    }
+                                } else if (data[key][thisKey]) {
+                                        finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                                        finalString += _customKey + "[]=" + data[key][thisKey];
+                                    }
+                            }
+                        } catch (err) {
+                            _didIteratorError5 = true;
+                            _iteratorError5 = err;
+                        } finally {
+                            try {
+                                if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                                    _iterator5.return();
+                                }
+                            } finally {
+                                if (_didIteratorError5) {
+                                    throw _iteratorError5;
+                                }
+                            }
+                        }
+                    } else if (data[key]) {
+                        finalString = finalString.length > 0 && keys.length > 0 ? finalString + "&" : finalString;
+                        finalString += data[key] instanceof Array ? customKey + "[]=" + data[key] : customKey + "=" + data[key];
+                    }
             }
+        } catch (err) {
+            _didIteratorError3 = true;
+            _iteratorError3 = err;
         } finally {
-            if (_didIteratorError3) {
-                throw _iteratorError3;
+            try {
+                if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                    _iterator3.return();
+                }
+            } finally {
+                if (_didIteratorError3) {
+                    throw _iteratorError3;
+                }
             }
         }
     }

@@ -1,3 +1,4 @@
+const debug = require('debug')('app');
 const models = require('../models/index');
 const config = require('../config/config.json');
 const jwtUtil = require('../utils/jwt');
@@ -5,11 +6,13 @@ const jwtUtil = require('../utils/jwt');
 exports.signin = function(req, res, next) {
   // User has already had their email and password auth'd
   // We just need to give them a token
+  debug(req.user);
   res.send({ 
     token: jwtUtil.tokenForUser(req.user),
     user: {
       id: req.user.id,
-      email: req.user.email
+      email: req.user.email,
+      role: req.user.Role.type
     }
   });
 }
@@ -35,7 +38,7 @@ exports.signup = function(req, res, next) {
     models.User.create({
       email: email,
       password: password,
-      role_id: 1
+      role_id: 2
     }).then(function(user){
 
       // Repond to request indicating the user was created

@@ -139,8 +139,11 @@ exports.scriptsHasErrors = function(scripts){
 //  Handle order
 //
 exports.extractOrder = function(order, models){
-  var finalOrder = ['created_at', 'DESC'];
+  var finalOrder = ['created_at', 'ASC'];
 
+  //
+  //  Front-end options
+  //
   const ordersPossible = [
     'recent',
     'rating',
@@ -152,6 +155,9 @@ exports.extractOrder = function(order, models){
     'desc'
   ];
 
+  //
+  //  Database use
+  //
   const orders = [
     'created_at',
     'rating',
@@ -169,7 +175,7 @@ exports.extractOrder = function(order, models){
     // Get matches
     const matchOrder = getMatchingWords(ordersPossible, order);
     const matchDir = getMatchingWords(dirsPossible, order);
-debug(matchDir);
+
     // Get index of those matches with the several options
     const indexOrder = ordersPossible.indexOf(matchOrder[0]);
     const indexDir = dirsPossible.indexOf(matchDir[0]);
@@ -188,10 +194,13 @@ debug(matchDir);
       finalOrder[finalOrder.length-1] = dirs[indexDir];
     }
   }
-  debug(finalOrder);
+ 
   return finalOrder;
 }
 
+//
+//  Checked matching words between two arrays of strings
+//
 function getMatchingWords(words, s) {
     var matches = [],
         regex = new RegExp("(^|[^a-zA-Z0-9])(" + words.join("|") + ")([^a-zA-Z0-9]|$)", "g");

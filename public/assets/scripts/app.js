@@ -19,8 +19,9 @@ const store = applyMiddleware(
 )(createStore)(reducers);
 
 let token = localStorage.getItem('token');
-if (token !== null) {
-    store.dispatch(receiveLogin(token));
+let user = JSON.parse(localStorage.getItem('user'));
+if (token !== null && user !== null) {
+    store.dispatch(receiveLogin({token,user}));
 }
 
 ReactDOM.render(

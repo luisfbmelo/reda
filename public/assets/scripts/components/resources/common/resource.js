@@ -12,6 +12,8 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Rating from '../../common/rating';
 import SvgComponent from '../../common/svg';
 import ProtectedButton from '../../auth/protectedButton';
+import IsAuthenticated from '../../../containers/auth/isAuth';
+import IsAdmin from '../../../containers/auth/isAdmin';
 
 //
 //	Render button according to app status
@@ -55,10 +57,17 @@ const optionsRender = (el, isAuthenticated, addscript, viewmore) => {
 //
 //	Render favorite button
 //
-const renderFav = (el, isAuthenticated, setHighlight) => {
-	if (isAuthenticated){
-		return <i className={"list__element--fav fa fa-" + ((el.Favorites && el.Favorites.length>0) ? "heart" : "heart-o")} title="Favorito" onClick={setHighlight}></i>
-	}
+const renderAuthOptions = (el, isAuthenticated, setHighlight, setFavorite) => {
+	return (
+		<IsAuthenticated>
+			<div className="list__element--fav">
+				<i className={"fa fa-" + ((el.isFavorite) ? "heart" : "heart-o")} title="Favorito" onClick={()=> setFavorite(el.id)}></i>
+				<IsAdmin>
+					<i className={"fa fa-" + ((el.highlight) ? "star" : "star-o")} title="Recurso do Mês" onClick={()=> setHighlight(el.id)}></i>
+				</IsAdmin>
+			</div>
+		</IsAuthenticated>
+	)
 }
 
 
@@ -68,7 +77,7 @@ export const ResourceElement = (props) => {
 		return null
 	}
 
-	const { addscript, viewmore, isAuthenticated, el, classColCount, index, maxcol, config, setHighlight } = props;
+	const { addscript, viewmore, isAuthenticated, el, classColCount, index, maxcol, config, setHighlight, setFavorite } = props;
 
 	// Clearfix classes
 	let breaker = "";
@@ -85,7 +94,7 @@ export const ResourceElement = (props) => {
 	return(		
       	<article className={"col-xs-12 col-sm-4 col-md-" + classColCount + " col-lg-" + classColCount + breaker} >
       		<div className="list__element">
-      			{renderFav(el, isAuthenticated, setHighlight)}
+      			{renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite)}
 	      		{
 	      			renderProtected(
 		      			<header>
@@ -107,12 +116,12 @@ export const ResourceElement = (props) => {
 			      			<div className="type">
 			      				<OverlayTrigger placement="left" overlay={tooltip}>
 				      				<span>
-				      					<SvgComponent element={config.formatIcons+"/"+el.Format.Image.name+"."+el.Format.Image.extension} color="#b4b4b4"/>
+				      					<SvgComponent element={config.formatIcons+"/"+el.Format.Image.name+"."+el.Format.Image.extension} color="#6a696a"/>
 			      					</span>
 			      				</OverlayTrigger>
 			      			</div>			      			
 			      		</footer>
-			      	,"/descobrir/detalhes-recurso/" + el.id, props)
+			      	,"/descobrir/detalhes-recurso/" + el.slug, props)
 		      	}
       		</div>
 		</article>		

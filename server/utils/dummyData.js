@@ -1,6 +1,6 @@
 // ROLES
 var createRoles = function(models){
-  return models.Role.create({value: "Admin"});
+  return models.Role.create({value: "Admin", type: "admin"});
 }
 
 // FORMATS

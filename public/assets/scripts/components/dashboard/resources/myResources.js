@@ -15,31 +15,67 @@ export default class MyResources extends Component {
 	constructor(props){
 		super(props);
 		
+		//
+		//	Event handlers
+		//
 		this.onChangePage = this.onChangePage.bind(this);
+		this.onChangeTags = this.onChangeTags.bind(this);
+		this.onListOrder = this.onListOrder.bind(this);
+		this.onSearchSubmit = this.onSearchSubmit.bind(this);
 		this.setHighlight = this.setHighlight.bind(this);
+		this.setFavorite = this.setFavorite.bind(this);
 		this.filterList = this.filterList.bind(this);
 
+		//
 		// Resources actions
+		// 
 		this.checkAllResources = this.checkAllResources.bind(this);
 		this.checkEl = this.checkEl.bind(this);
 		this.delList = this.delList.bind(this);
 		this.delEl = this.delEl.bind(this);
 
+		this.requestMyResources = this.requestMyResources.bind(this);
+
 		this.state = {
 			activePage: 1,
+			tags: [],
+			order: "recent",
 			checkedResources: [],
 			checkAll: false
 		}
 	}
 
 	componentDidMount(){
-		this.props.fetchResources('search')
+		this.props.fetchMyResources()
 		.then(() => {
 			this.setState({activePage: this.props.resources.curPage || 1 });
 		});
 		this.props.fetchConfig();
 
 		this.onChangePage(1);		
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		const { activePage, tags, order } = this.state;
+
+		// Request new resources if there is any change AND tags didn't change.
+		// This avoids request new resources each time adding a new tag in the input. It is required to press the button
+	 	if ((prevState.activePage !== activePage ||
+		 	prevState.order !== order)
+		 	&& prevState.tags==tags){
+	 		this.requestMyResources();
+	 	}
+	}
+
+	componentWillUnmount() {
+	      this.props.resetFilters();
+	      this.props.resetResources();
+	}
+
+	requestMyResources(){
+		const { activePage, tags, order } = this.state;
+
+    	this.props.fetchMyResources({activePage, tags, order});
 	}
 
 	// Handle pagination
@@ -53,19 +89,33 @@ export default class MyResources extends Component {
 
     // Handle list ordering
     onListOrder(order){
-    	console.log(order);
+    	this.setState({
+			order,
+			activePage: 1
+		});
     }
 
     // Search resources by keyword
-    onSearchSubmit(keyword){
-    	console.log(keyword);
+    onSearchSubmit(){
+    	this.requestMyResources();
+    }
+
+    // Handle tags change to search by tag
+    onChangeTags(tags){
+    	this.setState({
+			tags,
+			activePage: 1
+		});
     }
 
     // Set as highlighted
     setHighlight(resourceId){
-    	/* REQUEST UPDATE AS HIGHLIGHT AND GET THE NEW ITEM IN THE REDUCER IN ORDER TO RE-RENDER */
-    	//console.log(this.props);
     	this.props.setHighlight(resourceId);
+    }
+
+    // Set as favorite
+    setFavorite(resourceId){
+    	this.props.setFavorite(resourceId);
     }
 
     // Check elements
@@ -119,6 +169,7 @@ export default class MyResources extends Component {
     	console.log(id);
     }
 
+    // Apply Filters
     filterList(){
     	console.log("Filter");
     }
@@ -143,13 +194,13 @@ export default class MyResources extends Component {
 						<section className="row">
 							<div className="col-xs-12 filter-container">
 								{/* Filter List */}
-								<ResourcesFilters searchKeywords={false} buttonText="Filtrar" iconClass="fa fa-filter" onSubmit={this.filterList}/>
+								<ResourcesFilters searchTags={false} buttonText="Filtrar" iconClass="fa fa-filter" onSubmit={this.filterList}/>
 							</div>
 						</section>				
 						<section className="row">
 							<div className="col-xs-12 text-center">
 								{/* Search bar */}
-								<SearchBar onSubmit={this.onSearchSubmit} className="resources-search" />
+								<SearchBar onSubmit={this.onSearchSubmit} onChangeTags={this.onChangeTags} tags={this.state.tags} className="resources-search" />
 							</div>
 						</section>
 						<section className="row resources-actions">
@@ -172,6 +223,7 @@ export default class MyResources extends Component {
 							list={this.props.resources} 
 							user={this.props.auth.data} 
 							setHighlight={this.setHighlight} 
+							setFavorite={this.setFavorite}
 							checkedList={this.state.checkedResources} 
 							checkEl={this.checkEl} 
 							allChecked={this.state.checkAll}

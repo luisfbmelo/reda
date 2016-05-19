@@ -19,7 +19,8 @@ export default class ResourcesFilters extends Component {
 			subjects: [],
 			domains: [],
 			years: [],
-			access: []
+			access: [],
+			update: false
 		};
 
 		//
@@ -47,11 +48,11 @@ export default class ResourcesFilters extends Component {
 	}
 
 	componentDidMount(){		
-		this.props.fetchFormats();
-		this.props.fetchSubjects();
-		this.props.fetchDomains();
-		this.props.fetchYears();
-		this.props.fetchAccess();
+		this.props.fetchFormats(true);
+		this.props.fetchSubjects(true);
+		this.props.fetchDomains(true);
+		this.props.fetchYears(true);
+		this.props.fetchAccess(true);
 
 		// Are there any filters?
 		if (this.props.filters.filters!=null){
@@ -65,10 +66,19 @@ export default class ResourcesFilters extends Component {
 		}
 	}
 
+	// Reset filters on unmount
+	componentWillUnmount() {
+	    this.props.resetYears();
+	    this.props.resetSubjects();
+	    this.props.resetFormats();
+	    this.props.resetDomains();
+	    this.props.resetAccess();  
+	}
+
 	componentDidUpdate(prevProps, prevState) {
 
 		//If previous state is different, then warn container
-		if (prevState != this.state){
+		if (this.state.update){
 			this.submitFilters();
 		}
 	}
@@ -77,7 +87,10 @@ export default class ResourcesFilters extends Component {
 	//	On submit
 	//
 	submitFilters(){
-		this.props.onFilterChange(this.state);
+		const { formats, subjects, domains, years, access } = this.state;
+
+		this.props.onFilterChange({ formats, subjects, domains, years, access });
+		this.setState({update: false});
 	}
 
 	//
@@ -85,31 +98,36 @@ export default class ResourcesFilters extends Component {
 	//
 	formatChange(data){
 		this.setState({
-			formats: data
+			formats: data,
+			update: true
 		});
 	}
 
 	subjectChange(data){
 		this.setState({
-			subjects: data
+			subjects: data,
+			update: true
 		});		
 	}
 
 	domainChange(data){
 		this.setState({
-			domains: data
+			domains: data,
+			update: true
 		});		
 	}
 
 	yearChange(data){
 		this.setState({
-			years: data
+			years: data,
+			update: true
 		});	
 	}
 
 	accessChange(data){
 		this.setState({
-			access: data
+			access: data,
+			update: true
 		});		
 	}
 

@@ -116,7 +116,7 @@ export default class ResourceDetails extends Component {
 						<div className="col-xs-12 col-sm-6">
 							<h1>{resource.title}</h1>
 							<div className="rating">
-			      				<Rating initialRate={getAvg(resource.Ratings)} readonly={!isAuthenticated}/>
+			      				<Rating initialRate={resource.ratingAvg} readonly={!isAuthenticated}/>
 			      			</div>
 			      			{this.printMeta("Autor", resource.author)}
 			      			{this.printMeta("Organização", resource.organization)}
