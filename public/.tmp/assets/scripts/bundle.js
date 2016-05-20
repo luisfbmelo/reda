@@ -117,6 +117,12 @@ var HIGHLIGHTS_FAILURE = exports.HIGHLIGHTS_FAILURE = 'HIGHLIGHTS_FAILURE';
 var HIGHLIGHTS_RESET = exports.HIGHLIGHTS_RESET = 'HIGHLIGHTS_RESET';
 var TOGGLE_HIGHLIGHT_RESOURCE = exports.TOGGLE_HIGHLIGHT_RESOURCE = 'TOGGLE_HIGHLIGHT_RESOURCE';
 
+// SCRIPTS
+var SCRIPTS_REQUEST = exports.SCRIPTS_REQUEST = 'SCRIPTS_REQUEST';
+var SCRIPTS_SUCCESS = exports.SCRIPTS_SUCCESS = 'SCRIPTS_SUCCESS';
+var SCRIPTS_FAILURE = exports.SCRIPTS_FAILURE = 'SCRIPTS_FAILURE';
+var SCRIPTS_RESET = exports.SCRIPTS_RESET = 'SCRIPTS_RESET';
+
 // FORMATS
 var FORMATS_REQUEST = exports.FORMATS_REQUEST = 'FORMATS_REQUEST';
 var FORMATS_SUCCESS = exports.FORMATS_SUCCESS = 'FORMATS_SUCCESS';
@@ -1044,25 +1050,75 @@ function resetRelatedResources() {
 	};
 }
 
-function fetchRelatedResources(resourceId) {
-	return function (dispatch) {
-		dispatch(requestRelatedResources());
+function fetchRelatedResources(resourceSlug) {
+	console.log(resourceSlug);
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'resources/related/' + resourceSlug,
+		types: [_actionTypes.RELATED_RESOURCES_REQUEST, _actionTypes.RELATED_RESOURCES_SUCCESS, _actionTypes.RELATED_RESOURCES_FAILURE]
+	});
+}
 
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-			return response.json();
-		}).then(function (json) {
-			json.resources.length = 3;
-			dispatch(receiveRelatedResources(json.resources));
-		}).catch(function (message) {
-			dispatch(relatedResourcesError(message));
-		});
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","./message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\scripts.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.resetScripts = resetScripts;
+exports.fetchScripts = fetchScripts;
+
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+var _actionTypes = require('./action-types');
+
+var _api = require('../middleware/api');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+require('es6-promise').polyfill();
+
+
+// FORMATS
+function requestScripts() {
+	return {
+		type: _actionTypes.SCRIPTS_REQUEST
 	};
 }
 
-},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","./message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js":[function(require,module,exports){
+function receiveScripts(data) {
+	return {
+		type: _actionTypes.SCRIPTS_SUCCESS,
+		data: data
+	};
+}
+
+function scriptsError(message) {
+	return {
+		type: _actionTypes.SCRIPTS_FAILURE,
+		message: message
+	};
+}
+
+function resetScripts() {
+	return {
+		type: _actionTypes.SCRIPTS_RESET
+	};
+}
+
+function fetchScripts(resourceId) {
+
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'scripts/' + resourceId,
+		sendToken: true,
+		types: [_actionTypes.SCRIPTS_REQUEST, _actionTypes.SCRIPTS_SUCCESS, _actionTypes.SCRIPTS_FAILURE]
+	});
+}
+
+},{"../middleware/api":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\middleware\\api.js","./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2749,7 +2805,7 @@ var _reactRating2 = _interopRequireDefault(_reactRating);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (props) {
-	return _react2.default.createElement(_reactRating2.default, _extends({}, props, { empty: 'fa fa-star-o', full: 'fa fa-star' }));
+	return _react2.default.createElement(_reactRating2.default, _extends({}, props, { onClick: props.setRating, empty: 'fa fa-star-o', full: 'fa fa-star' }));
 };
 
 },{"react":"react","react-rating":"react-rating"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js":[function(require,module,exports){
@@ -3968,6 +4024,10 @@ var _collapse = require('../common/collapse');
 
 var _collapse2 = _interopRequireDefault(_collapse);
 
+var _isAdmin = require('../../containers/auth/isAdmin');
+
+var _isAdmin2 = _interopRequireDefault(_isAdmin);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -3975,6 +4035,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Components
+
 
 var DashboardMenu = function (_Component) {
 	_inherits(DashboardMenu, _Component);
@@ -3989,20 +4052,6 @@ var DashboardMenu = function (_Component) {
 		key: 'isActive',
 		value: function isActive(location, target) {
 			return location.indexOf(target) > 0 ? 'active' : '';
-		}
-	}, {
-		key: 'adminOnly',
-		value: function adminOnly(component) {
-
-			/*if (this.props.auth.data){
-   	const { role } = this.props.auth.data;*/
-			var role = "admin";
-			if (role != undefined && role == "admin") {
-				return component;
-			}
-			/*}*/
-
-			return null;
 		}
 	}, {
 		key: 'render',
@@ -4068,63 +4117,71 @@ var DashboardMenu = function (_Component) {
 					)
 				),
 				_react2.default.createElement(
-					'h6',
+					_isAdmin2.default,
 					null,
-					'Opções de Administrador'
-				),
-				_react2.default.createElement(
-					'ul',
-					null,
-					this.adminOnly(_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/recursos-pendentes') },
+					_react2.default.createElement(
+						'div',
+						{ className: 'admin-tools' },
 						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/recursos-pendentes' },
-							'Recursos pendentes (10) ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-						)
-					)),
-					this.adminOnly(_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/websugestoes') },
+							'h6',
+							null,
+							'Opções de Administrador'
+						),
 						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/websugestoes' },
-							'Websugestões ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+							'ul',
+							null,
+							_react2.default.createElement(
+								'li',
+								{ className: this.isActive(this.props.location.pathname, 'painel/recursos-pendentes') },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/painel/recursos-pendentes' },
+									'Recursos pendentes (10) ',
+									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								{ className: this.isActive(this.props.location.pathname, 'painel/websugestoes') },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/painel/websugestoes' },
+									'Websugestões ',
+									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								{ className: this.isActive(this.props.location.pathname, 'painel/aplicacoes') },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/painel/aplicacoes' },
+									'Aplicações ',
+									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								{ className: this.isActive(this.props.location.pathname, 'painel/experimenta') },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/painel/experimenta' },
+									'Experimenta ',
+									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+								)
+							),
+							_react2.default.createElement(
+								'li',
+								{ className: this.isActive(this.props.location.pathname, 'painel/dicaseutilidades') },
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/painel/dicaseutilidades' },
+									'Dicas e Utilidades ',
+									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+								)
+							)
 						)
-					)),
-					this.adminOnly(_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/aplicacoes') },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/aplicacoes' },
-							'Aplicações ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-						)
-					)),
-					this.adminOnly(_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/experimenta') },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/experimenta' },
-							'Experimenta ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-						)
-					)),
-					this.adminOnly(_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/dicaseutilidades') },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/dicaseutilidades' },
-							'Dicas e Utilidades ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-						)
-					))
+					)
 				)
 			);
 		}
@@ -4140,7 +4197,7 @@ DashboardMenu.propTypes = {
 	location: _react2.default.PropTypes.object.isRequired
 };
 
-},{"../common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js":[function(require,module,exports){
+},{"../../containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","../common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4245,6 +4302,14 @@ var _logoutButton = require('../auth/logoutButton');
 
 var _logoutButton2 = _interopRequireDefault(_logoutButton);
 
+var _isAuth = require('../../containers/auth/isAuth');
+
+var _isAuth2 = _interopRequireDefault(_isAuth);
+
+var _isNotAuth = require('../../containers/auth/isNotAuth');
+
+var _isNotAuth2 = _interopRequireDefault(_isNotAuth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -4252,6 +4317,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Components
+
 
 var TopNav = function (_Component) {
 	_inherits(TopNav, _Component);
@@ -4280,31 +4348,43 @@ var TopNav = function (_Component) {
 			return _react2.default.createElement(
 				'ul',
 				{ className: 'nav navbar-nav small-nav' },
-				!isAuthenticated && _react2.default.createElement(
-					'li',
+				_react2.default.createElement(
+					_isNotAuth2.default,
 					null,
 					_react2.default.createElement(
-						_loginButton2.default,
-						{ location: this.props.location.pathname },
-						'Entrar'
+						'li',
+						null,
+						_react2.default.createElement(
+							_loginButton2.default,
+							{ location: this.props.location.pathname },
+							'Entrar'
+						)
 					)
 				),
-				!isAuthenticated && _react2.default.createElement(
-					'li',
-					{ className: this.isActive(this.props.location.pathname, 'registar') },
+				_react2.default.createElement(
+					_isNotAuth2.default,
+					null,
 					_react2.default.createElement(
-						_reactRouter.Link,
-						{ to: '/registar' },
-						'Registar'
+						'li',
+						{ className: this.isActive(this.props.location.pathname, 'registar') },
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: '/registar' },
+							'Registar'
+						)
 					)
 				),
-				isAuthenticated && _react2.default.createElement(
-					'li',
-					{ className: this.isActive(this.props.location.pathname, 'painel') },
+				_react2.default.createElement(
+					_isAuth2.default,
+					null,
 					_react2.default.createElement(
-						_reactRouter.Link,
-						{ to: '/painel' },
-						'Minha Conta'
+						'li',
+						{ className: this.isActive(this.props.location.pathname, 'painel') },
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: '/painel' },
+							'Minha Conta'
+						)
 					)
 				),
 				_react2.default.createElement(
@@ -4316,16 +4396,17 @@ var TopNav = function (_Component) {
 						'Ajuda'
 					)
 				),
-				this.renderLogout(isAuthenticated)
+				this.renderLogout()
 			);
 		}
 	}, {
 		key: 'renderLogout',
 		value: function renderLogout(isAuthenticated) {
-			if (isAuthenticated) {
-				return _react2.default.createElement(_logoutButton2.default, null);
-			}
-			return null;
+			return _react2.default.createElement(
+				_isAuth2.default,
+				null,
+				_react2.default.createElement(_logoutButton2.default, null)
+			);
 		}
 	}, {
 		key: 'render',
@@ -4422,7 +4503,7 @@ TopNav.propTypes = {
 	location: _react2.default.PropTypes.object.isRequired
 };
 
-},{"../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/logoutButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\logoutButton.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\email.js":[function(require,module,exports){
+},{"../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../../containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/logoutButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\logoutButton.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\email.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4969,6 +5050,26 @@ var CommentsListing = function (_Component) {
 				comments = this.props.comments.data;
 			}
 
+			if (!comments || comments.length == 0) {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'comments__container' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'col-xs-12 text-center' },
+							_react2.default.createElement(
+								'p',
+								{ className: 'no-comments' },
+								'Ainda não foram adicionados comentários'
+							)
+						)
+					)
+				);
+			}
+
 			return _react2.default.createElement(
 				'div',
 				{ className: 'comments__container' },
@@ -5480,6 +5581,7 @@ var renderList = function renderList(list, props) {
 	var isAuthenticated = props.isAuthenticated;
 	var setHighlight = props.setHighlight;
 	var setFavorite = props.setFavorite;
+	var hideOptions = props.hideOptions;
 
 
 	return list.map(function (el, index) {
@@ -5494,7 +5596,8 @@ var renderList = function renderList(list, props) {
 			key: index,
 			config: props.config,
 			setHighlight: setHighlight,
-			setFavorite: setFavorite
+			setFavorite: setFavorite,
+			hideOptions: hideOptions
 		});
 	});
 };
@@ -5518,7 +5621,8 @@ ResourcesList.propTypes = {
 	maxcol: _react.PropTypes.number,
 	addscript: _react.PropTypes.bool,
 	viewmore: _react.PropTypes.bool,
-	isAuthenticated: _react.PropTypes.bool.isRequired
+	isAuthenticated: _react.PropTypes.bool.isRequired,
+	hideOptions: _react.PropTypes.bool
 };
 
 },{"../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","./resource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\resource.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js":[function(require,module,exports){
@@ -5720,25 +5824,29 @@ var optionsRender = function optionsRender(el, isAuthenticated, addscript, viewm
 //
 //	Render favorite button
 //
-var renderAuthOptions = function renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite) {
-	return _react2.default.createElement(
-		_isAuth2.default,
-		null,
-		_react2.default.createElement(
-			'div',
-			{ className: 'list__element--fav' },
-			_react2.default.createElement('i', { className: "fa fa-" + (el.isFavorite ? "heart" : "heart-o"), title: 'Favorito', onClick: function onClick() {
-					return setFavorite(el.id);
-				} }),
+var renderAuthOptions = function renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite, hideOptions) {
+	if (!hideOptions) {
+		return _react2.default.createElement(
+			_isAuth2.default,
+			null,
 			_react2.default.createElement(
-				_isAdmin2.default,
-				null,
-				_react2.default.createElement('i', { className: "fa fa-" + (el.highlight ? "star" : "star-o"), title: 'Recurso do Mês', onClick: function onClick() {
-						return setHighlight(el.id);
-					} })
+				'div',
+				{ className: 'list__element--fav' },
+				_react2.default.createElement('i', { className: "fa fa-" + (el.isFavorite ? "heart" : "heart-o"), title: 'Favorito', onClick: function onClick() {
+						return setFavorite(el.id);
+					} }),
+				_react2.default.createElement(
+					_isAdmin2.default,
+					null,
+					_react2.default.createElement('i', { className: "fa fa-" + (el.highlight ? "star" : "star-o"), title: 'Recurso do Mês', onClick: function onClick() {
+							return setHighlight(el.id);
+						} })
+				)
 			)
-		)
-	);
+		);
+	}
+
+	return null;
 };
 
 var ResourceElement = exports.ResourceElement = function ResourceElement(props) {
@@ -5757,6 +5865,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 	var config = props.config;
 	var setHighlight = props.setHighlight;
 	var setFavorite = props.setFavorite;
+	var hideOptions = props.hideOptions;
 
 	// Clearfix classes
 
@@ -5778,7 +5887,7 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 		_react2.default.createElement(
 			'div',
 			{ className: 'list__element' },
-			renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite),
+			renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite, hideOptions),
 			renderProtected(_react2.default.createElement(
 				'header',
 				null,
@@ -5879,6 +5988,10 @@ var _rating = require('../../common/rating');
 
 var _rating2 = _interopRequireDefault(_rating);
 
+var _isAuth = require('../../../containers/auth/isAuth');
+
+var _isAuth2 = _interopRequireDefault(_isAuth);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5899,12 +6012,25 @@ var ResourceDetails = function (_Component) {
 	function ResourceDetails(props) {
 		_classCallCheck(this, ResourceDetails);
 
+		//
+		//	Helpers
+		//
+
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ResourceDetails).call(this, props));
 
 		_this.requiresAuth = _this.requiresAuth.bind(_this);
-		_this.printMeta = _this.printMeta.bind(_this);
-		_this.setFavorite = _this.setFavorite.bind(_this);
 		_this.scrollToComments = _this.scrollToComments.bind(_this);
+
+		//
+		//	Event handlers
+		//	
+		_this.setFavorite = _this.setFavorite.bind(_this);
+		_this.setRating = _this.setRating.bind(_this);
+
+		//
+		//	Renders
+		//
+		_this.printMeta = _this.printMeta.bind(_this);
 
 		_this.state = {
 			isFavorite: false
@@ -5926,7 +6052,7 @@ var ResourceDetails = function (_Component) {
 			this.props.fetchResource(resource).then(function () {
 
 				// If this requires auth and not authed, go back
-				if (_this2.requiresAuth()) {
+				if (_this2.requiresAuth() || _this2.props.resource.errorMessage) {
 					_this2.context.router.push('/descobrir');
 
 					// If allowed, get the favorite
@@ -5934,6 +6060,8 @@ var ResourceDetails = function (_Component) {
 						_this2.setState({
 							isFavorite: _this2.props.resource.data.favorite || false
 						});
+
+						_this2.props.fetchScripts(_this2.props.resource.data.id);
 					}
 			});
 
@@ -5945,6 +6073,7 @@ var ResourceDetails = function (_Component) {
 			var _this3 = this;
 
 			// Load new data when the dataSource property changes.
+			// This is used for rating or favorite
 			if (nextProps.params.resource != this.props.params.resource) {
 				this.props.fetchResource(nextProps.params.resource).then(function () {
 					_this3.setState({
@@ -5974,11 +6103,20 @@ var ResourceDetails = function (_Component) {
 					label,
 					': '
 				),
-				'data'
-			) : "";
+				function () {
+					if (label == 'Email') {
+						return _react2.default.createElement(
+							'a',
+							{ href: "mailto:" + data },
+							data
+						);
+					}
+					return data;
+				}()
+			) : '';
 		}
 
-		/* Set favorite */
+		// Set as favorite
 
 	}, {
 		key: 'setFavorite',
@@ -5988,6 +6126,14 @@ var ResourceDetails = function (_Component) {
 			});
 
 			/* CALL ACTION TO APPLY CHANGE */
+		}
+
+		// Set rating for this resource
+
+	}, {
+		key: 'setRating',
+		value: function setRating(rate) {
+			console.log(rate);
 		}
 	}, {
 		key: 'scrollToComments',
@@ -6000,17 +6146,25 @@ var ResourceDetails = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			if (!this.props.config.data || !this.props.resource.data || this.props.resource && this.props.resource.fetching) {
+			var _props = this.props;
+			var config = _props.config;
+			var resource = _props.resource;
+			var auth = _props.auth;
+			var params = _props.params;
+
+
+			if (!config.data || !resource.data || resource && !resource.fetched) {
 				return null;
 			}
 
-			var _props$config$data = this.props.config.data;
-			var files = _props$config$data.files;
-			var graphics = _props$config$data.graphics;
+			var scripts = this.props.scripts;
+			var _config$data = config.data;
+			var files = _config$data.files;
+			var graphics = _config$data.graphics;
 
-			var resource = this.props.resource.data;
-			var resId = this.props.params.resource;
-			var isAuthenticated = this.props.auth.isAuthenticated;
+			var resourceInfo = resource.data;
+			var resId = params.resource;
+			var isAuthenticated = auth.isAuthenticated;
 
 
 			return _react2.default.createElement(
@@ -6025,8 +6179,19 @@ var ResourceDetails = function (_Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'col-xs-12 col-sm-6' },
-							_react2.default.createElement(_mediaDisplay2.default, { filesPath: files, graphicsPath: graphics, data: resource }),
-							_react2.default.createElement(_mediaFooter2.default, { filesPath: files, isFavorite: this.state.isFavorite, setFavorite: this.setFavorite, file: resource.file, url: resource.url })
+							_react2.default.createElement(_mediaDisplay2.default, {
+								filesPath: files + "/" + resourceInfo.slug,
+								graphicsPath: graphics,
+								type: resourceInfo.Format.type,
+								file: resourceInfo.Files[0],
+								embed: resourceInfo.embed }),
+							_react2.default.createElement(_mediaFooter2.default, {
+								graphicsPath: graphics,
+								filesPath: files + "/" + resourceInfo.slug,
+								isFavorite: this.state.isFavorite,
+								setFavorite: this.setFavorite,
+								file: resourceInfo.Files[0],
+								url: resourceInfo.link })
 						),
 						_react2.default.createElement(
 							'div',
@@ -6034,61 +6199,72 @@ var ResourceDetails = function (_Component) {
 							_react2.default.createElement(
 								'h1',
 								null,
-								resource.title
+								resourceInfo.title
 							),
 							_react2.default.createElement(
 								'div',
 								{ className: 'rating' },
-								_react2.default.createElement(_rating2.default, { initialRate: resource.ratingAvg, readonly: !isAuthenticated })
+								_react2.default.createElement(_rating2.default, { initialRate: resourceInfo.ratingAvg, setRating: this.setRating, readonly: !isAuthenticated })
 							),
-							this.printMeta("Autor", resource.author),
-							this.printMeta("Organização", resource.organization),
-							this.printMeta("Email", resource.email),
+							_react2.default.createElement(
+								_isAuth2.default,
+								null,
+								_react2.default.createElement(
+									'div',
+									{ className: 'row details-buttons' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'col-xs-12' },
+										_react2.default.createElement(
+											'button',
+											{ className: 'cta primary outline small', onClick: this.scrollToComments },
+											'Comentar Recurso'
+										),
+										_react2.default.createElement(
+											_reactRouter.Link,
+											{ to: "/gerirguioes/" + resId, className: 'cta primary outline small' },
+											'Novo Guião'
+										)
+									)
+								)
+							),
+							this.printMeta("Autor", resourceInfo.author),
+							this.printMeta("Organização", resourceInfo.organization),
+							this.printMeta("Email", resourceInfo.email),
 							_react2.default.createElement(
 								'p',
 								null,
-								resource.description
+								resourceInfo.description
 							)
 						)
 					),
-					_react2.default.createElement(_techFile2.default, { details: resource }),
+					_react2.default.createElement(_techFile2.default, { details: resourceInfo }),
 					_react2.default.createElement(
 						'div',
 						{ className: 'row' },
 						_react2.default.createElement(
 							'div',
-							{ className: 'col-xs-12' },
+							{ className: 'col-xs-12 op-proposal' },
 							_react2.default.createElement(
 								'h4',
 								null,
 								'Proposta de Operacionalização'
-							)
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'row details-buttons' },
-						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-6' },
+							),
 							_react2.default.createElement(
-								'button',
-								{ className: 'cta primary pull-right', onClick: this.scrollToComments },
-								'Comentar Recurso'
-							)
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-6' },
+								'p',
+								null,
+								resourceInfo.operation
+							),
 							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: "/novoguiao/" + resId, className: 'cta primary' },
-								'Novo Guião'
+								'small',
+								null,
+								'-- ',
+								resourceInfo.operation_author
 							)
 						)
 					)
 				),
-				_react2.default.createElement(_scripts2.default, { data: resource }),
+				_react2.default.createElement(_scripts2.default, { data: scripts.data, resourceId: resourceInfo.id }),
 				_react2.default.createElement(
 					'section',
 					{ className: 'comments', id: 'comentar' },
@@ -6102,9 +6278,39 @@ var ResourceDetails = function (_Component) {
 								'div',
 								{ className: 'col-xs-12' },
 								_react2.default.createElement(
-									'h5',
-									null,
-									' Escreva o seu comentário '
+									'h1',
+									{ className: 'text-center' },
+									'Comentários'
+								)
+							)
+						),
+						_react2.default.createElement(
+							_isAuth2.default,
+							null,
+							_react2.default.createElement(
+								'div',
+								{ className: 'row' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'col-xs-12' },
+									_react2.default.createElement(
+										'h5',
+										null,
+										' Escreva o seu comentário '
+									)
+								)
+							)
+						),
+						_react2.default.createElement(
+							_isAuth2.default,
+							null,
+							_react2.default.createElement(
+								'div',
+								{ className: 'row' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'col-xs-12' },
+									_react2.default.createElement(_commentForm2.default, null)
 								)
 							)
 						),
@@ -6114,21 +6320,12 @@ var ResourceDetails = function (_Component) {
 							_react2.default.createElement(
 								'div',
 								{ className: 'col-xs-12' },
-								_react2.default.createElement(_commentForm2.default, null)
-							)
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'row' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'col-xs-12' },
-								_react2.default.createElement(_comments2.default, { source: resource.id })
+								_react2.default.createElement(_comments2.default, { source: resourceInfo.slug })
 							)
 						)
 					)
 				),
-				_react2.default.createElement(_related2.default, { origin: resource })
+				_react2.default.createElement(_related2.default, { origin: resourceInfo.slug })
 			);
 		}
 	}]);
@@ -6143,7 +6340,7 @@ ResourceDetails.contextTypes = {
 	router: _react.PropTypes.object
 };
 
-},{"../../../containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","../../../containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","../../../containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
+},{"../../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../../../containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","../../../containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","../../../containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6156,22 +6353,32 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var possibleExt = ['swf', 'mp3', 'wav', 'wma', 'jar'];
+
 /**
  *
  *	Helper functions
  * 
  */
-var showPlaceholder = function showPlaceholder(type) {
-	return _react2.default.createElement('img', { src: "assets/graphics/placeholder/types/" + type + ".jpg", className: 'img-responsive' });
+//
+//	Show placeholder
+//
+var showPlaceholder = function showPlaceholder(graphicsPath, type) {
+	return _react2.default.createElement('img', { src: graphicsPath + "/" + type + ".jpg", className: 'img-responsive' });
 };
 
-var checkExtension = function checkExtension(fileName) {
-	var re = /(?:\.([^.]+))?$/;
-	return ext = re.exec(fileName);
+//
+//	Check if is an embedable extension
+//
+var checkExtension = function checkExtension(ext) {
+	return possibleExt.indexOf(ext) >= 0;
 };
 
+//
+//	Include SWF Files
+//
 var includeSwf = function includeSwf(filePath, fileName) {
-	return _react2.default.createElement('embed', { src: filePath + "/" + fileName });
+	return _react2.default.createElement('embed', { src: filePath + "/" + fileName, quality: 'high', type: 'application/x-shockwave-flash', width: '100%', height: '300px', SCALE: 'exactfit', pluginspage: 'http://www.macromedia.com/go/getflashplayer' });
 };
 
 /**
@@ -6180,47 +6387,94 @@ var includeSwf = function includeSwf(filePath, fileName) {
  * 
  */
 var video = function video(meta) {
-	return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: meta.embed }, className: 'embed-content' }) || showPlaceholder("video");
+	var embed = meta.embed;
+
+
+	if (embed) {
+		return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: embed }, className: 'embed-content' }) || showPlaceholder("video");
+	}
+
+	return showPlaceholder(meta.graphicsPath, "video");
 };
 
 var image = function image(meta) {
-	return _react2.default.createElement('img', { src: meta.file, className: 'img-responsive' });
+	if (meta.file) {
+		var _meta$file = meta.file;
+		var name = _meta$file.name;
+		var extension = _meta$file.extension;
+
+		return _react2.default.createElement('img', { src: meta.filesPath + "/" + name + "." + extension, className: 'img-responsive' });
+	}
+
+	return showPlaceholder(meta.graphicsPath, "image");
 };
 
-var audio = function audio() {
-	return showPlaceholder("audio");
+var audio = function audio(meta) {
+	if (meta.file) {
+		var _meta$file2 = meta.file;
+		var name = _meta$file2.name;
+		var extension = _meta$file2.extension;
+
+
+		if (checkExtension(meta.file.extension) && name && extension) {
+			return includeSwf(meta.filesPath, name + "." + extension);
+		}
+	}
+
+	return showPlaceholder(meta.graphicsPath, "audio");
 };
 
 var simulation = function simulation(meta) {
-	if (checkExtension("swf")) {
-		return includeSwf(meta.filePath, meta.file);
+	if (meta.file) {
+		var _meta$file3 = meta.file;
+		var name = _meta$file3.name;
+		var extension = _meta$file3.extension;
+
+
+		if (checkExtension(meta.file.extension) && name && extension) {
+			return includeSwf(meta.filesPath, name + "." + extension);
+		}
 	}
 
-	return showPlaceholder("simulation");
+	return showPlaceholder(meta.graphicsPath, "simulation");
 };
 
 var animation = function animation(meta) {
-	if (checkExtension("swf")) {
-		return includeSwf(meta.filePath, meta.file);
+	if (meta.file) {
+		var _meta$file4 = meta.file;
+		var name = _meta$file4.name;
+		var extension = _meta$file4.extension;
+
+
+		if (checkExtension(meta.file.extension) && name && extension) {
+			return includeSwf(meta.filesPath, name + "." + extension);
+		}
 	}
 
-	return showPlaceholder("animation");
+	return showPlaceholder(meta.graphicsPath, "animation");
 };
 
-var text = function text() {
-	return showPlaceholder("text");
+var text = function text(meta) {
+	return showPlaceholder(meta.graphicsPath, "text");
 };
 
-var calc = function calc() {
-	return showPlaceholder("calc");
+var calc = function calc(meta) {
+	return showPlaceholder(meta.graphicsPath, "calc");
 };
 
 var game = function game(meta) {
-	if (checkExtension("swf")) {
-		return includeSwf(meta.filePath, meta.file);
+	if (meta.file) {
+		var _meta$file5 = meta.file;
+		var name = _meta$file5.name;
+		var extension = _meta$file5.extension;
+
+
+		if (checkExtension(meta.file.extension) && name && extension) {
+			return includeSwf(meta.filesPath, name + "." + extension);
+		}
 	}
 
-	return showPlaceholder("game");
+	return showPlaceholder(meta.graphicsPath, "game");
 };
 
 //
@@ -6231,13 +6485,13 @@ var evalFunc = function evalFunc(func, props) {
 };
 
 exports.default = function (props) {
-	var type = props.data.Format.type;
+	var type = props.type;
+	var file = props.file;
 
-	console.log(type);
 	return _react2.default.createElement(
-		'span',
-		null,
-		type ? evalFunc(type, props.data) : ""
+		'div',
+		{ className: 'mediadisplay-container' },
+		type ? evalFunc(type, props) : ""
 	);
 };
 
@@ -6277,26 +6531,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  *	Helper functions
  * 
  */
-var printAction = function printAction(status, filesPath) {
-	var argsObj = arguments.length <= 2 ? undefined : arguments[2];
-
-	if (status && argsObj && argsObj.file) {
+var printAction = function printAction(filesPath, file, url) {
+	if (file) {
 		return _react2.default.createElement(
 			'li',
 			null,
 			_react2.default.createElement(
 				'a',
-				{ href: filesPath + "/" + argsObj.file, download: true, className: 'media__action media__action--main' },
+				{ href: filesPath + "/" + file.name + "." + file.extension, download: true, className: 'media__action media__action--main' },
 				_react2.default.createElement('i', { className: 'fa fa-download' })
 			)
 		);
-	} else if (argsObj && argsObj.url) {
+	} else if (url) {
 		return _react2.default.createElement(
 			'li',
 			null,
 			_react2.default.createElement(
 				'a',
-				{ href: (0, _utils.setUrl)(argsObj.url), target: '_blank', className: 'media__action media__action--main' },
+				{ href: (0, _utils.setUrl)(url), target: '_blank', className: 'media__action media__action--main' },
 				_react2.default.createElement('i', { className: 'fa fa-link' })
 			)
 		);
@@ -6316,7 +6568,7 @@ exports.default = function (props) {
 	return _react2.default.createElement(
 		'ul',
 		{ className: 'media-footer' },
-		printAction(true, filesPath, { file: file, url: url }),
+		printAction(filesPath, file, url),
 		_react2.default.createElement(
 			'li',
 			null,
@@ -6351,11 +6603,146 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
 var _reactBootstrap = require('react-bootstrap');
+
+var _techFile = require('../techFile');
+
+var _techFile2 = _interopRequireDefault(_techFile);
+
+var _isAuth = require('../../../containers/auth/isAuth');
+
+var _isAuth2 = _interopRequireDefault(_isAuth);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+var renderScripts = function renderScripts(scripts) {
+	return scripts.map(function (script, index) {
+		return _react2.default.createElement(
+			_reactBootstrap.Tabs,
+			{ defaultActiveKey: index + 1, key: script.id },
+			_react2.default.createElement(
+				_reactBootstrap.Tab,
+				{ eventKey: script.id, title: "Guião " + (index + 1) },
+				_react2.default.createElement(
+					'div',
+					{ className: 'row' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 col-sm-4' },
+						_react2.default.createElement(
+							'label',
+							null,
+							'Autor:'
+						),
+						script.author
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 col-sm-4' },
+						_react2.default.createElement(
+							'label',
+							null,
+							'Email:'
+						),
+						_react2.default.createElement(
+							'a',
+							{ href: "mailto:" + script.email },
+							script.email
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 col-sm-4' },
+						_react2.default.createElement(
+							'label',
+							null,
+							'Organização:'
+						),
+						script.organization
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'row' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-6 col-sm-3' },
+						_react2.default.createElement(
+							'label',
+							{ className: 'block' },
+							'Descrição'
+						),
+						script.description
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'row' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 op-proposal' },
+						_react2.default.createElement(
+							'label',
+							{ className: 'block' },
+							'Proposta de Operacionalização'
+						),
+						_react2.default.createElement(
+							'p',
+							null,
+							script.operation
+						)
+					)
+				),
+				_react2.default.createElement(_techFile2.default, { details: script, maxCol: 3, showTitle: false })
+			)
+		);
+	});
+};
+
+// Components
+
+
+var ScriptsList = function ScriptsList(props) {
+	var data = props.data;
+	var resourceId = props.resourceId;
+
+
+	if (!data || data.length == 0) {
+		return _react2.default.createElement(
+			'section',
+			{ className: 'scripts-detail' },
+			_react2.default.createElement(
+				'div',
+				{ className: 'container text-center' },
+				_react2.default.createElement(
+					'h1',
+					null,
+					'Guiões'
+				),
+				_react2.default.createElement(
+					'p',
+					null,
+					'Este recurso ainda não possui guiões. '
+				),
+				_react2.default.createElement(
+					_isAuth2.default,
+					null,
+					_react2.default.createElement(
+						'div',
+						{ className: 'text-center no-script' },
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: "/novoguiao/" + resourceId, className: 'cta primary outline' },
+							'Publicar o primeiro Guião'
+						)
+					)
+				)
+			)
+		);
+	}
+
 	return _react2.default.createElement(
 		'section',
 		{ className: 'scripts-detail' },
@@ -6363,70 +6750,23 @@ exports.default = function (props) {
 			'div',
 			{ className: 'container' },
 			_react2.default.createElement(
-				_reactBootstrap.Tabs,
-				{ defaultActiveKey: 1 },
-				_react2.default.createElement(
-					_reactBootstrap.Tab,
-					{ eventKey: 1, title: 'Guião 1' },
-					_react2.default.createElement(
-						'h4',
-						{ className: 'text-center' },
-						'Guião 1'
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'row' },
-						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-12 col-sm-4' },
-							'/* Author */'
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-12 col-sm-4' },
-							'/* email */'
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-12 col-sm-4' },
-							'/* organization */'
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'row' },
-						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-12' },
-							'/* Op Proposal*/'
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'row' },
-						_react2.default.createElement(
-							'div',
-							{ className: 'col-xs-6 col-sm-3' },
-							'/* More details */'
-						)
-					)
-				),
-				_react2.default.createElement(
-					_reactBootstrap.Tab,
-					{ eventKey: 2, title: 'Guião 2' },
-					'Tab 2 content'
-				),
-				_react2.default.createElement(
-					_reactBootstrap.Tab,
-					{ eventKey: 3, title: 'Guião 3' },
-					'Tab 3 content'
-				)
-			)
+				'h1',
+				{ className: 'text-center' },
+				'Guiões'
+			),
+			renderScripts(data)
 		)
 	);
 };
 
-},{"react":"react","react-bootstrap":"react-bootstrap"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\highlights.js":[function(require,module,exports){
+ScriptsList.propTypes = {
+	data: _react.PropTypes.array,
+	resourceId: _react.PropTypes.number
+};
+
+exports.default = ScriptsList;
+
+},{"../../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\highlights.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8260,27 +8600,30 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var RecentResources = function (_Component) {
-	_inherits(RecentResources, _Component);
+// Components
 
-	function RecentResources(props) {
-		_classCallCheck(this, RecentResources);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(RecentResources).call(this, props));
+var RelatedResources = function (_Component) {
+	_inherits(RelatedResources, _Component);
+
+	function RelatedResources(props) {
+		_classCallCheck(this, RelatedResources);
+
+		return _possibleConstructorReturn(this, Object.getPrototypeOf(RelatedResources).call(this, props));
 	}
 
-	_createClass(RecentResources, [{
+	_createClass(RelatedResources, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			var resource = this.props.resource;
+			var origin = this.props.origin;
 
-			this.props.fetchRelatedResources(resource);
+			this.props.fetchRelatedResources(origin);
 			this.props.fetchConfig();
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			if (!this.props.relatedResources) return null;
+			if (this.props.relatedResources.fetched && (!this.props.relatedResources.data || this.props.relatedResources.data.length == 0)) return null;
 
 			var isAuthenticated = this.props.auth.isAuthenticated;
 
@@ -8304,22 +8647,29 @@ var RecentResources = function (_Component) {
 							)
 						)
 					),
-					_react2.default.createElement(_list.ResourcesList, { list: this.props.relatedResources, config: this.props.config.data, maxcol: 3, viewmore: true, isAuthenticated: isAuthenticated })
+					_react2.default.createElement(_list.ResourcesList, {
+						list: this.props.relatedResources,
+						config: this.props.config.data,
+						maxcol: 3,
+						viewmore: true,
+						isAuthenticated: isAuthenticated,
+						hideOptions: true })
 				)
 			);
 		}
 	}]);
 
-	return RecentResources;
+	return RelatedResources;
 }(_react.Component);
 
-exports.default = RecentResources;
+exports.default = RelatedResources;
 
 
-RecentResources.propTypes = {
-	relatedResources: _react2.default.PropTypes.object.isRequired,
-	origin: _react2.default.PropTypes.object.isRequired,
-	config: _react2.default.PropTypes.object.isRequired
+RelatedResources.propTypes = {
+	relatedResources: _react.PropTypes.object.isRequired,
+	origin: _react.PropTypes.string.isRequired,
+	config: _react.PropTypes.object.isRequired,
+	auth: _react.PropTypes.object.isRequired
 };
 
 },{"./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js":[function(require,module,exports){
@@ -8335,11 +8685,49 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+var renderList = function renderList(items) {
+	return _react2.default.createElement(
+		"ul",
+		null,
+		items.map(function (item) {
+			return _react2.default.createElement(
+				"li",
+				{ key: item.id },
+				item.title
+			);
+		})
+	);
+};
+
+var techFile = function techFile(props) {
+	var showTitle = false;
+
+	var _props$details = props.details;
+	var Years = _props$details.Years;
+	var Domains = _props$details.Domains;
+	var Subjects = _props$details.Subjects;
+	var Languages = _props$details.Languages;
+	var techResources = _props$details.techResources;
+
+	//
+	//	Show section title?
+	//
+
+	if (Years && Years.length > 0 || Domains && Domains.length > 0 || Subjects && Subjects.length > 0 || Languages && Languages.length > 0 || techResources && techResources.length > 0) {
+
+		showTitle = props.showTitle != null ? props.showTitle : true;
+	}
+
+	//
+	//	Set number of columns
+	//
+	var maxCol = props.maxCol || 4;
+	var classColCount = Math.floor(12 / maxCol);
+
 	return _react2.default.createElement(
 		"div",
 		{ className: "row tech-file" },
-		_react2.default.createElement(
+		showTitle && _react2.default.createElement(
 			"div",
 			{ className: "col-xs-12 text-center" },
 			_react2.default.createElement(
@@ -8348,73 +8736,65 @@ exports.default = function (props) {
 				"Ficha Técnica"
 			)
 		),
-		_react2.default.createElement(
+		Years && Years.length > 0 && _react2.default.createElement(
 			"div",
-			{ className: "col-xs-12 col-sm-6 col-md-2" },
+			{ className: "col-xs-12 col-sm-6 col-md-" + classColCount },
 			_react2.default.createElement(
 				"h4",
 				null,
 				"Anos"
 			),
-			_react2.default.createElement(
-				"li",
-				null,
-				"1"
-			),
-			_react2.default.createElement(
-				"li",
-				null,
-				"2"
-			),
-			_react2.default.createElement(
-				"li",
-				null,
-				"3"
-			),
-			_react2.default.createElement(
-				"li",
-				null,
-				"4"
-			)
+			renderList(Years)
 		),
-		_react2.default.createElement(
+		Domains && Domains.length > 0 && _react2.default.createElement(
 			"div",
-			{ className: "col-xs-12 col-sm-6 col-md-2" },
+			{ className: "col-xs-12 col-sm-6 col-md-" + classColCount },
 			_react2.default.createElement(
 				"h4",
 				null,
 				"Domínios"
-			)
+			),
+			renderList(Domains)
 		),
-		_react2.default.createElement(
+		Subjects && Subjects.length > 0 && _react2.default.createElement(
 			"div",
-			{ className: "col-xs-12 col-sm-6 col-md-2" },
+			{ className: "col-xs-12 col-sm-6 col-md-" + classColCount },
 			_react2.default.createElement(
 				"h4",
 				null,
 				"Disciplinas"
-			)
+			),
+			renderList(Subjects)
 		),
-		_react2.default.createElement(
+		Languages && Languages.length > 0 && _react2.default.createElement(
 			"div",
-			{ className: "col-xs-12 col-sm-6 col-md-2" },
+			{ className: "col-xs-12 col-sm-6 col-md-" + classColCount },
 			_react2.default.createElement(
 				"h4",
 				null,
 				"Idioma"
-			)
+			),
+			renderList(Languages)
 		),
-		_react2.default.createElement(
+		techResources && techResources.length > 0 && _react2.default.createElement(
 			"div",
-			{ className: "col-xs-12 col-sm-6 col-md-3" },
+			{ className: "col-xs-12 col-sm-6 col-md-12" },
 			_react2.default.createElement(
 				"h4",
 				null,
 				"Requisitos Técnicos"
-			)
+			),
+			techResources
 		)
 	);
 };
+
+techFile.propTypes = {
+	details: _react.PropTypes.object.isRequired,
+	maxCol: _react.PropTypes.number
+};
+
+exports.default = techFile;
 
 },{"react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\common\\domains.js":[function(require,module,exports){
 'use strict';
@@ -10859,6 +11239,10 @@ var _reactRedux = require('react-redux');
 
 var _resources = require('../../actions/resources');
 
+var _scripts = require('../../actions/scripts');
+
+var _comments = require('../../actions/comments');
+
 var _config = require('../../actions/config');
 
 var _redux = require('redux');
@@ -10872,18 +11256,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapStateToProps(state) {
   return {
     resource: state.resource,
+    scripts: state.scripts,
+    comments: state.comments,
     auth: state.auth,
     config: state.config
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchResource: _resources.fetchResource, fetchConfig: _config.fetchConfig }, dispatch);
+  return (0, _redux.bindActionCreators)({
+    fetchResource: _resources.fetchResource,
+    fetchConfig: _config.fetchConfig,
+    fetchScripts: _scripts.fetchScripts,
+    resetResource: _resources.resetResource,
+    resetScripts: _scripts.resetScripts,
+    resetComments: _comments.resetComments
+  }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_details2.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js":[function(require,module,exports){
+},{"../../actions/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\comments.js","../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../actions/scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\scripts.js","../../components/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11006,7 +11399,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchRelatedResources: _resources.fetchRelatedResources, fetchConfig: _config.fetchConfig }, dispatch);
+  return (0, _redux.bindActionCreators)({
+    fetchRelatedResources: _resources.fetchRelatedResources,
+    resetRelatedResources: _resources.resetRelatedResources,
+    fetchConfig: _config.fetchConfig
+  }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_related2.default);
@@ -11323,13 +11720,14 @@ function callApi(endpoint, sendToken, mustAuth, method) {
     var json = _ref.json;
     var response = _ref.response;
 
+
     if (!response.ok) {
-      return Promise.reject(json);
+      return Promise.reject({ error: json, response: response });
     }
 
     return json;
   }).catch(function (err) {
-    return console.log(err);
+    return Promise.reject(err);
   });
 }
 
@@ -11346,40 +11744,49 @@ exports.default = function (store) {
         return next(action);
       }
 
-      var endpoint = callAPI.endpoint;
-      var types = callAPI.types;
-      var sendToken = callAPI.sendToken;
-      var mustAuth = callAPI.mustAuth;
-      var method = callAPI.method;
-
-      var _types = _slicedToArray(types, 3);
-
-      var requestType = _types[0];
-      var successType = _types[1];
-      var errorType = _types[2];
-
-
       _reactProgress2.default.show();
 
-      // Passing the authenticated boolean back in our data will let us distinguish between normal and secret quotes
-      return callApi(endpoint, sendToken, mustAuth, method).then(function (response) {
-        _reactProgress2.default.hide();
-
-        next({
-          data: response,
-          type: successType
-        });
-      }).catch(function (error) {
-        _reactProgress2.default.hide();
-
-        next({
-          error: error.message || 'There was an error.',
-          type: errorType
-        });
-      });
+      return makeAPIRequest(callAPI, next);
     };
   };
 };
+
+function makeAPIRequest(callAPI, next) {
+  var endpoint = callAPI.endpoint;
+  var types = callAPI.types;
+  var sendToken = callAPI.sendToken;
+  var mustAuth = callAPI.mustAuth;
+  var method = callAPI.method;
+
+  var _types = _slicedToArray(types, 3);
+
+  var requestType = _types[0];
+  var successType = _types[1];
+  var errorType = _types[2];
+
+  // Passing the authenticated boolean back in our data will let us distinguish between normal and secret quotes
+
+  return callApi(endpoint, sendToken, mustAuth, method).then(function (response) {
+    _reactProgress2.default.hide();
+
+    next({
+      data: response,
+      type: successType
+    });
+  }).catch(function (result) {
+    _reactProgress2.default.hide();
+    if (result.error && result.error.new_token) {
+      localStorage.setItem('token', result.error.new_token);
+      return makeAPIRequest(callAPI, next);
+    }
+
+    next({
+      message: result.error ? result.error.message : 'There was an error.',
+      status: result.response ? result.response.status : null,
+      type: errorType
+    });
+  });
+}
 
 },{"es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch","react-progress-2":"react-progress-2"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js":[function(require,module,exports){
 'use strict';
@@ -11410,10 +11817,6 @@ var _bottomNav = require('../components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11421,9 +11824,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// Animation
-
 
 var DiscoverPage = function (_Component) {
   _inherits(DiscoverPage, _Component);
@@ -11438,10 +11838,8 @@ var DiscoverPage = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactAddonsCssTransitionGroup2.default,
-        { transitionName: 'transition',
-          transitionAppear: true, transitionAppearTimeout: 500,
-          transitionEnter: false, transitionLeave: false },
+        'div',
+        null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(_profileNav2.default, { location: this.props.location }),
         _react2.default.createElement(_dashboard2.default, { location: this.props.location }),
@@ -11455,7 +11853,7 @@ var DiscoverPage = function (_Component) {
 
 exports.default = DiscoverPage;
 
-},{"../components/dashboard":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\index.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../components/navigation/profileNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\discoverPage.js":[function(require,module,exports){
+},{"../components/dashboard":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\index.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../components/navigation/profileNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\discoverPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11482,10 +11880,6 @@ var _bottomNav = require('../components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11493,9 +11887,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// Animation
-
 
 var DiscoverPage = function (_Component) {
   _inherits(DiscoverPage, _Component);
@@ -11510,10 +11901,8 @@ var DiscoverPage = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactAddonsCssTransitionGroup2.default,
-        { transitionName: 'transition',
-          transitionAppear: true, transitionAppearTimeout: 500,
-          transitionEnter: false, transitionLeave: false },
+        'div',
+        null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(_breadcrumbs.AppBreadcrumbs, { routes: this.props.routes, params: this.props.params, setDocumentTitle: true }),
         _react2.default.createElement(_resources2.default, { location: this.props.location }),
@@ -11527,7 +11916,7 @@ var DiscoverPage = function (_Component) {
 
 exports.default = DiscoverPage;
 
-},{"../components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\indexPage.js":[function(require,module,exports){
+},{"../components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\indexPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11564,10 +11953,6 @@ var _bottomNav = require('../components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11592,10 +11977,8 @@ var IndexPage = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactAddonsCssTransitionGroup2.default,
-        { transitionName: 'transition',
-          transitionAppear: true, transitionAppearTimeout: 500,
-          transitionEnter: false, transitionLeave: false },
+        'div',
+        null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(_formats2.default, null),
         _react2.default.createElement(_explore2.default, null),
@@ -11611,7 +11994,7 @@ var IndexPage = function (_Component) {
 
 exports.default = IndexPage;
 
-},{"../components/blocks/explore":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\blocks\\explore.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/blocks/contribute":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\blocks\\contribute.js","../containers/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\formats\\index.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources/recent":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newResourcePage.js":[function(require,module,exports){
+},{"../components/blocks/explore":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\blocks\\explore.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/blocks/contribute":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\blocks\\contribute.js","../containers/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\formats\\index.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources/recent":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newResourcePage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11636,10 +12019,6 @@ var _bottomNav = require('../components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11647,9 +12026,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// Animation
-
 
 var NewResourcePage = function (_Component) {
   _inherits(NewResourcePage, _Component);
@@ -11664,10 +12040,8 @@ var NewResourcePage = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactAddonsCssTransitionGroup2.default,
-        { transitionName: 'transition',
-          transitionAppear: true, transitionAppearTimeout: 500,
-          transitionEnter: false, transitionLeave: false },
+        'div',
+        null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(_newResourceForm2.default, null),
         _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
@@ -11680,7 +12054,7 @@ var NewResourcePage = function (_Component) {
 
 exports.default = NewResourcePage;
 
-},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/dashboard/newResourceForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newScriptPage.js":[function(require,module,exports){
+},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/dashboard/newResourceForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newScriptPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11705,10 +12079,6 @@ var _bottomNav = require('../components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11716,9 +12086,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// Animation
-
 
 var NewResourcePage = function (_Component) {
   _inherits(NewResourcePage, _Component);
@@ -11733,10 +12100,8 @@ var NewResourcePage = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactAddonsCssTransitionGroup2.default,
-        { transitionName: 'transition',
-          transitionAppear: true, transitionAppearTimeout: 500,
-          transitionEnter: false, transitionLeave: false },
+        'div',
+        null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(_newScriptForm2.default, null),
         _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
@@ -11749,7 +12114,7 @@ var NewResourcePage = function (_Component) {
 
 exports.default = NewResourcePage;
 
-},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/dashboard/newScriptForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newScriptForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\notFoundPage.js":[function(require,module,exports){
+},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/dashboard/newScriptForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newScriptForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\notFoundPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11769,10 +12134,6 @@ var _header2 = _interopRequireDefault(_header);
 var _bottomNav = require('../components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
-
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -11794,16 +12155,40 @@ var NotFoundPage = function (_Component) {
   _createClass(NotFoundPage, [{
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       return _react2.default.createElement(
-        _reactAddonsCssTransitionGroup2.default,
-        { transitionName: 'transition',
-          transitionAppear: true, transitionAppearTimeout: 500,
-          transitionEnter: false, transitionLeave: false },
+        'div',
+        null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(
           'div',
-          null,
-          'Página Nâo Encontrada'
+          { className: 'page-not-found light-background' },
+          _react2.default.createElement(
+            'div',
+            { className: 'container' },
+            _react2.default.createElement(
+              'div',
+              { className: 'col-xs-10 col-xs-offset-1 text-center' },
+              _react2.default.createElement(
+                'h1',
+                null,
+                'Oops! Não foi possível encontrar a página pretendida.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                'Talvez seja melhor ',
+                _react2.default.createElement(
+                  'button',
+                  { onClick: function onClick() {
+                      return _this2.context.router.goBack();
+                    }, className: 'cta primary outline' },
+                  'Voltar'
+                )
+              )
+            )
+          )
         ),
         _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
       );
@@ -11815,7 +12200,12 @@ var NotFoundPage = function (_Component) {
 
 exports.default = NotFoundPage;
 
-},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\resourceDetailsPage.js":[function(require,module,exports){
+
+NotFoundPage.contextTypes = {
+  router: _react.PropTypes.object
+};
+
+},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\resourceDetailsPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11850,10 +12240,6 @@ var _bottomNav = require('../components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11875,10 +12261,8 @@ var ResourceDetailsPage = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactAddonsCssTransitionGroup2.default,
-        { transitionName: 'transition',
-          transitionAppear: true, transitionAppearTimeout: 500,
-          transitionEnter: false, transitionLeave: false },
+        'div',
+        null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(
           'div',
@@ -11901,7 +12285,7 @@ var ResourceDetailsPage = function (_Component) {
 
 exports.default = ResourceDetailsPage;
 
-},{"../components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js","../containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js":[function(require,module,exports){
+},{"../components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js","../containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11926,10 +12310,6 @@ var _bottomNav = require('../components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
-var _reactAddonsCssTransitionGroup = require('react-addons-css-transition-group');
-
-var _reactAddonsCssTransitionGroup2 = _interopRequireDefault(_reactAddonsCssTransitionGroup);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11937,9 +12317,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-// Animation
-
 
 var NewResourcePage = function (_Component) {
   _inherits(NewResourcePage, _Component);
@@ -11954,10 +12331,8 @@ var NewResourcePage = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        _reactAddonsCssTransitionGroup2.default,
-        { transitionName: 'transition',
-          transitionAppear: true, transitionAppearTimeout: 500,
-          transitionEnter: false, transitionLeave: false },
+        'div',
+        null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
         _react2.default.createElement(_signupForm2.default, null),
         _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
@@ -11970,7 +12345,7 @@ var NewResourcePage = function (_Component) {
 
 exports.default = NewResourcePage;
 
-},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/auth/signupForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\signupForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react","react-addons-css-transition-group":"react-addons-css-transition-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\access.js":[function(require,module,exports){
+},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/auth/signupForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\signupForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\access.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11995,14 +12370,16 @@ exports.default = function () {
     case _actionTypes.ACCESS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.ACCESS_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     default:
       return state;
@@ -12017,7 +12394,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\alerts.js":[function(require,module,exports){
 'use strict';
@@ -12153,7 +12530,7 @@ exports.default = function () {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errors: null
       });
     default:
       return state;
@@ -12238,14 +12615,16 @@ exports.default = function () {
     case _actionTypes.DOMAINS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.DOMAINS_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     default:
       return state;
@@ -12260,7 +12639,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\filters.js":[function(require,module,exports){
 'use strict';
@@ -12325,14 +12704,16 @@ exports.default = function () {
     case _actionTypes.FORMATS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.FORMATS_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     default:
       return state;
@@ -12347,7 +12728,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\index.js":[function(require,module,exports){
 'use strict';
@@ -12363,6 +12744,10 @@ var _reduxForm = require('redux-form');
 var _resources = require('./resources');
 
 var _resources2 = _interopRequireDefault(_resources);
+
+var _scripts = require('./scripts');
+
+var _scripts2 = _interopRequireDefault(_scripts);
 
 var _comments = require('./comments');
 
@@ -12431,6 +12816,7 @@ var rootReducer = (0, _redux.combineReducers)({
 	comments: _comments2.default,
 	resources: _resources.resources,
 	resource: _resources.resource,
+	scripts: _scripts2.default,
 	relatedResources: _resources.relatedResources,
 	terms: _terms2.default,
 	auth: _auth2.default,
@@ -12441,7 +12827,7 @@ var rootReducer = (0, _redux.combineReducers)({
 
 exports.default = rootReducer;
 
-},{"./access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\access.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\alerts.js","./auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\auth.js","./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\comments.js","./config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\config.js","./domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\domains.js","./filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\filters.js","./formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\formats.js","./languages":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\languages.js","./resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\resources.js","./subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\subjects.js","./terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\terms.js","./user":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\user.js","./years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\years.js","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\languages.js":[function(require,module,exports){
+},{"./access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\access.js","./alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\alerts.js","./auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\auth.js","./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\comments.js","./config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\config.js","./domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\domains.js","./filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\filters.js","./formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\formats.js","./languages":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\languages.js","./resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\resources.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\scripts.js","./subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\subjects.js","./terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\terms.js","./user":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\user.js","./years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\years.js","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\languages.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12467,14 +12853,16 @@ exports.default = function () {
     case _actionTypes.LANGUAGES_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.LANGUAGES_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     default:
       return state;
@@ -12489,7 +12877,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\resources.js":[function(require,module,exports){
 'use strict';
@@ -12516,14 +12904,16 @@ exports.default = function () {
     case _actionTypes.HIGHLIGHTS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.HIGHLIGHTS_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     default:
       return state;
@@ -12542,7 +12932,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 function resources() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
@@ -12565,14 +12955,16 @@ function resources() {
     case _actionTypes.RESOURCES_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.RESOURCES_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     case _actionTypes.TOGGLE_HIGHLIGHT_RESOURCE:
 
@@ -12615,14 +13007,16 @@ function resource() {
     case _actionTypes.RESOURCE_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.RESOURCE_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     case _actionTypes.TOGGLE_HIGHLIGHT_RESOURCE:
       if (state.id != action.id) {
@@ -12663,19 +13057,72 @@ function relatedResources() {
     case _actionTypes.RELATED_RESOURCES_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.RELATED_RESOURCES_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     default:
       return state;
   }
 };
+
+},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\scripts.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? INITIAL_STATE : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actionTypes.SCRIPTS_REQUEST:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: true
+      });
+    case _actionTypes.SCRIPTS_SUCCESS:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: true,
+        data: action.data.result
+      });
+    case _actionTypes.SCRIPTS_FAILURE:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        errorMessage: action.message,
+        errorStatus: action.status
+      });
+    case _actionTypes.SCRIPTS_RESET:
+      return (0, _objectAssign2.default)({}, state, {
+        fetching: false,
+        fetched: false,
+        data: null,
+        errorMessage: null,
+        errorStatus: null
+      });
+    default:
+      return state;
+  }
+};
+
+var _objectAssign = require('object-assign');
+
+var _objectAssign2 = _interopRequireDefault(_objectAssign);
+
+var _actionTypes = require('../actions/action-types');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\subjects.js":[function(require,module,exports){
 'use strict';
@@ -12703,14 +13150,16 @@ exports.default = function () {
     case _actionTypes.SUBJECTS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case ~_actionTypes.SUBJECTS_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     default:
       return state;
@@ -12725,7 +13174,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\terms.js":[function(require,module,exports){
 'use strict';
@@ -12753,7 +13202,8 @@ exports.default = function () {
     case _actionTypes.TERMSANDCONDITIONS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     default:
       return state;
@@ -12768,7 +13218,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\user.js":[function(require,module,exports){
 'use strict';
@@ -12787,7 +13237,6 @@ exports.default = function () {
         fetching: true
       });
     case _actionTypes.USER_SUCCESS:
-
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: true,
@@ -12796,7 +13245,8 @@ exports.default = function () {
     case _actionTypes.USER_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     default:
       return state;
@@ -12811,7 +13261,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\years.js":[function(require,module,exports){
 'use strict';
@@ -12838,14 +13288,16 @@ exports.default = function () {
     case _actionTypes.YEARS_FAILURE:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       });
     case _actionTypes.YEARS_RESET:
       return (0, _objectAssign2.default)({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       });
     default:
       return state;
@@ -12860,7 +13312,7 @@ var _actionTypes = require('../actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 },{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\routes\\index.js":[function(require,module,exports){
 'use strict';

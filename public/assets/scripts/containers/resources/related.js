@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchRelatedResources } from '../../actions/resources';
+import { fetchRelatedResources, resetRelatedResources } from '../../actions/resources';
 import { fetchConfig } from '../../actions/config';
 import { bindActionCreators } from 'redux';
 import RelatedResources from '../../components/resources/related';
@@ -15,7 +15,11 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) { 
-  return bindActionCreators({ fetchRelatedResources, fetchConfig }, dispatch);
+  return bindActionCreators({ 
+  	fetchRelatedResources,
+  	resetRelatedResources,
+  	fetchConfig 
+  }, dispatch);
 }
 
 

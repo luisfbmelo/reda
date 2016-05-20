@@ -75,7 +75,7 @@
 	.small-nav{
 		font-size: em(14);		
 		
-		li + li{
+		li{
 
 			@include media-query-min(48em){
 				margin-left:10px;

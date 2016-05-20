@@ -31,7 +31,7 @@ export default function(state = INITIAL_STATE, action) {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errors: null
       })
     default:
       return state;

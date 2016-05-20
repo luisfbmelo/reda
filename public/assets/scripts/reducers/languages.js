@@ -6,7 +6,7 @@ import {
   LANGUAGES_RESET
 } from '../actions/action-types';
 
-const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
@@ -24,14 +24,16 @@ export default function(state = INITIAL_STATE, action) {
     case LANGUAGES_FAILURE:
       return assign({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       })
     case LANGUAGES_RESET:
       return assign({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       })
     default:
       return state;

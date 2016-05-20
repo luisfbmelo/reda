@@ -5,7 +5,7 @@ import {
 	TERMSANDCONDITIONS_FAILURE
 } from '../actions/action-types';
 
-const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
@@ -23,7 +23,8 @@ export default function(state = INITIAL_STATE, action) {
     case TERMSANDCONDITIONS_FAILURE:
       return assign({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       })
     default:
       return state;

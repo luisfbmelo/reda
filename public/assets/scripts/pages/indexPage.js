@@ -9,21 +9,17 @@ import RecentContainer from '../containers/resources/recent';
 import ContributeBlockContainer from '../containers/blocks/contribute';
 import BottomNav from '../components/navigation/bottomNav';
 
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
 export default class IndexPage extends Component {
   render() {   
     return (
-    	<ReactCSSTransitionGroup transitionName = "transition"
-               transitionAppear = {true} transitionAppearTimeout = {500}
-               transitionEnter = {false} transitionLeave = {false}>
+    	<div>
 	    	<HeaderContainer location={this.props.location} />
-        <FormatsContainer />	
-        <ExploreBlock />
-        <RecentContainer />
-        <ContributeBlockContainer />
-        <BottomNav location={this.props.location} />
-    	</ReactCSSTransitionGroup>
+            <FormatsContainer />	
+            <ExploreBlock />
+            <RecentContainer />
+            <ContributeBlockContainer />
+            <BottomNav location={this.props.location} />
+    	</div>
     );
   }
 }

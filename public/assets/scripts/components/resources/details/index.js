@@ -14,17 +14,28 @@ import CommentForm from '../../../containers/comments/commentForm';
 import CommentsList from '../../../containers/comments';
 import RelatedResources from '../../../containers/resources/related';
 import Rating from '../../common/rating';
-
-
+import IsAuthenticated from '../../../containers/auth/isAuth';
 
 export default class ResourceDetails extends Component {
 	constructor(props){
 		super(props);
 
+		//
+		//	Helpers
+		//
 		this.requiresAuth = this.requiresAuth.bind(this);
-		this.printMeta = this.printMeta.bind(this);
-		this.setFavorite = this.setFavorite.bind(this);
 		this.scrollToComments = this.scrollToComments.bind(this);
+
+		//
+		//	Event handlers
+		//	
+		this.setFavorite = this.setFavorite.bind(this);
+		this.setRating = this.setRating.bind(this);
+
+		//
+		//	Renders
+		//
+		this.printMeta = this.printMeta.bind(this);
 
 		this.state = {
 			isFavorite: false
@@ -36,10 +47,10 @@ export default class ResourceDetails extends Component {
 		let { resource } = this.props.params;
 
 		this.props.fetchResource(resource)
-		.then(() => {				
+		.then(() => {
 
 			// If this requires auth and not authed, go back
-			if (this.requiresAuth()){
+			if (this.requiresAuth() || this.props.resource.errorMessage){
 				this.context.router.push('/descobrir');
 
 			// If allowed, get the favorite
@@ -47,7 +58,12 @@ export default class ResourceDetails extends Component {
 				this.setState({
 					isFavorite: this.props.resource.data.favorite || false
 				});	
-			}			
+
+				this.props.fetchScripts(this.props.resource.data.id);
+			}
+
+			
+
 		});
 
 		this.props.fetchConfig();	
@@ -56,6 +72,7 @@ export default class ResourceDetails extends Component {
 
 	componentWillReceiveProps(nextProps){
 		// Load new data when the dataSource property changes.
+		// This is used for rating or favorite
 	    if (nextProps.params.resource != this.props.params.resource) {
 	    	this.props.fetchResource(nextProps.params.resource)
 			.then(() => {
@@ -75,10 +92,17 @@ export default class ResourceDetails extends Component {
 	}
 
 	printMeta(label, data){
-		return (data) ? <p><strong>{label}: </strong>data</p> : "";
+		return (data) ? <p><strong>{label}: </strong>
+		{(() => { 
+			if(label=='Email'){
+		 		return <a href={"mailto:"+data}>{data}</a>
+			}
+			return data 
+		})()}
+		</p> : '';
 	}
 
-	/* Set favorite */
+	// Set as favorite
 	setFavorite(){
 		this.setState({
 			isFavorite: !this.state.isFavorite
@@ -86,6 +110,12 @@ export default class ResourceDetails extends Component {
 
 		/* CALL ACTION TO APPLY CHANGE */
 	}
+
+	// Set rating for this resource
+	setRating(rate){
+		console.log(rate);
+	}
+
 
 	scrollToComments(){
 		var el = document.getElementById("comentar");        
@@ -95,85 +125,113 @@ export default class ResourceDetails extends Component {
 	}
 
 	render() {
-		if (!this.props.config.data || !this.props.resource.data || (this.props.resource && this.props.resource.fetching)){
+		const { config, resource, auth, params } = this.props;
+
+		if (!config.data || !resource.data || (resource && !resource.fetched)){
 			return null
 		}
 
-		const { files, graphics } = this.props.config.data;
-		const resource = this.props.resource.data;
-		const resId = this.props.params.resource;
-		const { isAuthenticated } = this.props.auth;
+		const { scripts } = this.props;
+
+		const { files, graphics } = config.data;
+		const resourceInfo = resource.data;
+		const resId = params.resource;
+		const { isAuthenticated } = auth;
 
 		return (
 			<div className="resource-details">
 				<section className="container first-details">
 					<div className="row">
 						<div className="col-xs-12 col-sm-6">
-							<MediaDisplay filesPath={files} graphicsPath={graphics} data={resource} />
-							<MediaFooter filesPath={files} isFavorite={this.state.isFavorite} setFavorite={this.setFavorite} file={resource.file} url={resource.url}/>
+							<MediaDisplay 
+								filesPath={files+"/"+resourceInfo.slug} 
+								graphicsPath={graphics} 
+								type={resourceInfo.Format.type} 
+								file={resourceInfo.Files[0]} 
+								embed={resourceInfo.embed} />
+							<MediaFooter 
+								graphicsPath={graphics} 
+								filesPath={files+"/"+resourceInfo.slug} 
+								isFavorite={this.state.isFavorite} 
+								setFavorite={this.setFavorite} 
+								file={resourceInfo.Files[0]} 
+								url={resourceInfo.link}/>
 						</div>
 
 						<div className="col-xs-12 col-sm-6">
-							<h1>{resource.title}</h1>
+							<h1>{resourceInfo.title}</h1>
 							<div className="rating">
-			      				<Rating initialRate={resource.ratingAvg} readonly={!isAuthenticated}/>
+			      				<Rating initialRate={resourceInfo.ratingAvg} setRating={this.setRating} readonly={!isAuthenticated}/>
 			      			</div>
-			      			{this.printMeta("Autor", resource.author)}
-			      			{this.printMeta("Organização", resource.organization)}
-			      			{this.printMeta("Email", resource.email)}
+
+			      			<IsAuthenticated>
+								<div className="row details-buttons">
+									<div className="col-xs-12">
+										<button className="cta primary outline small" onClick={this.scrollToComments}>Comentar Recurso</button>
+										<Link to={"/gerirguioes/" + resId} className="cta primary outline small">Novo Guião</Link>
+									</div>
+								</div>
+							</IsAuthenticated>
+
+			      			{this.printMeta("Autor", resourceInfo.author)}
+			      			{this.printMeta("Organização", resourceInfo.organization)}
+			      			{this.printMeta("Email", resourceInfo.email)}
 
 			      			<p>
-			      				{resource.description}
+			      				{resourceInfo.description}
 			      			</p>
 						</div>
 					</div>
 
 					{/* Tech File */}
-					<TechFile details={resource} />
+					<TechFile details={resourceInfo} />
 
 					<div className="row">
-						<div className="col-xs-12">
+						<div className="col-xs-12 op-proposal">
 							<h4>Proposta de Operacionalização</h4>
-						</div>
-					</div>
-
-					<div className="row details-buttons">
-						<div className="col-xs-6">
-							<button className="cta primary pull-right" onClick={this.scrollToComments}>Comentar Recurso</button>
-						</div>
-						<div className="col-xs-6">
-							<Link to={"/novoguiao/" + resId} className="cta primary">Novo Guião</Link>
+							<p>
+								{resourceInfo.operation}
+							</p>
+							<small>-- {resourceInfo.operation_author}</small>
 						</div>
 					</div>
 				</section>
 
 				{/* Scripts */}
-				<Scripts data={resource} />
+				<Scripts data={scripts.data} resourceId={resourceInfo.id} />
 
 				{/* Comments */}
 				<section className="comments" id="comentar">
 					<div className="container">
 						<div className="row">
 							<div className="col-xs-12">
-								<h5> Escreva o seu comentário </h5>
+								<h1 className="text-center">Comentários</h1>
 							</div>
 						</div>
+						<IsAuthenticated>
+							<div className="row">
+								<div className="col-xs-12">
+									<h5> Escreva o seu comentário </h5>
+								</div>
+							</div>
+						</IsAuthenticated>
+						<IsAuthenticated>
+							<div className="row">
+								<div className="col-xs-12">
+									<CommentForm />
+								</div>
+							</div>
+						</IsAuthenticated>
 
 						<div className="row">
 							<div className="col-xs-12">
-								<CommentForm />
-							</div>
-						</div>
-
-						<div className="row">
-							<div className="col-xs-12">
-								<CommentsList source={resource.id}/>
+								<CommentsList source={resourceInfo.slug}/>
 							</div>
 						</div>
 					</div>
 				</section>
 
-				<RelatedResources origin={resource}/>
+				<RelatedResources origin={resourceInfo.slug}/>
 			</div>
 		);
 	}

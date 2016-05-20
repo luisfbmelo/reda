@@ -35,6 +35,18 @@ export default class CommentsListing extends Component {
 		if (this.props.comments && this.props.comments.data){
 			comments = this.props.comments.data;
 		}	
+
+		if (!comments || comments.length==0){
+			return (
+				<div className="comments__container">
+					<div className="row">
+						<div className="col-xs-12 text-center">							
+							<p className="no-comments">Ainda não foram adicionados comentários</p>
+						</div>						
+					</div>	
+				</div>
+			);
+		}
 		
 		return (
 			<div className="comments__container">

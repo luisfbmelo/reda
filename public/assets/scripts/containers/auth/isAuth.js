@@ -7,9 +7,7 @@ class IsAuthenticated extends Component {
 
     render() {
         return (
-            this.props.isAuthenticated === true
-                ? this.props.children
-                : null                
+            this.props.isAuthenticated === true ? this.props.children : null       
         )
     }
 }

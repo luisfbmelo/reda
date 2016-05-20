@@ -14,6 +14,9 @@ exports.tokenForUser = function(user) {
   return jwt.encode({ sub: user.id, iat: timestamp, expires: tomorrow }, config.secret);
 }
 
+//
+// NOT BEING USED, BUT STILL HERE IF NEEDED
+//
 exports.userExists = function(req, res, token){
 	var promise = new Promise(function(resolve, reject){
 
@@ -25,7 +28,7 @@ exports.userExists = function(req, res, token){
 			    	// Check if expired
 					if (new Date(payload.expires).getTime() < new Date().getTime()){
 						reject();						
-						return res.status(401).send({ error: "token_expired",  new_token : exports.tokenForUser(user) })
+						return res.status(401).send({ message: "token_expired",  new_token : exports.tokenForUser(user) })
 					}
 			      resolve(user);
 			    } else {
@@ -46,13 +49,18 @@ exports.userExists = function(req, res, token){
 // Check if token is valid
 exports.requireAuth = function(req, res, next) {
   passport.authenticate('jwt', { session: false }, function(err, user, info){
+  	req.user = null;
+
     if (err) { return next(err) }
     if (!user && info.new_token) {
       // If no user and a new token is given      
-      return res.status(401).send({ error: "token_expired", new_token: info.new_token });
+      return res.status(401).send({ message: "token_expired", new_token: info.new_token });
     }else if(!user){
       return res.status(401).send("Unauthorized");
+    }else{
+    	req.user = user;
     }
+    
     next();
   })(req, res, next);
 };

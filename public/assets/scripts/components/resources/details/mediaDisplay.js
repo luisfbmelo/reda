@@ -1,22 +1,32 @@
 import React from 'react';
 import { Component } from 'react';
 
+const possibleExt = [ 'swf', 'mp3', 'wav', 'wma', 'jar' ];
+
 /**
  *
  *	Helper functions
  * 
  */
-const showPlaceholder = (type) => {
-	return <img src={"assets/graphics/placeholder/types/" + type + ".jpg"} className="img-responsive" />
+//
+//	Show placeholder
+//
+const showPlaceholder = (graphicsPath, type) => {
+	return <img src={graphicsPath + "/" + type + ".jpg"} className="img-responsive" />
 }
 
-const checkExtension = (fileName) => {
-	let re = /(?:\.([^.]+))?$/;
-	return ext = re.exec(fileName);
+//
+//	Check if is an embedable extension
+//
+const checkExtension = (ext) => {	
+	return possibleExt.indexOf(ext)>=0;
 }
 
+//
+//	Include SWF Files
+//
 const includeSwf = (filePath, fileName) => {
-	return <embed src={filePath+"/"+fileName}></embed>;
+	return <embed src={filePath+"/"+fileName} quality="high" type="application/x-shockwave-flash" width="100%" height="300px" SCALE="exactfit" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>;
 }
 
 /**
@@ -25,47 +35,79 @@ const includeSwf = (filePath, fileName) => {
  * 
  */
 var video = (meta) => {
-	return <div dangerouslySetInnerHTML={{__html: meta.embed}} className="embed-content" /> || showPlaceholder("video");
+	const { embed } = meta;
+
+	if (embed){
+		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("video");
+	}
+
+	return showPlaceholder(meta.graphicsPath, "video");
 }
 
 const image = (meta) => {
-	return <img src={meta.file} className="img-responsive" />
+	if (meta.file){
+		const { name, extension } = meta.file;
+		return <img src={meta.filesPath+"/"+name+"."+extension} className="img-responsive" />
+	}	
+
+	return showPlaceholder(meta.graphicsPath, "image");
 }
 
-const audio = () => {
-	return showPlaceholder("audio");
+const audio = (meta) => {
+	if (meta.file){
+		const { name, extension } = meta.file;
+
+		if (checkExtension(meta.file.extension) && name && extension){
+			return includeSwf(meta.filesPath, name+"."+extension);
+		}
+	}
+
+	return showPlaceholder(meta.graphicsPath, "audio");
 }
 
 const simulation = (meta) => {
-	if (checkExtension("swf")){
-		return includeSwf(meta.filePath, meta.file);
-	}
+	if (meta.file){
+		const { name, extension } = meta.file;
 
-	return showPlaceholder("simulation");
+		if (checkExtension(meta.file.extension) && name && extension){
+			return includeSwf(meta.filesPath, name+"."+extension);
+		}
+	}
+	
+
+	return showPlaceholder(meta.graphicsPath, "simulation");
 }
 
 const animation = (meta) => {
-	if (checkExtension("swf")){
-		return includeSwf(meta.filePath, meta.file);
+	if (meta.file){
+		const { name, extension } = meta.file;
+
+		if (checkExtension(meta.file.extension) && name && extension){
+			return includeSwf(meta.filesPath, name+"."+extension);
+		}
 	}
 
-	return showPlaceholder("animation");
+	return showPlaceholder(meta.graphicsPath, "animation");
 }
 
-const text = () => {
-	return showPlaceholder("text");
+const text = (meta) => {
+	return showPlaceholder(meta.graphicsPath, "text");
 }
 
-const calc = () => {
-	return showPlaceholder("calc");
+const calc = (meta) => {
+	return showPlaceholder(meta.graphicsPath, "calc");
 }
 
 const game = (meta) => {
-	if (checkExtension("swf")){
-		return includeSwf(meta.filePath, meta.file);
+	if (meta.file){
+		const { name, extension } = meta.file;
+
+		if (checkExtension(meta.file.extension) && name && extension){
+			return includeSwf(meta.filesPath, name+"."+extension);
+		}
 	}
 
-	return showPlaceholder("game");
+	return showPlaceholder(meta.graphicsPath, "game");
 }
 
 //
@@ -76,11 +118,10 @@ const evalFunc = (func, props) => {
 }
 
 export default (props) => {
-	const { type } = props.data.Format; 
-	console.log(type);
+	const { type, file } = props;
 	return (
-		<span>
-			{type ? evalFunc(type, props.data) : ""}
-		</span>
+		<div className="mediadisplay-container">
+			{type ? evalFunc(type, props) : ""}
+		</div>
 	);
 }

@@ -19,6 +19,7 @@
 		height:40px;
 		width:100%;
 		color:$body-color;
+		z-index:0!important;
 
 		&:not(.react-tagsinput-input){
 			margin-bottom:10px!important;
@@ -36,7 +37,7 @@
 
 @include media-query(75em){
 	.search-container .cta i{
-		display:none;
+		/*display:none;*/
 	}
 }
 
@@ -46,12 +47,12 @@
 			background-color:$light-background;
 
 			.search-form{
-				margin:30px 0;
+				margin:30px 0 0;
 
 				input,
 				button,
 				select{
-					margin-bottom:0!important;
+					margin-bottom:30px!important;
 				}
 			}
 		}
@@ -65,6 +66,8 @@
 .single-search{
 	margin:0 auto;
 	text-align:center;
+	z-index:0!important;
+	
 	input[type='text'],
 	button{
 		width:auto;

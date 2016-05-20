@@ -1,5 +1,22 @@
+.comment-form{
+	margin-bottom:60px;
+
+	textarea{
+		height:150px;
+	}
+
+	.form-group{
+		margin-bottom:30px;
+	}
+}
+
 .comments{
 	margin:60px 0 60px;
+
+	h1{
+		margin-top:0;
+		margin-bottom:60px;
+	}
 
 	&__children{
 		padding-top:15px;
@@ -17,6 +34,10 @@
 		h6{
 			margin-bottom:30px;
 			margin-top:30px;
+		}
+
+		.no-comments{
+			margin:0;
 		}
 	}	
 

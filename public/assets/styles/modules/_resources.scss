@@ -1,3 +1,6 @@
+//
+//	GENERIC RESOURCES STYLES
+//
 .resources{
 	&__page{
 		padding-bottom:30px;
@@ -25,6 +28,10 @@
 	}
 }
 
+
+//
+//	RESOURCES LIST ELEMENTS
+//
 .list{
 	&__element{
 		display:block;
@@ -223,6 +230,9 @@
 
 }
 
+//
+//	RATING
+//
 .rating{
 	margin-top:20px;
 	font-size:em(20);
@@ -233,15 +243,41 @@
 	}
 }
 
+//
+//	RESOURCE DETAILS PAGE
+//
 .resources{
 	&__page{
 		background-color:$light-background;
 	}
 }
 
+//
+//	SCRIPTS DETAIL
+//
 .scripts-detail{
 	background-color:$light-background;
-	padding:60px 0;
+	padding:60px 0 60px;
+
+	h1{
+		margin-top:0;
+		margin-bottom:60px;
+
+	}
+	
+	label{
+		margin-right:10px;
+	}
+
+	.no-script{
+		margin:60px 0 0;
+	}
+
+	.tab-pane{
+		& > div.row{
+			margin-bottom:30px;
+		}
+	}
 
 	.nav-tabs{
 		text-align:center;
@@ -287,27 +323,27 @@
 			}
 		}
 	}
+
 }
 
+
+//
+//	RESOURCE DETAILS
+//
 .resource-details{
 	margin:20px 0 0;
 
-	.tech-file{
-		margin-bottom:30px;
-
-		h2{
-			margin-bottom:30px;
-		}
-	}
-
-	.details-buttons{
-		margin-top:60px;
-	}
-
 	.first-details{
+	
+		margin-bottom:60px;
+
 		h1{
 			margin-top:0;
 			margin-bottom:10px;
+
+			@include media-query(48em){
+				margin-top:30px;
+			}
 		}
 
 		.rating{
@@ -315,11 +351,68 @@
 		}
 	}
 
-	p{
+	p,
+	.tech-file{
 		font:{
 			family:$opensans;
 		}
 
 		@include font-size(13px);
+	}
+
+	.mediadisplay-container{
+		min-height:300px;
+	}
+
+	.op-proposal{
+		small{
+			color:$soft-label-color;
+		}
+	}
+
+	.tech-file{
+
+		& > div{
+			margin-bottom:30px;
+		}
+		
+
+		h2{
+			margin-bottom:30px;
+		}
+
+		ul {
+		    list-style: none;
+		    padding:0;
+		    margin:0;
+		}
+
+		li { 
+		    padding-left: 1em; 
+		    text-indent: -.7em;
+		}
+
+		li:before {
+		    content: "\f105";
+    		font-family: FontAwesome;
+		    color: $green; /* or whatever color you prefer */
+		    margin-right: 4px;
+		}
+	}
+
+	.details-buttons{
+		margin-bottom:15px;
+
+		button,
+		a{
+			width:165px;
+			text-align: center;
+			display:inline-block;
+
+			& + button,
+			& + a{
+				margin-left:15px;
+			}
+		}
 	}	
 }

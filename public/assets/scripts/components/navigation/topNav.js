@@ -2,10 +2,13 @@ import React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router';
 
+// Components
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-
 import LoginButton from '../auth/loginButton';
 import LogoutButton from '../auth/logoutButton';
+
+import IsAuthenticated from '../../containers/auth/isAuth';
+import IsNotAuthenticated from '../../containers/auth/isNotAuth';
 
 
 export default class TopNav extends Component {
@@ -26,37 +29,37 @@ export default class TopNav extends Component {
 	renderSmallNav(isAuthenticated){
 		return(
 			<ul className="nav navbar-nav small-nav">
-				{!isAuthenticated && 
+				<IsNotAuthenticated>
 					<li>
 						<LoginButton location={this.props.location.pathname}>
 							Entrar
 						</LoginButton>
 					</li>
-				}
-
-				{!isAuthenticated && 
+				</IsNotAuthenticated>
+				<IsNotAuthenticated>
 					<li className={this.isActive(this.props.location.pathname, 'registar')}>
 						<Link to="/registar">Registar</Link>
 					</li>
-				}
-				{isAuthenticated && 
+				</IsNotAuthenticated>
+				<IsAuthenticated>
 					<li className={this.isActive(this.props.location.pathname, 'painel')}>
 		           		<Link to="/painel">Minha Conta</Link>
 		           	</li>
-				}
+				</IsAuthenticated>
 				<li className={this.isActive(this.props.location.pathname, 'ajuda')}>
 					<Link to="/ajuda">Ajuda</Link>
 				</li>
-				{this.renderLogout(isAuthenticated)}
+				{this.renderLogout()}
 			</ul>
 		)
 	}
 
 	renderLogout(isAuthenticated){
-		if (isAuthenticated){
-			return(<LogoutButton />);
-		}
-		return null;
+		return (
+			<IsAuthenticated>
+				<LogoutButton />
+			</IsAuthenticated>
+		)
 	}
 
 	render() {

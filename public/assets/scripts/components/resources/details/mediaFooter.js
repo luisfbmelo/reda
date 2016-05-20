@@ -13,19 +13,17 @@ import { setUrl } from '../../../utils';
  *	Helper functions
  * 
  */
-const printAction = (status, filesPath, ...args) => {
-	let argsObj = args[0];
-
-	if (status && argsObj && argsObj.file){
+const printAction = (filesPath, file, url) => {
+	if (file){
 		return(
 			<li>
-				<a href={filesPath + "/" + argsObj.file} download className="media__action media__action--main"><i className="fa fa-download"></i></a>
+				<a href={filesPath + "/" + file.name + "." + file.extension} download className="media__action media__action--main"><i className="fa fa-download"></i></a>
 			</li>
 		);
-	}else if(argsObj && argsObj.url){
+	}else if(url){
 		return(
 			<li>
-				<a href={setUrl(argsObj.url)} target="_blank" className="media__action media__action--main"><i className="fa fa-link"></i></a>
+				<a href={setUrl(url)} target="_blank" className="media__action media__action--main"><i className="fa fa-link"></i></a>
 			</li>
 		);
 	}
@@ -38,7 +36,7 @@ export default (props) => {
 	
 	return (
 		<ul className="media-footer">
-			{printAction(true, filesPath, {file, url})}
+			{printAction(filesPath, file, url)}
 			<li>
 				<FavoriteIcon isFavorite={isFavorite} setFavorite={setFavorite}/>
 			</li>

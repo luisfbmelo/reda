@@ -57,17 +57,21 @@ const optionsRender = (el, isAuthenticated, addscript, viewmore) => {
 //
 //	Render favorite button
 //
-const renderAuthOptions = (el, isAuthenticated, setHighlight, setFavorite) => {
-	return (
-		<IsAuthenticated>
-			<div className="list__element--fav">
-				<i className={"fa fa-" + ((el.isFavorite) ? "heart" : "heart-o")} title="Favorito" onClick={()=> setFavorite(el.id)}></i>
-				<IsAdmin>
-					<i className={"fa fa-" + ((el.highlight) ? "star" : "star-o")} title="Recurso do Mês" onClick={()=> setHighlight(el.id)}></i>
-				</IsAdmin>
-			</div>
-		</IsAuthenticated>
-	)
+const renderAuthOptions = (el, isAuthenticated, setHighlight, setFavorite, hideOptions) => {
+	if (!hideOptions){
+		return (
+			<IsAuthenticated>
+				<div className="list__element--fav">
+					<i className={"fa fa-" + ((el.isFavorite) ? "heart" : "heart-o")} title="Favorito" onClick={()=> setFavorite(el.id)}></i>
+					<IsAdmin>
+						<i className={"fa fa-" + ((el.highlight) ? "star" : "star-o")} title="Recurso do Mês" onClick={()=> setHighlight(el.id)}></i>
+					</IsAdmin>
+				</div>
+			</IsAuthenticated>
+		)
+	}
+
+	return null;
 }
 
 
@@ -77,7 +81,19 @@ export const ResourceElement = (props) => {
 		return null
 	}
 
-	const { addscript, viewmore, isAuthenticated, el, classColCount, index, maxcol, config, setHighlight, setFavorite } = props;
+	const { 
+		addscript, 
+		viewmore, 
+		isAuthenticated, 
+		el, 
+		classColCount, 
+		index, 
+		maxcol, 
+		config, 
+		setHighlight, 
+		setFavorite,
+		hideOptions
+	} = props;
 
 	// Clearfix classes
 	let breaker = "";
@@ -94,7 +110,7 @@ export const ResourceElement = (props) => {
 	return(		
       	<article className={"col-xs-12 col-sm-4 col-md-" + classColCount + " col-lg-" + classColCount + breaker} >
       		<div className="list__element">
-      			{renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite)}
+      			{renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite, hideOptions)}
 	      		{
 	      			renderProtected(
 		      			<header>

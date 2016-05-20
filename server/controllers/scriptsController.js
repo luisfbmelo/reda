@@ -11,38 +11,57 @@ const consts = require('../config/const');
 //
 exports.details = function(req, res, next){
 	var resource = req.params.resource;
+	var userExists = req.user;
 
 	// Check AUTH
-	jwtUtil.userExists(req, res, req.headers.authorization)
-	.then(function(userExists){
-
-		var includes = [];
-
-		// If no user exists, show scripts that are only from exclusive resources
-		if (!userExists){
-			includes.push({
-				model: models.Resource,
-				attributes: [],
-				where:{
-					exclusive: false
-				}
-			});
+	var includes = [
+		{
+			model: models.Subject,
+			required:false,
+			through: {
+				attributes: []
+			}			
+		},
+		{
+			model: models.Year,
+			required:false,
+			through: {
+				attributes: []
+			}			
+		},
+		{
+			model: models.Domain,
+			required:false,
+			through: {
+				attributes: []
+			}			
 		}
+	];
 
-		//
-		//	Get scripts
-		//
-		models.Script.findAll({
-			include: includes,
-			where: {
-				resource_id: resource
+	// If no user exists, show scripts that are only from exclusive resources
+	if (!userExists){
+		includes.push({
+			model: models.Resource,
+			attributes: [],
+			where:{
+				exclusive: false
 			}
-		})
-		.then(function(resource){
-			return res.json({result: resource});
-		}).catch(function(err){
-			return next(err);
 		});
+	}
+
+	//
+	//	Get scripts
+	//
+	models.Script.findAll({
+		include: includes,
+		where: {
+			resource_id: resource
+		}
+	})
+	.then(function(resource){
+		return res.json({result: resource});
+	}).catch(function(err){
+		return next(err);
 	});
 }
 
@@ -52,45 +71,41 @@ exports.details = function(req, res, next){
 exports.userScripts = function(req, res, next){
 	var resource = req.params.resource;
 	var setWhere = {};
+	var userExists = req.user;
 
 	// Check AUTH
-	jwtUtil.userExists(req, res, req.headers.authorization)
-	.then(function(userExists){
+	if (userExists){
 
-		if (userExists){
-
-			// If admin, get all scripts. 
-			// If not, only show from the current user
-			if(userExists.Role.value == consts.ADMIN_ROLE){
-				setWhere = {
-					where: {
-						resource_id: resource
-					}
-				}
-			}else{
-				setWhere = {
-					where: {
-						resource_id: resource,
-						user_id: userExists.id,
-						status: false
-					}
+		// If admin, get all scripts. 
+		// If not, only show from the current user
+		if(userExists.Role.value == consts.ADMIN_ROLE){
+			setWhere = {
+				where: {
+					resource_id: resource
 				}
 			}
-
-			//
-			//	Get scripts
-			//
-			models.Script.findAll(setWhere)
-			.then(function(resource){
-				return res.json({result: resource});
-			}).catch(function(err){
-				return next(err);
-			});
 		}else{
-			return res.status(401).send('Not allowed to get scripts from this resource');
+			setWhere = {
+				where: {
+					resource_id: resource,
+					user_id: userExists.id,
+					status: false
+				}
+			}
 		}
-		
-	});
+
+		//
+		//	Get scripts
+		//
+		models.Script.findAll(setWhere)
+		.then(function(resource){
+			return res.json({result: resource});
+		}).catch(function(err){
+			return next(err);
+		});
+	}else{
+		return res.status(401).send('Not allowed to get scripts from this resource');
+	}
 }
 
 //
@@ -99,29 +114,25 @@ exports.userScripts = function(req, res, next){
 exports.create = function(req, res, next){	
 	
 	// Check AUTH
-	jwtUtil.userExists(req, res, req.headers.authorization)
-	.then(function(userExists){
-
-		if (userExists){
-			//
-			//	Check form validation
-			//
-			const checkData = validate(req.body);
-			
-			if (dataUtil.scriptsHasErrors(checkData.scripts) || checkData.accept_terms){
-				return res.status(403).send({form_errors: checkData});
-			}
-
-			//
-			//	Create script with everything prepared
-			//
-			var action = 'create';
-			upsertScript(req, res, action, userExists.id, userExists.Role.value);
-
-		}else{
-			return res.status(401).send({error: 'Not allowed to create this script1'})
+	if (userExists){
+		//
+		//	Check form validation
+		//
+		const checkData = validate(req.body);
+		
+		if (dataUtil.scriptsHasErrors(checkData.scripts) || checkData.accept_terms){
+			return res.status(403).send({form_errors: checkData});
 		}
-	})
+
+		//
+		//	Create script with everything prepared
+		//
+		var action = 'create';
+		upsertScript(req, res, action, userExists.id, userExists.Role.value);
+
+	}else{
+		return res.status(401).send({message: 'Not allowed to create this script1'})
+	}
 }
 
 //
@@ -130,29 +141,25 @@ exports.create = function(req, res, next){
 exports.update = function(req, res, next){	
 	
 	// Check AUTH
-	jwtUtil.userExists(req, res, req, res, req.headers.authorization)
-	.then(function(userExists){
-
-		if (userExists){
-			//
-			//	Check form validation
-			//
-			const checkData = validate(req.body);
-			
-			if (dataUtil.scriptsHasErrors(checkData.scripts) || checkData.accept_terms){
-				return res.status(403).send({form_errors: checkData});
-			}
-
-			//
-			//	Create script with everything prepared
-			//
-			var action = 'update';
-			upsertScript(req, res, action, userExists.id, userExists.Role.value);
-
-		}else{
-			return res.status(401).send({error: 'Not allowed to create this script1'})
+	if (userExists){
+		//
+		//	Check form validation
+		//
+		const checkData = validate(req.body);
+		
+		if (dataUtil.scriptsHasErrors(checkData.scripts) || checkData.accept_terms){
+			return res.status(403).send({form_errors: checkData});
 		}
-	})
+
+		//
+		//	Create script with everything prepared
+		//
+		var action = 'update';
+		upsertScript(req, res, action, userExists.id, userExists.Role.value);
+
+	}else{
+		return res.status(401).send({message: 'Not allowed to create this script1'})
+	}
 }
 
 function upsertScript(req, res, action, userId, userRole){

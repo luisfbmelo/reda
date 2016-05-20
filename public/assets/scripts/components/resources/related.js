@@ -1,21 +1,23 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Component } from 'react';
+
+// Components
 import { ResourcesList } from './common/list';
 
-export default class RecentResources extends Component {
+export default class RelatedResources extends Component {
 
 	constructor(props){
 		super(props);
 	}
 
 	componentDidMount(){
-		let { resource } = this.props;
-		this.props.fetchRelatedResources(resource);	
+		let { origin } = this.props;
+		this.props.fetchRelatedResources(origin);	
 		this.props.fetchConfig();		
 	}
 
 	render() {
-		if (!this.props.relatedResources)
+		if (this.props.relatedResources.fetched && (!this.props.relatedResources.data || this.props.relatedResources.data.length==0))
 			return null;
 		
 		const { isAuthenticated } = this.props.auth;
@@ -28,15 +30,22 @@ export default class RecentResources extends Component {
 							<h2 className="resources__title">Outros recursos relacionados</h2>
 						</div>
 					</div>
-					<ResourcesList list={this.props.relatedResources} config={this.props.config.data} maxcol={3} viewmore isAuthenticated={isAuthenticated}/>
+					<ResourcesList 
+						list={this.props.relatedResources} 
+						config={this.props.config.data} 
+						maxcol={3} 
+						viewmore 
+						isAuthenticated={isAuthenticated} 
+						hideOptions={true}/>
 				</div>
 			</section>
 		);
 	}
 }
 
-RecentResources.propTypes = {
-	relatedResources: React.PropTypes.object.isRequired,
-	origin: React.PropTypes.object.isRequired,
-	config: React.PropTypes.object.isRequired
+RelatedResources.propTypes = {
+	relatedResources: PropTypes.object.isRequired,
+	origin: PropTypes.string.isRequired,
+	config: PropTypes.object.isRequired,
+	auth: PropTypes.object.isRequired
 }

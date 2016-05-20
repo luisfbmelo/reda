@@ -20,7 +20,7 @@ import {
   RELATED_RESOURCES_RESET
 } from '../actions/action-types';
 
-const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
+const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
@@ -37,14 +37,16 @@ export default function(state = INITIAL_STATE, action) {
     case HIGHLIGHTS_FAILURE:
       return assign({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       })  
     case HIGHLIGHTS_RESET:
       return assign({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       })  
     default:
       return state;
@@ -69,14 +71,16 @@ export function resources(state = INITIAL_STATE, action) {
     case RESOURCES_FAILURE:
       return assign({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       })
     case RESOURCES_RESET:
       return assign({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       })
     case TOGGLE_HIGHLIGHT_RESOURCE:
       
@@ -112,14 +116,16 @@ export function resource(state = INITIAL_STATE, action) {
     case RESOURCE_FAILURE:
       return assign({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       })
     case RESOURCE_RESET:
       return assign({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       })
     case TOGGLE_HIGHLIGHT_RESOURCE:
       if (state.id != action.id){
@@ -157,14 +163,16 @@ export function relatedResources(state = INITIAL_STATE, action) {
     case RELATED_RESOURCES_FAILURE:
       return assign({}, state, {
         fetching: false,
-        errorMessage: action.message
+        errorMessage: action.message,
+        errorStatus: action.status
       })
     case RELATED_RESOURCES_RESET:
       return assign({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null
+        errorMessage: null,
+        errorStatus: null
       })
     default:
       return state;

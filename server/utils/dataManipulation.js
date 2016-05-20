@@ -81,7 +81,7 @@ exports.arrayToLowercase = function(array){
 exports.saveFile = function(req, res, folder, blob, name, ext, parentId){
   const timestamp = new Date().getTime();
   const targetFolder = config.files_path+folder;
-  const targetFile = path.join(__dirname, "../../"+targetFolder+"/"+folder+"_"+timestamp+"."+ext);
+  const targetFile = path.join(__dirname, "../../"+targetFolder+"/"+name+"."+ext);
 
   // Create folder
   createFolder(targetFolder);

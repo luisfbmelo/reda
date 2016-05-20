@@ -1,6 +1,7 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 const cors = require('cors');
 
 // Routes
@@ -24,6 +25,7 @@ app.set('view engine', 'jade');
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(passport.initialize());
 //app.use(express.static(path.join(__dirname, 'public')));
 
 // Init routes

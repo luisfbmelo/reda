@@ -7,20 +7,15 @@ import DashBoard from '../components/dashboard';
 
 import BottomNav from '../components/navigation/bottomNav';
 
-// Animation
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-
 export default class DiscoverPage extends Component {
   render() {
     return (
-    	<ReactCSSTransitionGroup transitionName = "transition"
-               transitionAppear = {true} transitionAppearTimeout = {500}
-               transitionEnter = {false} transitionLeave = {false}>
+    	<div>
   			<Header location={this.props.location}/>
         <ProfileNav location={this.props.location}/>
         <DashBoard location={this.props.location}/>
   			<BottomNav location={this.props.location}/>
-    	</ReactCSSTransitionGroup>
+    	</div>
     );
   }
 }

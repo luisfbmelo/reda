@@ -228,23 +228,12 @@ export function resetRelatedResources(){
 	}
 }
 
-export function fetchRelatedResources(resourceId){
-	return dispatch => {
-		dispatch(requestRelatedResources());
-
-		return fetch('/assets/scripts/dummy.json')
-		.then(response => {
-			if (response.status >= 400) {
-	          throw new Error('Bad response');
-	        }
-	        return response.json();
-		})
-		.then(json => {
-			json.resources.length=3;
-			dispatch(receiveRelatedResources(json.resources));
-		})
-		.catch(message => {
-			dispatch(relatedResourcesError(message));
-		})
+export function fetchRelatedResources(resourceSlug){
+	console.log(resourceSlug);
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources/related/'+resourceSlug,
+		  types: [RELATED_RESOURCES_REQUEST, RELATED_RESOURCES_SUCCESS, RELATED_RESOURCES_FAILURE]
+		}
 	}
 }

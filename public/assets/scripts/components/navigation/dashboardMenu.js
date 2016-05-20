@@ -2,9 +2,10 @@ import React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router';
 
+// Components
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-
 import Collapsible from '../common/collapse';
+import IsAdmin from '../../containers/auth/isAdmin';
 
 
 export default class DashboardMenu extends Component {
@@ -15,19 +16,6 @@ export default class DashboardMenu extends Component {
 
 	isActive(location, target){
 		return location.indexOf(target)>0 ? 'active' : '';
-	}
-
-	adminOnly(component){
-
-		/*if (this.props.auth.data){
-			const { role } = this.props.auth.data;*/
-			let role = "admin";
-			if (role!=undefined && role=="admin"){
-				return component;
-			}
-		/*}*/
-		
-		return null;
 	}
 
 	render() {
@@ -52,35 +40,29 @@ export default class DashboardMenu extends Component {
 						<Link to="/painel/comentarios-pendentes">Comentários pendentes (2) <i className="fa fa-chevron-right"></i></Link>
 					</li>
 				</ul>
-				<h6>Opções de Administrador</h6>
-				<ul>
-					{ /* Admin Only*/ }
-					{this.adminOnly(
-						<li className={this.isActive(this.props.location.pathname, 'painel/recursos-pendentes')}>
-		                <Link to="/painel/recursos-pendentes">Recursos pendentes (10) <i className="fa fa-chevron-right"></i></Link>
-		              </li>
-					)}
-					{this.adminOnly(
-						<li className={this.isActive(this.props.location.pathname, 'painel/websugestoes')}>
-		                <Link to="/painel/websugestoes">Websugestões <i className="fa fa-chevron-right"></i></Link>
-		              </li>
-					)}
-					{this.adminOnly(
-						<li className={this.isActive(this.props.location.pathname, 'painel/aplicacoes')}>
-		                <Link to="/painel/aplicacoes">Aplicações <i className="fa fa-chevron-right"></i></Link>
-		              </li>
-					)}
-					{this.adminOnly(
-						<li className={this.isActive(this.props.location.pathname, 'painel/experimenta')}>
-		                <Link to="/painel/experimenta">Experimenta <i className="fa fa-chevron-right"></i></Link>
-		              </li>
-					)}	
-					{this.adminOnly(
-						<li className={this.isActive(this.props.location.pathname, 'painel/dicaseutilidades')}>
-		                <Link to="/painel/dicaseutilidades">Dicas e Utilidades <i className="fa fa-chevron-right"></i></Link>
-		              </li>
-					)}              
-	            </ul>
+				<IsAdmin>
+					<div className="admin-tools">
+						<h6>Opções de Administrador</h6>
+						<ul>
+							{ /* Admin Only*/ }
+							<li className={this.isActive(this.props.location.pathname, 'painel/recursos-pendentes')}>
+				                <Link to="/painel/recursos-pendentes">Recursos pendentes (10) <i className="fa fa-chevron-right"></i></Link>
+				             </li>
+							<li className={this.isActive(this.props.location.pathname, 'painel/websugestoes')}>
+				                <Link to="/painel/websugestoes">Websugestões <i className="fa fa-chevron-right"></i></Link>
+				            </li>
+							<li className={this.isActive(this.props.location.pathname, 'painel/aplicacoes')}>
+				                <Link to="/painel/aplicacoes">Aplicações <i className="fa fa-chevron-right"></i></Link>
+				            </li>
+							<li className={this.isActive(this.props.location.pathname, 'painel/experimenta')}>
+				                <Link to="/painel/experimenta">Experimenta <i className="fa fa-chevron-right"></i></Link>
+				            </li>
+							<li className={this.isActive(this.props.location.pathname, 'painel/dicaseutilidades')}>
+				                <Link to="/painel/dicaseutilidades">Dicas e Utilidades <i className="fa fa-chevron-right"></i></Link>
+				            </li>            
+			            </ul>
+		            </div>
+	            </IsAdmin>
 			</nav>
 		);
 	}

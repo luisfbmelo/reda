@@ -1,41 +1,88 @@
-import React from 'react';
-import {Tabs, Tab} from 'react-bootstrap';
+import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 
-export default (props) => {
+// Components
+import {Tabs, Tab} from 'react-bootstrap';
+import TechFile from '../techFile';
+import IsAuthenticated from '../../../containers/auth/isAuth';
+
+const renderScripts = (scripts) => {
+	return scripts.map((script, index) => {
+		return (
+			<Tabs defaultActiveKey={index+1} key={script.id}>
+				<Tab eventKey={script.id} title={"Guião " + (index+1)}>
+					<div className="row">
+						<div className="col-xs-12 col-sm-4">
+							<label>Autor:</label>
+							{script.author}
+						</div>
+						<div className="col-xs-12 col-sm-4">
+							<label>Email:</label>
+							<a href={"mailto:"+script.email}>{script.email}</a>
+						</div>
+						<div className="col-xs-12 col-sm-4">
+							<label>Organização:</label>
+							{script.organization}
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="col-xs-6 col-sm-3">
+							<label className="block">Descrição</label>
+							{script.description}
+						</div>
+					</div>
+
+					<div className="row">
+						<div className="col-xs-12 op-proposal">
+							<label className="block">Proposta de Operacionalização</label>
+							<p>
+								{script.operation}
+							</p>
+						</div>
+					</div>
+
+					{/* Tech File */}
+					<TechFile details={script} maxCol={3} showTitle={false} />
+				</Tab>
+			</Tabs>
+		)
+	})
+}
+
+const ScriptsList = (props) => {
+	const { data, resourceId } = props;
+
+	if (!data || data.length==0){
+		return (
+			<section className="scripts-detail">
+				<div className="container text-center">
+					<h1>Guiões</h1>
+					<p>Este recurso ainda não possui guiões. </p>
+
+					<IsAuthenticated>
+						<div className="text-center no-script">
+							<Link to={"/novoguiao/"+resourceId} className="cta primary outline">Publicar o primeiro Guião</Link>
+						</div>
+					</IsAuthenticated>
+				</div>
+			</section>
+		);
+	}
+
 	return(
 		<section className="scripts-detail">
 			<div className="container">
-				<Tabs defaultActiveKey={1}>
-					<Tab eventKey={1} title="Guião 1">
-						<h4 className="text-center">Guião 1</h4>
-						<div className="row">
-							<div className="col-xs-12 col-sm-4">
-								/* Author */
-							</div>
-							<div className="col-xs-12 col-sm-4">
-								/* email */
-							</div>
-							<div className="col-xs-12 col-sm-4">
-								/* organization */
-							</div>
-						</div>
-
-						<div className="row">
-							<div className="col-xs-12">
-								/* Op Proposal*/
-							</div>
-						</div>
-
-						<div className="row">
-							<div className="col-xs-6 col-sm-3">
-								/* More details */
-							</div>
-						</div>
-					</Tab>
-				    <Tab eventKey={2} title="Guião 2">Tab 2 content</Tab>
-				    <Tab eventKey={3} title="Guião 3">Tab 3 content</Tab>
-				</Tabs>
+				<h1 className="text-center">Guiões</h1>
+				{renderScripts(data)}
 			</div>
 		</section>
 	);
 }
+
+ScriptsList.propTypes = {
+	data: PropTypes.array,
+	resourceId: PropTypes.number
+}
+
+export default ScriptsList

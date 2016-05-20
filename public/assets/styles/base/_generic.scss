@@ -61,3 +61,17 @@ body { height: 100%; }
     cursor:pointer;
   }
 }
+
+a[href^="mailto:"]{
+  text-decoration: underline;
+  @include transition(all 0.3s ease);
+  color:$body-color;
+
+  &:hover{
+    @include opacity(0.5);
+  }
+}
+
+.block{
+  display:block;
+}

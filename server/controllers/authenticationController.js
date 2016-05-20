@@ -3,6 +3,9 @@ const models = require('../models/index');
 const config = require('../config/config.json');
 const jwtUtil = require('../utils/jwt');
 
+//
+//  After signin in passport, send user data
+//
 exports.signin = function(req, res, next) {
   // User has already had their email and password auth'd
   // We just need to give them a token
@@ -17,6 +20,9 @@ exports.signin = function(req, res, next) {
   });
 }
 
+//
+//  Signup user
+//
 exports.signup = function(req, res, next) {
   const email = req.body.email;
   const password = req.body.password;

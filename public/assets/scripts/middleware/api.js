@@ -31,12 +31,13 @@ function callApi(endpoint, sendToken, mustAuth, method) {
       response.json()
       .then(json => ({ json, response }))
     ).then(({ json, response }) => {
-      if (!response.ok) {
-        return Promise.reject(json)
+     
+      if (!response.ok) {        
+        return Promise.reject({error: json, response})
       }
       
       return json;
-    }).catch(err => console.log(err))
+    }).catch(err => Promise.reject(err))
 }
 
 export const CALL_API = Symbol('Call API')
@@ -49,13 +50,18 @@ export default store => next => action => {
   if (typeof callAPI === 'undefined') {
     return next(action)
   }
-  
-  let { endpoint, types, sendToken, mustAuth, method } = callAPI
-  
-  const [ requestType, successType, errorType ] = types
 
   Progress.show();
   
+  return makeAPIRequest(callAPI, next);
+  
+}
+
+function makeAPIRequest(callAPI, next){
+  let { endpoint, types, sendToken, mustAuth, method } = callAPI;
+  
+  const [ requestType, successType, errorType ] = types;
+
   // Passing the authenticated boolean back in our data will let us distinguish between normal and secret quotes
   return callApi(endpoint, sendToken, mustAuth, method).then(
     response => {
@@ -66,11 +72,16 @@ export default store => next => action => {
         type: successType
       })
     })   
-    .catch(error => {
+    .catch((result) => {
       Progress.hide();
-      
+      if (result.error && result.error.new_token){
+        localStorage.setItem('token', result.error.new_token);
+        return makeAPIRequest(callAPI, next);
+      }
+
       next({
-        error: error.message || 'There was an error.',
+        message: result.error ? result.error.message : 'There was an error.',
+        status: result.response ? result.response.status : null,
         type: errorType
       })
     }

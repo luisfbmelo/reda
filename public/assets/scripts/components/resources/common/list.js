@@ -16,7 +16,7 @@ var renderList = (list, props) => {
 	let maxcol = props.maxcol || 4;
 	let classColCount = Math.floor(12/maxcol);
 
-	const { addscript, viewmore, isAuthenticated, setHighlight, setFavorite } = props;
+	const { addscript, viewmore, isAuthenticated, setHighlight, setFavorite, hideOptions } = props;
 
 	return list.map((el, index) => {
 		return <ResourceElement 
@@ -31,6 +31,7 @@ var renderList = (list, props) => {
 			config={props.config}
 			setHighlight={setHighlight}
 			setFavorite={setFavorite}
+			hideOptions={hideOptions}
 		/>
     });
 }
@@ -51,5 +52,6 @@ ResourcesList.propTypes = {
 	maxcol: PropTypes.number,
 	addscript: PropTypes.bool,
 	viewmore: PropTypes.bool,
-	isAuthenticated: PropTypes.bool.isRequired
+	isAuthenticated: PropTypes.bool.isRequired,
+	hideOptions: PropTypes.bool
 }
