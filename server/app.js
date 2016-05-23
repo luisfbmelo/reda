@@ -2,7 +2,7 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-const cors = require('cors');
+var cors = require('cors');
 
 // Routes
 var routes = require('./routes/index');

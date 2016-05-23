@@ -40,6 +40,7 @@ export const ResourcesList = (props) => {
 	if (!props.list || !props.list.data || props.list.fetching){
 		return <div></div>;
 	}
+
 	return(
 		<section className="row">
 			{renderList(props.list.data, props)}

@@ -9,6 +9,7 @@ const TagsInput = (props) => {
         className: 'react-tagsinput-input',
         placeholder: props.placeholder
     }
+
     return (
         <div className={props.className}>
             <Tags 

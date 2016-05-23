@@ -48,6 +48,11 @@ gulp.task('default', ['clean'], function () {
 
 gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function () {
 
+  //
+  //  SOME PACKAGES MISSING
+  //
+  //"sequelize": "^3.21.0"
+
   browserSync({
     port: 3000,
     server: {

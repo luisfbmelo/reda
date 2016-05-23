@@ -26,10 +26,10 @@ exports.validate = function(values){
   }
 
   // Keywords
-  if (!values.keywords) {
-    errors.keywords = 'O campo é obrigatório'
-  } else if (values.keywords.length > 5) {
-    errors.keywords = 'Deve ter entre 1 e 5 palavras-chave'
+  if (!values.tags) {
+    errors.tags = 'O campo é obrigatório'
+  } else if (values.tags.length > 5) {
+    errors.tags = 'Deve ter entre 1 e 5 palavras-chave'
   }
 
   // Formats

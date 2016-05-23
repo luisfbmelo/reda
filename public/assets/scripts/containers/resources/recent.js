@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchResources } from '../../actions/resources';
+import { fetchResources, setHighlight, setFavorite } from '../../actions/resources';
 import { fetchConfig } from '../../actions/config';
 import { bindActionCreators } from 'redux';
 import RecentResources from '../../components/resources/recent';
@@ -15,7 +15,12 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) { 
-  return bindActionCreators({ fetchResources, fetchConfig }, dispatch);
+  return bindActionCreators({ 
+  	fetchResources, 
+  	fetchConfig,
+  	setHighlight, 
+    setFavorite,
+  }, dispatch);
 }
 
 

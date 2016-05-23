@@ -35,7 +35,7 @@ export default class SearchForm extends Component {
 	componentDidMount(){
 		this.props.fetchYears(true);
 		this.props.fetchSubjects(true);
-		this.props.fetchFormats(true);
+		this.props.fetchFormats();
 	}
 
 	// Reset form on unmount

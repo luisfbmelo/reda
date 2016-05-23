@@ -2,10 +2,11 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { addResource } from '../../actions/resources';
 import { fetchFormats } from '../../actions/formats';
 import { fetchAccess } from '../../actions/access';
 import { fetchSubjects } from '../../actions/subjects';
-import { fetchDomains } from '../../actions/domains';
+import { fetchDomains, fetchDomainsWithSubject } from '../../actions/domains';
 import { fetchLanguages } from '../../actions/languages';
 import { fetchYears } from '../../actions/years';
 import { fetchTerms } from '../../actions/terms';
@@ -52,15 +53,29 @@ class NewResourceFormContainer extends Component {
     }
   }
 
-  handleSubmit(){
+  handleSubmit(values, dispatch){
+    console.log(values);
     // MAKE SUBMITION
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-          resolve()
-        
-      }, 5000) // simulate server latency
-    })
+      this.props.addResource(values)
+      .then(() => {
+        const { errorMessage } = this.props.resource;
 
+        // Dispatch errors to form if any
+        if (errorMessage && errorMessage.form_errors){
+          console.log(errorMessage.form_errors);
+          reject(errorMessage.form_errors);
+
+          // Else, resolve form
+        }else{
+          resolve();
+        }
+
+      })
+      .catch(error => {
+        reject(error);
+      })
+    })
   }
 
   render() {
@@ -94,7 +109,8 @@ function mapStateToProps(state) {
     domains: state.domains,
     languages: state.languages,
     years: state.years,
-    terms: state.terms
+    terms: state.terms,
+    resource: state.resource
   };
 }
 
@@ -104,9 +120,11 @@ function mapDispatchToProps(dispatch) {
     fetchAccess,
     fetchSubjects,
     fetchDomains,
+    fetchDomainsWithSubject,
     fetchLanguages,
     fetchYears,
     fetchTerms,
+    addResource,
     resetForm: () => dispatch(reset('newResource'))
   }, dispatch);
 }

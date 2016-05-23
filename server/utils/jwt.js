@@ -58,7 +58,7 @@ exports.requireAuth = function(req, res, next) {
     }else if(!user){
       return res.status(401).send("Unauthorized");
     }else{
-    	req.user = user;
+    	req.userExists = user;
     }
     
     next();

@@ -7,7 +7,7 @@ import Progress from "react-progress-2";
 
 const BASE_URL = 'http://devbox.dev/api/';
 
-function callApi(endpoint, sendToken, mustAuth, method) {
+function callApi(endpoint, sendToken, mustAuth, method, data) {
   
   let token = localStorage.getItem('token') || null
   let config = { 
@@ -15,6 +15,10 @@ function callApi(endpoint, sendToken, mustAuth, method) {
     headers: {
       'Content-Type': 'application/json'
     }
+  }
+
+  if (data){
+    config.body = JSON.stringify(data);
   }
 
   
@@ -58,15 +62,15 @@ export default store => next => action => {
 }
 
 function makeAPIRequest(callAPI, next){
-  let { endpoint, types, sendToken, mustAuth, method } = callAPI;
+  let { endpoint, types, sendToken, mustAuth, method, data } = callAPI;
   
   const [ requestType, successType, errorType ] = types;
 
   // Passing the authenticated boolean back in our data will let us distinguish between normal and secret quotes
-  return callApi(endpoint, sendToken, mustAuth, method).then(
+  return callApi(endpoint, sendToken, mustAuth, method, data).then(
     response => {
       Progress.hide();
-
+      console.log(response);
       next({
         data:response,
         type: successType
@@ -79,8 +83,10 @@ function makeAPIRequest(callAPI, next){
         return makeAPIRequest(callAPI, next);
       }
 
+      console.log(result);
+
       next({
-        message: result.error ? result.error.message : 'There was an error.',
+        message: (result.error) ? (result.error.message || result.error) : 'There was an error.',
         status: result.response ? result.response.status : null,
         type: errorType
       })

@@ -69,3 +69,12 @@ export function fetchDomainsFromSubject(subId, isRequired){
 		}
 	}
 }
+
+export function fetchDomainsWithSubject(){
+	return {
+		[CALL_API]: {
+		  endpoint: 'domains/with-subjects',
+		  types: [DOMAINS_REQUEST, DOMAINS_SUCCESS, DOMAINS_FAILURE]
+		}
+	}
+}

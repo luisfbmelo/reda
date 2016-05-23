@@ -9,6 +9,7 @@ import {
 	LANGUAGES_FAILURE,
 	LANGUAGES_RESET
 } from './action-types';
+import { CALL_API } from '../middleware/api';
 
 
 // FORMATS

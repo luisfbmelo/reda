@@ -63,10 +63,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		link: {
 			type: DataTypes.TEXT,
-			allowNull: true,
-			validate: {
-				isUrl: true,
-			}
+			allowNull: true
 		},
 		author: {
 			type: DataTypes.TEXT,

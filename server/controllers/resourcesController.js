@@ -499,7 +499,6 @@ exports.details = function(req, res, next){
 exports.createOrUpdate = function(req, res, next){	
 	var userExists = req.userExists;
 
-
 	// Check AUTH
 	if (userExists){
 		//
@@ -517,14 +516,14 @@ exports.createOrUpdate = function(req, res, next){
 		models.Tag.findAll({
 			where:{
 				title: {
-					$in: req.body.keywords
+					$in: req.body.tags
 				}
 			}
 		})
 		.then(function(items){
 
 			var existingTags = [];
-			var newTags = req.body.keywords;
+			var newTags = req.body.tags;
 
 			//
 			//	Replace repeated tags for the ones form DB
@@ -557,12 +556,16 @@ exports.createOrUpdate = function(req, res, next){
 		});
 		//return res.status(200).send("done");
 	}else{
-		return res.status(401).send({message: 'Not allowed to create this resource1'})
+		return res.status(401).send({message: 'Not allowed to create this resource'})
 	}
 }
 
 function upsertResource(req, res, newTags, existingTags, action, userId){
-	var slug = "";
+	// Handle domains to insert
+    var domainsToInsert = getDomains(req.body.domains);
+
+    // INIT VARS
+	var slug = "";	
 
 	//
 	//	Create a slug
@@ -604,11 +607,9 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 					    embed: req.body.embed,
 					    techResources: req.body.techResources,
 					    operation: req.body.op_proposal,
-					    operation_author: req.body.op_proposal_author,
+					    operation_author: req.body.op_proposal_author
 					  }).then(function(item){			 
 					  	resource.setSubjects(req.body.subjects);
-
-					    resource.setDomains(req.body.domains);
 
 					    resource.setYears(req.body.years);
 
@@ -616,11 +617,24 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 
 					    resource.setLanguages(req.body.language);
 
+					    resource.addDomains(domainsToInsert.existing);
+
+					    //
+					    //	Add new domains
+					    //
+					    domainsToInsert.new.forEach(function(domain){
+					    	models.Domain.create(domain)
+					    	.then(function(newDomain){
+					    		resource.addDomain(newDomain);
+					    	})
+					    	
+					    });
+
 					    //
 					    //	Remove all tags and insert new ones
 					    //
 					    resource.setTags([]).then(function(){
-					    	resource.setTags(existingTags);
+					    	resource.addTags(existingTags);
 
 						    newTags.forEach(function(tag){
 						    	models.Tag.create(tag)
@@ -652,7 +666,7 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 						    //
 						    dataUtil.saveFile(req, res, resource.dataValues.slug, req.body.file.data, fileName, req.body.file.extension, req.params.id);
 
-					    	// Create new file
+					    	// Create new file and add reference
 					    	models.File.create({
 					    		name: fileName,
 					    		extension: req.body.file.extension
@@ -673,55 +687,88 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			});
 
 		}else if(action=='create'){
-			
+			var fileToUpload = null;
 
+			// Save file?
+			if (req.body.file!=undefined && req.body.file!=null){
+				fileToUpload = {
+					Files:{
+						name: fileName,
+			    		extension: req.body.file.extension
+					}					
+				}
+			}
+			debug(req.body);
 			return models.Resource.create({
 			    title: req.body.title,
 			    slug: slug,
 			    description: req.body.description,
 			    format_id: req.body.format.id,
-			    duration: req.body.duration,
+			    duration: req.body.duration || null,
 			    author: req.body.author,
 			    organization: req.body.organization,
 			    email: req.body.email,
 			    highlight: false,
 			    exclusive: req.body.exclusive,
-			    embed: req.body.embed,
+			    link: req.body.link || null,
+			    embed: req.body.embed || null,
 			    techResources: req.body.techResources,
 			    operation: req.body.op_proposal,
 			    operation_author: req.body.op_proposal_author,
 			    user_id: userId,
-			    Files: {
-			    	name: fileName,
-			    	extension: req.body.file.extension
-			    },
-			    Tags: newTags
+			    fileToUpload,
+			    Tags: newTags,
+			    Domains: domainsToInsert.new
 			  },{
 			    include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language, models.Tag, models.File ]
 			  }).then(function(item){
-			    item.setSubjects(req.body.subjects);
-
-			    item.setDomains(req.body.domains);
+			    item.setSubjects(req.body.subjects);	    
 
 			    item.setYears(req.body.years);
 
-			    item.addMode(req.body.access);
+			    item.setModes(req.body.access);
 
-			    item.addLanguage(req.body.language);
+			    item.setLanguages(req.body.language.id);
 
-			    item.setTags(existingTags);
+			    item.addTags(existingTags);
+
+			    item.addDomains(domainsToInsert.existing);
 
 			    //
 			    //	Save file to FileSys
 			    //
-			    dataUtil.saveFile(req, res, slug, req.body.file.data, fileName, req.body.file.extension, item.id);
-
+			    if (req.body.file){
+			    	dataUtil.saveFile(req, res, slug, req.body.file.data, fileName, req.body.file.extension, item.id);	
+			    }
+			    
+			    debug(item);
 			    return res.status(200).send(item);
 			 })
 			 .catch(function(err){
+			 	debug(err);
+
 				return res.status(403).send(err);
 			});
 		}
 
 	});
+}
+
+function getDomains(domains){
+	var finalDomains = {
+		existing: [],
+		new: []
+	}
+
+	if (Array.isArray(domains)){
+    	finalDomains.existing = domains
+    }else if((typeof domains === 'string' || domains instanceof String) && domains.length>0){
+    	newDomains = domains.split(",");
+
+    	for(domain of newDomains){
+    		finalDomains.new.push({title: domain});
+    	}
+    }
+
+    return finalDomains;
 }

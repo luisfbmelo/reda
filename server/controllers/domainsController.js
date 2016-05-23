@@ -34,7 +34,13 @@ exports.list = function(req, res, next) {
 exports.listWithSubjects = function(req, res, next) {
 	// Set includes
 	var includes = [
-		{ seperate: true, model: models.Subject }
+		{ 
+			seperate: true, 
+			model: models.Subject, 
+			through: {
+				attributes:[]
+			} 
+		}
 	];
 
 	//var filter = { title: { like: '%gone%'}, 'Author.name' : { like : '%paul%' } };

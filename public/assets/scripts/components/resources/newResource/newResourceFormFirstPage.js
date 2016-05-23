@@ -10,6 +10,7 @@ import Tags from '../../common/tags';
 import RadioGroup from '../../common/radioGroup';
 import FileInput from '../../common/fileInput';
 import TextArea from '../../common/textarea';
+import CheckboxGroup from 'react-checkbox-group';
 
 // Validation
 import validate from './validateFirstPage';
@@ -19,7 +20,7 @@ export const fields = [
   'author', 
   'email',
   'organization',
-  'keywords',
+  'tags',
   'format',
   'file',
   'embed',
@@ -40,6 +41,14 @@ class NewResourceFormFirstPage extends Component {
   constructor(props){
     super(props);
 
+    //
+    //  Renders
+    //
+    this.renderAccess = this.renderAccess.bind(this);
+
+    //
+    //  Event handlers
+    //
     this.setTags = this.setTags.bind(this);
     this.setFormat = this.setFormat.bind(this);
     this.setAccess = this.setAccess.bind(this);
@@ -53,14 +62,14 @@ class NewResourceFormFirstPage extends Component {
     .then(() => {
       // Set default to downloadable
       _.forEach(this.props.mapProps.access.data, (mode) =>{    
-        mode.title=="Descarregável" && this.props.fields.access.onChange(mode);
+        mode.title=="Descarregável" && this.props.fields.access.onChange([mode.id]);
       })
     })
   }
 
   // On change TAGS
   setTags(tags){
-    this.props.fields.keywords.onChange(tags);
+    this.props.fields.tags.onChange(tags);
   }
 
   // On change FORMATS
@@ -71,10 +80,10 @@ class NewResourceFormFirstPage extends Component {
     _.forEach(this.props.mapProps.access.data, (mode) =>{    
       // If video, is online
       if (format.type=="video" && mode.title=="Online"){
-        this.props.fields.access.onChange(mode);
+        this.props.fields.access.onChange([mode.id]);
       // If not, and if resource is not online, set to downloadable
       }else if (format.type!="video" && !this.props.fields.isOnline.value && mode.title=="Descarregável"){
-        this.props.fields.access.onChange(mode);          
+        this.props.fields.access.onChange([mode.id]);          
       }
     })
     
@@ -101,25 +110,68 @@ class NewResourceFormFirstPage extends Component {
       _.forEach(this.props.mapProps.access.data, (mode) =>{    
         // If is online and this mode is online
         if (isOnline.value && mode.title=="Online"){
-          this.props.fields.access.onChange(mode);
+          this.props.fields.access.onChange([mode.id]);
         // If is not online and is a file, set to downloadable
         }else if (!isOnline.value && mode.title=="Descarregável"){
-          this.props.fields.access.onChange(mode);          
+          this.props.fields.access.onChange([mode.id]);          
         }
       })
     }
   }
 
+  // Render access modes
+  renderAccess(){
+    const { access } = this.props.fields;
+    return(
+      <CheckboxGroup
+            name="access"
+            value={access.value}
+            onChange={this.setAccess}
+          >
+            {
+              Checkbox => (
+                <div className="row">
+                  {_.sortBy(this.props.mapProps.access.data, 'title').map((item,index) => {
+                    return (
+                      <div key={"access-"+item.id} className="col-xs-6">
+                        <Checkbox value={item.id} id={"access-"+item.id}/> 
+                        <label htmlFor={"access-"+item.id}>{item.title}</label>
+                      </div>
+                    )
+                  })}
+                </div>
+              )
+            }
+      </CheckboxGroup>
+    )
+  }
+
   render() {
     const {
-      fields: { title, author, email, organization, keywords, file, link, embed, duration, format, access, techResources, description, exclusive, isOnline },
+      fields: { 
+        title, 
+        author, 
+        email, 
+        organization, 
+        tags, 
+        file, 
+        link, 
+        embed, 
+        duration, 
+        format, 
+        access, 
+        techResources, 
+        description, 
+        exclusive, 
+        isOnline 
+      },
       handleSubmit
     } = this.props;
 
     if (!this.props.mapProps.formats.data || !this.props.mapProps.access.data){
       return null;
     }
-
+    
     const { formats } = this.props.mapProps;
     //console.log(file);
     return (
@@ -179,9 +231,9 @@ class NewResourceFormFirstPage extends Component {
         <div className="row">
           <div className="col-xs-12 col-sm-6">
             <label className="input-title">Palavras-Chave*</label>
-            <div className={`form-group ${keywords.touched && keywords.invalid ? 'has-error' : ''}`}>
-              <Tags setTags={this.setTags} tags={keywords.value}/>
-              {keywords.touched && keywords.error && <div className="text-danger">{keywords.error}</div>}
+            <div className={`form-group ${tags.touched && tags.invalid ? 'has-error' : ''}`}>
+              <Tags setTags={this.setTags} tags={tags.value} placeholder="Palavras-chave"/>
+              {tags.touched && tags.error && <div className="text-danger">{tags.error}</div>}
               <small>Deve escolher entre 1 e 5 palavras</small>
             </div>            
           </div>
@@ -264,9 +316,9 @@ class NewResourceFormFirstPage extends Component {
         {/* ACCESS */}
         <div className="row">
           <div className="col-xs-12 col-sm-6">
-            <label className="input-title">Modo de acesso*</label>
+            <label className="input-title">Modo de utilização*</label>
             <div className={`form-group ${access.touched && access.invalid ? 'has-error' : ''}`}>
-              <RadioGroup list={this.props.mapProps.access.data} name="access" setRadio={this.setAccess} checked={access.value}/>
+              {this.renderAccess()}
               {access.touched && access.error && <div className="text-danger">{access.error}</div>}
             </div>            
           </div>
@@ -319,6 +371,8 @@ export default reduxForm({
 state => ({
   initialValues: {
     exclusive: true,
-    isOnline: false
+    isOnline: false,
+    tags: [],
+    access: []
   }
 }))(NewResourceFormFirstPage)

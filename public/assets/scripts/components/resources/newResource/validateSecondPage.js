@@ -30,6 +30,11 @@ const validate = values => {
     errors.op_proposal = 'Apenas deve conter no máximo 800 caracteres'
   }
 
+  // Op proposal author
+  if (!values.op_proposal_author) {
+    errors.op_proposal_author = 'Campo é obrigatório'
+  }
+
   // Accepted terms
   if (!values.accept_terms) {
     errors.accept_terms = 'Deve aceitar os termos e condições para criar o recurso'

@@ -25,11 +25,11 @@ const validate = values => {
     errors.organization = 'O campo é obrigatório'
   }
 
-  // Keywords
-  if (!values.keywords) {
-    errors.keywords = 'O campo é obrigatório'
-  } else if (values.keywords.length > 5) {
-    errors.keywords = 'Deve ter entre 1 e 5 palavras-chave'
+  // Tags
+  if (!values.tags) {
+    errors.tags = 'O campo é obrigatório'
+  } else if (values.tags.length==0 || values.tags.length > 5) {
+    errors.tags = 'Deve ter entre 1 e 5 palavras-chave'
   }
 
   // Formats
@@ -61,10 +61,6 @@ const validate = values => {
     errors.embed = 'Campo é obrigatório'
   }
 
-  // Access modes
-  if (!values.access) {
-    errors.access = 'O campo é obrigatório'
-  }
 
   // Tech Resources
   if (!values.techResources) {

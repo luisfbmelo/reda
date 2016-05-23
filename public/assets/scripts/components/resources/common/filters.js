@@ -48,7 +48,7 @@ export default class ResourcesFilters extends Component {
 	}
 
 	componentDidMount(){		
-		this.props.fetchFormats(true);
+		this.props.fetchFormats();
 		this.props.fetchSubjects(true);
 		this.props.fetchDomains(true);
 		this.props.fetchYears(true);
@@ -147,12 +147,14 @@ export default class ResourcesFilters extends Component {
 		          Checkbox => (
 		            <div className="row">
 		              {data.sort(sortByTitle).map((item,index) => {
-		                return (
-		                  <div key={item.id} className="col-xs-12">
-		                    <Checkbox value={item.id} id={"format-"+item.id}/> 
-		                    <label htmlFor={"format-"+item.id}>{item.title}</label>
-		                  </div>
-		                )
+		              	if (item.type!='others'){
+		              		return (
+			                  <div key={item.id} className="col-xs-12">
+			                    <Checkbox value={item.id} id={"format-"+item.id}/> 
+			                    <label htmlFor={"format-"+item.id}>{item.title}</label>
+			                  </div>
+			                )
+		              	}		                
 		              })}
 		            </div>
 		          )

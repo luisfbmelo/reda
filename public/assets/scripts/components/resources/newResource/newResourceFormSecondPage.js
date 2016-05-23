@@ -18,7 +18,7 @@ export const fields = [
   'author', 
   'email',
   'organization',
-  'keywords',
+  'tags',
   'format',
   'file',
   'embed',
@@ -33,6 +33,7 @@ export const fields = [
   'years',
   'language',
   'op_proposal',
+  'op_proposal_author',
   'accept_terms',
   'hasDomains'
 ]
@@ -57,7 +58,7 @@ class NewResourceFormSecondPage extends Component {
 
   componentDidMount(){
     this.props.mapProps.fetchSubjects();
-    this.props.mapProps.fetchDomains();
+    this.props.mapProps.fetchDomainsWithSubject();
     this.props.mapProps.fetchLanguages();
     this.props.mapProps.fetchYears();
     this.props.mapProps.fetchTerms();
@@ -158,7 +159,7 @@ class NewResourceFormSecondPage extends Component {
           {(() => {
             if (!totalDomains || totalDomains.length==0){
               return (
-                  <input type="text" className="form-control" placeholder="Indique um domínio" {...domains}/>
+                  <input type="text" className="form-control" placeholder="Indique os domínios separados por vírgulas" {...domains}/>
                 );
             }else{
               return(
@@ -207,7 +208,7 @@ class NewResourceFormSecondPage extends Component {
         let exists = false;
 
         // If domain subjects was selected
-        for (let domainSubject of domain.subjects){
+        for (let domainSubject of domain.Subjects){
           exists = subjects.value.indexOf(domainSubject.id) >= 0;
         }
 
@@ -223,7 +224,7 @@ class NewResourceFormSecondPage extends Component {
 
   render() {
     const {
-      fields: { op_proposal, subjects, years, language, accept_terms, domains },
+      fields: { op_proposal, op_proposal_author, subjects, years, language, accept_terms, domains },
       handleSubmit,
       previousPage,
       submitting
@@ -285,6 +286,15 @@ class NewResourceFormSecondPage extends Component {
               <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" initVal={op_proposal.value} {...op_proposal} />
               {op_proposal.touched && op_proposal.error && <div className="text-danger">{op_proposal.error}</div>}
             </div>            
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-12 col-sm-6">
+            <label className="input-title">Autor da proposta*</label>
+            <div className={`form-group ${op_proposal_author.touched && op_proposal_author.invalid ? 'has-error' : ''}`}>
+              <input type="text" className="form-control" placeholder="Autor da proposta" {...op_proposal_author}/>
+              {op_proposal_author.touched && op_proposal_author.error && <div className="text-danger">{op_proposal_author.error}</div>}
+            </div>
           </div>
         </div>
 

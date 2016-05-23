@@ -201,6 +201,19 @@ export function fetchResource(resourceSlug){
 	}
 }
 
+export function addResource(data){
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources',
+		  method: 'POST',
+		  sendToken: true,
+		  mustAuth: true,
+		  data,
+		  types: [RESOURCE_REQUEST, RESOURCE_SUCCESS, RESOURCE_FAILURE]
+		}
+	}
+}
+
 // RELATED RESOURCES
 function requestRelatedResources(){
 	return {

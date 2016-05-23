@@ -6,12 +6,34 @@ export default class RecentResources extends Component {
 
 	constructor(props){
 		super(props);
+
+		//
+		//	Event handlers
+		//
+		this.setHighlight = this.setHighlight.bind(this);
+		this.setFavorite = this.setFavorite.bind(this);
 	}
 
 	componentDidMount(){
 		this.props.fetchResources('recent');
 		this.props.fetchConfig();		
 	}
+
+	componentWillUpdate(nextProps, nextState) {
+	    if (nextProps.auth.isAuthenticated != this.props.auth.isAuthenticated){
+	 		this.props.fetchResources('recent');
+	 	}  
+	}
+
+	// Set as highlighted
+    setHighlight(resourceId){
+    	this.props.setHighlight(resourceId);
+    }
+
+    // Set as favorite
+    setFavorite(resourceId){
+    	this.props.setFavorite(resourceId);
+    }
 
 	render() {
 		if (!this.props.resources.data || !this.props.resources.fetched)
@@ -27,7 +49,15 @@ export default class RecentResources extends Component {
 							<h1 className="resources__title">Últimos Recursos</h1>
 						</div>
 					</div>
-					<ResourcesList list={this.props.resources} config={this.props.config.data} maxcol={4} viewmore isAuthenticated={isAuthenticated} />
+					<ResourcesList 
+					list={this.props.resources} 
+					config={this.props.config.data} 
+					maxcol={4} 
+					viewmore 
+					isAuthenticated={isAuthenticated}
+					setHighlight={this.setHighlight}
+					setFavorite={this.setFavorite}
+					/>
 				</div>
 			</section>
 		);
