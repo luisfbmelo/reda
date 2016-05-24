@@ -132,12 +132,14 @@
 
 	&__dashboard{
 		display:table;
+		width:100%;
 		&--heading{
 
 			.actions{
 				clear:both;
 			}
 
+			a,
 			button{
 				padding:0;
 				margin-bottom:15px;
@@ -415,4 +417,16 @@
 			}
 		}
 	}	
+
+	.admin-features{
+		button,
+		a{
+			padding-left:0;
+
+			& + button,
+			& + a{
+				margin-left:15px;
+			}
+		}
+	}
 }

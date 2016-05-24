@@ -31,6 +31,7 @@ export default class AlertsBox extends Component {
 
 	dismissAlert(){
 		this.setState({visible: false});
+		this.props.removeAlert();
 		clearTimeout(this._timer);
 	}
 

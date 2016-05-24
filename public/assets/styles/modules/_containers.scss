@@ -14,7 +14,8 @@
 
 	&:not(.home-page):not(.painel):not(.perfil){
 		.navbar-nav li a, 
-		.navbar-nav li button{
+		.navbar-nav li button,
+		.user-identification:before{
 			color:$body-color!important;
 		}
 

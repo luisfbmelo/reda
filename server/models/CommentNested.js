@@ -4,6 +4,7 @@
 module.exports = function(sequelize, DataTypes) {
 	var NestedComment = sequelize.define('NestedComment', {
 	}, {
+		paranoid: true,
 		classMethods: {
 			associate: function(models) {
 				NestedComment.belongsTo(models.Comment, {

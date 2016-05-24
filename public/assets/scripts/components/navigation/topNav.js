@@ -16,7 +16,6 @@ export default class TopNav extends Component {
 		super(props);
 
 		this.renderSmallNav = this.renderSmallNav.bind(this);
-		this.renderLogout = this.renderLogout.bind(this);
 	}
 
 	isActive(location, target){
@@ -36,29 +35,33 @@ export default class TopNav extends Component {
 						</LoginButton>
 					</li>
 				</IsNotAuthenticated>
+
 				<IsNotAuthenticated>
 					<li className={this.isActive(this.props.location.pathname, 'registar')}>
 						<Link to="/registar">Registar</Link>
 					</li>
-				</IsNotAuthenticated>
-				<IsAuthenticated>
+				</IsNotAuthenticated>	
+
+				{/*<IsAuthenticated>
 					<li className={this.isActive(this.props.location.pathname, 'painel')}>
 		           		<Link to="/painel">Minha Conta</Link>
 		           	</li>
-				</IsAuthenticated>
+				</IsAuthenticated>*/}
 				<li className={this.isActive(this.props.location.pathname, 'ajuda')}>
 					<Link to="/ajuda">Ajuda</Link>
 				</li>
-				{this.renderLogout()}
-			</ul>
-		)
-	}
+				
+				<IsAuthenticated>
+					{this.props.auth.data && 
+					<li className={"user-identification "+this.isActive(this.props.location.pathname, 'painel')}>
+		           		<Link to="/painel">Olá <strong><em>{this.props.auth.data.user.name}</em></strong></Link>
+		           	</li>}
+				</IsAuthenticated>
 
-	renderLogout(isAuthenticated){
-		return (
-			<IsAuthenticated>
-				<LogoutButton />
-			</IsAuthenticated>
+				<IsAuthenticated>
+					<LogoutButton />
+				</IsAuthenticated>
+			</ul>
 		)
 	}
 

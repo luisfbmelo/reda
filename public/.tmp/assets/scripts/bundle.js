@@ -325,9 +325,8 @@ function logout() {
 	return function (dispatch) {
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
-
-		dispatch(requestLogout());
 		dispatch(alertActions.addAlert(alertMessages.ALERT_LOGOUT_SUCCESS, alertMessages.SUCCESS));
+		dispatch(requestLogout());
 	};
 }
 
@@ -823,6 +822,7 @@ var ALERT_LOGOUT_SUCCESS = exports.ALERT_LOGOUT_SUCCESS = 'Volte sempre!';
 // RESOURCES
 var ALERT_RESOURCE_CREATE_SUCCESS = exports.ALERT_RESOURCE_CREATE_SUCCESS = 'O recurso foi adicionado';
 var ALERT_RESOURCE_EDIT_SUCCESS = exports.ALERT_RESOURCE_EDIT_SUCCESS = 'O recurso foi alterado';
+var ALERT_RESOURCE_ADD_ERROR = exports.ALERT_RESOURCE_ADD_ERROR = 'Foram detetados erros ao submeter. Corrija os erros identificados';
 
 // SCRIPTS
 var ALERT_SCRIPT_CREATE_SUCCESS = exports.ALERT_SCRIPT_CREATE_SUCCESS = 'O guião foi adicionado';
@@ -841,10 +841,12 @@ exports.resetResources = resetResources;
 exports.fetchResources = fetchResources;
 exports.searchResources = searchResources;
 exports.fetchMyResources = fetchMyResources;
+exports.deleteResources = deleteResources;
 exports.resetResource = resetResource;
 exports.setFavorite = setFavorite;
 exports.fetchResource = fetchResource;
-exports.addResource = addResource;
+exports.submitResource = submitResource;
+exports.deleteResource = deleteResource;
 exports.resetRelatedResources = resetRelatedResources;
 exports.fetchRelatedResources = fetchRelatedResources;
 
@@ -946,23 +948,6 @@ function resetResources() {
 }
 
 function fetchResources(type, params) {
-	/*return dispatch => {
- 	dispatch(requestResources());
- 		return fetch('/assets/scripts/dummy.json')
- 	.then(response => {
- 		if (response.status >= 400) {
-           throw new Error('Bad response');
-         }
-         return response.json();
- 	})
- 	.then(json => {
- 		dispatch(receiveResources(json.resources));
- 	})
- 	.catch(message => {
- 		dispatch(resourcesError(message));
- 	})
- }*/
-
 	var endpoint = type ? 'resources/' + type : 'resources';
 
 	return _defineProperty({}, _api.CALL_API, {
@@ -988,6 +973,18 @@ function fetchMyResources(filters) {
 		endpoint: 'resources/search?type=myresources&' + (0, _utils.complexToQueryString)(filters),
 		sendToken: true,
 		mustAuth: true,
+		types: [_actionTypes.RESOURCES_REQUEST, _actionTypes.RESOURCES_SUCCESS, _actionTypes.RESOURCES_FAILURE]
+	});
+}
+
+// delete collective
+function deleteResources(list) {
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'resources',
+		method: 'DELETE',
+		sendToken: true,
+		mustAuth: true,
+		data: { resources: list },
 		types: [_actionTypes.RESOURCES_REQUEST, _actionTypes.RESOURCES_SUCCESS, _actionTypes.RESOURCES_FAILURE]
 	});
 }
@@ -1034,13 +1031,26 @@ function fetchResource(resourceSlug) {
 	});
 }
 
-function addResource(data) {
+function submitResource(data, resource) {
+	var endPoint = resource ? 'resources/' + resource : 'resources';
+	var method = resource ? 'PUT' : 'POST';
+
 	return _defineProperty({}, _api.CALL_API, {
-		endpoint: 'resources',
-		method: 'POST',
+		endpoint: endPoint,
+		method: method || 'POST',
 		sendToken: true,
 		mustAuth: true,
 		data: data,
+		types: [_actionTypes.RESOURCE_REQUEST, _actionTypes.RESOURCE_SUCCESS, _actionTypes.RESOURCE_FAILURE]
+	});
+}
+
+function deleteResource(resourceSlug) {
+	return _defineProperty({}, _api.CALL_API, {
+		endpoint: 'resources/' + resourceSlug,
+		method: 'DELETE',
+		sendToken: true,
+		mustAuth: true,
 		types: [_actionTypes.RESOURCE_REQUEST, _actionTypes.RESOURCE_SUCCESS, _actionTypes.RESOURCE_FAILURE]
 	});
 }
@@ -1073,7 +1083,6 @@ function resetRelatedResources() {
 }
 
 function fetchRelatedResources(resourceSlug) {
-	console.log(resourceSlug);
 	return _defineProperty({}, _api.CALL_API, {
 		endpoint: 'resources/related/' + resourceSlug,
 		types: [_actionTypes.RELATED_RESOURCES_REQUEST, _actionTypes.RELATED_RESOURCES_SUCCESS, _actionTypes.RELATED_RESOURCES_FAILURE]
@@ -1320,30 +1329,31 @@ function userError(message) {
 
 function fetchUserData(userId) {
 
-	return function (dispatch) {
-		dispatch(requestUser());
-
-		return (0, _isomorphicFetch2.default)('/assets/scripts/dummy.json').then(function (response) {
-			if (response.status >= 400) {
-				throw new Error('Bad response');
-			}
-
-			return response.json();
-		}).then(function (json) {
-
-			var filtered = json.users.filter(function (obj) {
-				return obj.id == userId;
-			});
-
-			if (filtered.length == 0) {
-				throw new Error('No data');
-			}
-
-			dispatch(receiveUser(filtered[0]));
-		}).catch(function (message) {
-			dispatch(userError(message));
-		});
-	};
+	/*return dispatch => {
+ 	dispatch(requestUser());
+ 		return fetch('/assets/scripts/dummy.json')
+ 	.then(response => {
+ 		if (response.status >= 400) {
+           throw new Error('Bad response');
+         }
+ 
+         return response.json();
+ 	})
+ 	.then(json => {
+ 		
+ 		var filtered = json.users.filter((obj) => {				
+ 			return obj.id == userId;
+ 		});
+ 		
+ 		if (filtered.length==0){
+ 			throw new Error('No data');
+ 		}
+ 			dispatch(receiveUser(filtered[0]));
+ 	})
+ 	.catch(message => {
+ 		dispatch(userError(message));
+ 	})
+ }*/
 }
 
 },{"./action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js":[function(require,module,exports){
@@ -2459,6 +2469,7 @@ var AlertsBox = function (_Component) {
 		key: 'dismissAlert',
 		value: function dismissAlert() {
 			this.setState({ visible: false });
+			this.props.removeAlert();
 			clearTimeout(this._timer);
 		}
 
@@ -2953,12 +2964,10 @@ exports.default = TagsInput;
 'user strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
@@ -2966,93 +2975,47 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+exports.default = function (props) {
+  var field = props.field;
+  var max = props.max;
+  var min = props.min;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TextArea = function (_Component) {
-	_inherits(TextArea, _Component);
-
-	function TextArea(props) {
-		_classCallCheck(this, TextArea);
-
-		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TextArea).call(this, props));
-
-		_this.handleChange = _this.handleChange.bind(_this);
-
-		_this.state = {
-			currentLength: 0,
-			text: ""
-		};
-		return _this;
-	}
-
-	_createClass(TextArea, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			this.setState({ text: this.props.initVal || "" });
-		}
-	}, {
-		key: 'handleChange',
-		value: function handleChange(e) {
-			// Check 	
-			if (e.target.value.length <= this.props.max || !this.props.max) {
-				this.setState({
-					currentLength: e.target.value.length,
-					text: e.target.value
-				});
-			} else {
-				e.preventDefault();
-			}
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this2 = this;
-
-			return _react2.default.createElement(
-				'div',
-				null,
-				_react2.default.createElement('textarea', _extends({}, this.props, { onChange: this.handleChange, value: this.state.text })),
-				_react2.default.createElement(
-					'div',
-					{ className: 'row' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'col-xs-6' },
-						function () {
-							if (_this2.props.max) {
-								return _react2.default.createElement(
-									'span',
-									null,
-									_this2.state.currentLength + "/" + _this2.props.max
-								);
-							}
-						}()
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'col-xs-6 text-right' },
-						_react2.default.createElement(
-							'small',
-							null,
-							'Deve ter no mínimo ',
-							this.props.min,
-							' caracteres e no máximo ',
-							this.props.max
-						)
-					)
-				)
-			);
-		}
-	}]);
-
-	return TextArea;
-}(_react.Component);
-
-exports.default = TextArea;
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement('textarea', _extends({}, props, field)),
+    _react2.default.createElement(
+      'div',
+      { className: 'row' },
+      _react2.default.createElement(
+        'div',
+        { className: 'col-xs-6' },
+        function () {
+          if (max) {
+            return _react2.default.createElement(
+              'span',
+              null,
+              field.value.length + "/" + max
+            );
+          }
+        }()
+      ),
+      _react2.default.createElement(
+        'div',
+        { className: 'col-xs-6 text-right' },
+        _react2.default.createElement(
+          'small',
+          null,
+          'Deve ter no mínimo ',
+          min,
+          ' caracteres e no máximo ',
+          max
+        )
+      )
+    )
+  );
+};
 
 },{"react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\index.js":[function(require,module,exports){
 'use strict';
@@ -3204,9 +3167,16 @@ var _protectedButton = require('../../../auth/protectedButton');
 
 var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
+var _deleteResource = require('../../../../containers/resources/deleteResource');
+
+var _deleteResource2 = _interopRequireDefault(_deleteResource);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Boostrap
+// Components
+
+
+// Utils
 
 
 var renderList = function renderList(list, props) {
@@ -3273,15 +3243,13 @@ var renderList = function renderList(list, props) {
 							'div',
 							{ className: 'actions' },
 							_react2.default.createElement(
-								'button',
-								{ className: 'cta secundary no-bg' },
+								_reactRouter.Link,
+								{ to: "/editarrecurso/" + el.slug, className: 'cta secundary no-bg' },
 								'Editar'
 							),
 							_react2.default.createElement(
-								'button',
-								{ className: 'cta secundary no-bg', onClick: function onClick() {
-										return props.delEl(el.id);
-									} },
+								_deleteResource2.default,
+								{ className: 'cta primary no-bg small', cb: props.deleteCb, item: el.slug },
 								'Eliminar'
 							)
 						)
@@ -3321,16 +3289,14 @@ var renderList = function renderList(list, props) {
 	});
 };
 
-// Components
-
-
-// Utils
+// Boostrap
 
 
 var ResourcesList = exports.ResourcesList = function ResourcesList(props) {
-	if (!props.list || !props.list.data || props.list.fetching) {
+	if (!props.list || !props.list.data || props.list.fetching || props.list.data.length == 0) {
 		return _react2.default.createElement('div', null);
 	}
+
 	return _react2.default.createElement(
 		'section',
 		{ className: 'row' },
@@ -3342,7 +3308,7 @@ ResourcesList.propTypes = {
 	list: _react.PropTypes.object.isRequired
 };
 
-},{"../../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js":[function(require,module,exports){
+},{"../../../../containers/resources/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js","../../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3370,6 +3336,10 @@ var _searchBar2 = _interopRequireDefault(_searchBar);
 var _search = require('../../../containers/search');
 
 var _search2 = _interopRequireDefault(_search);
+
+var _deleteCollective = require('../../../containers/resources/deleteCollective');
+
+var _deleteCollective2 = _interopRequireDefault(_deleteCollective);
 
 var _reactBootstrap = require('react-bootstrap');
 
@@ -3412,11 +3382,16 @@ var MyResources = function (_Component) {
 		//
 		_this.checkAllResources = _this.checkAllResources.bind(_this);
 		_this.checkEl = _this.checkEl.bind(_this);
-		_this.delList = _this.delList.bind(_this);
-		_this.delEl = _this.delEl.bind(_this);
+		_this.deleteCb = _this.deleteCb.bind(_this);
 
+		//
+		//	Helpers
+		//
 		_this.requestMyResources = _this.requestMyResources.bind(_this);
 
+		//
+		//	Set state
+		//
 		_this.state = {
 			activePage: 1,
 			tags: [],
@@ -3460,6 +3435,9 @@ var MyResources = function (_Component) {
 			this.props.resetFilters();
 			this.props.resetResources();
 		}
+
+		//	Request new resources
+
 	}, {
 		key: 'requestMyResources',
 		value: function requestMyResources() {
@@ -3530,6 +3508,18 @@ var MyResources = function (_Component) {
 			this.props.setFavorite(resourceId);
 		}
 
+		//	After delete
+
+	}, {
+		key: 'deleteCb',
+		value: function deleteCb() {
+			this.setState({
+				checkedResources: [],
+				checkAll: false
+			});
+			this.requestMyResources();
+		}
+
 		// Check elements
 
 	}, {
@@ -3573,6 +3563,9 @@ var MyResources = function (_Component) {
 				});
 			}
 		}
+
+		// Add or remove element from checked array
+
 	}, {
 		key: 'checkEl',
 		value: function checkEl(id) {
@@ -3593,22 +3586,6 @@ var MyResources = function (_Component) {
 				checkedResources: checkedResources,
 				checkAll: allChecked
 			});
-		}
-
-		// Delete list of selected items
-
-	}, {
-		key: 'delList',
-		value: function delList() {
-			console.log(this.state.checkedResources);
-		}
-
-		// Delete single element
-
-	}, {
-		key: 'delEl',
-		value: function delEl(id) {
-			console.log(id);
 		}
 
 		// Apply Filters
@@ -3648,7 +3625,7 @@ var MyResources = function (_Component) {
 				_react2.default.createElement(
 					'div',
 					{ className: 'row' },
-					_react2.default.createElement(
+					this.props.resources && this.props.resources.data && this.props.resources.data.length > 0 ? _react2.default.createElement(
 						'div',
 						{ className: 'col-xs-12' },
 						_react2.default.createElement(
@@ -3678,8 +3655,8 @@ var MyResources = function (_Component) {
 								_react2.default.createElement('input', { type: 'checkbox', name: 'selected-resources', id: 'selected-resources', checked: this.state.checkAll }),
 								_react2.default.createElement('label', { htmlFor: 'selected-resources', onClick: this.checkAllResources }),
 								_react2.default.createElement(
-									'button',
-									{ className: 'btn btn-danger' },
+									_deleteCollective2.default,
+									{ className: 'btn btn-danger', cb: this.deleteCb, items: this.state.checkedResources },
 									_react2.default.createElement('i', { className: 'fa fa-trash' })
 								)
 							),
@@ -3698,7 +3675,7 @@ var MyResources = function (_Component) {
 							checkedList: this.state.checkedResources,
 							checkEl: this.checkEl,
 							allChecked: this.state.checkAll,
-							delEl: this.delEl
+							deleteCb: this.deleteCb
 						}),
 						_react2.default.createElement(_reactBootstrap.Pagination, {
 							prev: true,
@@ -3711,6 +3688,14 @@ var MyResources = function (_Component) {
 							maxButtons: 5,
 							activePage: this.state.activePage,
 							onSelect: this.onChangePage })
+					) : _react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 text-center' },
+						_react2.default.createElement(
+							'p',
+							null,
+							'Parece que ainda não adicionou recursos na REDA.'
+						)
 					)
 				)
 			);
@@ -3729,7 +3714,7 @@ MyResources.propTypes = {
 	config: _react.PropTypes.object.isRequired
 };
 
-},{"../../../containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","../../resources/common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","../../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\common\\list.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js":[function(require,module,exports){
+},{"../../../containers/resources/deleteCollective":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteCollective.js","../../../containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","../../resources/common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","../../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\common\\list.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4353,7 +4338,6 @@ var TopNav = function (_Component) {
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TopNav).call(this, props));
 
 		_this.renderSmallNav = _this.renderSmallNav.bind(_this);
-		_this.renderLogout = _this.renderLogout.bind(_this);
 		return _this;
 	}
 
@@ -4398,19 +4382,6 @@ var TopNav = function (_Component) {
 					)
 				),
 				_react2.default.createElement(
-					_isAuth2.default,
-					null,
-					_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel') },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel' },
-							'Minha Conta'
-						)
-					)
-				),
-				_react2.default.createElement(
 					'li',
 					{ className: this.isActive(this.props.location.pathname, 'ajuda') },
 					_react2.default.createElement(
@@ -4419,16 +4390,33 @@ var TopNav = function (_Component) {
 						'Ajuda'
 					)
 				),
-				this.renderLogout()
-			);
-		}
-	}, {
-		key: 'renderLogout',
-		value: function renderLogout(isAuthenticated) {
-			return _react2.default.createElement(
-				_isAuth2.default,
-				null,
-				_react2.default.createElement(_logoutButton2.default, null)
+				_react2.default.createElement(
+					_isAuth2.default,
+					null,
+					this.props.auth.data && _react2.default.createElement(
+						'li',
+						{ className: "user-identification " + this.isActive(this.props.location.pathname, 'painel') },
+						_react2.default.createElement(
+							_reactRouter.Link,
+							{ to: '/painel' },
+							'Olá ',
+							_react2.default.createElement(
+								'strong',
+								null,
+								_react2.default.createElement(
+									'em',
+									null,
+									this.props.auth.data.user.name
+								)
+							)
+						)
+					)
+				),
+				_react2.default.createElement(
+					_isAuth2.default,
+					null,
+					_react2.default.createElement(_logoutButton2.default, null)
+				)
 			);
 		}
 	}, {
@@ -5125,7 +5113,149 @@ CommentsListing.propTypes = {
 	comments: _react2.default.PropTypes.object.isRequired
 };
 
-},{"./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comments.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\filters.js":[function(require,module,exports){
+},{"./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comments.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteCollective.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DeleteCollectiveResources = function (_Component) {
+	_inherits(DeleteCollectiveResources, _Component);
+
+	function DeleteCollectiveResources(props) {
+		_classCallCheck(this, DeleteCollectiveResources);
+
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DeleteCollectiveResources).call(this, props));
+
+		_this.deleteList = _this.deleteList.bind(_this);
+		return _this;
+	}
+
+	_createClass(DeleteCollectiveResources, [{
+		key: 'deleteList',
+		value: function deleteList(items) {
+			if (confirm('Tem a certeza que deseja remover?')) {
+				this.props.deleteResources(items).then(this.props.cb);
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var _props = this.props;
+			var className = _props.className;
+			var items = _props.items;
+
+
+			return _react2.default.createElement(
+				'button',
+				{ className: className, onClick: function onClick() {
+						return _this2.deleteList(items);
+					} },
+				this.props.children
+			);
+		}
+	}]);
+
+	return DeleteCollectiveResources;
+}(_react.Component);
+
+exports.default = DeleteCollectiveResources;
+
+
+DeleteCollectiveResources.propTypes = {
+	deleteResources: _react.PropTypes.func.isRequired,
+	cb: _react.PropTypes.func.isRequired
+};
+
+},{"react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteResource.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var DeleteResource = function (_Component) {
+	_inherits(DeleteResource, _Component);
+
+	function DeleteResource(props) {
+		_classCallCheck(this, DeleteResource);
+
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DeleteResource).call(this, props));
+
+		_this.deleteEl = _this.deleteEl.bind(_this);
+		return _this;
+	}
+
+	_createClass(DeleteResource, [{
+		key: 'deleteEl',
+		value: function deleteEl(item) {
+			if (confirm('Tem a certeza que deseja remover?')) {
+				this.props.deleteResource(item).then(this.props.cb);
+			}
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var _props = this.props;
+			var className = _props.className;
+			var item = _props.item;
+
+
+			return _react2.default.createElement(
+				'button',
+				{ className: className, onClick: function onClick() {
+						return _this2.deleteEl(item);
+					} },
+				this.props.children
+			);
+		}
+	}]);
+
+	return DeleteResource;
+}(_react.Component);
+
+exports.default = DeleteResource;
+
+
+DeleteResource.propTypes = {
+	deleteResource: _react.PropTypes.func.isRequired,
+	cb: _react.PropTypes.func.isRequired
+};
+
+},{"react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\filters.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6014,9 +6144,17 @@ var _rating = require('../../common/rating');
 
 var _rating2 = _interopRequireDefault(_rating);
 
+var _deleteResource = require('../../../containers/resources/deleteResource');
+
+var _deleteResource2 = _interopRequireDefault(_deleteResource);
+
 var _isAuth = require('../../../containers/auth/isAuth');
 
 var _isAuth2 = _interopRequireDefault(_isAuth);
+
+var _isAdmin = require('../../../containers/auth/isAdmin');
+
+var _isAdmin2 = _interopRequireDefault(_isAdmin);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6052,6 +6190,7 @@ var ResourceDetails = function (_Component) {
 		//	
 		_this.setFavorite = _this.setFavorite.bind(_this);
 		_this.setRating = _this.setRating.bind(_this);
+		_this.deleteCb = _this.deleteCb.bind(_this);
 
 		//
 		//	Renders
@@ -6112,7 +6251,7 @@ var ResourceDetails = function (_Component) {
 		key: 'requiresAuth',
 		value: function requiresAuth() {
 			// If no Auth and is protected and finished fetching
-			if (this.props.resource.fetched && !this.props.auth.isAuthenticated && this.props.resource.data.exclusive) {
+			if (this.props.resource.data && !this.props.auth.isAuthenticated && this.props.resource.data.exclusive) {
 				return true;
 			}
 			return false;
@@ -6154,6 +6293,14 @@ var ResourceDetails = function (_Component) {
 			/* CALL ACTION TO APPLY CHANGE */
 		}
 
+		//	After delete
+
+	}, {
+		key: 'deleteCb',
+		value: function deleteCb() {
+			this.context.router.push('/descobrir');
+		}
+
 		// Set rating for this resource
 
 	}, {
@@ -6161,13 +6308,15 @@ var ResourceDetails = function (_Component) {
 		value: function setRating(rate) {
 			console.log(rate);
 		}
+
+		//	Scroll to comments
+
 	}, {
 		key: 'scrollToComments',
 		value: function scrollToComments() {
 			var el = document.getElementById("comentar");
 			var total = el.offsetTop;
 			window.scrollTo(0, total);
-			console.log(total);
 		}
 	}, {
 		key: 'render',
@@ -6226,6 +6375,28 @@ var ResourceDetails = function (_Component) {
 								'h1',
 								null,
 								resourceInfo.title
+							),
+							_react2.default.createElement(
+								_isAuth2.default,
+								null,
+								(auth.data.user.id == resourceInfo.user_id || auth.data.user.role == 'admin') && _react2.default.createElement(
+									'div',
+									{ className: 'row' },
+									_react2.default.createElement(
+										'div',
+										{ className: 'col-xs-12 admin-features' },
+										_react2.default.createElement(
+											_reactRouter.Link,
+											{ to: "/editarrecurso/" + resourceInfo.slug, className: 'cta primary no-bg small' },
+											'Editar'
+										),
+										_react2.default.createElement(
+											_deleteResource2.default,
+											{ className: 'cta primary no-bg small', cb: this.deleteCb, item: resourceInfo.slug },
+											'Eliminar'
+										)
+									)
+								)
 							),
 							_react2.default.createElement(
 								'div',
@@ -6366,7 +6537,7 @@ ResourceDetails.contextTypes = {
 	router: _react.PropTypes.object
 };
 
-},{"../../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../../../containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","../../../containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","../../../containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
+},{"../../../containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","../../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../../../containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","../../../containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","../../../containers/resources/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js","../../../containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7513,7 +7684,7 @@ var NewResourceFormFirstPage = function (_Component) {
       }
 
       var formats = this.props.mapProps.formats;
-      //console.log(file);
+
 
       return _react2.default.createElement(
         'form',
@@ -7831,7 +8002,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (techResources.touched && techResources.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Este recurso requer a utilização de...', initVal: techResources.value }, techResources)),
+              _react2.default.createElement(_textarea2.default, { max: '300', min: '20', className: 'form-control', placeholder: 'Este recurso requer a utilização de...', field: techResources }),
               techResources.touched && techResources.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -7854,7 +8025,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (description.touched && description.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, _extends({ max: '300', min: '20', className: 'form-control', placeholder: 'Descreva este recurso sucintamente', initVal: description.value }, description)),
+              _react2.default.createElement(_textarea2.default, { max: '300', min: '20', className: 'form-control', placeholder: 'Descreva este recurso sucintamente', field: description }),
               description.touched && description.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -7897,8 +8068,8 @@ exports.default = (0, _reduxForm.reduxForm)({
 }, function (state) {
   return {
     initialValues: {
-      exclusive: true,
       isOnline: false,
+      exclusive: true,
       tags: [],
       access: []
     }
@@ -7968,16 +8139,27 @@ var NewResourceFormSecondPage = function (_Component) {
   function NewResourceFormSecondPage(props) {
     _classCallCheck(this, NewResourceFormSecondPage);
 
+    //
+    //  Renders
+    //
+
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormSecondPage).call(this, props));
 
     _this.renderSubjects = _this.renderSubjects.bind(_this);
     _this.renderYears = _this.renderYears.bind(_this);
+    _this.renderErrors = _this.renderErrors.bind(_this);
 
+    //
+    //  Event handlers
+    //
     _this.setSubject = _this.setSubject.bind(_this);
     _this.setDomains = _this.setDomains.bind(_this);
     _this.setYears = _this.setYears.bind(_this);
     _this.setLanguage = _this.setLanguage.bind(_this);
 
+    //
+    //  Helpers
+    //
     _this.domainsOfSubject = _this.domainsOfSubject.bind(_this);
     return _this;
   }
@@ -8228,6 +8410,30 @@ var NewResourceFormSecondPage = function (_Component) {
       return null;
     }
   }, {
+    key: 'renderErrors',
+    value: function renderErrors() {
+      var submitionErr = this.props.submitionErr;
+
+
+      if (submitionErr && submitionErr.form_errors) {
+        return _react2.default.createElement(
+          'div',
+          { 'class': 'alert alert-danger', role: 'alert' },
+          _react2.default.createElement(
+            'ul',
+            null,
+            submitionErr.form_errors.map(function (error) {
+              return _react2.default.createElement(
+                'li',
+                null,
+                error
+              );
+            })
+          )
+        );
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -8252,6 +8458,7 @@ var NewResourceFormSecondPage = function (_Component) {
       return _react2.default.createElement(
         'form',
         { onSubmit: handleSubmit, className: 'form second-page' },
+        this.renderErrors(),
         _react2.default.createElement(
           'div',
           { className: 'row' },
@@ -8341,7 +8548,7 @@ var NewResourceFormSecondPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (op_proposal.touched && op_proposal.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, _extends({ max: 800, min: 20, className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado', initVal: op_proposal.value }, op_proposal)),
+              _react2.default.createElement(_textarea2.default, { max: 800, min: 20, className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado', field: op_proposal }),
               op_proposal.touched && op_proposal.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -8423,7 +8630,8 @@ var NewResourceFormSecondPage = function (_Component) {
             'button',
             { type: 'submit', disabled: submitting, className: 'cta primary' },
             submitting ? _react2.default.createElement('i', { className: 'fa fa-spinner fa-spin' }) : "",
-            ' Criar Recurso'
+            ' ',
+            mapProps.resource.data && mapProps.resource.data.id ? "Guardar Alterações" : "Criar Recurso"
           ),
           _react2.default.createElement(
             _reactRouter.Link,
@@ -8519,6 +8727,11 @@ var validate = function validate(values) {
   // Link
   if (values.isOnline && !values.link && !values.embed) {
     errors.embed = 'Campo é obrigatório';
+  }
+
+  // Access modes
+  if (!values.access || values.access.length == 0) {
+    errors.access = 'O campo é obrigatório';
   }
 
   // Tech Resources
@@ -8693,7 +8906,7 @@ var RecentResources = function (_Component) {
 							)
 						)
 					),
-					_react2.default.createElement(_list.ResourcesList, {
+					this.props.resources.data.length > 0 ? _react2.default.createElement(_list.ResourcesList, {
 						list: this.props.resources,
 						config: this.props.config.data,
 						maxcol: 4,
@@ -8701,7 +8914,11 @@ var RecentResources = function (_Component) {
 						isAuthenticated: isAuthenticated,
 						setHighlight: this.setHighlight,
 						setFavorite: this.setFavorite
-					})
+					}) : _react2.default.createElement(
+						'p',
+						{ className: 'text-center' },
+						'Ainda não existem recursos na plataforma.'
+					)
 				)
 			);
 		}
@@ -8887,16 +9104,6 @@ var techFile = function techFile(props) {
 			),
 			renderList(Years)
 		),
-		Domains && Domains.length > 0 && _react2.default.createElement(
-			"div",
-			{ className: "col-xs-12 col-sm-6 col-md-" + classColCount },
-			_react2.default.createElement(
-				"h4",
-				null,
-				"Domínios"
-			),
-			renderList(Domains)
-		),
 		Subjects && Subjects.length > 0 && _react2.default.createElement(
 			"div",
 			{ className: "col-xs-12 col-sm-6 col-md-" + classColCount },
@@ -8906,6 +9113,16 @@ var techFile = function techFile(props) {
 				"Disciplinas"
 			),
 			renderList(Subjects)
+		),
+		Domains && Domains.length > 0 && _react2.default.createElement(
+			"div",
+			{ className: "col-xs-12 col-sm-6 col-md-" + classColCount },
+			_react2.default.createElement(
+				"h4",
+				null,
+				"Domínios"
+			),
+			renderList(Domains)
 		),
 		Languages && Languages.length > 0 && _react2.default.createElement(
 			"div",
@@ -10121,18 +10338,21 @@ var UserResume = function (_Component) {
 	_createClass(UserResume, [{
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			/* CHANGE THIS TO REAL USER ID FROM STATE/LOCALSTORAGE */
-			//let userId = this.props.auth.data.id;
-			var userId = 1;
-			this.props.fetchUserData(userId);
+			this.props.fetchConfig();
 		}
 	}, {
 		key: 'render',
 		value: function render() {
+			var _props = this.props;
+			var auth = _props.auth;
+			var config = _props.config;
 
-			if (!this.props.user.data) return null;
 
-			var user = this.props.user.data;
+			if (!auth.data && !auth.data.user || !config.data) return null;
+
+			var user = auth.data.user;
+
+			var image = auth.data.user.image || config.data.icons + "/user.png";
 
 			return _react2.default.createElement(
 				'div',
@@ -10143,11 +10363,11 @@ var UserResume = function (_Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'col-xs-12' },
-						_react2.default.createElement('div', { className: 'user-image', style: { "backgroundImage": 'url(' + user.image.src + ')' } }),
+						_react2.default.createElement('div', { className: 'user-image', style: { "backgroundImage": 'url(' + image + ')' } }),
 						_react2.default.createElement(
 							'h4',
 							null,
-							user.name
+							user.name || 'Utilizador sem nome'
 						)
 					),
 					_react2.default.createElement(
@@ -10171,7 +10391,7 @@ exports.default = UserResume;
 
 
 UserResume.propTypes = {
-	user: _react.PropTypes.object.isRequired
+	auth: _react.PropTypes.object.isRequired
 };
 
 },{"react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js":[function(require,module,exports){
@@ -10820,6 +11040,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
+var _messageTypes = require('../../actions/message-types');
+
+var alertMessages = _interopRequireWildcard(_messageTypes);
+
 var _resources = require('../../actions/resources');
 
 var _formats = require('../../actions/formats');
@@ -10836,6 +11060,8 @@ var _years = require('../../actions/years');
 
 var _terms = require('../../actions/terms');
 
+var _alerts = require('../../actions/alerts');
+
 var _redux = require('redux');
 
 var _reduxForm = require('redux-form');
@@ -10848,6 +11074,8 @@ var _newResourceFormSecondPage = require('../../components/resources/newResource
 
 var _newResourceFormSecondPage2 = _interopRequireDefault(_newResourceFormSecondPage);
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10856,18 +11084,37 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Alerts
+
+
+// Components
+
+
 var NewResourceFormContainer = function (_Component) {
   _inherits(NewResourceFormContainer, _Component);
 
   function NewResourceFormContainer(props) {
     _classCallCheck(this, NewResourceFormContainer);
 
+    //
+    //  Event handlers
+    //
+
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NewResourceFormContainer).call(this, props));
 
     _this.handleSubmit = _this.handleSubmit.bind(_this);
-
     _this.nextPage = _this.nextPage.bind(_this);
     _this.previousPage = _this.previousPage.bind(_this);
+    _this.afterSubmit = _this.afterSubmit.bind(_this);
+
+    //
+    //  Helpers
+    //
+    _this.initForm = _this.initForm.bind(_this);
+
+    //
+    // Set state
+    //
     _this.state = {
       page: 1
     };
@@ -10875,20 +11122,59 @@ var NewResourceFormContainer = function (_Component) {
   }
 
   _createClass(NewResourceFormContainer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      var resource = this.props.params.resource;
+
+      //
+      //  If to edit, get resource
+      //
+
+      if (resource) {
+        this.props.fetchResource(resource).then(function () {
+          var data = _this2.props.resource.data;
+          var user = _this2.props.auth.data.user;
+
+          // If the owner is not current user and current is not admin, go back
+
+          if (_this2.props.resource.errorMessage || data.user_id != user.id && user.role != 'admin') {
+            _this2.context.router.push('/painel');
+          } else {
+            _this2.initForm();
+          }
+        });
+      }
+    }
+
+    // Reset form on leave
+
+  }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this.props.resetForm();
+      this.props.resetResource();
     }
+
+    // Set next page
+
   }, {
     key: 'nextPage',
     value: function nextPage() {
       this.setState({ page: this.state.page + 1 });
     }
+
+    // Set previous page
+
   }, {
     key: 'previousPage',
     value: function previousPage() {
       this.setState({ page: this.state.page - 1 });
     }
+
+    // Print breadcrumbs
+
   }, {
     key: 'printFormBreadcrumbs',
     value: function printFormBreadcrumbs() {
@@ -10916,36 +11202,102 @@ var NewResourceFormContainer = function (_Component) {
         );
       }
     }
+
+    //
+    //  Submit form
+    //
+
   }, {
     key: 'handleSubmit',
     value: function handleSubmit(values, dispatch) {
-      var _this2 = this;
+      var _this3 = this;
 
-      console.log(values);
+      var resource = this.props.params.resource;
+
       // MAKE SUBMITION
+
       return new Promise(function (resolve, reject) {
-        _this2.props.addResource(values).then(function () {
-          var errorMessage = _this2.props.resource.errorMessage;
+
+        return _this3.props.submitResource(values, resource).then(function () {
+          var errorMessage = _this3.props.resource.errorMessage;
 
           // Dispatch errors to form if any
 
           if (errorMessage && errorMessage.form_errors) {
-            console.log(errorMessage.form_errors);
             reject(errorMessage.form_errors);
+            _this3.props.addAlert(alertMessages.ALERT_RESOURCE_ADD_ERROR, alertMessages.ERROR);
 
             // Else, resolve form
+            // Add alert of success
+            // Redirect to panel
           } else {
               resolve();
+              _this3.props.addAlert(!resource ? alertMessages.ALERT_RESOURCE_CREATE_SUCCESS : alertMessages.ALERT_RESOURCE_EDIT_SUCCESS, alertMessages.SUCCESS);
+              _this3.context.router.push('/painel');
             }
         }).catch(function (error) {
           reject(error);
+          _this3.props.addAlert(error, alertMessages.ERROR);
         });
       });
+    }
+  }, {
+    key: 'afterSubmit',
+    value: function afterSubmit() {}
+
+    //
+    //  INIT form after server fetch
+    //
+
+  }, {
+    key: 'initForm',
+    value: function initForm() {
+      var data = this.props.resource.data;
+
+      var fields = ['title', 'author', 'email', 'organization', 'tags', 'format', 'file', 'embed', 'link', 'access', 'techResources', 'description', 'exclusive', 'isOnline', 'subjects', 'domains', 'years', 'language', 'op_proposal', 'op_proposal_author', 'hasDomains'];
+
+      var initValues = {
+        title: data.title,
+        author: data.author,
+        email: data.email,
+        organization: data.organization,
+        tags: data.Tags.map(function (item) {
+          return item.title;
+        }),
+        format: data.Format,
+        file: data.Files && data.Files.length > 0 && data.Files[0],
+        embed: data.embed,
+        link: data.link,
+        access: data.Modes.map(function (item) {
+          return item.id;
+        }),
+        techResources: data.techResources,
+        description: data.description,
+        exclusive: data.exclusive,
+        isOnline: !data.Files || data.Files.length == 0,
+        subjects: data.Subjects.map(function (item) {
+          return item.id;
+        }),
+        domains: data.Domains.map(function (item) {
+          return item.id;
+        }),
+        years: data.Years.map(function (item) {
+          return item.id;
+        }),
+        language: data.Languages && data.Languages.length > 0 && data.Languages[0],
+        op_proposal: data.operation,
+        op_proposal_author: data.operation_author,
+        hasDomains: data.Domains && data.Domains.length > 0
+      };
+
+      this.props.initForm(initValues, fields);
     }
   }, {
     key: 'render',
     value: function render() {
       var page = this.state.page;
+      var resource = this.props.resource;
+
 
       return _react2.default.createElement(
         'div',
@@ -10956,7 +11308,7 @@ var NewResourceFormContainer = function (_Component) {
           _react2.default.createElement(
             'h1',
             null,
-            'Novo Recurso'
+            resource && resource.data ? resource.title : "Novo Recurso"
           ),
           this.printFormBreadcrumbs()
         ),
@@ -10967,7 +11319,7 @@ var NewResourceFormContainer = function (_Component) {
             'section',
             { className: 'container' },
             page === 1 && _react2.default.createElement(_newResourceFormFirstPage2.default, { onSubmit: this.nextPage, mapProps: this.props }),
-            page === 2 && _react2.default.createElement(_newResourceFormSecondPage2.default, { previousPage: this.previousPage, onSubmit: this.handleSubmit, mapProps: this.props })
+            page === 2 && _react2.default.createElement(_newResourceFormSecondPage2.default, { previousPage: this.previousPage, onSubmit: this.handleSubmit, mapProps: this.props, submitionErr: this.props.resource.errorMessage })
           )
         )
       );
@@ -10976,8 +11328,6 @@ var NewResourceFormContainer = function (_Component) {
 
   return NewResourceFormContainer;
 }(_react.Component);
-
-NewResourceFormContainer.propTypes = {};
 
 function mapStateToProps(state) {
   return {
@@ -10988,12 +11338,14 @@ function mapStateToProps(state) {
     languages: state.languages,
     years: state.years,
     terms: state.terms,
-    resource: state.resource
+    resource: state.resource,
+    auth: state.auth
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return (0, _redux.bindActionCreators)({
+    fetchResource: _resources.fetchResource,
     fetchFormats: _formats.fetchFormats,
     fetchAccess: _access.fetchAccess,
     fetchSubjects: _subjects.fetchSubjects,
@@ -11002,16 +11354,25 @@ function mapDispatchToProps(dispatch) {
     fetchLanguages: _languages.fetchLanguages,
     fetchYears: _years.fetchYears,
     fetchTerms: _terms.fetchTerms,
-    addResource: _resources.addResource,
+    submitResource: _resources.submitResource,
+    resetResource: _resources.resetResource,
+    addAlert: _alerts.addAlert,
     resetForm: function resetForm() {
       return dispatch((0, _reduxForm.reset)('newResource'));
+    },
+    initForm: function initForm(initValues, fields) {
+      return dispatch((0, _reduxForm.initialize)('newResource', initValues, fields));
     }
   }, dispatch);
 }
 
+NewResourceFormContainer.contextTypes = {
+  router: _react.PropTypes.object
+};
+
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NewResourceFormContainer);
 
-},{"../../actions/access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\access.js","../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/languages":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\languages.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\terms.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/resources/newResource/newResourceFormFirstPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newScriptForm.js":[function(require,module,exports){
+},{"../../actions/access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\access.js","../../actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/languages":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\languages.js","../../actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\terms.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/resources/newResource/newResourceFormFirstPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newScriptForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11386,7 +11747,81 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_highlights2.default);
 
-},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/highlights":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\highlights.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js":[function(require,module,exports){
+},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/highlights":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\highlights.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteCollective.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _resources = require('../../actions/resources');
+
+var _redux = require('redux');
+
+var _deleteCollective = require('../../components/resources/common/deleteCollective');
+
+var _deleteCollective2 = _interopRequireDefault(_deleteCollective);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    deleteResources: _resources.deleteResources
+  }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_deleteCollective2.default);
+
+},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/common/deleteCollective":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteCollective.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+var _resources = require('../../actions/resources');
+
+var _redux = require('redux');
+
+var _deleteResource = require('../../components/resources/common/deleteResource');
+
+var _deleteResource2 = _interopRequireDefault(_deleteResource);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    deleteResource: _resources.deleteResource
+  }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_deleteResource2.default);
+
+},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/common/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteResource.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11715,13 +12150,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
-    auth: state.auth
+    auth: state.auth,
+    config: state.config
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchUserData: _user.fetchUserData }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchUserData: _user.fetchUserData, fetchConfig: _config.fetchConfig }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_resume2.default);
@@ -11853,11 +12288,24 @@ var _reactProgress = require('react-progress-2');
 
 var _reactProgress2 = _interopRequireDefault(_reactProgress);
 
+var _messageTypes = require('../actions/message-types');
+
+var alertMessages = _interopRequireWildcard(_messageTypes);
+
+var _alerts = require('../actions/alerts');
+
+var alertActions = _interopRequireWildcard(_alerts);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 require('es6-promise').polyfill();
 
 // Components
+
+
+// Actions
 
 var BASE_URL = 'http://devbox.dev/api/';
 
@@ -11884,6 +12332,7 @@ function callApi(endpoint, sendToken, mustAuth, method, data) {
   }
 
   return (0, _isomorphicFetch2.default)(BASE_URL + endpoint, config).then(function (response) {
+
     return response.json().then(function (json) {
       return { json: json, response: response };
     });
@@ -11917,12 +12366,12 @@ exports.default = function (store) {
 
       _reactProgress2.default.show();
 
-      return makeAPIRequest(callAPI, next);
+      return makeAPIRequest(callAPI, next, store);
     };
   };
 };
 
-function makeAPIRequest(callAPI, next) {
+function makeAPIRequest(callAPI, next, store) {
   var endpoint = callAPI.endpoint;
   var types = callAPI.types;
   var sendToken = callAPI.sendToken;
@@ -11940,19 +12389,28 @@ function makeAPIRequest(callAPI, next) {
 
   return callApi(endpoint, sendToken, mustAuth, method, data).then(function (response) {
     _reactProgress2.default.hide();
+
     console.log(response);
+
     next({
       data: response,
       type: successType
     });
   }).catch(function (result) {
     _reactProgress2.default.hide();
+
+    // Recursive if the error is a new token
     if (result.error && result.error.new_token) {
       localStorage.setItem('token', result.error.new_token);
-      return makeAPIRequest(callAPI, next);
+      return makeAPIRequest(callAPI, next, store);
     }
 
     console.log(result);
+
+    // Dispatch alert if any error
+    if (result && result.error && result.error.message) {
+      store.dispatch(alertActions.addAlert(result.error.message, alertMessages.ERROR));
+    }
 
     next({
       message: result.error ? result.error.message || result.error : 'There was an error.',
@@ -11962,7 +12420,7 @@ function makeAPIRequest(callAPI, next) {
   });
 }
 
-},{"es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch","react-progress-2":"react-progress-2"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js":[function(require,module,exports){
+},{"../actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","../actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch","react-progress-2":"react-progress-2"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12217,7 +12675,7 @@ var NewResourcePage = function (_Component) {
         'div',
         null,
         _react2.default.createElement(_header2.default, { location: this.props.location }),
-        _react2.default.createElement(_newResourceForm2.default, null),
+        _react2.default.createElement(_newResourceForm2.default, { params: this.props.params }),
         _react2.default.createElement(_bottomNav2.default, { location: this.props.location })
       );
     }
@@ -13558,6 +14016,7 @@ exports.default = _react2.default.createElement(
   ),
   _react2.default.createElement(_reactRouter.Route, { name: 'Painel de Gestão', path: 'painel', component: _dashboardPage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Novo Recurso', path: 'novorecurso', component: _newResourcePage2.default }),
+  _react2.default.createElement(_reactRouter.Route, { name: 'Editar Recurso', path: 'editarrecurso/:resource', component: _newResourcePage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Gerir Guiões', path: 'gerirguioes/:resource', component: _newScriptPage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Registar', path: 'registar', component: _signupFormPage2.default }),
   _react2.default.createElement(_reactRouter.Route, { name: 'Não Encontrado', path: '*', component: _notFoundPage2.default })

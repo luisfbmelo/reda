@@ -104,24 +104,6 @@ export function resetResources(){
 }
 
 export function fetchResources(type, params){
-	/*return dispatch => {
-		dispatch(requestResources());
-
-		return fetch('/assets/scripts/dummy.json')
-		.then(response => {
-			if (response.status >= 400) {
-	          throw new Error('Bad response');
-	        }
-	        return response.json();
-		})
-		.then(json => {
-			dispatch(receiveResources(json.resources));
-		})
-		.catch(message => {
-			dispatch(resourcesError(message));
-		})
-	}*/
-
 	const endpoint = type ? 'resources/'+type : 'resources';
 
 	return {
@@ -152,6 +134,20 @@ export function fetchMyResources(filters){
 		  endpoint: 'resources/search?type=myresources&'+complexToQueryString(filters),
 		  sendToken: true,
 		  mustAuth: true,
+		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
+		}
+	}
+}
+
+// delete collective
+export function deleteResources(list){
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources',
+		  method: 'DELETE',
+		  sendToken: true,
+		  mustAuth: true,
+		  data: { resources: list },
 		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
 		}
 	}
@@ -201,14 +197,29 @@ export function fetchResource(resourceSlug){
 	}
 }
 
-export function addResource(data){
+export function submitResource(data, resource){
+	const endPoint = resource ? 'resources/'+resource : 'resources';
+	const method = resource ? 'PUT' : 'POST';
+
 	return {
 		[CALL_API]: {
-		  endpoint: 'resources',
-		  method: 'POST',
+		  endpoint: endPoint,
+		  method: method || 'POST',
 		  sendToken: true,
 		  mustAuth: true,
 		  data,
+		  types: [RESOURCE_REQUEST, RESOURCE_SUCCESS, RESOURCE_FAILURE]
+		}
+	}
+}
+
+export function deleteResource(resourceSlug){
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources/'+resourceSlug,
+		  method: 'DELETE',
+		  sendToken: true,
+		  mustAuth: true,
 		  types: [RESOURCE_REQUEST, RESOURCE_SUCCESS, RESOURCE_FAILURE]
 		}
 	}
@@ -242,7 +253,6 @@ export function resetRelatedResources(){
 }
 
 export function fetchRelatedResources(resourceSlug){
-	console.log(resourceSlug);
 	return {
 		[CALL_API]: {
 		  endpoint: 'resources/related/'+resourceSlug,

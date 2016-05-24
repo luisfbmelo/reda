@@ -77,9 +77,9 @@ export function logout(){
 	return dispatch => {
 		localStorage.removeItem('token');
       	localStorage.removeItem('user');
-
+      	dispatch(alertActions.addAlert(alertMessages.ALERT_LOGOUT_SUCCESS, alertMessages.SUCCESS));
 		dispatch(requestLogout());
-		dispatch(alertActions.addAlert(alertMessages.ALERT_LOGOUT_SUCCESS, alertMessages.SUCCESS))
+		
 	}
 }
 

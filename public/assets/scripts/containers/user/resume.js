@@ -8,13 +8,13 @@ import UserResume from '../../components/user/resume';
 
 function mapStateToProps(state) {
   return { 
-  	user: state.user,
-  	auth: state.auth
+  	auth: state.auth,
+  	config: state.config
   };
 }
 
 function mapDispatchToProps(dispatch) { 
-  return bindActionCreators({ fetchUserData }, dispatch);
+  return bindActionCreators({ fetchUserData, fetchConfig }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserResume);

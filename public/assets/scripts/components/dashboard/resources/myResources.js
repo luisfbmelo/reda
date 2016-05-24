@@ -7,6 +7,7 @@ import { ResourcesList } from './common/list';
 import ResourcesOrdering from '../../resources/common/order';
 import SearchBar from '../../search/searchBar';
 import ResourcesFilters from '../../../containers/search';
+import DeleteCollectiveResources from '../../../containers/resources/deleteCollective';
 
 // Bootstrap
 import { Pagination, Alert, Button } from 'react-bootstrap';
@@ -24,18 +25,23 @@ export default class MyResources extends Component {
 		this.onSearchSubmit = this.onSearchSubmit.bind(this);
 		this.setHighlight = this.setHighlight.bind(this);
 		this.setFavorite = this.setFavorite.bind(this);
-		this.filterList = this.filterList.bind(this);
+		this.filterList = this.filterList.bind(this);		
 
 		//
 		// Resources actions
 		// 
 		this.checkAllResources = this.checkAllResources.bind(this);
 		this.checkEl = this.checkEl.bind(this);
-		this.delList = this.delList.bind(this);
-		this.delEl = this.delEl.bind(this);
+		this.deleteCb = this.deleteCb.bind(this);
 
+		//
+		//	Helpers
+		//
 		this.requestMyResources = this.requestMyResources.bind(this);
 
+		//
+		//	Set state
+		//
 		this.state = {
 			activePage: 1,
 			tags: [],
@@ -72,6 +78,7 @@ export default class MyResources extends Component {
 	      this.props.resetResources();
 	}
 
+	//	Request new resources
 	requestMyResources(){
 		const { activePage, tags, order } = this.state;
 
@@ -118,6 +125,15 @@ export default class MyResources extends Component {
     	this.props.setFavorite(resourceId);
     }
 
+    //	After delete
+	deleteCb(){
+		this.setState({
+			checkedResources: [],
+			checkAll: false
+		})
+		this.requestMyResources();
+	}
+
     // Check elements
     checkAllResources(){
     	if (!this.state.checkAll){
@@ -139,6 +155,7 @@ export default class MyResources extends Component {
     	}
     }
 
+    // Add or remove element from checked array
     checkEl(id){
     	let {checkedResources} = this.state;
     	let index = checkedResources.indexOf(id);
@@ -157,16 +174,6 @@ export default class MyResources extends Component {
     		checkedResources: checkedResources,
     		checkAll: allChecked
     	})
-    }
-
-    // Delete list of selected items
-    delList(){
-    	console.log(this.state.checkedResources);
-    }
-
-    // Delete single element
-    delEl(id){
-    	console.log(id);
     }
 
     // Apply Filters
@@ -190,6 +197,7 @@ export default class MyResources extends Component {
 					</div>
 				</div>
 				<div className="row">
+				{this.props.resources && this.props.resources.data && this.props.resources.data.length > 0 ?
 					<div className="col-xs-12">		
 						<section className="row">
 							<div className="col-xs-12 filter-container">
@@ -207,7 +215,7 @@ export default class MyResources extends Component {
 							<div className="col-xs-6">
 								<input type="checkbox" name="selected-resources" id="selected-resources" checked={this.state.checkAll}/>
 								<label htmlFor="selected-resources" onClick={this.checkAllResources}></label>
-								<button className="btn btn-danger"><i className="fa fa-trash"></i></button>
+								<DeleteCollectiveResources className="btn btn-danger" cb={this.deleteCb} items={this.state.checkedResources}><i className="fa fa-trash"></i></DeleteCollectiveResources>
 							</div>
 							
 							<div className="col-xs-6">
@@ -227,7 +235,7 @@ export default class MyResources extends Component {
 							checkedList={this.state.checkedResources} 
 							checkEl={this.checkEl} 
 							allChecked={this.state.checkAll}
-							delEl={this.delEl}
+							deleteCb={this.deleteCb}
 						/>
 
 						{/* Pagination */}
@@ -243,6 +251,11 @@ export default class MyResources extends Component {
 					        activePage={this.state.activePage}
 					        onSelect={this.onChangePage} />
 					</div>
+					:
+					<div className="col-xs-12 text-center">
+						<p>Parece que ainda não adicionou recursos na REDA.</p>
+					</div>
+				}
 				</div>					
 			</div>
 		);

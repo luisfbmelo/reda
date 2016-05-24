@@ -5,6 +5,10 @@ import fetch from 'isomorphic-fetch';
 // Components
 import Progress from "react-progress-2";
 
+// Actions
+import * as alertMessages from '../actions/message-types';
+import * as alertActions from '../actions/alerts';
+
 const BASE_URL = 'http://devbox.dev/api/';
 
 function callApi(endpoint, sendToken, mustAuth, method, data) {
@@ -31,11 +35,13 @@ function callApi(endpoint, sendToken, mustAuth, method, data) {
   }
   
   return fetch(BASE_URL + endpoint, config)
-    .then(response =>
-      response.json()
-      .then(json => ({ json, response }))
+    .then(response =>{
+      
+        return response.json()
+        .then(json => ({ json, response }))
+      }
     ).then(({ json, response }) => {
-     
+
       if (!response.ok) {        
         return Promise.reject({error: json, response})
       }
@@ -57,11 +63,11 @@ export default store => next => action => {
 
   Progress.show();
   
-  return makeAPIRequest(callAPI, next);
+  return makeAPIRequest(callAPI, next, store);
   
 }
 
-function makeAPIRequest(callAPI, next){
+function makeAPIRequest(callAPI, next, store){
   let { endpoint, types, sendToken, mustAuth, method, data } = callAPI;
   
   const [ requestType, successType, errorType ] = types;
@@ -70,20 +76,29 @@ function makeAPIRequest(callAPI, next){
   return callApi(endpoint, sendToken, mustAuth, method, data).then(
     response => {
       Progress.hide();
+
       console.log(response);
+
       next({
-        data:response,
+        data: response,
         type: successType
       })
     })   
     .catch((result) => {
       Progress.hide();
+
+      // Recursive if the error is a new token
       if (result.error && result.error.new_token){
         localStorage.setItem('token', result.error.new_token);
-        return makeAPIRequest(callAPI, next);
+        return makeAPIRequest(callAPI, next, store);
       }
 
       console.log(result);
+
+      // Dispatch alert if any error
+      if (result && result.error && result.error.message){
+        store.dispatch(alertActions.addAlert(result.error.message, alertMessages.ERROR));
+      }      
 
       next({
         message: (result.error) ? (result.error.message || result.error) : 'There was an error.',

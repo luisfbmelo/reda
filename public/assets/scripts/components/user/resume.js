@@ -10,26 +10,26 @@ export default class UserResume extends Component {
 	}
 
 	componentDidMount(){		
-		/* CHANGE THIS TO REAL USER ID FROM STATE/LOCALSTORAGE */
-		//let userId = this.props.auth.data.id;
-		let userId = 1;
-		this.props.fetchUserData(userId);
-		
+		this.props.fetchConfig();
 	}
 
 	render() {
 
-		if (!this.props.user.data)
+		const { auth, config } = this.props;
+
+		if ((!auth.data && !auth.data.user) || !config.data)
 			return null
 
-		const user = this.props.user.data;
+		const user = auth.data.user;
+
+		const image = auth.data.user.image || config.data.icons+"/user.png";
 
 		return (
 			<div className="container">
 				<div className="row user-resume">
 					<div className="col-xs-12">
-						<div className="user-image" style={{"backgroundImage": `url(${user.image.src})`}}></div>
-						<h4>{user.name}</h4>
+						<div className="user-image" style={{"backgroundImage": `url(${image})`}}></div>
+						<h4>{user.name || 'Utilizador sem nome'}</h4>
 					</div>
 					<div className="col-xs-12 text-center">
 						<Link to="/novorecurso" className="cta primary">Novo Recurso</Link>
@@ -41,5 +41,5 @@ export default class UserResume extends Component {
 }
 
 UserResume.propTypes = {
-	user: PropTypes.object.isRequired
+	auth: PropTypes.object.isRequired
 }

@@ -12,6 +12,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Rating from '../../../common/rating';
 import SvgComponent from '../../../common/svg';
 import ProtectedButton from '../../../auth/protectedButton';
+import DeleteResource from '../../../../containers/resources/deleteResource';
 
 var renderList = (list, props) => {	
 	return list.map((el, index) => {
@@ -48,8 +49,8 @@ var renderList = (list, props) => {
 
 				      		{/*BUTTONS*/}
 							<div className="actions">
-								<button className="cta secundary no-bg">Editar</button>
-				      			<button className="cta secundary no-bg" onClick={() => props.delEl(el.id)}>Eliminar</button>
+								<Link to={"/editarrecurso/" + el.slug} className="cta secundary no-bg">Editar</Link>
+				      			<DeleteResource className="cta primary no-bg small" cb={props.deleteCb} item={el.slug}>Eliminar</DeleteResource>
 							</div>
 			      		</header>
 
@@ -74,9 +75,10 @@ var renderList = (list, props) => {
 }
 
 export const ResourcesList = (props) => {	
-	if (!props.list || !props.list.data || props.list.fetching){
-		return <div></div>;
+	if (!props.list || !props.list.data || props.list.fetching || props.list.data.length==0){
+		return <div></div>
 	}
+
 	return(
 		<section className="row">
 			{renderList(props.list.data, props)}

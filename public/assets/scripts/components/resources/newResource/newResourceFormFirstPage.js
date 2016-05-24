@@ -173,7 +173,7 @@ class NewResourceFormFirstPage extends Component {
     }
     
     const { formats } = this.props.mapProps;
-    //console.log(file);
+    
     return (
       <form onSubmit={handleSubmit} encType="multipart/form-data" className="form first-page">
         <div className="row">
@@ -304,7 +304,6 @@ class NewResourceFormFirstPage extends Component {
                       <small>ou</small>
                       <input type="text" className="form-control" name="embed-video" placeholder="Insira o código de incorporação" {...embed} />
                       {embed.touched && embed.error && <div className="text-danger">{embed.error}</div>}
-                      
                     </div>
                   )
                 }
@@ -329,7 +328,7 @@ class NewResourceFormFirstPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Recursos Técnicos*</label>
             <div className={`form-group ${techResources.touched && techResources.invalid ? 'has-error' : ''}`}>
-              <TextArea max="300" min="20" className="form-control" placeholder="Este recurso requer a utilização de..." initVal={techResources.value} {...techResources} />
+              <TextArea max="300" min="20" className="form-control" placeholder="Este recurso requer a utilização de..." field={techResources} />
               {techResources.touched && techResources.error && <div className="text-danger">{techResources.error}</div>}
               
             </div>            
@@ -341,7 +340,7 @@ class NewResourceFormFirstPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Descrição*</label>
             <div className={`form-group ${description.touched && description.invalid ? 'has-error' : ''}`}>
-              <TextArea max="300" min="20" className="form-control" placeholder="Descreva este recurso sucintamente" initVal={description.value} {...description} />
+              <TextArea max="300" min="20" className="form-control" placeholder="Descreva este recurso sucintamente" field={description} />
               {description.touched && description.error && <div className="text-danger">{description.error}</div>}
             </div>            
           </div>
@@ -370,8 +369,8 @@ export default reduxForm({
 },
 state => ({
   initialValues: {
-    exclusive: true,
     isOnline: false,
+    exclusive: true,
     tags: [],
     access: []
   }

@@ -15,7 +15,9 @@ exports.signin = function(req, res, next) {
     user: {
       id: req.user.id,
       email: req.user.email,
-      role: req.user.Role.type
+      role: req.user.Role.type,
+      name: req.user.name,
+      image: req.user.Image
     }
   });
 }

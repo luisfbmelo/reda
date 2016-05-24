@@ -8,3 +8,19 @@
 		height:100px;
 	}
 }
+
+.user-identification{
+	position:relative;
+	padding-left:10px;
+
+	&:before{
+		content:"|";
+		position:absolute;
+		left:0;
+		top:5px;
+
+		@include media-query(48em){
+			content:"";
+		}
+	}
+}

@@ -31,7 +31,7 @@ function userError(message){
 
 export function fetchUserData(userId){
 
-	return dispatch => {
+	/*return dispatch => {
 		dispatch(requestUser());
 
 		return fetch('/assets/scripts/dummy.json')
@@ -58,5 +58,5 @@ export function fetchUserData(userId){
 		.catch(message => {
 			dispatch(userError(message));
 		})
-	}
+	}*/
 }

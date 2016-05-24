@@ -17,7 +17,18 @@ module.exports = function(){
 		if (token){
 			var payload = jwt.decode(token, config.secret);
 
-			models.User.findOne({where: {id:payload.sub}, include:[models.Role]}).then(function(user) {
+			models.User.findOne({
+				where: {id:payload.sub}, 
+				include: [
+			      {
+			        model:models.Role
+			      }, 
+			      {
+			        model:models.Image,
+			        required:false
+			      }
+			    ]
+			}).then(function(user) {
 			    if (user) {
 			    	// Check if expired
 					if (new Date(payload.expires).getTime() < new Date().getTime()){

@@ -41,14 +41,14 @@ const techFile = (props) => {
 			{Years && Years.length>0 && <div className={"col-xs-12 col-sm-6 col-md-" + classColCount}>
 				<h4>Anos</h4>	
 				{renderList(Years)}		
+			</div>}			
+			{Subjects && Subjects.length>0 && <div className={"col-xs-12 col-sm-6 col-md-" + classColCount}>
+				<h4>Disciplinas</h4>
+				{renderList(Subjects)}			
 			</div>}
 			{Domains && Domains.length>0 && <div className={"col-xs-12 col-sm-6 col-md-" + classColCount}>
 				<h4>Domínios</h4>
 				{renderList(Domains)}	
-			</div>}
-			{Subjects && Subjects.length>0 && <div className={"col-xs-12 col-sm-6 col-md-" + classColCount}>
-				<h4>Disciplinas</h4>
-				{renderList(Subjects)}			
 			</div>}
 			{Languages && Languages.length>0 && <div className={"col-xs-12 col-sm-6 col-md-" + classColCount}>
 				<h4>Idioma</h4>	

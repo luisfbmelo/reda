@@ -1,6 +1,7 @@
 const debug = require('debug')('app');
 const models = require('../models/index');
 const config = require('../config/config.json');
+const messages = require('../config/messages.json');
 const jwtUtil = require('../utils/jwt');
 const dataUtil = require('../utils/dataManipulation');
 const validate = require('../utils/validateScripts').validate;
@@ -104,7 +105,7 @@ exports.userScripts = function(req, res, next){
 			return next(err);
 		});
 	}else{
-		return res.status(401).send('Not allowed to get scripts from this resource');
+		return res.status(401).send({message: messages.scripts.resource_access_permission});
 	}
 }
 
@@ -131,7 +132,7 @@ exports.create = function(req, res, next){
 		upsertScript(req, res, action, userExists.id, userExists.Role.value);
 
 	}else{
-		return res.status(401).send({message: 'Not allowed to create this script1'})
+		return res.status(401).send({message: messages.script.create_permission})
 	}
 }
 
@@ -158,7 +159,7 @@ exports.update = function(req, res, next){
 		upsertScript(req, res, action, userExists.id, userExists.Role.value);
 
 	}else{
-		return res.status(401).send({message: 'Not allowed to create this script1'})
+		return res.status(401).send({message: messages.script.create_permission})
 	}
 }
 
@@ -248,9 +249,9 @@ function upsertScript(req, res, action, userId, userRole){
 				return res.status(403).send(err);
 			});
 		}else{
-			return res.status(403).send('Must provide resource ID');
+			return res.status(403).send({message: messages.script.need_resource});
 		}
 	});
 
-	return res.status(200).send("Scripts created/updated");
+	return res.status(200).send({message: messages.scripts.created_uploaded});
 }

@@ -31,6 +31,7 @@ export default (
     
   	<Route name="Painel de Gestão" path="painel" component={DashboardPage} />
     <Route name="Novo Recurso" path="novorecurso" component={NewResourcePage} />
+    <Route name="Editar Recurso" path="editarrecurso/:resource" component={NewResourcePage} />
     <Route name="Gerir Guiões" path="gerirguioes/:resource" component={NewScriptPage} /> 
 
     <Route name="Registar" path="registar" component={SignupFormPage} />

@@ -49,15 +49,19 @@ export default class RecentResources extends Component {
 							<h1 className="resources__title">Últimos Recursos</h1>
 						</div>
 					</div>
-					<ResourcesList 
-					list={this.props.resources} 
-					config={this.props.config.data} 
-					maxcol={4} 
-					viewmore 
-					isAuthenticated={isAuthenticated}
-					setHighlight={this.setHighlight}
-					setFavorite={this.setFavorite}
-					/>
+					{this.props.resources.data.length > 0 ?
+						<ResourcesList 
+							list={this.props.resources} 
+							config={this.props.config.data} 
+							maxcol={4} 
+							viewmore 
+							isAuthenticated={isAuthenticated}
+							setHighlight={this.setHighlight}
+							setFavorite={this.setFavorite}
+							/>
+						:
+						<p className="text-center">Ainda não existem recursos na plataforma.</p>
+				}
 				</div>
 			</section>
 		);

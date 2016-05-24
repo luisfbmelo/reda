@@ -1,6 +1,7 @@
 const debug = require('debug')('app');
 const models = require('../models/index');
 const config = require('../config/config.json');
+const messages = require('../config/messages.json');
 const jwtUtil = require('../utils/jwt');
 const dataUtil = require('../utils/dataManipulation');
 const validate = require('../utils/validateResources').validate;
@@ -221,7 +222,7 @@ exports.search = function(req, res, next){
 		switch(resourcesType){
 			case 'myresources':
 				if (!userExists){
-					return res.status(401).send({message: 'Not allowed to access this list of resources'})
+					return res.status(401).send({message: messages.resources.access_permission})
 				}
 				setWhere.user_id = userExists.id;
 			break;
@@ -484,7 +485,7 @@ exports.details = function(req, res, next){
 	.then(function(resource){
 		// Check if is exclusive and user is not loggedin
 		if (resource && resource.exclusive==true && !userExists){
-			return res.status(401).send({message: 'Not allowed to access this resource'})
+			return res.status(401).send({message: messages.resource.access_permission})
 		}
 
 		return res.json({result: resource});
@@ -550,13 +551,13 @@ exports.createOrUpdate = function(req, res, next){
 			//
 			//	Create resource with everything prepared
 			//
-			var action = req.params.id ? 'update' : 'create';
+			var action = req.params.slug ? 'update' : 'create';
 			upsertResource(req, res, newTags, existingTags, action, userExists.id);
 			
 		});
 		//return res.status(200).send("done");
 	}else{
-		return res.status(401).send({message: 'Not allowed to create this resource'})
+		return res.status(401).send({message: messages.resource.create_permission})
 	}
 }
 
@@ -576,21 +577,23 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 
 		// Timestamp to save file
 		const timestamp = new Date().getTime();
-		const fileName = slug+"_"+timestamp;
+		var fileName = slug+"_"+timestamp;
 
-		if (req.params.id && action=='update'){
+		if (req.params.slug && action=='update'){
 
 			//
 			//	Get instance in order to update
 			//
 			return models.Resource.findOne({
 				where:{
-					id: req.params.id
+					slug: req.params.slug
 				}
 			})
 			.then(function(resource){
 
-				if(resource){
+				if(resource && (resource.user_id==userExists.id || userExists.Role.type=='admin')){
+					fileName = resource.slug+"_"+timestamp;
+					debug(req.body);
 					//
 					//	Update resource
 					//
@@ -598,16 +601,17 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 					    title: req.body.title,
 					    description: req.body.description,
 					    format_id: req.body.format.id,
-					    duration: req.body.duration,
+					    duration: req.body.duration || null,
 					    author: req.body.author,
 					    organization: req.body.organization,
 					    email: req.body.email,
-					    highlight: req.body.highlight,
 					    exclusive: req.body.exclusive,
-					    embed: req.body.embed,
+					    embed: req.body.embed || null,
+					    link: req.body.link || null,
 					    techResources: req.body.techResources,
 					    operation: req.body.op_proposal,
 					    operation_author: req.body.op_proposal_author
+
 					  }).then(function(item){			 
 					  	resource.setSubjects(req.body.subjects);
 
@@ -615,7 +619,7 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 
 					    resource.setModes(req.body.access);
 
-					    resource.setLanguages(req.body.language);
+					    resource.setLanguages(req.body.language.id);
 
 					    resource.addDomains(domainsToInsert.existing);
 
@@ -648,11 +652,11 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 					    //
 					    //	Remove all files and insert new ones if there is no ID
 					    //		    
-					    if (req.body.file && !req.body.file.id){
+					    if (req.body.file && !req.body.file.id && !req.body.isOnline){
 					    	// Delete all files existing
 					    	models.File.destroy({
 					    		where:{
-					    			resource_id: req.params.id
+					    			resource_id: resource.id
 					    		}
 					    	});
 
@@ -678,8 +682,10 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 					    return res.status(200).send(item);
 					 })
 					 .catch(function(err){
-						return res.status(403).send(err);
+						return res.status(403).send(messages.resource.save_error);
 					});
+				}else{
+					return res.status(401).send({message: messages.resource.create_permission});
 				}
 			})
 			.catch(function(err){
@@ -690,15 +696,13 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			var fileToUpload = null;
 
 			// Save file?
-			if (req.body.file!=undefined && req.body.file!=null){
+			if (req.body.file!=undefined && req.body.file!=null && !req.body.isOnline){
 				fileToUpload = {
-					Files:{
-						name: fileName,
-			    		extension: req.body.file.extension
-					}					
+					name: fileName,
+		    		extension: req.body.file.extension				
 				}
 			}
-			debug(req.body);
+
 			return models.Resource.create({
 			    title: req.body.title,
 			    slug: slug,
@@ -716,7 +720,7 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			    operation: req.body.op_proposal,
 			    operation_author: req.body.op_proposal_author,
 			    user_id: userId,
-			    fileToUpload,
+			    Files: fileToUpload,
 			    Tags: newTags,
 			    Domains: domainsToInsert.new
 			  },{
@@ -737,7 +741,7 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			    //
 			    //	Save file to FileSys
 			    //
-			    if (req.body.file){
+			    if (req.body.file && !req.body.isOnline){
 			    	dataUtil.saveFile(req, res, slug, req.body.file.data, fileName, req.body.file.extension, item.id);	
 			    }
 			    
@@ -771,4 +775,101 @@ function getDomains(domains){
     }
 
     return finalDomains;
+}
+
+//
+//	Delete Resource
+//
+exports.deleteEl = function(req, res, next){	
+	var userExists = req.userExists;
+
+	// Check AUTH
+	if (userExists && req.params.slug){
+
+		models.Resource.findOne({
+			where: {
+				slug: req.params.slug
+			}
+		}).then((resource) => {
+
+			if (!resource){
+				return res.status(403).send({message: messages.resource.no_exist});
+			}
+			
+			if(resource && (resource.user_id==userExists.id || userExists.Role.type=='admin')){
+
+				//
+				//	Delete resource
+				//
+				resource.destroy()
+				.then(() => {
+					return res.status(200).send({});
+				})
+				.catch(function(err){
+					return res.status(403).send(err);
+				});
+				
+			}else{
+				return res.status(401).send({message: messages.resource.del_permission});
+			}
+		});
+		
+	}else{
+		return res.status(401).send({message: messages.resource.del_permission});
+	}
+}
+
+//
+//	Delete collective resources
+//
+exports.deleteCollective = function(req, res, next){	
+	var userExists = req.userExists;
+
+	// Check AUTH
+	if (userExists){
+
+		if (req.body.resources){		
+
+
+			models.Resource.findAll({
+				where: {
+					id: {
+						$in: req.body.resources
+					}
+				}
+			}).then((resources) => {
+
+				if (!resources || resources.length==0){
+					return res.status(403).send({message: messages.resources.del_no_exist});
+				}
+
+				// If user is not admin, check each resource owner
+				if (userExists.Role.type!='admin'){
+					resources.forEach(function(item){
+						if (item.user_id!=userExists.id){
+							return res.status(401).send({message: messages.resources.del_permission});
+						}
+					})
+				}
+
+				// If no error, then destroy all
+				models.Resource.destroy({
+					where: {
+						id: req.body.resources
+					}
+				})
+				.then(() => {
+					return res.status(200).send({});
+				})
+				.catch(function(err){
+					return res.status(403).send(err);
+				});
+			});
+		}else{
+			return res.status(403).send({message: messages.resources.del_no_exist});
+		}
+		
+	}else{
+		return res.status(401).send({message: messages.resources.del_permission});
+	}
 }

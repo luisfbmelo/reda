@@ -44,14 +44,24 @@ class NewResourceFormSecondPage extends Component {
   constructor(props){
     super(props);
 
+    //
+    //  Renders
+    //
     this.renderSubjects = this.renderSubjects.bind(this);
     this.renderYears = this.renderYears.bind(this);
+    this.renderErrors = this.renderErrors.bind(this);
     
+    //
+    //  Event handlers
+    //
     this.setSubject = this.setSubject.bind(this);
     this.setDomains = this.setDomains.bind(this);
     this.setYears = this.setYears.bind(this);
     this.setLanguage = this.setLanguage.bind(this);
 
+    //
+    //  Helpers
+    //
     this.domainsOfSubject = this.domainsOfSubject.bind(this);
   }
 
@@ -222,6 +232,22 @@ class NewResourceFormSecondPage extends Component {
     return null;
   }
 
+  renderErrors(){
+    const { submitionErr } = this.props;
+
+    if (submitionErr && submitionErr.form_errors){
+      return (
+        <div class="alert alert-danger" role="alert">
+          <ul>
+            {submitionErr.form_errors.map(error => {
+              return <li>{error}</li>
+            })}
+          </ul>
+        </div>
+      )
+    }
+  }
+
   render() {
     const {
       fields: { op_proposal, op_proposal_author, subjects, years, language, accept_terms, domains },
@@ -239,6 +265,8 @@ class NewResourceFormSecondPage extends Component {
     
     return (
       <form onSubmit={handleSubmit} className="form second-page">
+        {this.renderErrors()}  
+
         <div className="row">
           <div className="col-xs-12 col-sm-6">
             <h1>Metadados</h1>
@@ -283,7 +311,7 @@ class NewResourceFormSecondPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Proposta de Operacionalização*</label>
             <div className={`form-group ${op_proposal.touched && op_proposal.invalid ? 'has-error' : ''}`}>
-              <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" initVal={op_proposal.value} {...op_proposal} />
+              <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={op_proposal} />
               {op_proposal.touched && op_proposal.error && <div className="text-danger">{op_proposal.error}</div>}
             </div>            
           </div>
@@ -324,7 +352,7 @@ class NewResourceFormSecondPage extends Component {
             Anterior
           </button>
           <button type="submit" disabled={submitting} className="cta primary">
-            {submitting ? <i className='fa fa-spinner fa-spin'></i> : ""} Criar Recurso
+            {submitting ? <i className='fa fa-spinner fa-spin'></i> : ""} {mapProps.resource.data && mapProps.resource.data.id ? "Guardar Alterações" : "Criar Recurso"}
           </button>
           <Link to="/painel" className="cta no-bg">Cancelar</Link>
         </footer>

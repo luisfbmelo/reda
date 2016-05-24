@@ -13,7 +13,18 @@ const localLogin = new LocalStrategy(localOptions, function(email, password, don
   // Verify this email and password, call done with the user
   // if it is the correct email and password
   // otherwise, call done with false
-  models.User.findOne({where: { email: email }, include: [models.Role]}).then(function(user) {
+  models.User.findOne({
+    where: { email: email }, 
+    include: [
+      {
+        model:models.Role
+      }, 
+      {
+        model:models.Image,
+        required:false
+      }
+    ]
+  }).then(function(user) {
     if (!user) { return done(null, false); }
 
     // compare passwords - is `password` equal to user.password?
@@ -40,7 +51,18 @@ const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
   // See if the user ID in the payload exists in our database
   // If it does, call 'done' with that other
   // otherwise, call done without a user object
-  models.User.findOne({where: {id:payload.sub}, include:[models.Role]}).then(function(user) {
+  models.User.findOne({
+    where: {id:payload.sub}, 
+    include: [
+      {
+        model:models.Role
+      }, 
+      {
+        model:models.Image,
+        required:false
+      }
+    ]
+  }).then(function(user) {
     if (user) {
 
       // Check if expired

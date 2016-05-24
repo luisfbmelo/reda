@@ -139,7 +139,7 @@ exports.scriptsHasErrors = function(scripts){
 //  Handle order
 //
 exports.extractOrder = function(order, models){
-  var finalOrder = ['created_at', 'ASC'];
+  var finalOrder = ['created_at', 'DESC'];
 
   //
   //  Front-end options

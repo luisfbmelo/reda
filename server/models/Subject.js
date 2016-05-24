@@ -13,6 +13,7 @@ module.exports = function(sequelize, DataTypes) {
 			defaultValue: true
 		},
 	}, {
+		paranoid: true,
 		defaultScope: {
 			where: {
 				status: true

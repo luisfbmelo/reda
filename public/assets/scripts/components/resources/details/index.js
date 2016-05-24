@@ -14,7 +14,9 @@ import CommentForm from '../../../containers/comments/commentForm';
 import CommentsList from '../../../containers/comments';
 import RelatedResources from '../../../containers/resources/related';
 import Rating from '../../common/rating';
+import DeleteResource from '../../../containers/resources/deleteResource';
 import IsAuthenticated from '../../../containers/auth/isAuth';
+import IsAdmin from '../../../containers/auth/isAdmin';
 
 export default class ResourceDetails extends Component {
 	constructor(props){
@@ -31,6 +33,7 @@ export default class ResourceDetails extends Component {
 		//	
 		this.setFavorite = this.setFavorite.bind(this);
 		this.setRating = this.setRating.bind(this);
+		this.deleteCb = this.deleteCb.bind(this);
 
 		//
 		//	Renders
@@ -61,9 +64,6 @@ export default class ResourceDetails extends Component {
 
 				this.props.fetchScripts(this.props.resource.data.id);
 			}
-
-			
-
 		});
 
 		this.props.fetchConfig();	
@@ -85,7 +85,7 @@ export default class ResourceDetails extends Component {
 
 	requiresAuth(){
 		// If no Auth and is protected and finished fetching
-		if (this.props.resource.fetched && !this.props.auth.isAuthenticated && this.props.resource.data.exclusive){
+		if (this.props.resource.data && !this.props.auth.isAuthenticated && this.props.resource.data.exclusive){
 			return true;
 		}
 		return false;
@@ -111,17 +111,21 @@ export default class ResourceDetails extends Component {
 		/* CALL ACTION TO APPLY CHANGE */
 	}
 
+	//	After delete
+	deleteCb(){
+		this.context.router.push('/descobrir');
+	}
+
 	// Set rating for this resource
 	setRating(rate){
 		console.log(rate);
 	}
 
-
+	//	Scroll to comments
 	scrollToComments(){
 		var el = document.getElementById("comentar");        
 		var total = el.offsetTop;
 		window.scrollTo(0,total);
-		console.log(total); 
 	}
 
 	render() {
@@ -160,10 +164,25 @@ export default class ResourceDetails extends Component {
 
 						<div className="col-xs-12 col-sm-6">
 							<h1>{resourceInfo.title}</h1>
+
+							{/* Admin features */}
+							<IsAuthenticated>
+								{(auth.data.user.id == resourceInfo.user_id || auth.data.user.role=='admin') &&
+									<div className="row">
+										<div className="col-xs-12 admin-features">										
+											<Link to={"/editarrecurso/" + resourceInfo.slug} className="cta primary no-bg small">Editar</Link>
+											<DeleteResource className="cta primary no-bg small" cb={this.deleteCb} item={resourceInfo.slug}>Eliminar</DeleteResource>
+										</div>
+									</div>
+								}
+							</IsAuthenticated>
+
+							{/* Rating */}
 							<div className="rating">
 			      				<Rating initialRate={resourceInfo.ratingAvg} setRating={this.setRating} readonly={!isAuthenticated}/>
-			      			</div>
+			      			</div>			      			
 
+			      			{/* Authenticated feature */}
 			      			<IsAuthenticated>
 								<div className="row details-buttons">
 									<div className="col-xs-12">

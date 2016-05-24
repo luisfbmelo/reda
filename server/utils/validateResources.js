@@ -66,7 +66,7 @@ exports.validate = function(values){
   }
 
   // Access modes
-  if (!values.access) {
+  if (!values.access || values.access.length==0) {
     errors.access = 'O campo é obrigatório'
   }
 

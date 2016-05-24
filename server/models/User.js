@@ -37,13 +37,19 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: false
-		},		
+		},	
+		approved: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: 1
+		},	
 		status: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
 			defaultValue: true
 		}
 	}, {
+		paranoid: true,
 		defaultScope: {
 			where: {
 				status: true
@@ -53,7 +59,7 @@ module.exports = function(sequelize, DataTypes) {
 			associate: function(models) {
 				User.belongsToMany(models.Resource, {through: 'resource_favorite'});
 				User.belongsToMany(models.Notification, {through: 'users_notifications'});
-
+				User.belongsTo(models.Image);
 				User.belongsTo(models.Role);
 
 				User.hasMany(models.Resource, {

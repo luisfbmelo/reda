@@ -61,6 +61,10 @@ const validate = values => {
     errors.embed = 'Campo é obrigatório'
   }
 
+  // Access modes
+  if (!values.access || values.access.length==0) {
+    errors.access = 'O campo é obrigatório'
+  }
 
   // Tech Resources
   if (!values.techResources) {
