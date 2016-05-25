@@ -15,10 +15,14 @@
 	},
 	"script": {
 		"create_permission": "Não tem permissões para criar um novo guião",
+		"del_permission": "Não tem permissões para eliminar este guião",
+		"del_no_exist": "O guião que está a tentar eliminar não existe",
 		"need_resource": "Deve fornecer o identificador do recurso. Contate a equipa técnica para resolver este problema."
 	},
 	"scripts": {
 		"resource_access_permission": "Não tem permissões para obter os guiões deste recurso",
+		"del_permission": "Não tem permissões para eliminar a lista de guiões",
+		"del_no_exist": "Não existem guiões para eliminar",
 		"created_uploaded": "Guiões foram criados/atualizados"
 	}
 }

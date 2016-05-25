@@ -17,3 +17,5 @@ export const ALERT_RESOURCE_ADD_ERROR = 'Foram detetados erros ao submeter. Corr
 // SCRIPTS
 export const ALERT_SCRIPT_CREATE_SUCCESS = 'O guião foi adicionado';
 export const ALERT_SCRIPT_EDIT_SUCCESS = 'O guião foi alterado';
+export const ALERT_SCRIPT_MANAGE_SUCCESS = 'Guiões criados/editados com sucesso';
+export const ALERT_SCRIPT_MANAGE_ERROR = 'Foram detetados erros ao submeter. Corrija os erros identificados';

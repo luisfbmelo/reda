@@ -7,6 +7,6 @@ const usesUser = require('../services/usesUser');
 router.get('/:resource', usesUser(), ScriptsController.details);
 router.get('/user-scripts/:resource', jwtUtil.requireAuth, ScriptsController.userScripts);
 router.post('/:resource', jwtUtil.requireAuth, ScriptsController.create);
-router.put('/:resource', jwtUtil.requireAuth, ScriptsController.update);
+router.delete('/:script', jwtUtil.requireAuth, ScriptsController.delScript);
 
 module.exports = router;

@@ -30,12 +30,13 @@ export default class DomainsList extends Component{
 		let domainsCopy = _.assign([], domains.data);
 
 		// Are any subjects selected
-		if (script.subjects.value){
+		if (script.subjects.value && script.subjects.value.length>0){
+	
 		  domainsCopy = _.filter(domainsCopy, (domain) => {
 		    let exists = false;
 
 		    // If domain subjects was selected
-		    for (let domainSubject of domain.subjects){
+		    for (let domainSubject of domain.Subjects){
 		      exists = script.subjects.value.indexOf(domainSubject.id) >= 0;
 		    }
 
@@ -51,10 +52,11 @@ export default class DomainsList extends Component{
 
 	render(){
 		const { script, scriptIndex, setDomains, domains } = this.props;
-
+		
 		// Get domains to present
     	const totalDomains = _.sortBy(this.domainsOfSubject(script, domains), 'title');
- 		if (!script.subjects.value || script.subjects.value.length==0){
+
+ 		if ((!script.subjects.value || script.subjects.value.length==0) || !totalDomains || totalDomains.length==0){
  			return null;
  		}
 
@@ -65,11 +67,8 @@ export default class DomainsList extends Component{
 	          <div className={`form-group ${script.domains.touched && script.domains.invalid ? 'has-error' : ''}`}>
 
 	          {(() => {
-	            if (!totalDomains || totalDomains.length==0){
-	              return (
-	                  <input type="text" className="form-control" placeholder="Indique um domínio" {...script.domains}/>
-	                );
-	            }else{	            	
+	    
+	            if (totalDomains && totalDomains.length>0){            	
 	              return(
 	                <CheckboxGroup
 	                      name={"domains-checkbox-"+scriptIndex}

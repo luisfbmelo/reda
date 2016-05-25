@@ -16,14 +16,17 @@ import DomainsSelection from './common/domains';
 import validate from './validate';
 
 export const fields = [ 
+  'scripts[].id',
   'scripts[].title', 
   'scripts[].email',
   'scripts[].organization',
+  'scripts[].author',
   'scripts[].description',
   'scripts[].subjects',
   'scripts[].domains',
   'scripts[].years',
   'scripts[].op_proposal',
+  'scripts[].op_proposal_author',
   'accept_terms',
   'scripts[].hasDomains'
 ]
@@ -34,33 +37,65 @@ class NewScriptForm extends Component {
   constructor(props){
     super(props);
 
+    //
+    //  Renders
+    //
     this.renderSubjects = this.renderSubjects.bind(this);
     this.renderYears = this.renderYears.bind(this);
 
+    //
+    //  Event Handlers
+    //
     this.setDomains = this.setDomains.bind(this);
+    this.removeEl = this.removeEl.bind(this);
+
+    //
+    //  Helpers
+    //
+    this.domainsOfSubject = this.domainsOfSubject.bind(this);
+    this.hasDomains = this.hasDomains.bind(this);
   }
 
 
   componentDidMount(){
-    this.props.mapProps.fetchSubjects();
-    this.props.mapProps.fetchDomains();
     this.props.mapProps.fetchYears();
     this.props.mapProps.fetchTerms();
 
-    this.props.fields.scripts.addField();
+    this.props.mapProps.fetchSubjects();
+    this.props.mapProps.fetchDomainsWithSubject();
+  }
 
-    /* FOR REFERENCE */
-    /*children.addField({     // pushes child field with initial values onto the end of the array
-      name: 'Bobby Tables',
-      age: 13,
-      awards: [ 'Input Sanitation', 'Best XKCD Meme' ]
-    })*/
+  // Delete script
+  removeEl(formScripts, index){
+    const { scripts, deleteScript } = this.props.mapProps;
+    const { refreshScripts } = this.props;
+
+    if (confirm('Tem a certeza que deseja eliminar este guião?')){
+      formScripts.removeField(index);
+      if (scripts.data.length>0 && scripts.data[index] && scripts.data[index].id){
+        deleteScript(scripts.data[index].id)
+        .then(() => refreshScripts())
+      }      
+    }    
+  }
+
+  // Check if has domain
+  hasDomains(subjects, el){
+    let totalDomains = this.domainsOfSubject(subjects);
+    if (totalDomains && totalDomains.length>0){
+      el.onChange(true);
+    }else{
+      el.onChange(false);
+    }
   }
 
   // On change SUBJECTS
   setSubject(scriptIndex, group){   
     this.props.fields.scripts[scriptIndex].domains.onChange([]); 
-    this.props.fields.scripts[scriptIndex].subjects.onChange(group);    
+    this.props.fields.scripts[scriptIndex].subjects.onChange(group);  
+
+    // Are there any domains?
+    this.hasDomains(group, this.props.fields.scripts[scriptIndex].hasDomains);
   }
 
   // On change YEARS
@@ -133,6 +168,36 @@ class NewScriptForm extends Component {
     )
   }
 
+  // Check if domains are in any subject
+  // DOMAINS MUST BE PROVIDED WITH THEIR SUBJECTS ASSOCIATED
+  domainsOfSubject(givenSubjects){
+    let subjects = givenSubjects;
+
+    const { domains } = this.props.mapProps;
+
+    // Make copy of domains to maintain immutable
+    let domainsCopy = _.assign([], domains.data);
+
+    // Are any subjects selected
+    if ((subjects && subjects instanceof Array && subjects.length>0)){
+      domainsCopy = _.filter(domainsCopy, (domain) => {
+        let exists = false;
+
+        // If domain subjects was selected
+        for (let domainSubject of domain.Subjects){
+          exists = subjects.indexOf(domainSubject.id) >= 0;
+        }
+
+        return exists;
+      });
+
+      // Avoid returning duplicates
+      return _.uniqBy(domainsCopy, 'title');
+    }
+
+    return null;
+  }
+
 
   render() {
     const {
@@ -148,14 +213,13 @@ class NewScriptForm extends Component {
       return null;
     }
     
-    
     return (
       <form onSubmit={handleSubmit} className="form script__form">
 
         {!scripts.length && <div className="alert alert-warning">Não existem guiões</div>}
         {scripts.map((script, index) =>
           <div key={index}>
-            <Collapsible title={"Guião nº " + (index+1)} className="cta primary script__form--collapsible" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down" deleteEl={()=> scripts.removeField(index)} deleteIcon="fa fa-trash-o" isOpen={true}>
+            <Collapsible title={"Guião nº " + (index+1)} className="cta primary script__form--collapsible" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down" deleteEl={()=> this.removeEl(scripts, index)} deleteIcon="fa fa-trash-o" isOpen={true}>
               {/* DETAILS */}
               <section>
                 <div className="row">
@@ -174,7 +238,6 @@ class NewScriptForm extends Component {
                     </div>
                   </div>
                   
-                  {/* SECOND COL */}
                   <div className="col-xs-12 col-sm-3">
                     <label className="input-title">Email*</label>
                     <div className={`form-group ${script.email.touched && script.email.invalid ? 'has-error' : ''}`}>
@@ -182,11 +245,20 @@ class NewScriptForm extends Component {
                       {script.email.touched && script.email.error && <div className="text-danger">{script.email.error}</div>}
                     </div>
                   </div>
+
                   <div className="col-xs-12 col-sm-3">
                     <label className="input-title">Escola/Organização*</label>
                     <div className={`form-group ${script.organization.touched && script.organization.invalid ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" placeholder="Nome da sua escola/organização" {...script.organization}/>
                       {script.organization.touched && script.organization.error && <div className="text-danger">{script.organization.error}</div>}
+                    </div>
+                  </div> 
+
+                  <div className="col-xs-12 col-sm-3">
+                    <label className="input-title">Autor*</label>
+                    <div className={`form-group ${script.author.touched && script.author.invalid ? 'has-error' : ''}`}>
+                      <input type="text" className="form-control" placeholder="Nome da sua escola/organização" {...script.author}/>
+                      {script.author.touched && script.author.error && <div className="text-danger">{script.author.error}</div>}
                     </div>
                   </div>   
                 </div>
@@ -196,7 +268,7 @@ class NewScriptForm extends Component {
                   <div className="col-xs-12">
                     <label className="input-title">Descrição*</label>
                     <div className={`form-group ${script.description.touched && script.description.invalid ? 'has-error' : ''}`}>
-                      <TextArea max="300" min="20" className="form-control" placeholder="Descreva este guião sucintamente" initVal={script.description.value} {...script.description} />
+                      <TextArea max="300" min="20" className="form-control" placeholder="Descreva este guião sucintamente" field={script.description} />
                       {script.description.touched && script.description.error && <div className="text-danger">{script.description.error}</div>}
                     </div>            
                   </div>
@@ -240,9 +312,19 @@ class NewScriptForm extends Component {
                   <div className="col-xs-12">
                     <label className="input-title">Proposta de Operacionalização*</label>
                     <div className={`form-group ${script.op_proposal.touched && script.op_proposal.invalid ? 'has-error' : ''}`}>
-                      <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" initVal={script.op_proposal.value} {...script.op_proposal} />
+                      <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={script.op_proposal}/>
                       {script.op_proposal.touched && script.op_proposal.error && <div className="text-danger">{script.op_proposal.error}</div>}
                     </div>            
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-xs-12 col-sm-6">
+                    <label className="input-title">Autor da proposta*</label>
+                    <div className={`form-group ${script.op_proposal_author.touched && script.op_proposal_author.invalid ? 'has-error' : ''}`}>
+                      <input type="text" className="form-control" placeholder="Autor da proposta" {...script.op_proposal_author}/>
+                      {script.op_proposal_author.touched && script.op_proposal_author.error && <div className="text-danger">{script.op_proposal_author.error}</div>}
+                    </div>
                   </div>
                 </div>
               </section>

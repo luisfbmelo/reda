@@ -45,6 +45,44 @@ export function fetchScripts(resourceId){
 		[CALL_API]: {
 		  endpoint: 'scripts/'+resourceId,
 		  sendToken: true,
+		  mustAuth: true,
+		  types: [SCRIPTS_REQUEST, SCRIPTS_SUCCESS, SCRIPTS_FAILURE]
+		}
+	}
+}
+
+export function fetchUserScripts(resourceId){
+	
+	return {
+		[CALL_API]: {
+		  endpoint: 'scripts/user-scripts/'+resourceId,
+		  sendToken: true,
+		  mustAuth: true,
+		  types: [SCRIPTS_REQUEST, SCRIPTS_SUCCESS, SCRIPTS_FAILURE]
+		}
+	}
+}
+
+export function deleteScript(scriptId){
+	return {
+		[CALL_API]: {
+		  endpoint: 'scripts/'+scriptId,
+		  method: 'DELETE',
+		  sendToken: true,
+		  mustAuth: true,
+		  types: [SCRIPTS_REQUEST, SCRIPTS_SUCCESS, SCRIPTS_FAILURE]
+		}
+	}
+}
+
+export function submitScripts(data, resourceId){
+	return {
+		[CALL_API]: {
+		  endpoint: 'scripts/'+resourceId,
+		  method: 'POST',
+		  sendToken: true,
+		  mustAuth: true,
+		  data,
 		  types: [SCRIPTS_REQUEST, SCRIPTS_SUCCESS, SCRIPTS_FAILURE]
 		}
 	}

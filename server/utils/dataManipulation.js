@@ -211,3 +211,26 @@ function getMatchingWords(words, s) {
 
     return matches;
 }
+
+//
+//  Check if in domains there are any domains to use,
+//  or to insert new ones
+//
+exports.getDomains = function(domains){
+  var finalDomains = {
+    existing: [],
+    new: []
+  }
+
+  if (Array.isArray(domains)){
+      finalDomains.existing = domains
+    }else if((typeof domains === 'string' || domains instanceof String) && domains.length>0){
+      newDomains = domains.split(",");
+
+      for(domain of newDomains){
+        finalDomains.new.push({title: domain});
+      }
+    }
+
+    return finalDomains;
+}

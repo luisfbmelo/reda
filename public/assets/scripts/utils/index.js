@@ -151,7 +151,6 @@ export const complexToQueryString = function(data){
         }
     }
 
-    console.log(finalString);
     return finalString;
 }
 

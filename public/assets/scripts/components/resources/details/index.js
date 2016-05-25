@@ -187,7 +187,7 @@ export default class ResourceDetails extends Component {
 								<div className="row details-buttons">
 									<div className="col-xs-12">
 										<button className="cta primary outline small" onClick={this.scrollToComments}>Comentar Recurso</button>
-										<Link to={"/gerirguioes/" + resId} className="cta primary outline small">Novo Guião</Link>
+										<Link to={"/gerirguioes/" + resourceInfo.slug} className="cta primary outline small">Novo Guião</Link>
 									</div>
 								</div>
 							</IsAuthenticated>

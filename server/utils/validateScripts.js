@@ -37,7 +37,7 @@ function singleScript(values){
   }
 
   // Domains
-  if (!values.domains || values.domains.length==0) {
+  if (values.hasDomains && (!values.domains || values.domains.length==0)) {
     errors.domains = 'Campo é obrigatório'
   }
 

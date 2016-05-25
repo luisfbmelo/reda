@@ -7,37 +7,38 @@ const dataUtil = require('../utils/dataManipulation');
 const validate = require('../utils/validateScripts').validate;
 const consts = require('../config/const');
 
+// INIT Includes
+var includes = [
+	{
+		model: models.Subject,
+		required:false,
+		through: {
+			attributes: []
+		}			
+	},
+	{
+		model: models.Year,
+		required:false,
+		through: {
+			attributes: []
+		}			
+	},
+	{
+		model: models.Domain,
+		required:false,
+		through: {
+			attributes: []
+		}			
+	}
+];
+
 //
 //	Get details from script
 //
 exports.details = function(req, res, next){
 	var resource = req.params.resource;
-	var userExists = req.user;
+	var userExists = req.userExists;
 
-	// Check AUTH
-	var includes = [
-		{
-			model: models.Subject,
-			required:false,
-			through: {
-				attributes: []
-			}			
-		},
-		{
-			model: models.Year,
-			required:false,
-			through: {
-				attributes: []
-			}			
-		},
-		{
-			model: models.Domain,
-			required:false,
-			through: {
-				attributes: []
-			}			
-		}
-	];
 
 	// If no user exists, show scripts that are only from exclusive resources
 	if (!userExists){
@@ -59,10 +60,10 @@ exports.details = function(req, res, next){
 			resource_id: resource
 		}
 	})
-	.then(function(resource){
-		return res.json({result: resource});
+	.then(function(scripts){
+		return res.json({result: scripts});
 	}).catch(function(err){
-		return next(err);
+		return res.status(403).send({message: err});
 	});
 }
 
@@ -72,35 +73,34 @@ exports.details = function(req, res, next){
 exports.userScripts = function(req, res, next){
 	var resource = req.params.resource;
 	var setWhere = {};
-	var userExists = req.user;
+	var userExists = req.userExists;
 
 	// Check AUTH
 	if (userExists){
 
 		// If admin, get all scripts. 
 		// If not, only show from the current user
-		if(userExists.Role.value == consts.ADMIN_ROLE){
+		if(userExists.Role.type == consts.ADMIN_ROLE){
 			setWhere = {
-				where: {
-					resource_id: resource
-				}
+				resource_id: resource
 			}
+			
 		}else{
 			setWhere = {
-				where: {
-					resource_id: resource,
-					user_id: userExists.id,
-					status: false
-				}
+				resource_id: resource,
+				user_id: userExists.id				
 			}
 		}
 
 		//
 		//	Get scripts
 		//
-		models.Script.findAll(setWhere)
-		.then(function(resource){
-			return res.json({result: resource});
+		models.Script.findAll({
+			where: setWhere,
+			include: includes,
+		})
+		.then(function(scripts){
+			return res.json({result: scripts});
 		}).catch(function(err){
 			return next(err);
 		});
@@ -113,9 +113,12 @@ exports.userScripts = function(req, res, next){
 //	Create Script
 //
 exports.create = function(req, res, next){	
-	
+	var resource = req.params.resource;
+	var setWhere = {};
+	var userExists = req.userExists;
+
 	// Check AUTH
-	if (userExists){
+	if (userExists && resource){
 		//
 		//	Check form validation
 		//
@@ -128,46 +131,20 @@ exports.create = function(req, res, next){
 		//
 		//	Create script with everything prepared
 		//
-		var action = 'create';
-		upsertScript(req, res, action, userExists.id, userExists.Role.value);
+		upsertScript(req, res, userExists.id, userExists.Role.type);
 
 	}else{
 		return res.status(401).send({message: messages.script.create_permission})
 	}
 }
 
-//
-//	Update Script
-//
-exports.update = function(req, res, next){	
-	
-	// Check AUTH
-	if (userExists){
-		//
-		//	Check form validation
-		//
-		const checkData = validate(req.body);
-		
-		if (dataUtil.scriptsHasErrors(checkData.scripts) || checkData.accept_terms){
-			return res.status(403).send({form_errors: checkData});
-		}
-
-		//
-		//	Create script with everything prepared
-		//
-		var action = 'update';
-		upsertScript(req, res, action, userExists.id, userExists.Role.value);
-
-	}else{
-		return res.status(401).send({message: messages.script.create_permission})
-	}
-}
-
-function upsertScript(req, res, action, userId, userRole){
+function upsertScript(req, res, userId, userRole){
 
 	req.body.scripts.map(function(givenScript){
 
-		if (req.params.resource && action=='update'){
+    	// If a resource is given and this script has ID, then it is an update.
+    	// Else, add new one
+		if (req.params.resource && givenScript.id){
 
 			var setWhere = {};
 
@@ -208,22 +185,22 @@ function upsertScript(req, res, action, userId, userRole){
 				    operation: givenScript.op_proposal,
 				    operation_author: givenScript.op_proposal_author,
 				  }).then(function(item){			 
-				  	script.setSubjects(givenScript.subjects);
+				  	item.setSubjects(givenScript.subjects);
 
-				    script.setDomains(givenScript.domains);
+				    item.setYears(givenScript.years);
 
-				    script.setYears(givenScript.years);
+				    item.setDomains(givenScript.domains);
 
 				 })
 				 .catch(function(err){
-					return res.status(403).send(err);
+					return res.status(403).send({message: err});
 				});
 			})
 			.catch(function(err){
-				return res.status(403).send(err);
+				return res.status(403).send({message: err});
 			});
 
-		}else if(req.params.resource && action=='create'){
+		}else if(req.params.resource){
 			
 			return models.Script.create({
 			    title: givenScript.title,
@@ -234,19 +211,20 @@ function upsertScript(req, res, action, userId, userRole){
 			    operation: givenScript.op_proposal,
 			    operation_author: givenScript.op_proposal_author,
 			    user_id: userId,
-			    resource_id: req.params.resource		    
+			    resource_id: req.params.resource,
+			    Domains: domainsToInsert.new	    
 			  },{
 			    include: [ models.Domain, models.Subject, models.Year ]
 			  }).then(function(item){
 			    item.setSubjects(givenScript.subjects);
 
-			    item.setDomains(givenScript.domains);
-
 			    item.setYears(givenScript.years);
+
+			    item.setDomains(givenScript.domains);
 
 			 })
 			 .catch(function(err){
-				return res.status(403).send(err);
+				return res.status(403).send({message: err});
 			});
 		}else{
 			return res.status(403).send({message: messages.script.need_resource});
@@ -254,4 +232,44 @@ function upsertScript(req, res, action, userId, userRole){
 	});
 
 	return res.status(200).send({message: messages.scripts.created_uploaded});
+}
+
+//
+//	Delete scripts
+//
+exports.delScript = function(req, res, next){
+	debug("Boom");
+
+	var userExists = req.userExists;
+	var script = req.params.script;
+	var setWhere = {};
+
+	// Check AUTH
+	if (userExists && script){
+
+		if (userExists.Role.type!=consts.ADMIN_ROLE){
+			setWhere = {
+				id: script,
+				user_id:userExists.id
+			}
+		}else{
+			setWhere = {
+				id: script
+			}
+		}
+
+		// If no error, then destroy all
+		models.Script.destroy({
+			where: setWhere
+		})
+		.then((something) => {
+			return res.status(200).send({});
+		})
+		.catch(function(err){
+			return res.status(403).send(err);
+		});
+		
+	}else{
+		return res.status(401).send({message: messages.script.del_permission});
+	}
 }

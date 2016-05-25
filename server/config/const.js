@@ -1,2 +1,2 @@
-exports.ADMIN_ROLE = 'Admin';
-exports.USER_ROLE = 'Teacher';
+exports.ADMIN_ROLE = 'admin';
+exports.USER_ROLE = 'user';

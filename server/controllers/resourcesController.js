@@ -5,6 +5,7 @@ const messages = require('../config/messages.json');
 const jwtUtil = require('../utils/jwt');
 const dataUtil = require('../utils/dataManipulation');
 const validate = require('../utils/validateResources').validate;
+const consts = require('../config/const');
 
 // Generic Includes
 var includes = [
@@ -67,7 +68,7 @@ exports.related = function(req, res, next) {
 		}
 	})
 	.then((item) => {
-		models.Resource.findAll({
+		return models.Resource.findAll({
 			include: includes,
 			limit: limit,
 			where: {
@@ -90,11 +91,10 @@ exports.related = function(req, res, next) {
 		  		'updated_at'
 	  		]
 		})
-		.then(function(resources){
-			return res.json({result: resources});
-		}).catch(function(err){
-			return next(err);
-		})
+		
+	})
+	.then(function(resources){
+		return res.json({result: resources});
 	}).catch(function(err){
 		return next(err);
 	})
@@ -552,7 +552,7 @@ exports.createOrUpdate = function(req, res, next){
 			//	Create resource with everything prepared
 			//
 			var action = req.params.slug ? 'update' : 'create';
-			upsertResource(req, res, newTags, existingTags, action, userExists.id);
+			upsertResource(req, res, newTags, existingTags, action, userExists);
 			
 		});
 		//return res.status(200).send("done");
@@ -561,9 +561,9 @@ exports.createOrUpdate = function(req, res, next){
 	}
 }
 
-function upsertResource(req, res, newTags, existingTags, action, userId){
+function upsertResource(req, res, newTags, existingTags, action, userExists){
 	// Handle domains to insert
-    var domainsToInsert = getDomains(req.body.domains);
+    var domainsToInsert = dataUtil.getDomains(req.body.domains);
 
     // INIT VARS
 	var slug = "";	
@@ -591,9 +591,9 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			})
 			.then(function(resource){
 
-				if(resource && (resource.user_id==userExists.id || userExists.Role.type=='admin')){
+				if(resource && (resource.user_id==userExists.id || userExists.Role.type==consts.ADMIN_ROLE)){
 					fileName = resource.slug+"_"+timestamp;
-					debug(req.body);
+		
 					//
 					//	Update resource
 					//
@@ -621,18 +621,7 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 
 					    resource.setLanguages(req.body.language.id);
 
-					    resource.addDomains(domainsToInsert.existing);
-
-					    //
-					    //	Add new domains
-					    //
-					    domainsToInsert.new.forEach(function(domain){
-					    	models.Domain.create(domain)
-					    	.then(function(newDomain){
-					    		resource.addDomain(newDomain);
-					    	})
-					    	
-					    });
+					    resource.setDomains(req.body.domains);
 
 					    //
 					    //	Remove all tags and insert new ones
@@ -682,14 +671,14 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 					    return res.status(200).send(item);
 					 })
 					 .catch(function(err){
-						return res.status(403).send(messages.resource.save_error);
+						return res.status(403).send({message: messages.resource.save_error});
 					});
 				}else{
 					return res.status(401).send({message: messages.resource.create_permission});
 				}
 			})
 			.catch(function(err){
-				return res.status(403).send(err);
+				return res.status(403).send({message:err});
 			});
 
 		}else if(action=='create'){
@@ -719,10 +708,9 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			    techResources: req.body.techResources,
 			    operation: req.body.op_proposal,
 			    operation_author: req.body.op_proposal_author,
-			    user_id: userId,
+			    user_id: userExists.id,
 			    Files: fileToUpload,
-			    Tags: newTags,
-			    Domains: domainsToInsert.new
+			    Tags: newTags
 			  },{
 			    include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language, models.Tag, models.File ]
 			  }).then(function(item){
@@ -736,7 +724,7 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 
 			    item.addTags(existingTags);
 
-			    item.addDomains(domainsToInsert.existing);
+			    item.setDomains(req.body.domains);
 
 			    //
 			    //	Save file to FileSys
@@ -751,31 +739,14 @@ function upsertResource(req, res, newTags, existingTags, action, userId){
 			 .catch(function(err){
 			 	debug(err);
 
-				return res.status(403).send(err);
+				return res.status(403).send({message:err});
 			});
 		}
 
 	});
 }
 
-function getDomains(domains){
-	var finalDomains = {
-		existing: [],
-		new: []
-	}
 
-	if (Array.isArray(domains)){
-    	finalDomains.existing = domains
-    }else if((typeof domains === 'string' || domains instanceof String) && domains.length>0){
-    	newDomains = domains.split(",");
-
-    	for(domain of newDomains){
-    		finalDomains.new.push({title: domain});
-    	}
-    }
-
-    return finalDomains;
-}
 
 //
 //	Delete Resource
@@ -796,7 +767,7 @@ exports.deleteEl = function(req, res, next){
 				return res.status(403).send({message: messages.resource.no_exist});
 			}
 			
-			if(resource && (resource.user_id==userExists.id || userExists.Role.type=='admin')){
+			if(resource && (resource.user_id==userExists.id || userExists.Role.type==consts.ADMIN_ROLE)){
 
 				//
 				//	Delete resource
@@ -844,7 +815,7 @@ exports.deleteCollective = function(req, res, next){
 				}
 
 				// If user is not admin, check each resource owner
-				if (userExists.Role.type!='admin'){
+				if (userExists.Role.type!=consts.ADMIN_ROLE){
 					resources.forEach(function(item){
 						if (item.user_id!=userExists.id){
 							return res.status(401).send({message: messages.resources.del_permission});

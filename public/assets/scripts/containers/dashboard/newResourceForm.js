@@ -17,7 +17,7 @@ import { fetchYears } from '../../actions/years';
 import { fetchTerms } from '../../actions/terms';
 import { addAlert } from '../../actions/alerts';
 import { bindActionCreators } from 'redux';
-import { reset, initialize } from 'redux-form';
+import { reset, initialize, destroy } from 'redux-form';
 
 import WizardFormFirstPage from '../../components/resources/newResource/newResourceFormFirstPage';
 import WizardFormSecondPage from '../../components/resources/newResource/newResourceFormSecondPage';
@@ -32,8 +32,7 @@ class NewResourceFormContainer extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.nextPage = this.nextPage.bind(this);
     this.previousPage = this.previousPage.bind(this);
-    this.afterSubmit = this.afterSubmit.bind(this);
-
+    
     //
     //  Helpers
     //
@@ -53,7 +52,7 @@ class NewResourceFormContainer extends Component {
     //
     //  If to edit, get resource
     //
-    if (resource){
+    if (resource){      
       this.props.fetchResource(resource)
       .then(() => {
         const { data } = this.props.resource;
@@ -72,6 +71,7 @@ class NewResourceFormContainer extends Component {
   // Reset form on leave
   componentWillUnmount(){
     this.props.resetForm();
+    this.props.destroy();
     this.props.resetResource();
   }
 
@@ -123,7 +123,7 @@ class NewResourceFormContainer extends Component {
         }else{          
           resolve();  
           this.props.addAlert(!resource ? alertMessages.ALERT_RESOURCE_CREATE_SUCCESS : alertMessages.ALERT_RESOURCE_EDIT_SUCCESS, alertMessages.SUCCESS);
-          this.context.router.push('/painel');   
+          this.context.router.push('/painel');             
         }
 
       })
@@ -134,17 +134,12 @@ class NewResourceFormContainer extends Component {
     })
   }
 
-  afterSubmit(){
-
-  }
-
-
-
   //
   //  INIT form after server fetch
   //
   initForm(){
     const { data } = this.props.resource;
+
     const fields = [ 
       'title',
       'author', 
@@ -153,6 +148,7 @@ class NewResourceFormContainer extends Component {
       'tags',
       'format',
       'file',
+      'duration',
       'embed',
       'link',
       'access',
@@ -177,6 +173,7 @@ class NewResourceFormContainer extends Component {
       tags: data.Tags.map(item => item.title),
       format: data.Format,
       file: data.Files && data.Files.length > 0 && data.Files[0],
+      duration: data.duration,
       embed: data.embed,
       link: data.link,
       access: data.Modes.map(item => item.id),
@@ -247,6 +244,7 @@ function mapDispatchToProps(dispatch) {
     resetResource,
     addAlert,
     resetForm: () => dispatch(reset('newResource')),
+    destroy: () => dispatch(destroy('newResource')),
     initForm: (initValues, fields) => dispatch(initialize('newResource', initValues, fields))
   }, dispatch);
 }

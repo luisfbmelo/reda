@@ -13,6 +13,7 @@ import Rating from '../../../common/rating';
 import SvgComponent from '../../../common/svg';
 import ProtectedButton from '../../../auth/protectedButton';
 import DeleteResource from '../../../../containers/resources/deleteResource';
+import IsAdmin from '../../../../containers/auth/isAdmin';
 
 var renderList = (list, props) => {	
 	return list.map((el, index) => {
@@ -62,9 +63,11 @@ var renderList = (list, props) => {
 			      			</div>	      			
 			      			<div className="fRight right-col">
 								<Link to={"/descobrir/detalhes-recurso/" + el.slug } className="cta primary outline small">Ver Recurso</Link>
-								<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Gerir Guiões</Link>
+								<Link to={"/gerirguioes/" + el.slug } className="cta primary outline small">Gerir Guiões</Link>
 								<i className={"action-btn fa fa-" + ((el.isFavorite) ? "heart" : "heart-o")} title="Favorito" onClick={()=> props.setFavorite(el.id)}></i>
-			      				<i className={"action-btn fa fa-" + (el.highlight ? "star" : "star-o")} onClick={()=> props.setHighlight(el.id)} title="Recurso do Mês"></i>
+			      				<IsAdmin>
+			      					<i className={"action-btn fa fa-" + (el.highlight ? "star" : "star-o")} onClick={()=> props.setHighlight(el.id)} title="Recurso do Mês"></i>
+			      				</IsAdmin>
 			      			</div>
 			      		</footer>
 		      		</div>

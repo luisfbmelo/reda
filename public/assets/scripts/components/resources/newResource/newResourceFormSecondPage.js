@@ -22,6 +22,7 @@ export const fields = [
   'format',
   'file',
   'embed',
+  'duration',
   'link',
   'access',
   'techResources',
@@ -63,21 +64,36 @@ class NewResourceFormSecondPage extends Component {
     //  Helpers
     //
     this.domainsOfSubject = this.domainsOfSubject.bind(this);
+    this.hasDomains = this.hasDomains.bind(this);
   }
 
 
   componentDidMount(){
-    this.props.mapProps.fetchSubjects();
-    this.props.mapProps.fetchDomainsWithSubject();
     this.props.mapProps.fetchLanguages();
     this.props.mapProps.fetchYears();
     this.props.mapProps.fetchTerms();
+
+    this.props.mapProps.fetchSubjects();
+    this.props.mapProps.fetchDomainsWithSubject();
+  }
+
+  // Check if has domain
+  hasDomains(subjects){
+    let totalDomains = this.domainsOfSubject(subjects);
+    if (totalDomains && totalDomains.length>0){
+      this.props.fields.hasDomains.onChange(true);
+    }else{
+      this.props.fields.hasDomains.onChange(false);
+    }
   }
 
   // On change SUBJECTS
   setSubject(group){
     this.props.fields.domains.onChange([]);
     this.props.fields.subjects.onChange(group);
+
+    // Are there any domains?
+    this.hasDomains(group);
   }
 
   // On change YEARS
@@ -155,8 +171,8 @@ class NewResourceFormSecondPage extends Component {
 
     // Get domains to present
     const totalDomains = _.sortBy(this.domainsOfSubject(), 'title');
-  
-    if (!subjects.value || subjects.value.length==0){
+
+    if ((!subjects.value || subjects.value.length==0) || !totalDomains || totalDomains.length==0){
       return null;
     }
 
@@ -167,11 +183,7 @@ class NewResourceFormSecondPage extends Component {
           <div className={`form-group ${domains.touched && domains.invalid ? 'has-error' : ''}`}>
 
           {(() => {
-            if (!totalDomains || totalDomains.length==0){
-              return (
-                  <input type="text" className="form-control" placeholder="Indique os domínios separados por vírgulas" {...domains}/>
-                );
-            }else{
+            if (totalDomains && totalDomains.length>0){
               return(
                 <CheckboxGroup
                       name="domains"
@@ -205,21 +217,22 @@ class NewResourceFormSecondPage extends Component {
 
   // Check if domains are in any subject
   // DOMAINS MUST BE PROVIDED WITH THEIR SUBJECTS ASSOCIATED
-  domainsOfSubject(){
-    const { subjects } = this.props.fields;
+  domainsOfSubject(givenSubjects){
+    let subjects = givenSubjects || this.props.fields.subjects;
+
     const { domains } = this.props.mapProps;
 
     // Make copy of domains to maintain immutable
     let domainsCopy = _.assign([], domains.data);
 
     // Are any subjects selected
-    if (subjects.value){
+    if ((subjects && subjects instanceof Array && subjects.length>0) || (subjects.value && subjects.value.length>0)){
       domainsCopy = _.filter(domainsCopy, (domain) => {
         let exists = false;
 
         // If domain subjects was selected
         for (let domainSubject of domain.Subjects){
-          exists = subjects.value.indexOf(domainSubject.id) >= 0;
+          exists = subjects.value ? subjects.value.indexOf(domainSubject.id) >= 0 : subjects.indexOf(domainSubject.id) >= 0;
         }
 
         return exists;
@@ -233,13 +246,13 @@ class NewResourceFormSecondPage extends Component {
   }
 
   renderErrors(){
-    const { submitionErr } = this.props;
+    const { errorMessage } = this.props.mapProps.resource;
 
-    if (submitionErr && submitionErr.form_errors){
+    if (errorMessage && errorMessage.form_errors){
       return (
         <div class="alert alert-danger" role="alert">
           <ul>
-            {submitionErr.form_errors.map(error => {
+            {errorMessage.form_errors.map(error => {
               return <li>{error}</li>
             })}
           </ul>
@@ -261,8 +274,7 @@ class NewResourceFormSecondPage extends Component {
     if (!mapProps.subjects.data || !mapProps.domains.data || !mapProps.years.data || !mapProps.languages.data || !mapProps.terms.data){
       return null;
     }
-    
-    
+        
     return (
       <form onSubmit={handleSubmit} className="form second-page">
         {this.renderErrors()}  

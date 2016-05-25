@@ -42,7 +42,7 @@ const optionsRender = (el, isAuthenticated, addscript, viewmore) => {
 		return (
 			<span className="list__element--buttons">
   			<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
-  			<Link to={"/gerirguioes/" + el.id } className="cta primary outline small">Adicionar Guião</Link>
+  			<Link to={"/gerirguioes/" + el.slug } className="cta primary outline small">Adicionar Guião</Link>
 			</span>
 		)
 	}

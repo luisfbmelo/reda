@@ -372,6 +372,7 @@ state => ({
     isOnline: false,
     exclusive: true,
     tags: [],
-    access: []
+    access: [],
+    hasDomains: false
   }
 }))(NewResourceFormFirstPage)

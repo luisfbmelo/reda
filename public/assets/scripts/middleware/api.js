@@ -77,8 +77,6 @@ function makeAPIRequest(callAPI, next, store){
     response => {
       Progress.hide();
 
-      console.log(response);
-
       next({
         data: response,
         type: successType
@@ -92,9 +90,7 @@ function makeAPIRequest(callAPI, next, store){
         localStorage.setItem('token', result.error.new_token);
         return makeAPIRequest(callAPI, next, store);
       }
-
-      console.log(result);
-
+      
       // Dispatch alert if any error
       if (result && result.error && result.error.message){
         store.dispatch(alertActions.addAlert(result.error.message, alertMessages.ERROR));

@@ -7,47 +7,50 @@ import TechFile from '../techFile';
 import IsAuthenticated from '../../../containers/auth/isAuth';
 
 const renderScripts = (scripts) => {
-	return scripts.map((script, index) => {
-		return (
-			<Tabs defaultActiveKey={index+1} key={script.id}>
-				<Tab eventKey={script.id} title={"Guião " + (index+1)}>
-					<div className="row">
-						<div className="col-xs-12 col-sm-4">
-							<label>Autor:</label>
-							{script.author}
-						</div>
-						<div className="col-xs-12 col-sm-4">
-							<label>Email:</label>
-							<a href={"mailto:"+script.email}>{script.email}</a>
-						</div>
-						<div className="col-xs-12 col-sm-4">
-							<label>Organização:</label>
-							{script.organization}
-						</div>
-					</div>
 
-					<div className="row">
-						<div className="col-xs-6 col-sm-3">
-							<label className="block">Descrição</label>
-							{script.description}
+	return (
+		<Tabs defaultActiveKey={1} >
+			{scripts.map((script, index) => {
+				return (					
+					<Tab eventKey={index+1} title={"Guião " + (index+1)} key={script.id}>
+						<div className="row">
+							<div className="col-xs-12 col-sm-4">
+								<label>Autor:</label>
+								{script.author}
+							</div>
+							<div className="col-xs-12 col-sm-4">
+								<label>Email:</label>
+								<a href={"mailto:"+script.email}>{script.email}</a>
+							</div>
+							<div className="col-xs-12 col-sm-4">
+								<label>Organização:</label>
+								{script.organization}
+							</div>
 						</div>
-					</div>
 
-					<div className="row">
-						<div className="col-xs-12 op-proposal">
-							<label className="block">Proposta de Operacionalização</label>
-							<p>
-								{script.operation}
-							</p>
+						<div className="row">
+							<div className="col-xs-6 col-sm-3">
+								<label className="block">Descrição</label>
+								{script.description}
+							</div>
 						</div>
-					</div>
 
-					{/* Tech File */}
-					<TechFile details={script} maxCol={3} showTitle={false} />
-				</Tab>
-			</Tabs>
-		)
-	})
+						<div className="row">
+							<div className="col-xs-12 op-proposal">
+								<label className="block">Proposta de Operacionalização</label>
+								<p>
+									{script.operation}
+								</p>
+							</div>
+						</div>
+
+						{/* Tech File */}
+						<TechFile details={script} maxCol={3} showTitle={false} />
+					</Tab>
+				)				
+			})}
+		</Tabs>
+	)
 }
 
 const ScriptsList = (props) => {
