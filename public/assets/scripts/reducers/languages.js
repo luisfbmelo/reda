@@ -4,7 +4,7 @@ import {
 	LANGUAGES_SUCCESS,
 	LANGUAGES_FAILURE,
   LANGUAGES_RESET
-} from '../actions/action-types';
+} from '@/actions/action-types';
 
 const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 

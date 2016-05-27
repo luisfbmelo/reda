@@ -5,8 +5,8 @@ import { Component } from 'react';
 import fetch from 'isomorphic-fetch';
 import { Link } from 'react-router';
 
-import LoginButton from '../auth/loginButton';
-import SvgComponent from '../common/svg';
+import LoginButton from '@/components/auth/loginButton';
+import SvgComponent from '@/components/common/svg';
 
 export default class ContributeBlock extends Component {
 	constructor(props){

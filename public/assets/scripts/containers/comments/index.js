@@ -1,9 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchComments } from '../../actions/comments';
+import { fetchComments } from '@/actions/comments';
 import { bindActionCreators } from 'redux';
-import ResourceComments from '../../components/resources/comments/list';
+import ResourceComments from '@/components/resources/comments/list';
 
 function mapStateToProps(state) {
   return { 

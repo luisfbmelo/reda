@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchYears, resetYears } from '../../actions/years';
-import { fetchSubjects, resetSubjects } from '../../actions/subjects';
-import { fetchDomains, fetchDomainsFromSubject, resetDomains } from '../../actions/domains';
-import { fetchFormats, resetFormats } from '../../actions/formats';
-import { searchResourcesFilters, setFilters } from '../../actions/filters';
+import { fetchYears, resetYears } from '@/actions/years';
+import { fetchSubjects, resetSubjects } from '@/actions/subjects';
+import { fetchDomains, fetchDomainsFromSubject, resetDomains } from '@/actions/domains';
+import { fetchFormats, resetFormats } from '@/actions/formats';
+import { searchResourcesFilters, setFilters } from '@/actions/filters';
 import { bindActionCreators } from 'redux';
-import SearchForm from '../../components/search/searchForm';
+import SearchForm from '@/components/search/searchForm';
 
 
 class SearchContainer extends Component {

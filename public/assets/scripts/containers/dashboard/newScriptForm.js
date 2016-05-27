@@ -2,20 +2,20 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { fetchUserScripts, resetScripts, deleteScript, submitScripts } from '../../actions/scripts';
-import { fetchResource, resetResource } from '../../actions/resources';
-import { fetchSubjects } from '../../actions/subjects';
-import { fetchDomainsWithSubject } from '../../actions/domains';
-import { fetchYears } from '../../actions/years';
-import { fetchTerms } from '../../actions/terms';
-import { addAlert } from '../../actions/alerts';
+import { fetchUserScripts, resetScripts, deleteScript, submitScripts } from '@/actions/scripts';
+import { fetchResource, resetResource } from '@/actions/resources';
+import { fetchSubjects } from '@/actions/subjects';
+import { fetchDomainsWithSubject } from '@/actions/domains';
+import { fetchYears } from '@/actions/years';
+import { fetchTerms } from '@/actions/terms';
+import { addAlert } from '@/actions/alerts';
 import { bindActionCreators } from 'redux';
 import { reset, initialize, destroy } from 'redux-form';
 
 // Alerts
-import * as alertMessages from '../../actions/message-types';
+import * as alertMessages from '@/actions/message-types';
 
-import FormBody from '../../components/scripts/newScriptForm';
+import FormBody from '@/components/scripts/newScriptForm';
 
 class NewScriptFormContainer extends Component {
   constructor(props) {

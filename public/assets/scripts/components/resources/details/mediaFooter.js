@@ -1,12 +1,12 @@
 import React from 'react';
 import { Component } from 'react';
 
-import FavoriteIcon from '../actions/favorite';
-import EmailIcon from '../actions/email';
-import ShareIcon from '../actions/share';
-import EmbedIcon from '../actions/embed';
+import FavoriteIcon from '@/components/resources/actions/favorite';
+import EmailIcon from '@/components/resources/actions/email';
+import ShareIcon from '@/components/resources/actions/share';
+import EmbedIcon from '@/components/resources/actions/embed';
 
-import { setUrl } from '../../../utils';
+import { setUrl } from '@/utils';
 
 /**
  *

@@ -4,7 +4,7 @@ import {
   COMMENTS_SUCCESS,
   COMMENTS_FAILURE,
   COMMENTS_RESET
-} from '../actions/action-types';
+} from '@/actions/action-types';
 
 const INITIAL_STATE = { fetching: false, fetched: false, data: null, errors: null, isAuthenticated: false };
 

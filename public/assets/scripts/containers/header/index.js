@@ -1,10 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import TopNav from '../../components/navigation/topNav';
-import HighlightsContainer from '../highlights';
-import SearchContainer from '../search';
-import UserResume from '../user/resume';
+import TopNav from '@/components/navigation/topNav';
+import HighlightsContainer from '@/containers/highlights';
+import SearchContainer from '@/containers/search';
+import UserResume from '@/containers/user/resume';
 
 
 class Header extends Component {

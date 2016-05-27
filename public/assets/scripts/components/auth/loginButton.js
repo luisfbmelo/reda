@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component, PropTypes } from 'react';
-import LoginFormContainer from '../../containers/auth/loginForm';
+import LoginFormContainer from '@/containers/auth/loginForm';
 
 import { Modal } from 'react-bootstrap';
 import { Link } from 'react-router';

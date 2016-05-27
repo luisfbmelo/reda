@@ -4,11 +4,11 @@ import { Link } from 'react-router';
 
 // Components
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import LoginButton from '../auth/loginButton';
-import LogoutButton from '../auth/logoutButton';
+import LoginButton from '@/components/auth/loginButton';
+import LogoutButton from '@/components/auth/logoutButton';
 
-import IsAuthenticated from '../../containers/auth/isAuth';
-import IsNotAuthenticated from '../../containers/auth/isNotAuth';
+import IsAuthenticated from '@/containers/auth/isAuth';
+import IsNotAuthenticated from '@/containers/auth/isNotAuth';
 
 
 export default class TopNav extends Component {

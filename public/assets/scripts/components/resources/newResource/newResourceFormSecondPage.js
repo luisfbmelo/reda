@@ -6,8 +6,8 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 
 // Components
-import RadioGroup from '../../common/radioGroup';
-import TextArea from '../../common/textarea';
+import RadioGroup from '@/components/common/radioGroup';
+import TextArea from '@/components/common/textarea';
 import CheckboxGroup from 'react-checkbox-group';
 
 // Validation

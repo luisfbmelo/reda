@@ -6,9 +6,9 @@ import { Link } from 'react-router';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 // Components
-import Rating from '../../common/rating';
-import SvgComponent from '../../common/svg';
-import ProtectedButton from '../../auth/protectedButton';
+import Rating from '@/components/common/rating';
+import SvgComponent from '@/components/common/svg';
+import ProtectedButton from '@/components/auth/protectedButton';
 import { ResourceElement } from './resource';
 
 var renderList = (list, props) => {	

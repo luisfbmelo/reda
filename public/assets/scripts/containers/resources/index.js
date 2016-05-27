@@ -1,11 +1,11 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchResources, setHighlight, setFavorite, searchResources, resetResources } from '../../actions/resources';
-import { fetchConfig } from '../../actions/config';
-import { getFilters, resetFilters } from '../../actions/filters';
+import { fetchResources, setHighlight, setFavorite, searchResources, resetResources } from '@/actions/resources';
+import { fetchConfig } from '@/actions/config';
+import { getFilters, resetFilters } from '@/actions/filters';
 import { bindActionCreators } from 'redux';
-import ResourcesListing from '../../components/resources/listing';
+import ResourcesListing from '@/components/resources/listing';
 
 function mapStateToProps(state) {
   return { 

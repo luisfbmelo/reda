@@ -1,0 +1,8 @@
+{
+  "plugins": [
+    ["babel-root-import", {
+      "rootPathSuffix": "public/assets/scripts",
+      "rootPathPrefix": "@"
+    }]
+  ]
+}

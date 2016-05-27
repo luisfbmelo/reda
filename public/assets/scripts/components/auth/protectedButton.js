@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 
 import { Modal } from 'react-bootstrap';
 
-import LoginFormContainer from '../../containers/auth/loginForm';
+import LoginFormContainer from '@/containers/auth/loginForm';
 
 export default class ProtectedButton extends Component {
   constructor(props){

@@ -4,8 +4,8 @@ import { Link } from 'react-router';
 
 // Components
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
-import Collapsible from '../common/collapse';
-import IsAdmin from '../../containers/auth/isAdmin';
+import Collapsible from '@/components/common/collapse';
+import IsAdmin from '@/containers/auth/isAdmin';
 
 
 export default class DashboardMenu extends Component {

@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import DashboardMenu from '../../components/navigation/dashboardMenu';
+import DashboardMenu from '@/components/navigation/dashboardMenu';
 
 function mapStateToProps(state) {
   return { 

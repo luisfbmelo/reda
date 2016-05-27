@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import CommentForm from '../../components/resources/comments/form';
+import CommentForm from '@/components/resources/comments/form';
 //import { loginUser } from '../../actions/auth';
 export const fields = [ 'description' ];
 

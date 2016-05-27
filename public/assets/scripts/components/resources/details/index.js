@@ -3,20 +3,20 @@ import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 // Utils
-import { getAvg } from '../../../utils';
+import { getAvg } from '@/utils';
 
 // Components
 import MediaDisplay from './mediaDisplay';
 import MediaFooter from './mediaFooter';
 import TechFile from '../techFile';
 import Scripts from './scripts';
-import CommentForm from '../../../containers/comments/commentForm';
-import CommentsList from '../../../containers/comments';
-import RelatedResources from '../../../containers/resources/related';
-import Rating from '../../common/rating';
-import DeleteResource from '../../../containers/resources/deleteResource';
-import IsAuthenticated from '../../../containers/auth/isAuth';
-import IsAdmin from '../../../containers/auth/isAdmin';
+import CommentForm from '@/containers/comments/commentForm';
+import CommentsList from '@/containers/comments';
+import RelatedResources from '@/containers/resources/related';
+import Rating from '@/components/common/rating';
+import DeleteResource from '@/containers/resources/deleteResource';
+import IsAuthenticated from '@/containers/auth/isAuth';
+import IsAdmin from '@/containers/auth/isAdmin';
 
 export default class ResourceDetails extends Component {
 	constructor(props){
@@ -217,7 +217,7 @@ export default class ResourceDetails extends Component {
 				</section>
 
 				{/* Scripts */}
-				<Scripts data={scripts.data} resourceId={resourceInfo.id} />
+				<Scripts data={scripts.data} resource={resourceInfo.slug} />
 
 				{/* Comments */}
 				<section className="comments" id="comentar">

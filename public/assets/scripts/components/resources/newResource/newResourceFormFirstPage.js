@@ -6,10 +6,10 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 
 // Components
-import Tags from '../../common/tags';
-import RadioGroup from '../../common/radioGroup';
-import FileInput from '../../common/fileInput';
-import TextArea from '../../common/textarea';
+import Tags from '@/components/common/tags';
+import RadioGroup from '@/components/common/radioGroup';
+import FileInput from '@/components/common/fileInput';
+import TextArea from '@/components/common/textarea';
 import CheckboxGroup from 'react-checkbox-group';
 
 // Validation
@@ -214,7 +214,7 @@ class NewResourceFormFirstPage extends Component {
           <div className="col-xs-12 col-sm-3">
             <label className="input-title">Email*</label>
             <div className={`form-group ${email.touched && email.invalid ? 'has-error' : ''}`}>
-              <input type="text" className="form-control" placeholder="Email do núcleo ou docente" {...email}/>
+              <input type="email" className="form-control" placeholder="Email do núcleo ou docente" {...email}/>
               {email.touched && email.error && <div className="text-danger">{email.error}</div>}
             </div>
           </div>

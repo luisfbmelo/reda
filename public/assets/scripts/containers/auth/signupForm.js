@@ -1,7 +1,7 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import SignupForm from '../../components/auth/signupForm';
-import { signupUser } from '../../actions/auth';
+import SignupForm from '@/components/auth/signupForm';
+import { signupUser } from '@/actions/auth';
 export const fields = [ 
   'email', 
   'password', 

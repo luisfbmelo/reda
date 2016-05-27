@@ -1525,7 +1525,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _loginForm = require('../../containers/auth/loginForm');
+var _loginForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/loginForm');
 
 var _loginForm2 = _interopRequireDefault(_loginForm);
 
@@ -1632,7 +1632,7 @@ LoginButton.propTypes = {
   className: _react.PropTypes.string
 };
 
-},{"../../containers/auth/loginForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\loginForm.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginForm.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/loginForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\loginForm.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1793,7 +1793,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _auth = require('../../actions/auth');
+var _auth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1848,7 +1848,7 @@ LogoutButton.contextTypes = {
 
 exports.default = (0, _reactRedux.connect)(null, { logout: _auth.logout })(LogoutButton);
 
-},{"../../actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","react":"react","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","react":"react","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1865,7 +1865,7 @@ var _reactRouter = require('react-router');
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _loginForm = require('../../containers/auth/loginForm');
+var _loginForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/loginForm');
 
 var _loginForm2 = _interopRequireDefault(_loginForm);
 
@@ -1986,7 +1986,7 @@ ProtectedButton.propTypes = {
   target: _react.PropTypes.string.isRequired
 };
 
-},{"../../containers/auth/loginForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\loginForm.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\signupForm.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/loginForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\loginForm.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\signupForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2218,11 +2218,11 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 var _reactRouter = require('react-router');
 
-var _loginButton = require('../auth/loginButton');
+var _loginButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton');
 
 var _loginButton2 = _interopRequireDefault(_loginButton);
 
-var _svg = require('../common/svg');
+var _svg = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/svg');
 
 var _svg2 = _interopRequireDefault(_svg);
 
@@ -2345,7 +2345,7 @@ var ContributeBlock = function (_Component) {
 
 exports.default = ContributeBlock;
 
-},{"../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","isomorphic-fetch":"isomorphic-fetch","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\blocks\\explore.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","isomorphic-fetch":"isomorphic-fetch","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\blocks\\explore.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3069,11 +3069,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
-var _myResources = require('../../containers/dashboard/myResources');
+var _myResources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/dashboard/myResources');
 
 var _myResources2 = _interopRequireDefault(_myResources);
 
-var _menu = require('../../containers/dashboard/menu');
+var _menu = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/dashboard/menu');
 
 var _menu2 = _interopRequireDefault(_menu);
 
@@ -3174,7 +3174,7 @@ DashboardContent.propTypes = {
 	//resources: PropTypes.object.isRequired
 };
 
-},{"../../containers/dashboard/menu":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\menu.js","../../containers/dashboard/myResources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\myResources.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\common\\list.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/containers/dashboard/menu":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\menu.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/dashboard/myResources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\myResources.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\common\\list.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3192,29 +3192,34 @@ var _utils = require('../../../../utils');
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _rating = require('../../../common/rating');
+var _rating = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating');
 
 var _rating2 = _interopRequireDefault(_rating);
 
-var _svg = require('../../../common/svg');
+var _svg = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/svg');
 
 var _svg2 = _interopRequireDefault(_svg);
 
-var _protectedButton = require('../../../auth/protectedButton');
+var _protectedButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton');
 
 var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
-var _deleteResource = require('../../../../containers/resources/deleteResource');
+var _deleteResource = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/deleteResource');
 
 var _deleteResource2 = _interopRequireDefault(_deleteResource);
 
-var _isAdmin = require('../../../../containers/auth/isAdmin');
+var _isAdmin = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin');
 
 var _isAdmin2 = _interopRequireDefault(_isAdmin);
 
+var _utils2 = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// Boostrap
+// Components
+
+
+// Utils
 
 
 var renderList = function renderList(list, props) {
@@ -3251,13 +3256,13 @@ var renderList = function renderList(list, props) {
 							{ to: "/descobrir/detalhes-recurso/" + el.slug, className: 'left-col fLeft' },
 							_react2.default.createElement(
 								'h1',
-								null,
-								el.title
+								{ title: el.title },
+								(0, _utils2.truncate)(el.title, 10)
 							),
 							_react2.default.createElement(
 								'p',
 								null,
-								el.description
+								(0, _utils2.truncate)(el.description, 40)
 							)
 						),
 						_react2.default.createElement(
@@ -3331,10 +3336,7 @@ var renderList = function renderList(list, props) {
 	});
 };
 
-// Components
-
-
-// Utils
+// Boostrap
 
 
 var ResourcesList = exports.ResourcesList = function ResourcesList(props) {
@@ -3353,7 +3355,7 @@ ResourcesList.propTypes = {
 	list: _react.PropTypes.object.isRequired
 };
 
-},{"../../../../containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","../../../../containers/resources/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js","../../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js":[function(require,module,exports){
+},{"../../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -3370,19 +3372,19 @@ var _reactRouter = require('react-router');
 
 var _list = require('./common/list');
 
-var _order = require('../../resources/common/order');
+var _order = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/common/order');
 
 var _order2 = _interopRequireDefault(_order);
 
-var _searchBar = require('../../search/searchBar');
+var _searchBar = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchBar');
 
 var _searchBar2 = _interopRequireDefault(_searchBar);
 
-var _search = require('../../../containers/search');
+var _search = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/search');
 
 var _search2 = _interopRequireDefault(_search);
 
-var _deleteCollective = require('../../../containers/resources/deleteCollective');
+var _deleteCollective = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/deleteCollective');
 
 var _deleteCollective2 = _interopRequireDefault(_deleteCollective);
 
@@ -3759,7 +3761,7 @@ MyResources.propTypes = {
 	config: _react.PropTypes.object.isRequired
 };
 
-},{"../../../containers/resources/deleteCollective":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteCollective.js","../../../containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","../../resources/common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","../../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\common\\list.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js":[function(require,module,exports){
+},{"./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\common\\list.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/deleteCollective":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteCollective.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4073,11 +4075,11 @@ var _reactRouter = require('react-router');
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _collapse = require('../common/collapse');
+var _collapse = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse');
 
 var _collapse2 = _interopRequireDefault(_collapse);
 
-var _isAdmin = require('../../containers/auth/isAdmin');
+var _isAdmin = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin');
 
 var _isAdmin2 = _interopRequireDefault(_isAdmin);
 
@@ -4250,7 +4252,7 @@ DashboardMenu.propTypes = {
 	location: _react2.default.PropTypes.object.isRequired
 };
 
-},{"../../containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","../common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4347,19 +4349,19 @@ var _reactRouter = require('react-router');
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _loginButton = require('../auth/loginButton');
+var _loginButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton');
 
 var _loginButton2 = _interopRequireDefault(_loginButton);
 
-var _logoutButton = require('../auth/logoutButton');
+var _logoutButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/logoutButton');
 
 var _logoutButton2 = _interopRequireDefault(_logoutButton);
 
-var _isAuth = require('../../containers/auth/isAuth');
+var _isAuth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth');
 
 var _isAuth2 = _interopRequireDefault(_isAuth);
 
-var _isNotAuth = require('../../containers/auth/isNotAuth');
+var _isNotAuth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isNotAuth');
 
 var _isNotAuth2 = _interopRequireDefault(_isNotAuth);
 
@@ -4559,7 +4561,7 @@ TopNav.propTypes = {
 	location: _react2.default.PropTypes.object.isRequired
 };
 
-},{"../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../../containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/logoutButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\logoutButton.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\email.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/logoutButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\logoutButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\email.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4747,7 +4749,7 @@ var _reactBootstrap = require('react-bootstrap');
 
 var _reactRouter = require('react-router');
 
-var _protectedButton = require('../auth/protectedButton');
+var _protectedButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton');
 
 var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
@@ -4827,7 +4829,7 @@ AppCarousel.propTypes = {
 	settings: _react2.default.PropTypes.object.isRequired
 };
 
-},{"../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comment.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comment.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4844,7 +4846,7 @@ var _comments2 = _interopRequireDefault(_comments);
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _utils = require('../../../utils');
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -4900,7 +4902,7 @@ exports.default = function (props) {
 	);
 };
 
-},{"../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comments.js","react":"react","react-bootstrap":"react-bootstrap"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comments.js":[function(require,module,exports){
+},{"./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comments.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-bootstrap":"react-bootstrap"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comments.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5317,9 +5319,9 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _utils = require('../../../utils');
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
 
-var _collapse = require('../../common/collapse');
+var _collapse = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse');
 
 var _collapse2 = _interopRequireDefault(_collapse);
 
@@ -5736,7 +5738,7 @@ ResourcesFilters.propTypes = {
 	subjects: _react.PropTypes.object.isRequired
 };
 
-},{"../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5752,15 +5754,15 @@ var _reactRouter = require('react-router');
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _rating = require('../../common/rating');
+var _rating = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating');
 
 var _rating2 = _interopRequireDefault(_rating);
 
-var _svg = require('../../common/svg');
+var _svg = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/svg');
 
 var _svg2 = _interopRequireDefault(_svg);
 
-var _protectedButton = require('../../auth/protectedButton');
+var _protectedButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton');
 
 var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
@@ -5826,7 +5828,7 @@ ResourcesList.propTypes = {
 	hideOptions: _react.PropTypes.bool
 };
 
-},{"../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","./resource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\resource.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js":[function(require,module,exports){
+},{"./resource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\resource.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5932,27 +5934,27 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
-var _utils = require('../../../utils');
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _rating = require('../../common/rating');
+var _rating = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating');
 
 var _rating2 = _interopRequireDefault(_rating);
 
-var _svg = require('../../common/svg');
+var _svg = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/svg');
 
 var _svg2 = _interopRequireDefault(_svg);
 
-var _protectedButton = require('../../auth/protectedButton');
+var _protectedButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton');
 
 var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
-var _isAuth = require('../../../containers/auth/isAuth');
+var _isAuth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth');
 
 var _isAuth2 = _interopRequireDefault(_isAuth);
 
-var _isAdmin = require('../../../containers/auth/isAdmin');
+var _isAdmin = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin');
 
 var _isAdmin2 = _interopRequireDefault(_isAdmin);
 
@@ -5963,7 +5965,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 
-// Boostrap
+// Components
+
+
+// Utils
 var renderProtected = function renderProtected(obj, target, props) {
 	if (!props.el.exclusive || props.isAuthenticated) {
 		return _react2.default.createElement(
@@ -5985,10 +5990,7 @@ var renderProtected = function renderProtected(obj, target, props) {
 //
 
 
-// Components
-
-
-// Utils
+// Boostrap
 var optionsRender = function optionsRender(el, isAuthenticated, addscript, viewmore) {
 	if (addscript && isAuthenticated) {
 		return _react2.default.createElement(
@@ -6094,13 +6096,13 @@ var ResourceElement = exports.ResourceElement = function ResourceElement(props) 
 				null,
 				_react2.default.createElement(
 					'h1',
-					null,
-					el.title
+					{ title: el.title },
+					(0, _utils.truncate)(el.title, 10)
 				),
 				_react2.default.createElement(
 					'p',
 					null,
-					el.description
+					(0, _utils.truncate)(el.description, 40)
 				)
 			), "/descobrir/detalhes-recurso/" + el.slug, props),
 			optionsRender(el, isAuthenticated, addscript, viewmore),
@@ -6140,7 +6142,7 @@ ResourceElement.propTypes = {
 	config: _react.PropTypes.object
 };
 
-},{"../../../containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","../../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../../common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/svg":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\svg.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6155,7 +6157,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
-var _utils = require('../../../utils');
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
 
 var _mediaDisplay = require('./mediaDisplay');
 
@@ -6173,31 +6175,31 @@ var _scripts = require('./scripts');
 
 var _scripts2 = _interopRequireDefault(_scripts);
 
-var _commentForm = require('../../../containers/comments/commentForm');
+var _commentForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/comments/commentForm');
 
 var _commentForm2 = _interopRequireDefault(_commentForm);
 
-var _comments = require('../../../containers/comments');
+var _comments = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/comments');
 
 var _comments2 = _interopRequireDefault(_comments);
 
-var _related = require('../../../containers/resources/related');
+var _related = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/related');
 
 var _related2 = _interopRequireDefault(_related);
 
-var _rating = require('../../common/rating');
+var _rating = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating');
 
 var _rating2 = _interopRequireDefault(_rating);
 
-var _deleteResource = require('../../../containers/resources/deleteResource');
+var _deleteResource = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/deleteResource');
 
 var _deleteResource2 = _interopRequireDefault(_deleteResource);
 
-var _isAuth = require('../../../containers/auth/isAuth');
+var _isAuth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth');
 
 var _isAuth2 = _interopRequireDefault(_isAuth);
 
-var _isAdmin = require('../../../containers/auth/isAdmin');
+var _isAdmin = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin');
 
 var _isAdmin2 = _interopRequireDefault(_isAdmin);
 
@@ -6506,7 +6508,7 @@ var ResourceDetails = function (_Component) {
 						)
 					)
 				),
-				_react2.default.createElement(_scripts2.default, { data: scripts.data, resourceId: resourceInfo.id }),
+				_react2.default.createElement(_scripts2.default, { data: scripts.data, resource: resourceInfo.slug }),
 				_react2.default.createElement(
 					'section',
 					{ className: 'comments', id: 'comentar' },
@@ -6582,7 +6584,7 @@ ResourceDetails.contextTypes = {
 	router: _react.PropTypes.object
 };
 
-},{"../../../containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","../../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../../../containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","../../../containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","../../../containers/resources/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js","../../../containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../../common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
+},{"../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6748,23 +6750,23 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _favorite = require('../actions/favorite');
+var _favorite = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/actions/favorite');
 
 var _favorite2 = _interopRequireDefault(_favorite);
 
-var _email = require('../actions/email');
+var _email = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/actions/email');
 
 var _email2 = _interopRequireDefault(_email);
 
-var _share = require('../actions/share');
+var _share = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/actions/share');
 
 var _share2 = _interopRequireDefault(_share);
 
-var _embed = require('../actions/embed');
+var _embed = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/actions/embed');
 
 var _embed2 = _interopRequireDefault(_embed);
 
-var _utils = require('../../../utils');
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -6834,7 +6836,7 @@ exports.default = function (props) {
 	);
 };
 
-},{"../../../utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","../actions/email":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\email.js","../actions/embed":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\embed.js","../actions/favorite":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\favorite.js","../actions/share":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\share.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/actions/email":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\email.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/actions/embed":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\embed.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/actions/favorite":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\favorite.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/actions/share":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\share.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -6849,11 +6851,11 @@ var _reactRouter = require('react-router');
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _techFile = require('../techFile');
+var _techFile = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/techFile');
 
 var _techFile2 = _interopRequireDefault(_techFile);
 
-var _isAuth = require('../../../containers/auth/isAuth');
+var _isAuth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth');
 
 var _isAuth2 = _interopRequireDefault(_isAuth);
 
@@ -6949,7 +6951,7 @@ var renderScripts = function renderScripts(scripts) {
 
 var ScriptsList = function ScriptsList(props) {
 	var data = props.data;
-	var resourceId = props.resourceId;
+	var resource = props.resource;
 
 
 	if (!data || data.length == 0) {
@@ -6977,7 +6979,7 @@ var ScriptsList = function ScriptsList(props) {
 						{ className: 'text-center no-script' },
 						_react2.default.createElement(
 							_reactRouter.Link,
-							{ to: "/novoguiao/" + resourceId, className: 'cta primary outline' },
+							{ to: "/gerirguioes/" + resource, className: 'cta primary outline' },
 							'Publicar o primeiro Guião'
 						)
 					)
@@ -7009,7 +7011,7 @@ ScriptsList.propTypes = {
 
 exports.default = ScriptsList;
 
-},{"../../../containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\highlights.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\highlights.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7127,23 +7129,23 @@ var _order = require('./common/order');
 
 var _order2 = _interopRequireDefault(_order);
 
-var _searchBar = require('../search/searchBar');
+var _searchBar = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchBar');
 
 var _searchBar2 = _interopRequireDefault(_searchBar);
 
-var _filters = require('../../containers/filters');
+var _filters = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/filters');
 
 var _filters2 = _interopRequireDefault(_filters);
 
-var _isNotAuth = require('../../containers/auth/isNotAuth');
+var _isNotAuth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isNotAuth');
 
 var _isNotAuth2 = _interopRequireDefault(_isNotAuth);
 
-var _loginButton = require('../auth/loginButton');
+var _loginButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton');
 
 var _loginButton2 = _interopRequireDefault(_loginButton);
 
-var _protectedButton = require('../auth/protectedButton');
+var _protectedButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton');
 
 var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
@@ -7484,7 +7486,7 @@ ResourcesListing.propTypes = {
 	config: _react.PropTypes.object.isRequired
 };
 
-},{"../../containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","../../containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","../auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","../auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","../search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","lodash":"lodash","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
+},{"./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","lodash":"lodash","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -7508,19 +7510,19 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _tags = require('../../common/tags');
+var _tags = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/tags');
 
 var _tags2 = _interopRequireDefault(_tags);
 
-var _radioGroup = require('../../common/radioGroup');
+var _radioGroup = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/radioGroup');
 
 var _radioGroup2 = _interopRequireDefault(_radioGroup);
 
-var _fileInput = require('../../common/fileInput');
+var _fileInput = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/fileInput');
 
 var _fileInput2 = _interopRequireDefault(_fileInput);
 
-var _textarea = require('../../common/textarea');
+var _textarea = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/textarea');
 
 var _textarea2 = _interopRequireDefault(_textarea);
 
@@ -7819,7 +7821,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (email.touched && email.invalid ? 'has-error' : '') },
-              _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Email do núcleo ou docente' }, email)),
+              _react2.default.createElement('input', _extends({ type: 'email', className: 'form-control', placeholder: 'Email do núcleo ou docente' }, email)),
               email.touched && email.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -8123,7 +8125,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   };
 })(NewResourceFormFirstPage);
 
-},{"../../common/fileInput":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\fileInput.js","../../common/radioGroup":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\radioGroup.js","../../common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","../../common/textarea":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\textarea.js","./validateFirstPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\validateFirstPage.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormSecondPage.js":[function(require,module,exports){
+},{"./validateFirstPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\validateFirstPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/fileInput":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\fileInput.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/radioGroup":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\radioGroup.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/textarea":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\textarea.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormSecondPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8147,11 +8149,11 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _radioGroup = require('../../common/radioGroup');
+var _radioGroup = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/radioGroup');
 
 var _radioGroup2 = _interopRequireDefault(_radioGroup);
 
-var _textarea = require('../../common/textarea');
+var _textarea = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/textarea');
 
 var _textarea2 = _interopRequireDefault(_textarea);
 
@@ -8724,7 +8726,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   validate: _validateSecondPage2.default // <------ only validates the fields on this page
 })(NewResourceFormSecondPage);
 
-},{"../../common/radioGroup":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\radioGroup.js","../../common/textarea":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\textarea.js","./validateSecondPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\validateSecondPage.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\validateFirstPage.js":[function(require,module,exports){
+},{"./validateSecondPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\validateSecondPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/radioGroup":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\radioGroup.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/textarea":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\textarea.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\validateFirstPage.js":[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -9437,15 +9439,15 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _radioGroup = require('../common/radioGroup');
+var _radioGroup = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/radioGroup');
 
 var _radioGroup2 = _interopRequireDefault(_radioGroup);
 
-var _textarea = require('../common/textarea');
+var _textarea = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/textarea');
 
 var _textarea2 = _interopRequireDefault(_textarea);
 
-var _collapse = require('../common/collapse');
+var _collapse = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse');
 
 var _collapse2 = _interopRequireDefault(_collapse);
 
@@ -9797,7 +9799,7 @@ var NewScriptForm = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'form-group ' + (script.email.touched && script.email.invalid ? 'has-error' : '') },
-                      _react2.default.createElement('input', _extends({ type: 'text', className: 'form-control', placeholder: 'Email do núcleo ou docente' }, script.email)),
+                      _react2.default.createElement('input', _extends({ type: 'email', className: 'form-control', placeholder: 'Email do núcleo ou docente' }, script.email)),
                       script.email.touched && script.email.error && _react2.default.createElement(
                         'div',
                         { className: 'text-danger' },
@@ -10061,7 +10063,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   validate: _validate2.default // <------ only validates the fields on this page
 })(NewScriptForm);
 
-},{"../common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","../common/radioGroup":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\radioGroup.js","../common/textarea":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\textarea.js","./common/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\common\\domains.js","./validate":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\validate.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\validate.js":[function(require,module,exports){
+},{"./common/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\common\\domains.js","./validate":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\validate.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/radioGroup":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\radioGroup.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/textarea":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\textarea.js","lodash":"lodash","react":"react","react-checkbox-group":"react-checkbox-group","react-router":"react-router","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\validate.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10163,7 +10165,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _tags = require('../common/tags');
+var _tags = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/tags');
 
 var _tags2 = _interopRequireDefault(_tags);
 
@@ -10194,7 +10196,7 @@ SearchBar.propTypes = {
 
 exports.default = SearchBar;
 
-},{"../common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10207,7 +10209,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _tags = require('../common/tags');
+var _tags = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/tags');
 
 var _tags2 = _interopRequireDefault(_tags);
 
@@ -10506,7 +10508,7 @@ var SearchForm = function (_Component) {
 
 exports.default = SearchForm;
 
-},{"../common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\user\\resume.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/tags":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\tags.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\user\\resume.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10780,11 +10782,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reduxForm = require('redux-form');
 
-var _loginForm = require('../../components/auth/loginForm');
+var _loginForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginForm');
 
 var _loginForm2 = _interopRequireDefault(_loginForm);
 
-var _auth = require('../../actions/auth');
+var _auth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10826,7 +10828,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   validate: validate
 }, mapStateToProps, { loginUser: _auth.loginUser })(_loginForm2.default);
 
-},{"../../actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","../../components/auth/loginForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginForm.js","react":"react","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\requireAuth.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginForm.js","react":"react","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\requireAuth.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -10923,11 +10925,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reduxForm = require('redux-form');
 
-var _signupForm = require('../../components/auth/signupForm');
+var _signupForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/signupForm');
 
 var _signupForm2 = _interopRequireDefault(_signupForm);
 
-var _auth = require('../../actions/auth');
+var _auth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -10996,7 +10998,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   validate: validate
 }, mapStateToProps, { signupUser: _auth.signupUser })(_signupForm2.default);
 
-},{"../../actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","../../components/auth/signupForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\signupForm.js","react":"react","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\blocks\\contribute.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/signupForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\signupForm.js","react":"react","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\blocks\\contribute.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11011,7 +11013,7 @@ var _reactRedux = require('react-redux');
 
 var _redux = require('redux');
 
-var _contribute = require('../../components/blocks/contribute');
+var _contribute = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/blocks/contribute');
 
 var _contribute2 = _interopRequireDefault(_contribute);
 
@@ -11025,7 +11027,7 @@ function mapStateToProps(state) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(_contribute2.default);
 
-},{"../../components/blocks/contribute":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\blocks\\contribute.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/blocks/contribute":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\blocks\\contribute.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11039,7 +11041,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reduxForm = require('redux-form');
 
-var _form = require('../../components/resources/comments/form');
+var _form = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/comments/form');
 
 var _form2 = _interopRequireDefault(_form);
 
@@ -11080,7 +11082,7 @@ exports.default = (0, _reduxForm.reduxForm)({
   validate: validate
 }, mapStateToProps, null)(_form2.default);
 
-},{"../../components/resources/comments/form":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\form.js","react":"react","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/comments/form":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\form.js","react":"react","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11093,11 +11095,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _comments = require('../../actions/comments');
+var _comments = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/comments');
 
 var _redux = require('redux');
 
-var _list = require('../../components/resources/comments/list');
+var _list = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/comments/list');
 
 var _list2 = _interopRequireDefault(_list);
 
@@ -11116,7 +11118,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_list2.default);
 
-},{"../../actions/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\comments.js","../../components/resources/comments/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\list.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\common\\alerts.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\comments.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/comments/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\list.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\common\\alerts.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11129,11 +11131,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _alerts = require('../../actions/alerts');
+var _alerts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts');
 
 var _redux = require('redux');
 
-var _alerts2 = require('../../components/common/alerts');
+var _alerts2 = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/alerts');
 
 var _alerts3 = _interopRequireDefault(_alerts2);
 
@@ -11151,7 +11153,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_alerts3.default);
 
-},{"../../actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","../../components/common/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\alerts.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\menu.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\alerts.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\menu.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11166,7 +11168,7 @@ var _reactRedux = require('react-redux');
 
 var _redux = require('redux');
 
-var _dashboardMenu = require('../../components/navigation/dashboardMenu');
+var _dashboardMenu = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/dashboardMenu');
 
 var _dashboardMenu2 = _interopRequireDefault(_dashboardMenu);
 
@@ -11180,7 +11182,7 @@ function mapStateToProps(state) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, null)(_dashboardMenu2.default);
 
-},{"../../components/navigation/dashboardMenu":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\dashboardMenu.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\myResources.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/dashboardMenu":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\dashboardMenu.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\myResources.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11193,15 +11195,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
-var _filters = require('../../actions/filters');
+var _filters = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters');
 
-var _config = require('../../actions/config');
+var _config = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config');
 
 var _redux = require('redux');
 
-var _myResources = require('../../components/dashboard/resources/myResources');
+var _myResources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/dashboard/resources/myResources');
 
 var _myResources2 = _interopRequireDefault(_myResources);
 
@@ -11228,7 +11230,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_myResources2.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/dashboard/resources/myResources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/dashboard/resources/myResources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\resources\\myResources.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11243,37 +11245,37 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _messageTypes = require('../../actions/message-types');
+var _messageTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/message-types');
 
 var alertMessages = _interopRequireWildcard(_messageTypes);
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
-var _formats = require('../../actions/formats');
+var _formats = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/formats');
 
-var _access = require('../../actions/access');
+var _access = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/access');
 
-var _subjects = require('../../actions/subjects');
+var _subjects = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/subjects');
 
-var _domains = require('../../actions/domains');
+var _domains = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/domains');
 
-var _languages = require('../../actions/languages');
+var _languages = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/languages');
 
-var _years = require('../../actions/years');
+var _years = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/years');
 
-var _terms = require('../../actions/terms');
+var _terms = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/terms');
 
-var _alerts = require('../../actions/alerts');
+var _alerts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts');
 
 var _redux = require('redux');
 
 var _reduxForm = require('redux-form');
 
-var _newResourceFormFirstPage = require('../../components/resources/newResource/newResourceFormFirstPage');
+var _newResourceFormFirstPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/newResource/newResourceFormFirstPage');
 
 var _newResourceFormFirstPage2 = _interopRequireDefault(_newResourceFormFirstPage);
 
-var _newResourceFormSecondPage = require('../../components/resources/newResource/newResourceFormSecondPage');
+var _newResourceFormSecondPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/newResource/newResourceFormSecondPage');
 
 var _newResourceFormSecondPage2 = _interopRequireDefault(_newResourceFormSecondPage);
 
@@ -11577,7 +11579,7 @@ NewResourceFormContainer.contextTypes = {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NewResourceFormContainer);
 
-},{"../../actions/access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\access.js","../../actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/languages":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\languages.js","../../actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\terms.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/resources/newResource/newResourceFormFirstPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js","../../components/resources/newResource/newResourceFormSecondPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newScriptForm.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\access.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/languages":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\languages.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\terms.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/newResource/newResourceFormFirstPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/newResource/newResourceFormSecondPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormSecondPage.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newScriptForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11592,29 +11594,29 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _scripts = require('../../actions/scripts');
+var _scripts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/scripts');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
-var _subjects = require('../../actions/subjects');
+var _subjects = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/subjects');
 
-var _domains = require('../../actions/domains');
+var _domains = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/domains');
 
-var _years = require('../../actions/years');
+var _years = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/years');
 
-var _terms = require('../../actions/terms');
+var _terms = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/terms');
 
-var _alerts = require('../../actions/alerts');
+var _alerts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts');
 
 var _redux = require('redux');
 
 var _reduxForm = require('redux-form');
 
-var _messageTypes = require('../../actions/message-types');
+var _messageTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/message-types');
 
 var alertMessages = _interopRequireWildcard(_messageTypes);
 
-var _newScriptForm = require('../../components/scripts/newScriptForm');
+var _newScriptForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/scripts/newScriptForm');
 
 var _newScriptForm2 = _interopRequireDefault(_newScriptForm);
 
@@ -11899,7 +11901,7 @@ NewScriptFormContainer.contextTypes = {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(NewScriptFormContainer);
 
-},{"../../actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../actions/scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\scripts.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\terms.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/scripts/newScriptForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\newScriptForm.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\scripts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/terms":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\terms.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/scripts/newScriptForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\scripts\\newScriptForm.js","react":"react","react-redux":"react-redux","redux":"redux","redux-form":"redux-form"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11912,21 +11914,21 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _formats = require('../../actions/formats');
+var _formats = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/formats');
 
-var _subjects = require('../../actions/subjects');
+var _subjects = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/subjects');
 
-var _domains = require('../../actions/domains');
+var _domains = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/domains');
 
-var _years = require('../../actions/years');
+var _years = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/years');
 
-var _access = require('../../actions/access');
+var _access = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/access');
 
-var _filters = require('../../actions/filters');
+var _filters = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters');
 
 var _redux = require('redux');
 
-var _filters2 = require('../../components/resources/common/filters');
+var _filters2 = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/common/filters');
 
 var _filters3 = _interopRequireDefault(_filters2);
 
@@ -11962,7 +11964,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_filters3.default);
 
-},{"../../actions/access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\access.js","../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/resources/common/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\filters.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\formats\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/access":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\access.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/common/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\filters.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\formats\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -11975,17 +11977,17 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
-var _formats = require('../../actions/formats');
+var _formats = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/formats');
 
-var _config = require('../../actions/config');
+var _config = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config');
 
-var _filters = require('../../actions/filters');
+var _filters = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters');
 
 var _redux = require('redux');
 
-var _formats2 = require('../../components/formats');
+var _formats2 = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/formats');
 
 var _formats3 = _interopRequireDefault(_formats2);
 
@@ -12009,7 +12011,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_formats3.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\formats\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12024,19 +12026,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _topNav = require('../../components/navigation/topNav');
+var _topNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/topNav');
 
 var _topNav2 = _interopRequireDefault(_topNav);
 
-var _highlights = require('../highlights');
+var _highlights = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/highlights');
 
 var _highlights2 = _interopRequireDefault(_highlights);
 
-var _search = require('../search');
+var _search = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/search');
 
 var _search2 = _interopRequireDefault(_search);
 
-var _resume = require('../user/resume');
+var _resume = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/user/resume');
 
 var _resume2 = _interopRequireDefault(_resume);
 
@@ -12106,7 +12108,7 @@ var mapStateToProps = function mapStateToProps(state) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps)(Header);
 
-},{"../../components/navigation/topNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\topNav.js","../highlights":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\highlights\\index.js","../search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","../user/resume":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\user\\resume.js","react":"react","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\highlights\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/topNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\topNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/highlights":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\highlights\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/user/resume":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\user\\resume.js","react":"react","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\highlights\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12119,11 +12121,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
 var _redux = require('redux');
 
-var _highlights = require('../../components/resources/highlights');
+var _highlights = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/highlights');
 
 var _highlights2 = _interopRequireDefault(_highlights);
 
@@ -12142,7 +12144,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_highlights2.default);
 
-},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/highlights":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\highlights.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteCollective.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/highlights":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\highlights.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteCollective.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12155,11 +12157,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
 var _redux = require('redux');
 
-var _deleteCollective = require('../../components/resources/common/deleteCollective');
+var _deleteCollective = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/common/deleteCollective');
 
 var _deleteCollective2 = _interopRequireDefault(_deleteCollective);
 
@@ -12179,7 +12181,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_deleteCollective2.default);
 
-},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/common/deleteCollective":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteCollective.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/common/deleteCollective":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteCollective.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12192,11 +12194,11 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
 var _redux = require('redux');
 
-var _deleteResource = require('../../components/resources/common/deleteResource');
+var _deleteResource = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/common/deleteResource');
 
 var _deleteResource2 = _interopRequireDefault(_deleteResource);
 
@@ -12216,7 +12218,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_deleteResource2.default);
 
-},{"../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/common/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteResource.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/common/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteResource.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12229,17 +12231,17 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
-var _scripts = require('../../actions/scripts');
+var _scripts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/scripts');
 
-var _comments = require('../../actions/comments');
+var _comments = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/comments');
 
-var _config = require('../../actions/config');
+var _config = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config');
 
 var _redux = require('redux');
 
-var _details = require('../../components/resources/details');
+var _details = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/details');
 
 var _details2 = _interopRequireDefault(_details);
 
@@ -12268,7 +12270,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_details2.default);
 
-},{"../../actions/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\comments.js","../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../actions/scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\scripts.js","../../components/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\comments.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\scripts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12281,15 +12283,15 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
-var _config = require('../../actions/config');
+var _config = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config');
 
-var _filters = require('../../actions/filters');
+var _filters = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters');
 
 var _redux = require('redux');
 
-var _listing = require('../../components/resources/listing');
+var _listing = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/listing');
 
 var _listing2 = _interopRequireDefault(_listing);
 
@@ -12318,7 +12320,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_listing2.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/listing":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\listing.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/listing":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\listing.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12331,13 +12333,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
-var _config = require('../../actions/config');
+var _config = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config');
 
 var _redux = require('redux');
 
-var _recent = require('../../components/resources/recent');
+var _recent = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/recent');
 
 var _recent2 = _interopRequireDefault(_recent);
 
@@ -12362,7 +12364,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_recent2.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/recent":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\recent.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/recent":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\recent.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12375,13 +12377,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _resources = require('../../actions/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
-var _config = require('../../actions/config');
+var _config = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config');
 
 var _redux = require('redux');
 
-var _related = require('../../components/resources/related');
+var _related = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/related');
 
 var _related2 = _interopRequireDefault(_related);
 
@@ -12405,7 +12407,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_related2.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","../../components/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\related.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\related.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12422,19 +12424,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _years = require('../../actions/years');
+var _years = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/years');
 
-var _subjects = require('../../actions/subjects');
+var _subjects = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/subjects');
 
-var _domains = require('../../actions/domains');
+var _domains = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/domains');
 
-var _formats = require('../../actions/formats');
+var _formats = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/formats');
 
-var _filters = require('../../actions/filters');
+var _filters = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters');
 
 var _redux = require('redux');
 
-var _searchForm = require('../../components/search/searchForm');
+var _searchForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchForm');
 
 var _searchForm2 = _interopRequireDefault(_searchForm);
 
@@ -12518,7 +12520,7 @@ SearchContainer.contextTypes = {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SearchContainer);
 
-},{"../../actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","../../actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","../../actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","../../actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","../../actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","../../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\user\\resume.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/domains":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\domains.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\filters.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\formats.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/subjects":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\subjects.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/years":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\years.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\user\\resume.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12531,13 +12533,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _user = require('../../actions/user');
+var _user = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/user');
 
-var _config = require('../../actions/config');
+var _config = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config');
 
 var _redux = require('redux');
 
-var _resume = require('../../components/user/resume');
+var _resume = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/user/resume');
 
 var _resume2 = _interopRequireDefault(_resume);
 
@@ -12556,7 +12558,7 @@ function mapDispatchToProps(dispatch) {
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_resume2.default);
 
-},{"../../actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","../../actions/user":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\user.js","../../components/user/resume":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\user\\resume.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\app.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/user":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\user.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/user/resume":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\user\\resume.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\app.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12571,7 +12573,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
-var _alerts = require('../containers/common/alerts');
+var _alerts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/common/alerts');
 
 var _alerts2 = _interopRequireDefault(_alerts);
 
@@ -12617,7 +12619,7 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"../containers/common/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\common\\alerts.js","react":"react","react-progress-2":"react-progress-2","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\empty.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/containers/common/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\common\\alerts.js","react":"react","react-progress-2":"react-progress-2","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\empty.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12683,11 +12685,11 @@ var _reactProgress = require('react-progress-2');
 
 var _reactProgress2 = _interopRequireDefault(_reactProgress);
 
-var _messageTypes = require('../actions/message-types');
+var _messageTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/message-types');
 
 var alertMessages = _interopRequireWildcard(_messageTypes);
 
-var _alerts = require('../actions/alerts');
+var _alerts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts');
 
 var alertActions = _interopRequireWildcard(_alerts);
 
@@ -12811,7 +12813,7 @@ function makeAPIRequest(callAPI, next, store) {
   });
 }
 
-},{"../actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","../actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch","react-progress-2":"react-progress-2"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","es6-promise":"es6-promise","isomorphic-fetch":"isomorphic-fetch","react-progress-2":"react-progress-2"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12824,19 +12826,19 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _header = require('../containers/header');
+var _header = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _profileNav = require('../components/navigation/profileNav');
+var _profileNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/profileNav');
 
 var _profileNav2 = _interopRequireDefault(_profileNav);
 
-var _dashboard = require('../components/dashboard');
+var _dashboard = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/dashboard');
 
 var _dashboard2 = _interopRequireDefault(_dashboard);
 
-var _bottomNav = require('../components/navigation/bottomNav');
+var _bottomNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
@@ -12876,7 +12878,7 @@ var DiscoverPage = function (_Component) {
 
 exports.default = DiscoverPage;
 
-},{"../components/dashboard":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\index.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../components/navigation/profileNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\discoverPage.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/dashboard":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\dashboard\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/profileNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\discoverPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12889,17 +12891,17 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _header = require('../containers/header');
+var _header = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _resources = require('../containers/resources');
+var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources');
 
 var _resources2 = _interopRequireDefault(_resources);
 
-var _breadcrumbs = require('../components/common/breadcrumbs');
+var _breadcrumbs = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/breadcrumbs');
 
-var _bottomNav = require('../components/navigation/bottomNav');
+var _bottomNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
@@ -12939,7 +12941,7 @@ var DiscoverPage = function (_Component) {
 
 exports.default = DiscoverPage;
 
-},{"../components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\indexPage.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\indexPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12952,27 +12954,27 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _header = require('../containers/header');
+var _header = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _formats = require('../containers/formats');
+var _formats = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/formats');
 
 var _formats2 = _interopRequireDefault(_formats);
 
-var _explore = require('../components/blocks/explore');
+var _explore = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/blocks/explore');
 
 var _explore2 = _interopRequireDefault(_explore);
 
-var _recent = require('../containers/resources/recent');
+var _recent = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/recent');
 
 var _recent2 = _interopRequireDefault(_recent);
 
-var _contribute = require('../containers/blocks/contribute');
+var _contribute = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/blocks/contribute');
 
 var _contribute2 = _interopRequireDefault(_contribute);
 
-var _bottomNav = require('../components/navigation/bottomNav');
+var _bottomNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
@@ -13017,7 +13019,7 @@ var IndexPage = function (_Component) {
 
 exports.default = IndexPage;
 
-},{"../components/blocks/explore":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\blocks\\explore.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/blocks/contribute":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\blocks\\contribute.js","../containers/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\formats\\index.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources/recent":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newResourcePage.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/blocks/explore":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\blocks\\explore.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/blocks/contribute":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\blocks\\contribute.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/formats":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\formats\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/recent":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\recent.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newResourcePage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13030,15 +13032,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _header = require('../containers/header');
+var _header = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _newResourceForm = require('../containers/dashboard/newResourceForm');
+var _newResourceForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/dashboard/newResourceForm');
 
 var _newResourceForm2 = _interopRequireDefault(_newResourceForm);
 
-var _bottomNav = require('../components/navigation/bottomNav');
+var _bottomNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
@@ -13077,7 +13079,7 @@ var NewResourcePage = function (_Component) {
 
 exports.default = NewResourcePage;
 
-},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/dashboard/newResourceForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newScriptPage.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/dashboard/newResourceForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newResourceForm.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newScriptPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13090,15 +13092,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _header = require('../containers/header');
+var _header = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _newScriptForm = require('../containers/dashboard/newScriptForm');
+var _newScriptForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/dashboard/newScriptForm');
 
 var _newScriptForm2 = _interopRequireDefault(_newScriptForm);
 
-var _bottomNav = require('../components/navigation/bottomNav');
+var _bottomNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
@@ -13137,7 +13139,7 @@ var NewResourcePage = function (_Component) {
 
 exports.default = NewResourcePage;
 
-},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/dashboard/newScriptForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newScriptForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\notFoundPage.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/dashboard/newScriptForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\dashboard\\newScriptForm.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\notFoundPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13150,11 +13152,11 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _header = require('../containers/header');
+var _header = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _bottomNav = require('../components/navigation/bottomNav');
+var _bottomNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
@@ -13228,7 +13230,7 @@ NotFoundPage.contextTypes = {
   router: _react.PropTypes.object
 };
 
-},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\resourceDetailsPage.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\resourceDetailsPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13241,25 +13243,25 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _header = require('../containers/header');
+var _header = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _breadcrumbs = require('../components/common/breadcrumbs');
+var _breadcrumbs = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/breadcrumbs');
 
-var _searchForm = require('../components/search/searchForm');
+var _searchForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchForm');
 
 var _searchForm2 = _interopRequireDefault(_searchForm);
 
-var _search = require('../containers/search');
+var _search = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/search');
 
 var _search2 = _interopRequireDefault(_search);
 
-var _details = require('../containers/resources/details');
+var _details = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/details');
 
 var _details2 = _interopRequireDefault(_details);
 
-var _bottomNav = require('../components/navigation/bottomNav');
+var _bottomNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
@@ -13308,7 +13310,7 @@ var ResourceDetailsPage = function (_Component) {
 
 exports.default = ResourceDetailsPage;
 
-},{"../components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","../containers/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js","../containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/breadcrumbs":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\breadcrumbs.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchForm.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\details.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/search":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\search\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13321,15 +13323,15 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _header = require('../containers/header');
+var _header = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header');
 
 var _header2 = _interopRequireDefault(_header);
 
-var _signupForm = require('../containers/auth/signupForm');
+var _signupForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/signupForm');
 
 var _signupForm2 = _interopRequireDefault(_signupForm);
 
-var _bottomNav = require('../components/navigation/bottomNav');
+var _bottomNav = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav');
 
 var _bottomNav2 = _interopRequireDefault(_bottomNav);
 
@@ -13368,7 +13370,7 @@ var NewResourcePage = function (_Component) {
 
 exports.default = NewResourcePage;
 
-},{"../components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","../containers/auth/signupForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\signupForm.js","../containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\access.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/navigation/bottomNav":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\bottomNav.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/signupForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\signupForm.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/header":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\header\\index.js","react":"react"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\access.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13413,13 +13415,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\alerts.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\alerts.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13450,13 +13452,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { message: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\auth.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\auth.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13514,13 +13516,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errors: null, isAuthenticated: false };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\comments.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\comments.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13564,13 +13566,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errors: null, isAuthenticated: false };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\config.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\config.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13606,13 +13608,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\domains.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\domains.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13658,13 +13660,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\filters.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\filters.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13695,13 +13697,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { filters: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\formats.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\formats.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13747,13 +13749,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13896,13 +13898,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\resources.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\resources.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -13951,7 +13953,7 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14096,7 +14098,7 @@ function relatedResources() {
   }
 };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\scripts.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\scripts.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14141,13 +14143,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\subjects.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\subjects.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14193,13 +14195,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\terms.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\terms.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14237,13 +14239,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\user.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\user.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14280,13 +14282,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\years.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\reducers\\years.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -14331,13 +14333,13 @@ var _objectAssign = require('object-assign');
 
 var _objectAssign2 = _interopRequireDefault(_objectAssign);
 
-var _actionTypes = require('../actions/action-types');
+var _actionTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
 
-},{"../actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\routes\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/action-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\action-types.js","object-assign":"object-assign"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\routes\\index.js":[function(require,module,exports){
 'use strict';
 'user strict';
 
@@ -14351,47 +14353,47 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
-var _app = require('../layouts/app');
+var _app = require('C:/Vagrant/devbox/devbox/public/assets/scripts/layouts/app');
 
 var _app2 = _interopRequireDefault(_app);
 
-var _empty = require('../layouts/empty');
+var _empty = require('C:/Vagrant/devbox/devbox/public/assets/scripts/layouts/empty');
 
 var _empty2 = _interopRequireDefault(_empty);
 
-var _indexPage = require('../pages/indexPage');
+var _indexPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/pages/indexPage');
 
 var _indexPage2 = _interopRequireDefault(_indexPage);
 
-var _discoverPage = require('../pages/discoverPage');
+var _discoverPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/pages/discoverPage');
 
 var _discoverPage2 = _interopRequireDefault(_discoverPage);
 
-var _signupFormPage = require('../pages/signupFormPage');
+var _signupFormPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/pages/signupFormPage');
 
 var _signupFormPage2 = _interopRequireDefault(_signupFormPage);
 
-var _dashboardPage = require('../pages/dashboardPage');
+var _dashboardPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/pages/dashboardPage');
 
 var _dashboardPage2 = _interopRequireDefault(_dashboardPage);
 
-var _resourceDetailsPage = require('../pages/resourceDetailsPage');
+var _resourceDetailsPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/pages/resourceDetailsPage');
 
 var _resourceDetailsPage2 = _interopRequireDefault(_resourceDetailsPage);
 
-var _newResourcePage = require('../pages/newResourcePage');
+var _newResourcePage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/pages/newResourcePage');
 
 var _newResourcePage2 = _interopRequireDefault(_newResourcePage);
 
-var _newScriptPage = require('../pages/newScriptPage');
+var _newScriptPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/pages/newScriptPage');
 
 var _newScriptPage2 = _interopRequireDefault(_newScriptPage);
 
-var _notFoundPage = require('../pages/notFoundPage');
+var _notFoundPage = require('C:/Vagrant/devbox/devbox/public/assets/scripts/pages/notFoundPage');
 
 var _notFoundPage2 = _interopRequireDefault(_notFoundPage);
 
-var _requireAuth = require('../containers/auth/requireAuth');
+var _requireAuth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/requireAuth');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -14418,13 +14420,13 @@ exports.default = _react2.default.createElement(
 
 // Pages
 
-},{"../containers/auth/requireAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\requireAuth.js","../layouts/app":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\app.js","../layouts/empty":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\empty.js","../pages/dashboardPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js","../pages/discoverPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\discoverPage.js","../pages/indexPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\indexPage.js","../pages/newResourcePage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newResourcePage.js","../pages/newScriptPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newScriptPage.js","../pages/notFoundPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\notFoundPage.js","../pages/resourceDetailsPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\resourceDetailsPage.js","../pages/signupFormPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/requireAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\requireAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/layouts/app":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\app.js","C:/Vagrant/devbox/devbox/public/assets/scripts/layouts/empty":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\layouts\\empty.js","C:/Vagrant/devbox/devbox/public/assets/scripts/pages/dashboardPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\dashboardPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/pages/discoverPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\discoverPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/pages/indexPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\indexPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/pages/newResourcePage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newResourcePage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/pages/newScriptPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\newScriptPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/pages/notFoundPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\notFoundPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/pages/resourceDetailsPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\resourceDetailsPage.js","C:/Vagrant/devbox/devbox/public/assets/scripts/pages/signupFormPage":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\pages\\signupFormPage.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getAvg = exports.complexToQueryString = exports.toQueryString = exports.sortByTitle = exports.setUrl = exports.setDateFormat = undefined;
+exports.truncate = exports.getAvg = exports.complexToQueryString = exports.toQueryString = exports.sortByTitle = exports.setUrl = exports.setDateFormat = undefined;
 
 var _moment = require('moment');
 
@@ -14743,6 +14745,17 @@ var getAvg = exports.getAvg = function getAvg(ratings) {
     }
 
     return sum / total;
+};
+
+//
+//  Truncate text
+//
+var truncate = exports.truncate = function truncate(str, num) {
+    var words = str.split(' ');
+    words = words.splice(0, num);
+
+    var final = words.join(' ');
+    return final.length >= str.length ? words.join(' ') : words.join(' ') + " ...";
 };
 
 },{"moment":"moment"}]},{},["C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\app.js"])

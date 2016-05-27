@@ -168,3 +168,14 @@ export const getAvg = (ratings) => {
 
     return sum/total;
 }
+
+//
+//  Truncate text
+//
+export const truncate = (str,num) => {
+  var words = str.split(' ');
+  words = words.splice(0,num);
+
+  var final = words.join(' ');
+  return final.length>=str.length ? words.join(' ') : words.join(' ')+" ...";
+}

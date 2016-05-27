@@ -6,8 +6,8 @@ import fetch from 'isomorphic-fetch';
 import Progress from "react-progress-2";
 
 // Actions
-import * as alertMessages from '../actions/message-types';
-import * as alertActions from '../actions/alerts';
+import * as alertMessages from '@/actions/message-types';
+import * as alertActions from '@/actions/alerts';
 
 const BASE_URL = 'http://devbox.dev/api/';
 

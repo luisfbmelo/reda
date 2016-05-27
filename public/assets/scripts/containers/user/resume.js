@@ -1,10 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchUserData } from '../../actions/user';
-import { fetchConfig } from '../../actions/config';
+import { fetchUserData } from '@/actions/user';
+import { fetchConfig } from '@/actions/config';
 import { bindActionCreators } from 'redux';
-import UserResume from '../../components/user/resume';
+import UserResume from '@/components/user/resume';
 
 function mapStateToProps(state) {
   return { 

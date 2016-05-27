@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { logout } from '../../actions/auth';
+import { logout } from '@/actions/auth';
 
 
 export default class LogoutButton extends Component {

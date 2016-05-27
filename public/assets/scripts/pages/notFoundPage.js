@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
-import Header from '../containers/header';
-import BottomNav from '../components/navigation/bottomNav';
+import Header from '@/containers/header';
+import BottomNav from '@/components/navigation/bottomNav';
 
 export default class NotFoundPage extends Component {
   render() {

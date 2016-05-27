@@ -396,7 +396,7 @@ option[default]{
   }
 
   .terms-conditions{
-    margin-top:30px;
+    margin-top:60px;
   }
   
   
@@ -426,6 +426,14 @@ option[default]{
     display:table;
     width:100%;
     padding:0;
+    
+    button{
+      &:active,
+      &:focus{
+        outline:0;
+      }
+    }
+  
 
     & > i {
       display:table-cell;

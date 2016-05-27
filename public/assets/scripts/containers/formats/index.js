@@ -1,12 +1,12 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { searchResources } from '../../actions/resources';
-import { fetchFormats } from '../../actions/formats';
-import { fetchConfig } from '../../actions/config';
-import { setFilters } from '../../actions/filters';
+import { searchResources } from '@/actions/resources';
+import { fetchFormats } from '@/actions/formats';
+import { fetchConfig } from '@/actions/config';
+import { setFilters } from '@/actions/filters';
 import { bindActionCreators } from 'redux';
-import FormatsBanner from '../../components/formats';
+import FormatsBanner from '@/components/formats';
 
 function mapStateToProps(state) {
   return { 

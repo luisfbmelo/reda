@@ -2,7 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 
 // Components
-import Tags from '../common/tags';
+import Tags from '@/components/common/tags';
 
 export default class SearchForm extends Component {
 	constructor(props){

@@ -3,17 +3,18 @@ import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 // Utils
-import { getAvg } from '../../../utils';
+import { getAvg } from '@/utils';
 
 // Boostrap
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 // Components
-import Rating from '../../common/rating';
-import SvgComponent from '../../common/svg';
-import ProtectedButton from '../../auth/protectedButton';
-import IsAuthenticated from '../../../containers/auth/isAuth';
-import IsAdmin from '../../../containers/auth/isAdmin';
+import Rating from '@/components/common/rating';
+import SvgComponent from '@/components/common/svg';
+import ProtectedButton from '@/components/auth/protectedButton';
+import IsAuthenticated from '@/containers/auth/isAuth';
+import IsAdmin from '@/containers/auth/isAdmin';
+import { truncate } from '@/utils';
 
 //
 //	Render button according to app status
@@ -114,8 +115,8 @@ export const ResourceElement = (props) => {
 	      		{
 	      			renderProtected(
 		      			<header>
-			      			<h1>{el.title}</h1>
-				      		<p>{el.description}</p>
+			      			<h1 title={el.title}>{truncate(el.title, 10)}</h1>
+				      		<p>{truncate(el.description, 40)}</p>
 			      		</header>
 			      	,"/descobrir/detalhes-recurso/" + el.slug, props)
 		      	}

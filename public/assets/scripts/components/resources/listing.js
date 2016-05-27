@@ -6,11 +6,11 @@ import _ from 'lodash';
 // Components
 import { ResourcesList } from './common/list';
 import ResourcesOrdering from './common/order';
-import SearchBar from '../search/searchBar';
-import ResourcesFilters from '../../containers/filters';
-import IsNotAuthenticated from '../../containers/auth/isNotAuth';
-import LoginButton from '../auth/loginButton';
-import ProtectedButton from '../auth/protectedButton';
+import SearchBar from '@/components/search/searchBar';
+import ResourcesFilters from '@/containers/filters';
+import IsNotAuthenticated from '@/containers/auth/isNotAuth';
+import LoginButton from '@/components/auth/loginButton';
+import ProtectedButton from '@/components/auth/protectedButton';
 import { Pagination, Alert, Button } from 'react-bootstrap';
 
 export default class ResourcesListing extends Component {

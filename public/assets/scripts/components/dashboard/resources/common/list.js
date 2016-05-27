@@ -9,11 +9,12 @@ import { getAvg } from '../../../../utils';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 // Components
-import Rating from '../../../common/rating';
-import SvgComponent from '../../../common/svg';
-import ProtectedButton from '../../../auth/protectedButton';
-import DeleteResource from '../../../../containers/resources/deleteResource';
-import IsAdmin from '../../../../containers/auth/isAdmin';
+import Rating from '@/components/common/rating';
+import SvgComponent from '@/components/common/svg';
+import ProtectedButton from '@/components/auth/protectedButton';
+import DeleteResource from '@/containers/resources/deleteResource';
+import IsAdmin from '@/containers/auth/isAdmin';
+import { truncate } from '@/utils';
 
 var renderList = (list, props) => {	
 	return list.map((el, index) => {
@@ -33,8 +34,8 @@ var renderList = (list, props) => {
 					<div className="list__dashboard--container">
 						<header className="list__dashboard--heading">
 							<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="left-col fLeft">
-								<h1>{el.title}</h1>
-					      		<p>{el.description}</p>						      				      		
+								<h1 title={el.title}>{truncate(el.title, 10)}</h1>
+					      		<p>{truncate(el.description, 40)}</p>						      				      		
 							</Link>
 							
 							<div className="top-icons fRight">

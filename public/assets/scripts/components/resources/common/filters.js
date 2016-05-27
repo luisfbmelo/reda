@@ -3,10 +3,10 @@ import { Component } from 'react';
 import _ from 'lodash';
 
 // Utils
-import { sortByTitle } from '../../../utils';
+import { sortByTitle } from '@/utils';
 
 // Components
-import Collapsible from '../../common/collapse';
+import Collapsible from '@/components/common/collapse';
 import CheckboxGroup from 'react-checkbox-group';
 
 

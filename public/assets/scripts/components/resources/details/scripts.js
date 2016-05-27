@@ -3,8 +3,8 @@ import { Link } from 'react-router';
 
 // Components
 import {Tabs, Tab} from 'react-bootstrap';
-import TechFile from '../techFile';
-import IsAuthenticated from '../../../containers/auth/isAuth';
+import TechFile from '@/components/resources/techFile';
+import IsAuthenticated from '@/containers/auth/isAuth';
 
 const renderScripts = (scripts) => {
 
@@ -54,7 +54,7 @@ const renderScripts = (scripts) => {
 }
 
 const ScriptsList = (props) => {
-	const { data, resourceId } = props;
+	const { data, resource } = props;
 
 	if (!data || data.length==0){
 		return (
@@ -65,7 +65,7 @@ const ScriptsList = (props) => {
 
 					<IsAuthenticated>
 						<div className="text-center no-script">
-							<Link to={"/novoguiao/"+resourceId} className="cta primary outline">Publicar o primeiro Guião</Link>
+							<Link to={"/gerirguioes/"+resource} className="cta primary outline">Publicar o primeiro Guião</Link>
 						</div>
 					</IsAuthenticated>
 				</div>

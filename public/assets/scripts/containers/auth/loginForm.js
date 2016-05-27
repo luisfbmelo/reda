@@ -1,7 +1,7 @@
 import React from 'react';
 import { reduxForm } from 'redux-form';
-import LoginForm from '../../components/auth/loginForm';
-import { loginUser } from '../../actions/auth';
+import LoginForm from '@/components/auth/loginForm';
+import { loginUser } from '@/actions/auth';
 export const fields = [ 'email', 'password' ];
 
 /* Validate field types */

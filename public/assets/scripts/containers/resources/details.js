@@ -1,12 +1,12 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchResource, resetResource } from '../../actions/resources';
-import { fetchScripts, resetScripts } from '../../actions/scripts';
-import { fetchComments, resetComments } from '../../actions/comments';
-import { fetchConfig } from '../../actions/config';
+import { fetchResource, resetResource } from '@/actions/resources';
+import { fetchScripts, resetScripts } from '@/actions/scripts';
+import { fetchComments, resetComments } from '@/actions/comments';
+import { fetchConfig } from '@/actions/config';
 import { bindActionCreators } from 'redux';
-import ResourcesDetails from '../../components/resources/details';
+import ResourcesDetails from '@/components/resources/details';
 
 function mapStateToProps(state) {
   return { 

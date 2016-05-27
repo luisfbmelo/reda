@@ -1,8 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
-import Header from '../containers/header';
-import SignupForm from '../containers/auth/signupForm';
-import BottomNav from '../components/navigation/bottomNav';
+import Header from '@/containers/header';
+import SignupForm from '@/containers/auth/signupForm';
+import BottomNav from '@/components/navigation/bottomNav';
 
 export default class NewResourcePage extends Component {
   render() {

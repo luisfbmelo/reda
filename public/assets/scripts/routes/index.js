@@ -3,21 +3,21 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 
-import App from '../layouts/app';
-import Empty from '../layouts/empty';
+import App from '@/layouts/app';
+import Empty from '@/layouts/empty';
 
 // Pages
-import IndexPage from '../pages/indexPage';
-import DiscoverPage from '../pages/discoverPage';
-import SignupFormPage from '../pages/signupFormPage';
-import DashboardPage from '../pages/dashboardPage';
-import ResourceDetailsPage from '../pages/resourceDetailsPage';
-import NewResourcePage from '../pages/newResourcePage';
-import NewScriptPage from '../pages/newScriptPage';
-import NotFoundPage from '../pages/notFoundPage';
+import IndexPage from '@/pages/indexPage';
+import DiscoverPage from '@/pages/discoverPage';
+import SignupFormPage from '@/pages/signupFormPage';
+import DashboardPage from '@/pages/dashboardPage';
+import ResourceDetailsPage from '@/pages/resourceDetailsPage';
+import NewResourcePage from '@/pages/newResourcePage';
+import NewScriptPage from '@/pages/newScriptPage';
+import NotFoundPage from '@/pages/notFoundPage';
 
 // Required
-import { requireAuth } from '../containers/auth/requireAuth';
+import { requireAuth } from '@/containers/auth/requireAuth';
 
 
 export default (

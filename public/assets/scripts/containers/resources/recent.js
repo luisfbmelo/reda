@@ -1,10 +1,10 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchResources, setHighlight, setFavorite } from '../../actions/resources';
-import { fetchConfig } from '../../actions/config';
+import { fetchResources, setHighlight, setFavorite } from '@/actions/resources';
+import { fetchConfig } from '@/actions/config';
 import { bindActionCreators } from 'redux';
-import RecentResources from '../../components/resources/recent';
+import RecentResources from '@/components/resources/recent';
 
 function mapStateToProps(state) {
   return { 

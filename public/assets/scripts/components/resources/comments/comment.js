@@ -1,7 +1,7 @@
 import React from 'react';
 import Comments from './comments';
 import { Media } from 'react-bootstrap';
-import { setDateFormat } from '../../../utils';
+import { setDateFormat } from '@/utils';
 
 var renderDelete = (deleteOpt, obj) => {
 	return(

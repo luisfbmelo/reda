@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router';
-import MyResourcesContainer from '../../containers/dashboard/myResources';
-import DashboardMenuContainer from '../../containers/dashboard/menu';
+import MyResourcesContainer from '@/containers/dashboard/myResources';
+import DashboardMenuContainer from '@/containers/dashboard/menu';
 
 import { Pagination, Alert, Button } from 'react-bootstrap';
 

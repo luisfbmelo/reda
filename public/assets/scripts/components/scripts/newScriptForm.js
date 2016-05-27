@@ -6,9 +6,9 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 
 // Components
-import RadioGroup from '../common/radioGroup';
-import TextArea from '../common/textarea';
-import Collapsible from '../common/collapse';
+import RadioGroup from '@/components/common/radioGroup';
+import TextArea from '@/components/common/textarea';
+import Collapsible from '@/components/common/collapse';
 import CheckboxGroup from 'react-checkbox-group';
 import DomainsSelection from './common/domains';
 
@@ -241,7 +241,7 @@ class NewScriptForm extends Component {
                   <div className="col-xs-12 col-sm-3">
                     <label className="input-title">Email*</label>
                     <div className={`form-group ${script.email.touched && script.email.invalid ? 'has-error' : ''}`}>
-                      <input type="text" className="form-control" placeholder="Email do núcleo ou docente" {...script.email}/>
+                      <input type="email" className="form-control" placeholder="Email do núcleo ou docente" {...script.email}/>
                       {script.email.touched && script.email.error && <div className="text-danger">{script.email.error}</div>}
                     </div>
                   </div>

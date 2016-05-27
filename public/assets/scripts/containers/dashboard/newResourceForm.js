@@ -4,23 +4,23 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 // Alerts
-import * as alertMessages from '../../actions/message-types';
+import * as alertMessages from '@/actions/message-types';
 
 // Components
-import { fetchResource, submitResource, resetResource } from '../../actions/resources';
-import { fetchFormats } from '../../actions/formats';
-import { fetchAccess } from '../../actions/access';
-import { fetchSubjects } from '../../actions/subjects';
-import { fetchDomains, fetchDomainsWithSubject } from '../../actions/domains';
-import { fetchLanguages } from '../../actions/languages';
-import { fetchYears } from '../../actions/years';
-import { fetchTerms } from '../../actions/terms';
-import { addAlert } from '../../actions/alerts';
+import { fetchResource, submitResource, resetResource } from '@/actions/resources';
+import { fetchFormats } from '@/actions/formats';
+import { fetchAccess } from '@/actions/access';
+import { fetchSubjects } from '@/actions/subjects';
+import { fetchDomains, fetchDomainsWithSubject } from '@/actions/domains';
+import { fetchLanguages } from '@/actions/languages';
+import { fetchYears } from '@/actions/years';
+import { fetchTerms } from '@/actions/terms';
+import { addAlert } from '@/actions/alerts';
 import { bindActionCreators } from 'redux';
 import { reset, initialize, destroy } from 'redux-form';
 
-import WizardFormFirstPage from '../../components/resources/newResource/newResourceFormFirstPage';
-import WizardFormSecondPage from '../../components/resources/newResource/newResourceFormSecondPage';
+import WizardFormFirstPage from '@/components/resources/newResource/newResourceFormFirstPage';
+import WizardFormSecondPage from '@/components/resources/newResource/newResourceFormSecondPage';
 
 class NewResourceFormContainer extends Component {
   constructor(props) {

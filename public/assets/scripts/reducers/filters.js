@@ -3,7 +3,7 @@ import {
 	FILTERS_GET, 
 	FILTERS_SET,
   FILTERS_RESET
-} from '../actions/action-types';
+} from '@/actions/action-types';
 
 const INITIAL_STATE = { filters: null};
 

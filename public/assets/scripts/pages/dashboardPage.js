@@ -1,11 +1,11 @@
 import React from 'react';
 import { Component } from 'react';
-import Header from '../containers/header';
-import ProfileNav from '../components/navigation/profileNav';
+import Header from '@/containers/header';
+import ProfileNav from '@/components/navigation/profileNav';
 
-import DashBoard from '../components/dashboard';
+import DashBoard from '@/components/dashboard';
 
-import BottomNav from '../components/navigation/bottomNav';
+import BottomNav from '@/components/navigation/bottomNav';
 
 export default class DiscoverPage extends Component {
   render() {

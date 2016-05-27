@@ -1,9 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { removeAlert } from '../../actions/alerts';
+import { removeAlert } from '@/actions/alerts';
 import { bindActionCreators } from 'redux';
-import AlertBox from '../../components/common/alerts';
+import AlertBox from '@/components/common/alerts';
 
 function mapStateToProps(state) {
   return { 

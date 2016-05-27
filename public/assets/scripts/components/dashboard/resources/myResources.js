@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 
 // Components
 import { ResourcesList } from './common/list';
-import ResourcesOrdering from '../../resources/common/order';
-import SearchBar from '../../search/searchBar';
-import ResourcesFilters from '../../../containers/search';
-import DeleteCollectiveResources from '../../../containers/resources/deleteCollective';
+import ResourcesOrdering from '@/components/resources/common/order';
+import SearchBar from '@/components/search/searchBar';
+import ResourcesFilters from '@/containers/search';
+import DeleteCollectiveResources from '@/containers/resources/deleteCollective';
 
 // Bootstrap
 import { Pagination, Alert, Button } from 'react-bootstrap';

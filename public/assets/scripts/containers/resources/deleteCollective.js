@@ -1,9 +1,9 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { deleteResources } from '../../actions/resources';
+import { deleteResources } from '@/actions/resources';
 import { bindActionCreators } from 'redux';
-import DeleteCollectiveResources from '../../components/resources/common/deleteCollective';
+import DeleteCollectiveResources from '@/components/resources/common/deleteCollective';
 
 function mapStateToProps(state) {
   return { 
