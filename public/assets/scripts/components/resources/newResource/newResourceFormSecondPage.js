@@ -289,7 +289,7 @@ class NewResourceFormSecondPage extends Component {
         <div className="row">
           {/* SUBJECTS */}
           <div className="col-xs-12 col-sm-4">
-            <label className="input-title">Disciplinas*</label>
+            <label className="input-title">Disciplinas<span className="required">*</span></label>
             <div className={`form-group ${subjects.touched && subjects.invalid ? 'has-error' : ''}`}>
               {this.renderSubjects()}
               {subjects.touched && subjects.error && <div className="text-danger">{subjects.error}</div>}
@@ -298,7 +298,7 @@ class NewResourceFormSecondPage extends Component {
           
           {/* YEARS */}
           <div className="col-xs-12 col-sm-4">
-            <label className="input-title">Anos*</label>
+            <label className="input-title">Anos<span className="required">*</span></label>
             <div className={`form-group ${years.touched && years.invalid ? 'has-error' : ''}`}>
               {this.renderYears()}
               {years.touched && years.error && <div className="text-danger">{years.error}</div>}
@@ -307,7 +307,7 @@ class NewResourceFormSecondPage extends Component {
 
           {/* LANGUAGES */}
           <div className="col-xs-12 col-sm-4">
-            <label className="input-title">Idiomas*</label>
+            <label className="input-title">Idiomas<span className="required">*</span></label>
             <div className={`form-group ${language.touched && language.invalid ? 'has-error' : ''}`}>
               <RadioGroup list={mapProps.languages.data} name="languagess" setRadio={this.setLanguage} checked={language.value} singleCol={true}/>
               {language.touched && language.error && <div className="text-danger">{language.error}</div>}
@@ -321,7 +321,7 @@ class NewResourceFormSecondPage extends Component {
         {/* OPERATION PROPOSAL */}
         <div className="row">
           <div className="col-xs-12">
-            <label className="input-title">Proposta de Operacionalização*</label>
+            <label className="input-title">Proposta de Operacionalização<span className="required">*</span></label>
             <div className={`form-group ${op_proposal.touched && op_proposal.invalid ? 'has-error' : ''}`}>
               <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={op_proposal} />
               {op_proposal.touched && op_proposal.error && <div className="text-danger">{op_proposal.error}</div>}
@@ -330,7 +330,7 @@ class NewResourceFormSecondPage extends Component {
         </div>
         <div className="row">
           <div className="col-xs-12 col-sm-6">
-            <label className="input-title">Autor da proposta*</label>
+            <label className="input-title">Autor da proposta<span className="required">*</span></label>
             <div className={`form-group ${op_proposal_author.touched && op_proposal_author.invalid ? 'has-error' : ''}`}>
               <input type="text" className="form-control" placeholder="Autor da proposta" {...op_proposal_author}/>
               {op_proposal_author.touched && op_proposal_author.error && <div className="text-danger">{op_proposal_author.error}</div>}
@@ -360,6 +360,7 @@ class NewResourceFormSecondPage extends Component {
         </div>
 
         <footer className="form-buttons">
+          <p><span className="required">*</span> Campos obrigatórios</p>
           <button type="button" disabled={submitting} onClick={previousPage} className="cta primary outline">
             Anterior
           </button>

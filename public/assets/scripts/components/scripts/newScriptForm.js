@@ -231,7 +231,7 @@ class NewScriptForm extends Component {
                 {/* FIRST COL/ROW */}
                 <div className="row">
                   <div className="col-xs-12 col-sm-3">
-                    <label className="input-title">Título*</label>
+                    <label className="input-title">Título<span className="required">*</span></label>
                     <div className={`form-group ${script.title.touched && script.title.invalid ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" placeholder="Nome do seu guião" {...script.title}/>
                       {script.title.touched && script.title.error && <div className="text-danger">{script.title.error}</div>}
@@ -239,7 +239,7 @@ class NewScriptForm extends Component {
                   </div>
                   
                   <div className="col-xs-12 col-sm-3">
-                    <label className="input-title">Email*</label>
+                    <label className="input-title">Email<span className="required">*</span></label>
                     <div className={`form-group ${script.email.touched && script.email.invalid ? 'has-error' : ''}`}>
                       <input type="email" className="form-control" placeholder="Email do núcleo ou docente" {...script.email}/>
                       {script.email.touched && script.email.error && <div className="text-danger">{script.email.error}</div>}
@@ -247,7 +247,7 @@ class NewScriptForm extends Component {
                   </div>
 
                   <div className="col-xs-12 col-sm-3">
-                    <label className="input-title">Escola/Organização*</label>
+                    <label className="input-title">Escola/Organização<span className="required">*</span></label>
                     <div className={`form-group ${script.organization.touched && script.organization.invalid ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" placeholder="Nome da sua escola/organização" {...script.organization}/>
                       {script.organization.touched && script.organization.error && <div className="text-danger">{script.organization.error}</div>}
@@ -255,7 +255,7 @@ class NewScriptForm extends Component {
                   </div> 
 
                   <div className="col-xs-12 col-sm-3">
-                    <label className="input-title">Autor*</label>
+                    <label className="input-title">Autor<span className="required">*</span></label>
                     <div className={`form-group ${script.author.touched && script.author.invalid ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" placeholder="Nome da sua escola/organização" {...script.author}/>
                       {script.author.touched && script.author.error && <div className="text-danger">{script.author.error}</div>}
@@ -266,7 +266,7 @@ class NewScriptForm extends Component {
                 {/* DESCRIPTION */}
                 <div className="row">
                   <div className="col-xs-12">
-                    <label className="input-title">Descrição*</label>
+                    <label className="input-title">Descrição<span className="required">*</span></label>
                     <div className={`form-group ${script.description.touched && script.description.invalid ? 'has-error' : ''}`}>
                       <TextArea max="300" min="20" className="form-control" placeholder="Descreva este guião sucintamente" field={script.description} />
                       {script.description.touched && script.description.error && <div className="text-danger">{script.description.error}</div>}
@@ -287,7 +287,7 @@ class NewScriptForm extends Component {
                 <div className="row">
                   {/* SUBJECTS */}
                   <div className="col-xs-12 col-sm-6">
-                    <label className="input-title">Disciplinas*</label>
+                    <label className="input-title">Disciplinas<span className="required">*</span></label>
                     <div className={`form-group ${script.subjects.touched && script.subjects.invalid ? 'has-error' : ''}`}>
                       {this.renderSubjects(script,index)}
                       {script.subjects.touched && script.subjects.error && <div className="text-danger">{script.subjects.error}</div>}
@@ -296,7 +296,7 @@ class NewScriptForm extends Component {
                   
                   {/* YEARS */}
                   <div className="col-xs-12 col-sm-6">
-                    <label className="input-title">Anos*</label>
+                    <label className="input-title">Anos<span className="required">*</span></label>
                     <div className={`form-group ${script.years.touched && script.years.invalid ? 'has-error' : ''}`}>
                       {this.renderYears(script,index)}
                       {script.years.touched && script.years.error && <div className="text-danger">{script.years.error}</div>}
@@ -310,9 +310,9 @@ class NewScriptForm extends Component {
                 {/* OPERATION PROPOSAL */}
                 <div className="row">
                   <div className="col-xs-12">
-                    <label className="input-title">Proposta de Operacionalização*</label>
+                    <label className="input-title">Proposta de Operacionalização<span className="required">*</span></label>
                     <div className={`form-group ${script.op_proposal.touched && script.op_proposal.invalid ? 'has-error' : ''}`}>
-                      <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={script.op_proposal}/>
+                      <TextArea max={300} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={script.op_proposal}/>
                       {script.op_proposal.touched && script.op_proposal.error && <div className="text-danger">{script.op_proposal.error}</div>}
                     </div>            
                   </div>
@@ -320,7 +320,7 @@ class NewScriptForm extends Component {
 
                 <div className="row">
                   <div className="col-xs-12 col-sm-6">
-                    <label className="input-title">Autor da proposta*</label>
+                    <label className="input-title">Autor da proposta<span className="required">*</span></label>
                     <div className={`form-group ${script.op_proposal_author.touched && script.op_proposal_author.invalid ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" placeholder="Autor da proposta" {...script.op_proposal_author}/>
                       {script.op_proposal_author.touched && script.op_proposal_author.error && <div className="text-danger">{script.op_proposal_author.error}</div>}
@@ -357,11 +357,13 @@ class NewScriptForm extends Component {
                 {accept_terms.touched && accept_terms.error && <div className="text-danger">{accept_terms.error}</div>}
               </div>
             </div>
-
           </div>
-        </section>   
+        </section>
+
+           
 
         <footer className="form-buttons">
+          <p><span className="required">*</span> Campos obrigatórios</p>
           <button type="submit" disabled={submitting} className="cta primary">
             {submitting ? <i className='fa fa-spinner fa-spin'></i> : ""} Submeter Guiões
           </button>

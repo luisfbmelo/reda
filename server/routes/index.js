@@ -1,4 +1,4 @@
-var routes = function(app){
+var routes = function(app){	
 	app.use('/api/', require('./initial.js'));
 	app.use('/api/resources', require('./resources.js'));
 	app.use('/api/scripts', require('./scripts.js'));
@@ -10,6 +10,7 @@ var routes = function(app){
 	app.use('/api/subjects', require('./subjects.js'));	
 	app.use('/api/users', require('./users.js'));
 	app.use('/api/news', require('./news.js'));
+	app.use('/*', require('./react.js'));
 }
 
 module.exports = routes;

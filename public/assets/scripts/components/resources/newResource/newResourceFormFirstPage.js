@@ -193,7 +193,7 @@ class NewResourceFormFirstPage extends Component {
         {/* FIRST ROW */}
         <div className="row">
           <div className="col-xs-12 col-sm-3">
-            <label className="input-title">Título*</label>
+            <label className="input-title">Título<span className="required">*</span></label>
             <div className={`form-group ${title.touched && title.invalid ? 'has-error' : ''}`}>
               <input type="text" className="form-control" placeholder="Nome do seu recurso" {...title}/>
               {title.touched && title.error && <div className="text-danger">{title.error}</div>}
@@ -201,7 +201,7 @@ class NewResourceFormFirstPage extends Component {
           </div>
 
           <div className="col-xs-12 col-sm-3">
-            <label className="input-title">Autor*</label>
+            <label className="input-title">Autor<span className="required">*</span></label>
             <div className={`form-group ${author.touched && author.invalid ? 'has-error' : ''}`}>
               <input type="text" className="form-control" placeholder="Nome do autor" {...author}/>
               {author.touched && author.error && <div className="text-danger">{author.error}</div>}
@@ -212,14 +212,14 @@ class NewResourceFormFirstPage extends Component {
         {/* SECOND ROW */}
         <div className="row">
           <div className="col-xs-12 col-sm-3">
-            <label className="input-title">Email*</label>
+            <label className="input-title">Email<span className="required">*</span></label>
             <div className={`form-group ${email.touched && email.invalid ? 'has-error' : ''}`}>
               <input type="email" className="form-control" placeholder="Email do núcleo ou docente" {...email}/>
               {email.touched && email.error && <div className="text-danger">{email.error}</div>}
             </div>
           </div>
           <div className="col-xs-12 col-sm-3">
-            <label className="input-title">Escola/Organização*</label>
+            <label className="input-title">Escola/Organização<span className="required">*</span></label>
             <div className={`form-group ${organization.touched && organization.invalid ? 'has-error' : ''}`}>
               <input type="text" className="form-control" placeholder="Nome da sua escola/organização" {...organization}/>
               {organization.touched && organization.error && <div className="text-danger">{organization.error}</div>}
@@ -230,7 +230,7 @@ class NewResourceFormFirstPage extends Component {
         {/* THIRD ROW */}
         <div className="row">
           <div className="col-xs-12 col-sm-6">
-            <label className="input-title">Palavras-Chave*</label>
+            <label className="input-title">Palavras-Chave<span className="required">*</span></label>
             <div className={`form-group ${tags.touched && tags.invalid ? 'has-error' : ''}`}>
               <Tags setTags={this.setTags} tags={tags.value} placeholder="Palavras-chave"/>
               {tags.touched && tags.error && <div className="text-danger">{tags.error}</div>}
@@ -242,7 +242,7 @@ class NewResourceFormFirstPage extends Component {
         {/* FORMATS */}
         <div className="row">
           <div className="col-xs-12 col-sm-6">
-            <label className="input-title">Formato*</label>
+            <label className="input-title">Formato<span className="required">*</span></label>
             <div className={`form-group ${format.touched && format.invalid ? 'has-error' : ''}`}>
               <RadioGroup list={formats.data} name="formats" setRadio={this.setFormat} checked={format.value}/>
               {format.touched && format.error && <div className="text-danger">{format.error}</div>}
@@ -256,7 +256,7 @@ class NewResourceFormFirstPage extends Component {
               return(
                 <div className="row">
                   <div className="col-xs-12 col-sm-6">
-                    <label className="input-title">Duração do vídeo*</label>
+                    <label className="input-title">Duração do vídeo<span className="required">*</span></label>
                     <div className={`form-group ${duration.touched && duration.invalid ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" name="video-duration" placeholder="ex: 01:02:00s" {...duration} />
                       {duration.touched && duration.error && <div className="text-danger">{duration.error}</div>}
@@ -270,7 +270,7 @@ class NewResourceFormFirstPage extends Component {
         {/* File */}
         <div className="row">
           <div className="col-xs-12 col-sm-6">
-            <label className="input-title">Localização do recurso*</label>
+            <label className="input-title">Localização do recurso<span className="required">*</span></label>
               {/* ONLINE CHECKBOX */}
               {(() => {
                 if(format.value.type!='video'){
@@ -315,7 +315,7 @@ class NewResourceFormFirstPage extends Component {
         {/* ACCESS */}
         <div className="row">
           <div className="col-xs-12 col-sm-6">
-            <label className="input-title">Modo de utilização*</label>
+            <label className="input-title">Modo de utilização<span className="required">*</span></label>
             <div className={`form-group ${access.touched && access.invalid ? 'has-error' : ''}`}>
               {this.renderAccess()}
               {access.touched && access.error && <div className="text-danger">{access.error}</div>}
@@ -326,7 +326,7 @@ class NewResourceFormFirstPage extends Component {
         {/* TECH RESOURCES */}
         <div className="row">
           <div className="col-xs-12">
-            <label className="input-title">Recursos Técnicos*</label>
+            <label className="input-title">Recursos Técnicos<span className="required">*</span></label>
             <div className={`form-group ${techResources.touched && techResources.invalid ? 'has-error' : ''}`}>
               <TextArea max="300" min="20" className="form-control" placeholder="Este recurso requer a utilização de..." field={techResources} />
               {techResources.touched && techResources.error && <div className="text-danger">{techResources.error}</div>}
@@ -338,7 +338,7 @@ class NewResourceFormFirstPage extends Component {
         {/* DESCRIPTION */}
         <div className="row">
           <div className="col-xs-12">
-            <label className="input-title">Descrição*</label>
+            <label className="input-title">Descrição<span className="required">*</span></label>
             <div className={`form-group ${description.touched && description.invalid ? 'has-error' : ''}`}>
               <TextArea max="300" min="20" className="form-control" placeholder="Descreva este recurso sucintamente" field={description} />
               {description.touched && description.error && <div className="text-danger">{description.error}</div>}
@@ -348,6 +348,7 @@ class NewResourceFormFirstPage extends Component {
 
         {/* NEXT */}
         <footer className="form-buttons">
+          <p><span className="required">*</span> Campos obrigatórios</p>
           <button type="submit" className="cta primary">Continuar</button>
           <Link to="/painel" className="cta primary no-bg">Cancelar</Link>
         </footer>

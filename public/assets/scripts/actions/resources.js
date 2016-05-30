@@ -66,7 +66,7 @@ export function setHighlight(resourceId){
 	}
 }
 
-export function fetchHighlights(params){
+export function fetchHighlights(){
 	return {
 		[CALL_API]: {
 		  endpoint: 'resources/highlight',
@@ -100,6 +100,17 @@ function resourcesError(message){
 export function resetResources(){
 	return {
 		type: RESOURCES_RESET
+	}
+}
+
+export function fetchRecent(){
+	return {
+		[CALL_API]: {
+		  endpoint: 'resources/recent',
+		  sendToken: true,
+		  method: 'GET',
+		  types: [RESOURCES_REQUEST, RESOURCES_SUCCESS, RESOURCES_FAILURE]
+		}
 	}
 }
 

@@ -15,13 +15,13 @@ export default class RecentResources extends Component {
 	}
 
 	componentDidMount(){
-		this.props.fetchResources('recent');
+		this.props.fetchRecent();
 		this.props.fetchConfig();		
 	}
 
 	componentWillUpdate(nextProps, nextState) {
 	    if (nextProps.auth.isAuthenticated != this.props.auth.isAuthenticated){
-	 		this.props.fetchResources('recent');
+	 		this.props.fetchRecent();
 	 	}  
 	}
 

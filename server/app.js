@@ -1,21 +1,19 @@
+var debug = require('debug')('app');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var cors = require('cors');
 
-// Routes
-var routes = require('./routes/index');
+//React
 
-// React
-var React          = require('react');
-var ReactDOM       = require('react-dom/server'); // Fixed this
-var match          = require('react-router').match;
-var RoutingContext = require('react-router').RoutingContext;
+
+// Routes
+var apiRoutes = require('./routes/index');
 
 var app = express();
 
-require('node-jsx').install();
+//require('node-jsx').install();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,10 +24,10 @@ app.use(cors());
 app.use(bodyParser.json({limit:'150mb', type:'application/json'}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
-//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '.tmp')));
 
 // Init routes
-routes(app);
+apiRoutes(app);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -60,24 +58,6 @@ app.use(function(err, req, res, next) {
     message: err.message,
     error: {}
   });
-});
-
-app.use('*', function (req, res) {
-    match({routes:Routes, location:req.url}, (error, redirectLocation, renderProps) => {
-        if (error) {
-          res.status(500).send(error.message)
-        } else if (redirectLocation) {
-          res.redirect(302, redirectLocation.pathname + redirectLocation.search)
-        } else if (renderProps) {
-            var pageData = {
-                serverHtml: ReactDOM.renderToString(React.createElement(RoutingContext, renderProps))
-            };
-
-            res.render('index', pageData);
-        } else {
-          res.status(404).send('Not found')
-        }
-    });
 });
 
 module.exports = app;

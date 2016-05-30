@@ -35,7 +35,7 @@ export function fetchConfig(){
 	return dispatch => {
 		dispatch(requestConfig());
 
-		return fetch('/config/config.json')
+		return fetch('/assets/config/config.json')
 		.then(response => {
 			if (response.status >= 400) {
 	          throw new Error('Bad response');

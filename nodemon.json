@@ -1,3 +1,6 @@
 {   
-    "ignore": ["public/*.js"] 
+    "ignore": ["public/*.js"] ,
+    "execMap": {
+	    "js": "node --harmony"
+	  }
 }

@@ -7,7 +7,7 @@ export default (props) => {
 
 	return (
 		<div>
-			<textarea {...props} {...field}></textarea>
+			<textarea {...props} {...field} maxLength={max} minLength={min}></textarea>
 			<div className="row">
                 <div className="col-xs-6">
                 {(() => {

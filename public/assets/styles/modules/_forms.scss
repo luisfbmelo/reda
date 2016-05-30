@@ -273,6 +273,11 @@ input:checked + .slider:before {
 /**
  * OTHERS
  */
+.required{
+  color:red;
+  font-weight:bold;
+}
+
 input,
 textarea,
 select,
