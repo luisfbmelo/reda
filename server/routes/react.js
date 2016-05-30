@@ -51,6 +51,7 @@ router.get('/*', function (req, res) {
           const componentHTML = renderToString(InitialView);
 
           const initialState = store.getState();
+          debug(initialState);
 
           const HTML = `
           <!DOCTYPE html>
