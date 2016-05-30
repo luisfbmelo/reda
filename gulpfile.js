@@ -34,7 +34,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 // ---------------------------------------------------------------------------//
 
 function readPackage () {
-  pkg = JSON.parse(fs.readFileSync('package.json'));
+  pkg = JSON.parse(fs.readFileSync('public/package.json'));
 }
 readPackage();
 
@@ -56,7 +56,7 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function
   browserSync({
     port: 3000,
     server: {
-      baseDir: ['public/.tmp', 'public'],
+      baseDir: ['.tmp', 'public'],
       routes: {
         '/node_modules': './node_modules'
       },
@@ -75,7 +75,7 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function
 });
 
 gulp.task('clean', function () {
-  return del(['public/.tmp', 'public/dist'])
+  return del(['.tmp', 'dist'])
     .then(function () {
       $.cache.clearAll();
     });
@@ -83,7 +83,7 @@ gulp.task('clean', function () {
 
 gulp.task('build', ['vendorScripts', 'javascript'], function () {
   gulp.start(['html', 'images', 'extras'], function () {
-    return gulp.src('public/dist/**/*')
+    return gulp.src('dist/**/*')
       .pipe($.size({title: 'build', gzip: true}))
       .pipe(exit());
   });
@@ -125,7 +125,7 @@ gulp.task('javascript', function () {
       // Source maps.
       .pipe(sourcemaps.init({loadMaps: true}))
       .pipe(sourcemaps.write('./'))
-      .pipe(gulp.dest('public/.tmp/assets/scripts'))
+      .pipe(gulp.dest('.tmp/assets/scripts'))
       .pipe(reload({stream: true}));
   }
 
@@ -151,7 +151,7 @@ gulp.task('vendorScripts', function () {
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('public/.tmp/assets/scripts/'))
+    .pipe(gulp.dest('.tmp/assets/scripts/'))
     .pipe(reload({stream: true}));
 });
 
@@ -178,18 +178,18 @@ gulp.task('styles', function () {
       includePaths: ['.'].concat(require('node-bourbon').includePaths)
     }))
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('public/.tmp/assets/styles'))
+    .pipe(gulp.dest('.tmp/assets/styles'))
     .pipe(reload({stream: true}));
 });
 
 gulp.task('html', ['styles'], function () {
   return gulp.src('public/*.html')
-    .pipe($.useref({searchPath: ['public/.tmp', 'app', '.']}))
+    .pipe($.useref({searchPath: ['.tmp', 'public', '.']}))
     .pipe($.if('*.js', $.uglify()))
     .pipe($.if('*.css', $.csso()))
     .pipe($.if(/\.(css|js)$/, rev()))
     .pipe(revReplace())
-    .pipe(gulp.dest('public/dist'));
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('images', function () {
@@ -201,20 +201,22 @@ gulp.task('images', function () {
       // as hooks for embedding and styling
       svgoPlugins: [{cleanupIDs: false}]
     })))
-    .pipe(gulp.dest('public/dist/assets/graphics'))
-    .pipe(gulp.dest('public/.tmp/assets/graphics'));
+    .pipe(gulp.dest('dist/assets/graphics'))
+    .pipe(gulp.dest('.tmp/assets/graphics'));
 });
 
 gulp.task('extras', function () {
   return gulp.src([
     'public/**/*',
     '!public/*.html',
+    '!public/package.json',
     '!public/files/**',
+    '!public/node_modules/**',
     '!public/assets/graphics/**',
     '!public/assets/vendor/**',
     '!public/assets/styles/**',
     '!public/assets/scripts/**'
   ], {
     dot: true
-  }).pipe(gulp.dest('public/dist'));
+  }).pipe(gulp.dest('dist'));
 });
