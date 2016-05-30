@@ -6654,6 +6654,9 @@ var image = function image(meta) {
 };
 
 var audio = function audio(meta) {
+	var embed = meta.embed;
+
+
 	if (meta.file) {
 		var _meta$file2 = meta.file;
 		var name = _meta$file2.name;
@@ -6665,10 +6668,17 @@ var audio = function audio(meta) {
 		}
 	}
 
+	if (embed) {
+		return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: embed }, className: 'embed-content' }) || showPlaceholder("audio");
+	}
+
 	return showPlaceholder(meta.graphicsPath, "audio");
 };
 
 var simulation = function simulation(meta) {
+	var embed = meta.embed;
+
+
 	if (meta.file) {
 		var _meta$file3 = meta.file;
 		var name = _meta$file3.name;
@@ -6680,10 +6690,17 @@ var simulation = function simulation(meta) {
 		}
 	}
 
+	if (embed) {
+		return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: embed }, className: 'embed-content' }) || showPlaceholder("simulation");
+	}
+
 	return showPlaceholder(meta.graphicsPath, "simulation");
 };
 
 var animation = function animation(meta) {
+	var embed = meta.embed;
+
+
 	if (meta.file) {
 		var _meta$file4 = meta.file;
 		var name = _meta$file4.name;
@@ -6693,6 +6710,10 @@ var animation = function animation(meta) {
 		if (checkExtension(meta.file.extension) && name && extension) {
 			return includeSwf(meta.filesPath, name + "." + extension);
 		}
+	}
+
+	if (embed) {
+		return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: embed }, className: 'embed-content' }) || showPlaceholder("animation");
 	}
 
 	return showPlaceholder(meta.graphicsPath, "animation");
@@ -6707,6 +6728,8 @@ var calc = function calc(meta) {
 };
 
 var game = function game(meta) {
+	var embed = meta.embed;
+
 	if (meta.file) {
 		var _meta$file5 = meta.file;
 		var name = _meta$file5.name;
@@ -6716,6 +6739,10 @@ var game = function game(meta) {
 		if (checkExtension(meta.file.extension) && name && extension) {
 			return includeSwf(meta.filesPath, name + "." + extension);
 		}
+	}
+
+	if (embed) {
+		return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: embed }, className: 'embed-content' }) || showPlaceholder("animation");
 	}
 
 	return showPlaceholder(meta.graphicsPath, "game");
@@ -8732,7 +8759,7 @@ exports.default = (0, _reduxForm.reduxForm)({
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var allowedExt = ["gif", "jpeg", "jpg", "png", "rtf", "doc", "docx", "odt", "txt", "mp3", "wav", "wma", "jar", "ggb", "swf", "jnlp"];
+var allowedExt = ["gif", "jpeg", "jpg", "png", "svg", "rtf", "doc", "docx", "odt", "txt", "mp3", "wav", "wma", "jar", "ggb", "swf", "jnlp", "xlsx", "xls", "ods", "xlsm", "zip", "rar", "pdf", "gsp", "pptx", "odp"];
 
 var validate = function validate(values) {
   var errors = {};

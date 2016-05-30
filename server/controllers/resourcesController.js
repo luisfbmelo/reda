@@ -593,7 +593,7 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 
 				if(resource && (resource.user_id==userExists.id || userExists.Role.type==consts.ADMIN_ROLE)){
 					fileName = resource.slug+"_"+timestamp;
-		
+					debug("");
 					//
 					//	Update resource
 					//
@@ -606,8 +606,8 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 					    organization: req.body.organization,
 					    email: req.body.email,
 					    exclusive: req.body.exclusive,
-					    embed: req.body.embed || null,
-					    link: req.body.link || null,
+					    embed: req.body.isOnline && req.body.embed!=null ? req.body.embed : null,
+					    link: req.body.isOnline && req.body.link!=null ? req.body.link : null,
 					    techResources: req.body.techResources,
 					    operation: req.body.op_proposal,
 					    operation_author: req.body.op_proposal_author
@@ -623,6 +623,8 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 
 					    resource.setDomains(req.body.domains);
 
+					    resource.save();
+
 					    //
 					    //	Remove all tags and insert new ones
 					    //
@@ -636,23 +638,17 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 						    	});		    	
 						    })	
 					    });
+
+					    if ((!req.body.file || req.body.file.length==0) || req.body.isOnline){
+					    	removeFiles(resource);
+					    }
 					    
 
 					    //
 					    //	Remove all files and insert new ones if there is no ID
 					    //		    
-					    if (req.body.file && !req.body.file.id && !req.body.isOnline){
-					    	// Delete all files existing
-					    	models.File.destroy({
-					    		where:{
-					    			resource_id: resource.id
-					    		}
-					    	});
-
-					    	//
-					    	//	Delete physical files
-					    	//
-					    	dataUtil.rmDir(resource.dataValues.slug);
+					    if (req.body.file && req.body.file.data && req.body.file.extension && !req.body.file.id && !req.body.isOnline){
+					    	removeFiles(resource);
 
 					    	//
 						    //	Save file to FileSys
@@ -682,10 +678,10 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 			});
 
 		}else if(action=='create'){
-			var fileToUpload = null;
+			var fileToUpload = {};
 
 			// Save file?
-			if (req.body.file!=undefined && req.body.file!=null && !req.body.isOnline){
+			if (req.body.file!=undefined && req.body.file!=null && req.body.file.name!=null && req.body.file.extension!=null && !req.body.isOnline){
 				fileToUpload = {
 					name: fileName,
 		    		extension: req.body.file.extension				
@@ -703,13 +699,12 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 			    email: req.body.email,
 			    highlight: false,
 			    exclusive: req.body.exclusive,
-			    link: req.body.link || null,
-			    embed: req.body.embed || null,
+			    embed: req.body.isOnline && req.body.embed ? req.body.embed : null,
+			    link: req.body.isOnline && req.body.link ? req.body.link : null,
 			    techResources: req.body.techResources,
 			    operation: req.body.op_proposal,
 			    operation_author: req.body.op_proposal_author,
 			    user_id: userExists.id,
-			    Files: fileToUpload,
 			    Tags: newTags
 			  },{
 			    include: [ models.Domain, models.Subject, models.Year, models.Mode, models.Language, models.Tag, models.File ]
@@ -729,11 +724,16 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 			    //
 			    //	Save file to FileSys
 			    //
-			    if (req.body.file && !req.body.isOnline){
+			    if (req.body.file && !req.body.isOnline && req.body.file.data && req.body.file.extension){
+			    	// Create new file and add reference
+			    	models.File.create(fileToUpload)
+			    	.then(function(newFile){
+			    		item.addFile(newFile);
+			    	});
+
 			    	dataUtil.saveFile(req, res, slug, req.body.file.data, fileName, req.body.file.extension, item.id);	
 			    }
 			    
-			    debug(item);
 			    return res.status(200).send(item);
 			 })
 			 .catch(function(err){
@@ -843,4 +843,21 @@ exports.deleteCollective = function(req, res, next){
 	}else{
 		return res.status(401).send({message: messages.resources.del_permission});
 	}
+}
+
+//
+//	Remove a given resource files
+//
+function removeFiles(resource){
+	// Delete all files existing
+	models.File.destroy({
+		where:{
+			resource_id: resource.id
+		}
+	});
+
+	//
+	//	Delete physical files
+	//
+	dataUtil.rmDir(resource.dataValues.slug);
 }

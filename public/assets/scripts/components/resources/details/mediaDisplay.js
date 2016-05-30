@@ -54,18 +54,26 @@ const image = (meta) => {
 }
 
 const audio = (meta) => {
+	const { embed } = meta;
+
 	if (meta.file){
 		const { name, extension } = meta.file;
 
 		if (checkExtension(meta.file.extension) && name && extension){
 			return includeSwf(meta.filesPath, name+"."+extension);
 		}
+	}
+
+	if (embed){
+		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("audio");
 	}
 
 	return showPlaceholder(meta.graphicsPath, "audio");
 }
 
 const simulation = (meta) => {
+	const { embed } = meta;
+
 	if (meta.file){
 		const { name, extension } = meta.file;
 
@@ -73,18 +81,27 @@ const simulation = (meta) => {
 			return includeSwf(meta.filesPath, name+"."+extension);
 		}
 	}
-	
+
+	if (embed){
+		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("simulation");
+	}	
 
 	return showPlaceholder(meta.graphicsPath, "simulation");
 }
 
 const animation = (meta) => {
+	const { embed } = meta;
+
 	if (meta.file){
 		const { name, extension } = meta.file;
 
 		if (checkExtension(meta.file.extension) && name && extension){
 			return includeSwf(meta.filesPath, name+"."+extension);
 		}
+	}
+
+	if (embed){
+		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("animation");
 	}
 
 	return showPlaceholder(meta.graphicsPath, "animation");
@@ -99,12 +116,17 @@ const calc = (meta) => {
 }
 
 const game = (meta) => {
+	const { embed } = meta;
 	if (meta.file){
 		const { name, extension } = meta.file;
 
 		if (checkExtension(meta.file.extension) && name && extension){
 			return includeSwf(meta.filesPath, name+"."+extension);
 		}
+	}
+
+	if (embed){
+		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("animation");
 	}
 
 	return showPlaceholder(meta.graphicsPath, "game");

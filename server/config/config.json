@@ -13,7 +13,7 @@
       "collate": "utf8_general_ci"
     },
     "typeValidation": true,
-    "omitNull": true,
+    "omitNull": false,
     "paranoid": true
   },
   "test": {
@@ -41,7 +41,7 @@
       "collate": "utf8_general_ci"
     },
     "typeValidation": true,
-    "omitNull": true,
+    "omitNull": false,
     "paranoid": true,
     "logging": false
   },
