@@ -5,7 +5,7 @@ const validate = values => {
   if (!values.subjects || values.subjects.length==0) {
     errors.subjects = 'Campo é obrigatório'
   }
-  console.log(values.hasDomains);
+
   // Domains
   if (values.hasDomains && (!values.domains || values.domains.length==0)) {
     errors.domains = 'Campo é obrigatório'

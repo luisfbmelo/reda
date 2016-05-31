@@ -45,8 +45,17 @@
 
 				&.open{
 					@include transform(translate(0,0));
-				    overflow-y: auto;
+				    
 				    margin:0;
+				}
+
+				&--elements{
+					position:absolute;
+					top:70px;
+					left:0;
+					bottom:120px;
+					overflow-y: auto;
+					padding:0 30px;
 				}
 			}
 			
@@ -74,18 +83,36 @@
 				}
 			}	
 
-			&--submit{
+			&--submit,
+			&--clear{
 				width:100%;
+				position:absolute;				
+				left:0;
+				padding:0 30px;
 
 				button{
 					width:100%;
-					min-height:50px;
 				}
+
+			}	
+
+			&--submit{
+				bottom:65px;
 
 				@include media-query-min(62em){
 					display:none;
 				}
-			}		
+			}
+
+			&--clear{
+				bottom:15px;				
+
+				@include media-query-min(62em){
+					position:static;
+					margin-bottom:30px;
+					padding:0 15px;
+				}
+			}	
 			
 			.collapse-container{
 				button{

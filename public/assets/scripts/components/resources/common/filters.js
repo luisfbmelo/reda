@@ -37,6 +37,7 @@ export default class ResourcesFilters extends Component {
 		this.yearChange = this.yearChange.bind(this);
 		this.accessChange = this.accessChange.bind(this);
 		this.toggleList = this.toggleList.bind(this);
+		this.clearAll = this.clearAll.bind(this);
 
 		//
 		//	Renders
@@ -67,17 +68,6 @@ export default class ResourcesFilters extends Component {
 		}
 	}
 
-	// Change list statue
-	toggleList(){
-		let list = this.refs.filters_list;
-		let backdrop = this.refs.backdrop;
-		let body = document.getElementsByTagName("BODY")[0];
-
-		toggleClass('open', list);
-		toggleClass('open', backdrop);
-		toggleClass('open', body);
-	}
-
 	// Reset filters on unmount
 	componentWillUnmount() {
 	    this.props.resetYears();
@@ -98,6 +88,17 @@ export default class ResourcesFilters extends Component {
 		}
 	}
 
+	// Change list statue
+	toggleList(){
+		let list = this.refs.filters_list;
+		let backdrop = this.refs.backdrop;
+		let body = document.getElementsByTagName("BODY")[0];
+
+		toggleClass('open', list);
+		toggleClass('open', backdrop);
+		toggleClass('open', body);
+	}
+
 	//
 	//	On submit
 	//
@@ -106,6 +107,20 @@ export default class ResourcesFilters extends Component {
 
 		this.props.onFilterChange({ formats, subjects, domains, years, access });
 		this.setState({update: false});
+	}
+
+	//
+	//	Clear all filters
+	//
+	clearAll(){
+		this.setState({
+			formats: [],
+			subjects: [],
+			domains: [],
+			years: [],
+			access: [],
+			update: true
+		})
 	}
 
 	//
@@ -296,7 +311,7 @@ export default class ResourcesFilters extends Component {
 			<div className="resources__filter">
 				<div className="backdrop" ref="backdrop" onClick={this.toggleList}></div>
 				<div className="row filters-button">
-					<div className="col-xs-12 text-center">
+					<div className="col-xs-12">
 						<button className="cta primary outline" onClick={this.toggleList}><i className="fa fa-filter"></i>Filtrar Lista</button>	
 					</div>					
 				</div>
@@ -328,9 +343,14 @@ export default class ResourcesFilters extends Component {
 						
 						<Collapsible title="Modos de utilização" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
 							{this.renderAccess()}
-						</Collapsible>
-						
+						</Collapsible>						
 					</div>
+					<div className="col-xs-12 filters__list--submit">
+						<button className="cta primary" onClick={this.toggleList}>Fechar</button>	
+					</div>	
+					<div className="col-xs-12 filters__list--clear">
+						<button className="cta primary outline" onClick={this.clearAll}>Remover Todos</button>	
+					</div>	
 				</div>
 			</div>
 		);

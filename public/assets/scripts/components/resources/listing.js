@@ -11,6 +11,7 @@ import ResourcesFilters from '@/containers/filters';
 import IsNotAuthenticated from '@/containers/auth/isNotAuth';
 import LoginButton from '@/components/auth/loginButton';
 import ProtectedButton from '@/components/auth/protectedButton';
+import AlertLogin from './common/alertLogin';
 import { Pagination, Alert, Button } from 'react-bootstrap';
 
 export default class ResourcesListing extends Component {
@@ -131,20 +132,7 @@ export default class ResourcesListing extends Component {
 
     // Alert that user is not authenticated
     renderAlert(){
-    	return(
-    		<section className="row">
-    			<div className="col-xs-12">
-		    		<Alert bsStyle="warning" className="alert">
-		    			<p>Esta listagem pode conter resultados restritos ao utilizador não registado, pelo que aconselhamos que realize a sua autenticação.</p>
-						<div className="text-center">
-							<LoginButton className="btn btn-warning" location={this.props.location.pathname}>
-								Entrar na REDA
-							</LoginButton>
-						</div>
-		    		</Alert>
-	    		</div>
-    		</section>
-    	);
+    	return <AlertLogin location={this.props.location}></AlertLogin>
     }
 
     // Render new resource button according to auth

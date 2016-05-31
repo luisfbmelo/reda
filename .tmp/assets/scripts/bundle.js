@@ -2688,7 +2688,7 @@ var Collapsible = function (_Component) {
 				{ className: 'collapse-container' },
 				_react2.default.createElement(
 					'div',
-					{ className: "buttons " + this.props.className + (this.state.open ? " open" : " outline") },
+					{ className: "buttons " + (this.props.className || '') + (this.state.open ? " open" : " outline") },
 					function () {
 						if (_this2.props.deleteEl) {
 							return _react2.default.createElement('i', { className: _this2.props.deleteIcon || null, onClick: function onClick() {
@@ -5308,7 +5308,115 @@ CommentsListing.propTypes = {
 	comments: _react2.default.PropTypes.object.isRequired
 };
 
-},{"./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comments.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteCollective.js":[function(require,module,exports){
+},{"./comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\comments\\comments.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\alertLogin.js":[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = require('react-bootstrap');
+
+var _loginButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton');
+
+var _loginButton2 = _interopRequireDefault(_loginButton);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Components
+
+
+var AlertLogin = function (_Component) {
+	_inherits(AlertLogin, _Component);
+
+	function AlertLogin(props) {
+		_classCallCheck(this, AlertLogin);
+
+		//
+		//	Handle events
+		//
+
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AlertLogin).call(this, props));
+
+		_this.handleAlertDismiss = _this.handleAlertDismiss.bind(_this);
+
+		_this.state = {
+			alertVisible: true
+		};
+		return _this;
+	}
+
+	_createClass(AlertLogin, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			var localLoginAlert = localStorage.getItem('login_alert') != null ? localStorage.getItem('login_alert') === "true" : true;
+			this.setState({ alertVisible: localLoginAlert });
+		}
+	}, {
+		key: 'handleAlertDismiss',
+		value: function handleAlertDismiss() {
+			this.setState({ alertVisible: false });
+			localStorage.setItem('login_alert', false);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			if (this.state.alertVisible == false) {
+				return null;
+			}
+
+			return _react2.default.createElement(
+				'section',
+				{ className: 'row' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'col-xs-12' },
+					_react2.default.createElement(
+						_reactBootstrap.Alert,
+						{ bsStyle: 'warning', className: 'alert', onDismiss: this.handleAlertDismiss },
+						_react2.default.createElement(
+							'p',
+							null,
+							'Esta listagem pode conter resultados restritos ao utilizador não registado, pelo que aconselhamos que realize a sua autenticação.'
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'text-center' },
+							_react2.default.createElement(
+								_loginButton2.default,
+								{ className: 'btn btn-warning', location: this.props.location.pathname },
+								'Entrar na REDA'
+							)
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return AlertLogin;
+}(_react.Component);
+
+exports.default = AlertLogin;
+
+
+AlertLogin.propTypes = {
+	location: _react.PropTypes.object.isRequired
+};
+
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","react":"react","react-bootstrap":"react-bootstrap"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\deleteCollective.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5522,6 +5630,7 @@ var ResourcesFilters = function (_Component) {
 		_this.yearChange = _this.yearChange.bind(_this);
 		_this.accessChange = _this.accessChange.bind(_this);
 		_this.toggleList = _this.toggleList.bind(_this);
+		_this.clearAll = _this.clearAll.bind(_this);
 
 		//
 		//	Renders
@@ -5560,20 +5669,6 @@ var ResourcesFilters = function (_Component) {
 			}
 		}
 
-		// Change list statue
-
-	}, {
-		key: 'toggleList',
-		value: function toggleList() {
-			var list = this.refs.filters_list;
-			var backdrop = this.refs.backdrop;
-			var body = document.getElementsByTagName("BODY")[0];
-
-			(0, _utils.toggleClass)('open', list);
-			(0, _utils.toggleClass)('open', backdrop);
-			(0, _utils.toggleClass)('open', body);
-		}
-
 		// Reset filters on unmount
 
 	}, {
@@ -5598,6 +5693,20 @@ var ResourcesFilters = function (_Component) {
 			}
 		}
 
+		// Change list statue
+
+	}, {
+		key: 'toggleList',
+		value: function toggleList() {
+			var list = this.refs.filters_list;
+			var backdrop = this.refs.backdrop;
+			var body = document.getElementsByTagName("BODY")[0];
+
+			(0, _utils.toggleClass)('open', list);
+			(0, _utils.toggleClass)('open', backdrop);
+			(0, _utils.toggleClass)('open', body);
+		}
+
 		//
 		//	On submit
 		//
@@ -5615,6 +5724,23 @@ var ResourcesFilters = function (_Component) {
 
 			this.props.onFilterChange({ formats: formats, subjects: subjects, domains: domains, years: years, access: access });
 			this.setState({ update: false });
+		}
+
+		//
+		//	Clear all filters
+		//
+
+	}, {
+		key: 'clearAll',
+		value: function clearAll() {
+			this.setState({
+				formats: [],
+				subjects: [],
+				domains: [],
+				years: [],
+				access: [],
+				update: true
+			});
 		}
 
 		//
@@ -5862,7 +5988,7 @@ var ResourcesFilters = function (_Component) {
 					{ className: 'row filters-button' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'col-xs-12 text-center' },
+						{ className: 'col-xs-12' },
 						_react2.default.createElement(
 							'button',
 							{ className: 'cta primary outline', onClick: this.toggleList },
@@ -5924,6 +6050,24 @@ var ResourcesFilters = function (_Component) {
 							_collapse2.default,
 							{ title: 'Modos de utilização', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down' },
 							this.renderAccess()
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 filters__list--submit' },
+						_react2.default.createElement(
+							'button',
+							{ className: 'cta primary', onClick: this.toggleList },
+							'Fechar'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 filters__list--clear' },
+						_react2.default.createElement(
+							'button',
+							{ className: 'cta primary outline', onClick: this.clearAll },
+							'Remover Todos'
 						)
 					)
 				)
@@ -7381,6 +7525,10 @@ var _protectedButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/c
 
 var _protectedButton2 = _interopRequireDefault(_protectedButton);
 
+var _alertLogin = require('./common/alertLogin');
+
+var _alertLogin2 = _interopRequireDefault(_alertLogin);
+
 var _reactBootstrap = require('react-bootstrap');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -7555,32 +7703,7 @@ var ResourcesListing = function (_Component) {
 	}, {
 		key: 'renderAlert',
 		value: function renderAlert() {
-			return _react2.default.createElement(
-				'section',
-				{ className: 'row' },
-				_react2.default.createElement(
-					'div',
-					{ className: 'col-xs-12' },
-					_react2.default.createElement(
-						_reactBootstrap.Alert,
-						{ bsStyle: 'warning', className: 'alert' },
-						_react2.default.createElement(
-							'p',
-							null,
-							'Esta listagem pode conter resultados restritos ao utilizador não registado, pelo que aconselhamos que realize a sua autenticação.'
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'text-center' },
-							_react2.default.createElement(
-								_loginButton2.default,
-								{ className: 'btn btn-warning', location: this.props.location.pathname },
-								'Entrar na REDA'
-							)
-						)
-					)
-				)
-			);
+			return _react2.default.createElement(_alertLogin2.default, { location: this.props.location });
 		}
 
 		// Render new resource button according to auth
@@ -7719,7 +7842,7 @@ ResourcesListing.propTypes = {
 	config: _react.PropTypes.object.isRequired
 };
 
-},{"./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","lodash":"lodash","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
+},{"./common/alertLogin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\alertLogin.js","./common/list":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\list.js","./common/order":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\common\\order.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/protectedButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/search/searchBar":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\search\\searchBar.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/filters":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\filters\\index.js","lodash":"lodash","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\newResource\\newResourceFormFirstPage.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -9083,7 +9206,7 @@ var validate = function validate(values) {
   if (!values.subjects || values.subjects.length == 0) {
     errors.subjects = 'Campo é obrigatório';
   }
-  console.log(values.hasDomains);
+
   // Domains
   if (values.hasDomains && (!values.domains || values.domains.length == 0)) {
     errors.domains = 'Campo é obrigatório';
