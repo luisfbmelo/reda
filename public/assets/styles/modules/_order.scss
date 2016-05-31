@@ -3,10 +3,12 @@
 		width:auto;
 		border-radius:0!important;
 		display:inline-block;
+		margin-bottom:15px;
 
 		@include media-query(48em){
-			max-width:100px;
+			max-width:150px;
 		}
+		
 	}
 
 	label{

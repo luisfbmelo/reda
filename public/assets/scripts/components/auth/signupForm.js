@@ -43,7 +43,7 @@ export default class SignupForm extends Component {
       <div className="signup-form box-form light-background">
         <form onSubmit={handleSubmit(this.onSubmit)} className="container">
           <div className="row">
-            <div className="col-xs-12 col-sm-6 col-sm-offset-3 text-center">
+            <div className="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3 text-center">
               <h1>Efetue o seu registo</h1>
               <p>
                 Para que tenha acesso a todos os recursos e funcionalidades disponíveis, efetue o seu registo na plataforma com a chave de segurança que lhe foi fornecida.
@@ -53,7 +53,7 @@ export default class SignupForm extends Component {
 
           {/* EMAIL */}
           <div className="row">
-            <div className={`form-group col-xs-12 col-sm-4 col-sm-offset-4 ${email.touched && email.invalid ? 'has-error' : ''}`}>
+            <div className={`form-group col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3  ${email.touched && email.invalid ? 'has-error' : ''}`}>
               <label className="input-title">Email*</label>
               <input type="text" className="form-control" id="email" placeholder="Email" {...email}/>
               {asyncValidating === 'email' && <i className='fa fa-spinner fa-spin'/>}
@@ -63,7 +63,7 @@ export default class SignupForm extends Component {
           
           {/* PASSWORD */}
           <div className="row">
-            <div className={`form-group col-xs-12 col-sm-4 col-sm-offset-4 ${password.touched && password.invalid ? 'has-error' : ''}`}>
+            <div className={`form-group col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3  ${password.touched && password.invalid ? 'has-error' : ''}`}>
               <label className="input-title">Palavra-Chave*</label>
               <input type="password" className="form-control" placeholder="Palavra-chave" {...password}/>
               {password.touched && password.error && <div className="text-danger">{password.error}</div>}
@@ -72,7 +72,7 @@ export default class SignupForm extends Component {
 
           {/* ORGANIZATION */}
           <div className="row">
-            <div className={`form-group col-xs-12 col-sm-4 col-sm-offset-4 ${organization.touched && organization.invalid ? 'has-error' : ''}`}>
+            <div className={`form-group col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3  ${organization.touched && organization.invalid ? 'has-error' : ''}`}>
               <label className="input-title">Escola/Organização*</label>
               <input type="text" className="form-control" placeholder="Nome da escola/organização onde se encontra" {...organization}/>
               {organization.touched && organization.error && <div className="text-danger">{organization.error}</div>}
@@ -81,7 +81,7 @@ export default class SignupForm extends Component {
 
           {/* KEY */}
           <div className="row">
-            <div className={`form-group col-xs-12 col-sm-4 col-sm-offset-4 ${authKey.touched && authKey.invalid ? 'has-error' : ''}`}>
+            <div className={`form-group col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3  ${authKey.touched && authKey.invalid ? 'has-error' : ''}`}>
               <label className="input-title">Chave de Docente*</label>
               <input type="text" className="form-control" placeholder="Insira a chave de docente que lhe foi fornecida" {...authKey}/>
               {authKey.touched && authKey.error && <div className="text-danger">{authKey.error}</div>}
@@ -91,7 +91,7 @@ export default class SignupForm extends Component {
 
           
           <div className="row">
-            <div className="col-xs-12 col-sm-4 col-sm-offset-4">
+            <div className="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3 ">
               <button type="submit" disabled={ fetching || asyncValidating } className="cta primary">
                 {fetching || asyncValidating ? <i className='fa fa-spinner fa-spin'></i> : ""}Registar
               </button>

@@ -44,6 +44,7 @@ exports.details = function(req, res, next){
 	if (!userExists){
 		includes.push({
 			model: models.Resource,
+			as: 'Resource',
 			attributes: [],
 			where:{
 				exclusive: false
@@ -211,8 +212,7 @@ function upsertScript(req, res, userId, userRole){
 			    operation: givenScript.op_proposal,
 			    operation_author: givenScript.op_proposal_author,
 			    user_id: userId,
-			    resource_id: req.params.resource,
-			    Domains: domainsToInsert.new	    
+			    resource_id: req.params.resource    
 			  },{
 			    include: [ models.Domain, models.Subject, models.Year ]
 			  }).then(function(item){

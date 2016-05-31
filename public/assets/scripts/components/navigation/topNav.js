@@ -2,6 +2,9 @@ import React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router';
 
+// Utils
+import { toggleClass, removeClass } from '@/utils';
+
 // Components
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
 import LoginButton from '@/components/auth/loginButton';
@@ -15,7 +18,30 @@ export default class TopNav extends Component {
 	constructor(props){
 		super(props);
 
+		//
+		//	Handle events
+		//
+		this.onToggle = this.onToggle.bind(this);
+
+		//
+		//	Renders
+		//
 		this.renderSmallNav = this.renderSmallNav.bind(this);
+	}
+
+	componentWillUnmount(){
+		//	Remove open class from body on unmount
+		removeClass('open',document.getElementsByTagName("BODY")[0]);
+	}
+
+	onToggle(navExpanded){
+		let item = document.querySelector(".nav-container");
+		let backdrop = this.refs.menu_backdrop;
+		let body = document.getElementsByTagName("BODY")[0];
+
+		toggleClass('open', item);
+		toggleClass('open', backdrop);
+		toggleClass('open', body);
 	}
 
 	isActive(location, target){
@@ -54,7 +80,7 @@ export default class TopNav extends Component {
 				<IsAuthenticated>
 					{this.props.auth.data && 
 					<li className={"user-identification "+this.isActive(this.props.location.pathname, 'painel')}>
-		           		<Link to="/painel">Olá <strong><em>{this.props.auth.data.user.name}</em></strong></Link>
+		           		<Link to="/painel">Minha Conta</Link>
 		           	</li>}
 				</IsAuthenticated>
 
@@ -69,14 +95,28 @@ export default class TopNav extends Component {
 		const { isAuthenticated } = this.props.auth;
 
 		return (  
-			<Navbar>
+			<Navbar onToggle={this.onToggle}>
+				<div className="backdrop" ref="menu_backdrop" onClick={this.onToggle}></div>
 				<Navbar.Header>
 					<Navbar.Brand>
 						<a href="/"><img src="/assets/graphics/REDA_logo.png" alt="A imagem da REDA" className="img-responsive"/></a>
 					</Navbar.Brand>
 					<Navbar.Toggle/>
 				</Navbar.Header>
-				<Navbar.Collapse>
+				<Nav className="nav-container">
+					<div className="row">
+						{/* Title */}
+						<div className="col-xs-10 nav-container--title">
+							<h6>Menu</h6>
+						</div>
+						{/* Close Button */}
+						<div className="col-xs-2 nav-container--close">
+							<button type="button" className="close" aria-label="Close" onClick={this.onToggle}><span aria-hidden="true">&times;</span></button>
+						</div>
+					</div>
+
+
+
 					<div className="pull-right menu-container">
 
 		              	{this.renderSmallNav(isAuthenticated)}
@@ -99,7 +139,7 @@ export default class TopNav extends Component {
 			              </li>
 			            </ul>
 		            </div>
-				</Navbar.Collapse>
+				</Nav>
 			</Navbar>
 		);
 	}

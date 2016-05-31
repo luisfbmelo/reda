@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 
 export default (props) => {
-	const { field, max, min } = props;
+	const { field, maxLength, minLength } = props;
 
 	return (
 		<div>
@@ -11,13 +11,13 @@ export default (props) => {
 			<div className="row">
                 <div className="col-xs-6">
                 {(() => {
-                	if (max){
-                		return <span>{field.value.length + "/" + max}</span>
+                	if (maxLength){
+                		return <span>{field.value.length + "/" + maxLength}</span>
                 	}
                 })()}
                 </div>
                 <div className="col-xs-6 text-right">
-                  <small>Deve ter no mínimo {min} caracteres e no máximo {max}</small>
+                  <small>Deve ter no mínimo {minLength} caracteres e no máximo {maxLength}</small>
                 </div>
           	</div>
         </div>

@@ -3,7 +3,7 @@ import { Component } from 'react';
 import _ from 'lodash';
 
 // Utils
-import { sortByTitle } from '@/utils';
+import { sortByTitle, toggleClass, removeClass } from '@/utils';
 
 // Components
 import Collapsible from '@/components/common/collapse';
@@ -36,6 +36,7 @@ export default class ResourcesFilters extends Component {
 		this.domainChange = this.domainChange.bind(this);
 		this.yearChange = this.yearChange.bind(this);
 		this.accessChange = this.accessChange.bind(this);
+		this.toggleList = this.toggleList.bind(this);
 
 		//
 		//	Renders
@@ -66,6 +67,17 @@ export default class ResourcesFilters extends Component {
 		}
 	}
 
+	// Change list statue
+	toggleList(){
+		let list = this.refs.filters_list;
+		let backdrop = this.refs.backdrop;
+		let body = document.getElementsByTagName("BODY")[0];
+
+		toggleClass('open', list);
+		toggleClass('open', backdrop);
+		toggleClass('open', body);
+	}
+
 	// Reset filters on unmount
 	componentWillUnmount() {
 	    this.props.resetYears();
@@ -73,6 +85,9 @@ export default class ResourcesFilters extends Component {
 	    this.props.resetFormats();
 	    this.props.resetDomains();
 	    this.props.resetAccess();  
+
+	    //	Remove open class from body on unmount
+		removeClass('open',document.getElementsByTagName("BODY")[0]);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -279,8 +294,22 @@ export default class ResourcesFilters extends Component {
 
 		return (
 			<div className="resources__filter">
-				<div className="row">
-					<div className="col-xs-12">
+				<div className="backdrop" ref="backdrop" onClick={this.toggleList}></div>
+				<div className="row filters-button">
+					<div className="col-xs-12 text-center">
+						<button className="cta primary outline" onClick={this.toggleList}><i className="fa fa-filter"></i>Filtrar Lista</button>	
+					</div>					
+				</div>
+				<div className="row filters__list" ref="filters_list">
+					{/* Title */}
+					<div className="col-xs-10 filters__list--title">
+						<h6><i className="fa fa-filter"></i>Filtros</h6>
+					</div>
+					{/* Close Button */}
+					<div className="col-xs-2 filters__list--close">
+						<button type="button" className="close" aria-label="Close" onClick={this.toggleList}><span aria-hidden="true">&times;</span></button>
+					</div>
+					<div className="col-xs-12 filters__list--elements">
 						<Collapsible title="Anos" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
 							{this.renderYears()}
 						</Collapsible>

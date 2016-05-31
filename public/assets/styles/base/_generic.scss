@@ -1,5 +1,5 @@
-html { height: 100%; overflow:auto; }
-body { height: 100%; }
+html { height: 100%;}
+body { height: 100%; margin:0!important; }
 
 .light-background{
 	background-color:$light-background;
@@ -74,4 +74,11 @@ a[href^="mailto:"]{
 
 .block{
   display:block;
+}
+
+body.open{
+  
+  @include media-query(62em){
+    overflow-y:hidden;
+  }
 }

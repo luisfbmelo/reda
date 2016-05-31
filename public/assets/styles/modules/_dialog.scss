@@ -1,5 +1,30 @@
 .modal-backdrop{
-	bottom:0;
+  position:fixed!important;
+  bottom:0;
+
+  &:hover{
+    cursor:pointer;
+  }
+}
+
+.backdrop{
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  right:0;
+  background-color:black;
+  @include opacity(0.5);
+  z-index:10;
+  display:none;
+
+  &:hover{
+    cursor:pointer;
+  }
+
+  @include media-query-min(62em){
+    display:none!important;
+  }
 }
 
 .login-dialog{

@@ -179,3 +179,33 @@ export const truncate = (str,num) => {
   var final = words.join(' ');
   return final.length>=str.length ? words.join(' ') : words.join(' ')+" ...";
 }
+
+//
+//  Toggle class
+//
+export const toggleClass = (targetClass,el) => {
+    let rule = new RegExp(" "+targetClass, 'g');
+
+    if (el.className.indexOf(targetClass)<0){
+        el.className = el.className+' open';
+    }else{
+        el.className = el.className.replace( rule , '' );
+    }
+}
+
+//
+//  Remove class
+//
+export const removeClass = (targetClass,el) => {
+    let rule = new RegExp(" "+targetClass, 'g');
+
+    if (el){
+        if (el instanceof Array && el.length>0){
+            for(let element of el){            
+                element.className = element.className.replace( rule , '' );
+            }
+        }else if(el instanceof Array && el.length==1 || el.constructor != Array){
+            el.className = el.className.replace( rule , '' );            
+        } 
+    }       
+}

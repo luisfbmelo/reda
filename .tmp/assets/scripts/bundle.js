@@ -1150,7 +1150,6 @@ function fetchScripts(resourceId) {
 	return _defineProperty({}, _api.CALL_API, {
 		endpoint: 'scripts/' + resourceId,
 		sendToken: true,
-		mustAuth: true,
 		types: [_actionTypes.SCRIPTS_REQUEST, _actionTypes.SCRIPTS_SUCCESS, _actionTypes.SCRIPTS_FAILURE]
 	});
 }
@@ -1529,6 +1528,8 @@ var _loginForm = require('C:/Vagrant/devbox/devbox/public/assets/scripts/contain
 
 var _loginForm2 = _interopRequireDefault(_loginForm);
 
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
+
 var _reactBootstrap = require('react-bootstrap');
 
 var _reactRouter = require('react-router');
@@ -1540,6 +1541,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Utils
+
+
+// Components
+
 
 var LoginButton = function (_Component) {
   _inherits(LoginButton, _Component);
@@ -1560,6 +1567,7 @@ var LoginButton = function (_Component) {
   _createClass(LoginButton, [{
     key: 'open',
     value: function open() {
+      (0, _utils.removeClass)('open', Array.from(document.querySelectorAll(".open")));
       this.setState({ showModal: true });
     }
   }, {
@@ -1632,7 +1640,7 @@ LoginButton.propTypes = {
   className: _react.PropTypes.string
 };
 
-},{"C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/loginForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\loginForm.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginForm.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/loginForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\loginForm.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginForm.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1649,6 +1657,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1656,6 +1666,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Utils
+
 
 var LoginForm = function (_Component) {
   _inherits(LoginForm, _Component);
@@ -1680,6 +1693,8 @@ var LoginForm = function (_Component) {
 
 
           if (!errors) {
+            (0, _utils.removeClass)('open', Array.from(document.querySelectorAll(".open")));
+
             if (_this2.props.target) {
               _this2.context.router.push(_this2.props.target);
             } else {
@@ -1778,7 +1793,7 @@ LoginForm.contextTypes = {
   router: _react.PropTypes.object
 };
 
-},{"react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\logoutButton.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\logoutButton.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1793,6 +1808,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
+
 var _auth = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1802,6 +1819,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Utils
+
+
+// Components
+
 
 var LogoutButton = function (_Component) {
   _inherits(LogoutButton, _Component);
@@ -1819,6 +1842,7 @@ var LogoutButton = function (_Component) {
     key: 'logout',
     value: function logout() {
       this.props.logout();
+      (0, _utils.removeClass)('open', Array.from(document.querySelectorAll(".open")));
       this.context.router.push('/');
     }
   }, {
@@ -1848,7 +1872,7 @@ LogoutButton.contextTypes = {
 
 exports.default = (0, _reactRedux.connect)(null, { logout: _auth.logout })(LogoutButton);
 
-},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","react":"react","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/auth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\auth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-redux":"react-redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\protectedButton.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2073,7 +2097,7 @@ var SignupForm = function (_Component) {
             { className: 'row' },
             _react2.default.createElement(
               'div',
-              { className: 'col-xs-12 col-sm-6 col-sm-offset-3 text-center' },
+              { className: 'col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3 text-center' },
               _react2.default.createElement(
                 'h1',
                 null,
@@ -2091,7 +2115,7 @@ var SignupForm = function (_Component) {
             { className: 'row' },
             _react2.default.createElement(
               'div',
-              { className: 'form-group col-xs-12 col-sm-4 col-sm-offset-4 ' + (email.touched && email.invalid ? 'has-error' : '') },
+              { className: 'form-group col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3  ' + (email.touched && email.invalid ? 'has-error' : '') },
               _react2.default.createElement(
                 'label',
                 { className: 'input-title' },
@@ -2111,7 +2135,7 @@ var SignupForm = function (_Component) {
             { className: 'row' },
             _react2.default.createElement(
               'div',
-              { className: 'form-group col-xs-12 col-sm-4 col-sm-offset-4 ' + (password.touched && password.invalid ? 'has-error' : '') },
+              { className: 'form-group col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3  ' + (password.touched && password.invalid ? 'has-error' : '') },
               _react2.default.createElement(
                 'label',
                 { className: 'input-title' },
@@ -2130,7 +2154,7 @@ var SignupForm = function (_Component) {
             { className: 'row' },
             _react2.default.createElement(
               'div',
-              { className: 'form-group col-xs-12 col-sm-4 col-sm-offset-4 ' + (organization.touched && organization.invalid ? 'has-error' : '') },
+              { className: 'form-group col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3  ' + (organization.touched && organization.invalid ? 'has-error' : '') },
               _react2.default.createElement(
                 'label',
                 { className: 'input-title' },
@@ -2149,7 +2173,7 @@ var SignupForm = function (_Component) {
             { className: 'row' },
             _react2.default.createElement(
               'div',
-              { className: 'form-group col-xs-12 col-sm-4 col-sm-offset-4 ' + (authKey.touched && authKey.invalid ? 'has-error' : '') },
+              { className: 'form-group col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3  ' + (authKey.touched && authKey.invalid ? 'has-error' : '') },
               _react2.default.createElement(
                 'label',
                 { className: 'input-title' },
@@ -2168,7 +2192,7 @@ var SignupForm = function (_Component) {
             { className: 'row' },
             _react2.default.createElement(
               'div',
-              { className: 'col-xs-12 col-sm-4 col-sm-offset-4' },
+              { className: 'col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3 ' },
               _react2.default.createElement(
                 'button',
                 { type: 'submit', disabled: fetching || asyncValidating, className: 'cta primary' },
@@ -3014,8 +3038,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = function (props) {
   var field = props.field;
-  var max = props.max;
-  var min = props.min;
+  var maxLength = props.maxLength;
+  var minLength = props.minLength;
 
 
   return _react2.default.createElement(
@@ -3029,11 +3053,11 @@ exports.default = function (props) {
         'div',
         { className: 'col-xs-6' },
         function () {
-          if (max) {
+          if (maxLength) {
             return _react2.default.createElement(
               'span',
               null,
-              field.value.length + "/" + max
+              field.value.length + "/" + maxLength
             );
           }
         }()
@@ -3045,9 +3069,9 @@ exports.default = function (props) {
           'small',
           null,
           'Deve ter no mínimo ',
-          min,
+          minLength,
           ' caracteres e no máximo ',
-          max
+          maxLength
         )
       )
     )
@@ -3287,7 +3311,7 @@ var renderList = function renderList(list, props) {
 							{ className: 'actions' },
 							_react2.default.createElement(
 								_reactRouter.Link,
-								{ to: "/editarrecurso/" + el.slug, className: 'cta secundary no-bg' },
+								{ to: "/editarrecurso/" + el.slug, className: 'cta primary no-bg small' },
 								'Editar'
 							),
 							_react2.default.createElement(
@@ -3677,7 +3701,7 @@ var MyResources = function (_Component) {
 						{ className: 'col-xs-12' },
 						_react2.default.createElement(
 							'section',
-							{ className: 'row' },
+							{ className: 'row resources__page--filter' },
 							_react2.default.createElement(
 								'div',
 								{ className: 'col-xs-12 filter-container' },
@@ -3686,11 +3710,11 @@ var MyResources = function (_Component) {
 						),
 						_react2.default.createElement(
 							'section',
-							{ className: 'row' },
+							{ className: 'row resources-search' },
 							_react2.default.createElement(
 								'div',
 								{ className: 'col-xs-12 text-center' },
-								_react2.default.createElement(_searchBar2.default, { onSubmit: this.onSearchSubmit, onChangeTags: this.onChangeTags, tags: this.state.tags, className: 'resources-search' })
+								_react2.default.createElement(_searchBar2.default, { onSubmit: this.onSearchSubmit, onChangeTags: this.onChangeTags, tags: this.state.tags })
 							)
 						),
 						_react2.default.createElement(
@@ -4073,6 +4097,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
+
 var _reactBootstrap = require('react-bootstrap');
 
 var _collapse = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse');
@@ -4091,6 +4117,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Utils
+
+
 // Components
 
 
@@ -4100,10 +4129,35 @@ var DashboardMenu = function (_Component) {
 	function DashboardMenu(props) {
 		_classCallCheck(this, DashboardMenu);
 
-		return _possibleConstructorReturn(this, Object.getPrototypeOf(DashboardMenu).call(this, props));
+		//
+		//	Handle events
+		//
+
+		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DashboardMenu).call(this, props));
+
+		_this.toggleMenu = _this.toggleMenu.bind(_this);
+
+		return _this;
 	}
 
 	_createClass(DashboardMenu, [{
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			//	Remove open class from body on unmount
+			(0, _utils.removeClass)('open', document.getElementsByTagName("BODY")[0]);
+		}
+	}, {
+		key: 'toggleMenu',
+		value: function toggleMenu() {
+			var list = this.refs.dasboard_menu_list;
+			var backdrop = this.refs.backdrop;
+			var body = document.getElementsByTagName("BODY")[0];
+
+			(0, _utils.toggleClass)('open', list);
+			(0, _utils.toggleClass)('open', backdrop);
+			(0, _utils.toggleClass)('open', body);
+		}
+	}, {
 		key: 'isActive',
 		value: function isActive(location, target) {
 			return location.indexOf(target) > 0 ? 'active' : '';
@@ -4116,123 +4170,168 @@ var DashboardMenu = function (_Component) {
 
 			return _react2.default.createElement(
 				'nav',
-				{ className: 'left-menu' },
+				{ className: 'left-menu dashboard__menu' },
+				_react2.default.createElement('div', { className: 'backdrop', ref: 'backdrop', onClick: this.toggleMenu }),
 				_react2.default.createElement(
-					'ul',
-					null,
+					'div',
+					{ className: 'row dashboard__menu--toggle' },
 					_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel') },
+						'div',
+						{ className: 'col-xs-12' },
 						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel' },
-							'Os meus recursos ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-						)
-					),
-					_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/guioes') },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/guioes' },
-							'Os meus guiões ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-						)
-					),
-					_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/favoritos') },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/favoritos' },
-							'Favoritos (5) ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-						)
-					),
-					_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/submetidos') },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/submetidos' },
-							'Submetidos ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-						)
-					),
-					_react2.default.createElement(
-						'li',
-						{ className: this.isActive(this.props.location.pathname, 'painel/comentarios-pendentes') },
-						_react2.default.createElement(
-							_reactRouter.Link,
-							{ to: '/painel/comentarios-pendentes' },
-							'Comentários pendentes (2) ',
-							_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+							'button',
+							{ className: 'cta primary outline', onClick: this.toggleMenu },
+							_react2.default.createElement('i', { className: 'fa fa-wrench' }),
+							'Opções de Administração'
 						)
 					)
 				),
 				_react2.default.createElement(
-					_isAdmin2.default,
-					null,
+					'div',
+					{ className: 'dashboard__menu--list', ref: 'dasboard_menu_list' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'admin-tools' },
+						{ className: 'row dashboard__menu--title' },
 						_react2.default.createElement(
-							'h6',
-							null,
-							'Opções de Administrador'
+							'div',
+							{ className: 'col-xs-10' },
+							_react2.default.createElement(
+								'h6',
+								null,
+								'Minhas Opções'
+							)
 						),
 						_react2.default.createElement(
-							'ul',
-							null,
+							'div',
+							{ className: 'col-xs-2 dashboard__menu--close' },
 							_react2.default.createElement(
-								'li',
-								{ className: this.isActive(this.props.location.pathname, 'painel/recursos-pendentes') },
+								'button',
+								{ type: 'button', className: 'close', 'aria-label': 'Close', onClick: this.toggleMenu },
 								_react2.default.createElement(
-									_reactRouter.Link,
-									{ to: '/painel/recursos-pendentes' },
-									'Recursos pendentes (10) ',
-									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+									'span',
+									{ 'aria-hidden': 'true' },
+									'×'
 								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'ul',
+						null,
+						_react2.default.createElement(
+							'li',
+							{ className: this.isActive(this.props.location.pathname, 'painel') },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/painel' },
+								'Os meus recursos ',
+								_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+							)
+						),
+						_react2.default.createElement(
+							'li',
+							{ className: this.isActive(this.props.location.pathname, 'painel/guioes') },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/painel/guioes' },
+								'Os meus guiões ',
+								_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+							)
+						),
+						_react2.default.createElement(
+							'li',
+							{ className: this.isActive(this.props.location.pathname, 'painel/favoritos') },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/painel/favoritos' },
+								'Favoritos (5) ',
+								_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+							)
+						),
+						_react2.default.createElement(
+							'li',
+							{ className: this.isActive(this.props.location.pathname, 'painel/submetidos') },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/painel/submetidos' },
+								'Submetidos ',
+								_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+							)
+						),
+						_react2.default.createElement(
+							'li',
+							{ className: this.isActive(this.props.location.pathname, 'painel/comentarios-pendentes') },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/painel/comentarios-pendentes' },
+								'Comentários pendentes (2) ',
+								_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+							)
+						)
+					),
+					_react2.default.createElement(
+						_isAdmin2.default,
+						null,
+						_react2.default.createElement(
+							'div',
+							{ className: 'admin-tools' },
+							_react2.default.createElement(
+								'h6',
+								null,
+								'Opções de Administrador'
 							),
 							_react2.default.createElement(
-								'li',
-								{ className: this.isActive(this.props.location.pathname, 'painel/websugestoes') },
+								'ul',
+								null,
 								_react2.default.createElement(
-									_reactRouter.Link,
-									{ to: '/painel/websugestoes' },
-									'Websugestões ',
-									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-								)
-							),
-							_react2.default.createElement(
-								'li',
-								{ className: this.isActive(this.props.location.pathname, 'painel/aplicacoes') },
+									'li',
+									{ className: this.isActive(this.props.location.pathname, 'painel/recursos-pendentes') },
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/painel/recursos-pendentes' },
+										'Recursos pendentes (10) ',
+										_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+									)
+								),
 								_react2.default.createElement(
-									_reactRouter.Link,
-									{ to: '/painel/aplicacoes' },
-									'Aplicações ',
-									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-								)
-							),
-							_react2.default.createElement(
-								'li',
-								{ className: this.isActive(this.props.location.pathname, 'painel/experimenta') },
+									'li',
+									{ className: this.isActive(this.props.location.pathname, 'painel/websugestoes') },
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/painel/websugestoes' },
+										'Websugestões ',
+										_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+									)
+								),
 								_react2.default.createElement(
-									_reactRouter.Link,
-									{ to: '/painel/experimenta' },
-									'Experimenta ',
-									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
-								)
-							),
-							_react2.default.createElement(
-								'li',
-								{ className: this.isActive(this.props.location.pathname, 'painel/dicaseutilidades') },
+									'li',
+									{ className: this.isActive(this.props.location.pathname, 'painel/aplicacoes') },
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/painel/aplicacoes' },
+										'Aplicações ',
+										_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+									)
+								),
 								_react2.default.createElement(
-									_reactRouter.Link,
-									{ to: '/painel/dicaseutilidades' },
-									'Dicas e Utilidades ',
-									_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+									'li',
+									{ className: this.isActive(this.props.location.pathname, 'painel/experimenta') },
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/painel/experimenta' },
+										'Experimenta ',
+										_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+									)
+								),
+								_react2.default.createElement(
+									'li',
+									{ className: this.isActive(this.props.location.pathname, 'painel/dicaseutilidades') },
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/painel/dicaseutilidades' },
+										'Dicas e Utilidades ',
+										_react2.default.createElement('i', { className: 'fa fa-chevron-right' })
+									)
 								)
 							)
 						)
@@ -4252,7 +4351,7 @@ DashboardMenu.propTypes = {
 	location: _react2.default.PropTypes.object.isRequired
 };
 
-},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/collapse":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\collapse.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\navigation\\profileNav.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -4347,6 +4446,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
+
 var _reactBootstrap = require('react-bootstrap');
 
 var _loginButton = require('C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton');
@@ -4373,6 +4474,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// Utils
+
+
 // Components
 
 
@@ -4382,13 +4486,39 @@ var TopNav = function (_Component) {
 	function TopNav(props) {
 		_classCallCheck(this, TopNav);
 
+		//
+		//	Handle events
+		//
+
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TopNav).call(this, props));
 
+		_this.onToggle = _this.onToggle.bind(_this);
+
+		//
+		//	Renders
+		//
 		_this.renderSmallNav = _this.renderSmallNav.bind(_this);
 		return _this;
 	}
 
 	_createClass(TopNav, [{
+		key: 'componentWillUnmount',
+		value: function componentWillUnmount() {
+			//	Remove open class from body on unmount
+			(0, _utils.removeClass)('open', document.getElementsByTagName("BODY")[0]);
+		}
+	}, {
+		key: 'onToggle',
+		value: function onToggle(navExpanded) {
+			var item = document.querySelector(".nav-container");
+			var backdrop = this.refs.menu_backdrop;
+			var body = document.getElementsByTagName("BODY")[0];
+
+			(0, _utils.toggleClass)('open', item);
+			(0, _utils.toggleClass)('open', backdrop);
+			(0, _utils.toggleClass)('open', body);
+		}
+	}, {
 		key: 'isActive',
 		value: function isActive(location, target) {
 			location = location.length > 1 ? location.replace(/^\//, '') : location;
@@ -4446,16 +4576,7 @@ var TopNav = function (_Component) {
 						_react2.default.createElement(
 							_reactRouter.Link,
 							{ to: '/painel' },
-							'Olá ',
-							_react2.default.createElement(
-								'strong',
-								null,
-								_react2.default.createElement(
-									'em',
-									null,
-									this.props.auth.data.user.name
-								)
-							)
+							'Minha Conta'
 						)
 					)
 				),
@@ -4474,7 +4595,8 @@ var TopNav = function (_Component) {
 
 			return _react2.default.createElement(
 				_reactBootstrap.Navbar,
-				null,
+				{ onToggle: this.onToggle },
+				_react2.default.createElement('div', { className: 'backdrop', ref: 'menu_backdrop', onClick: this.onToggle }),
 				_react2.default.createElement(
 					_reactBootstrap.Navbar.Header,
 					null,
@@ -4490,8 +4612,34 @@ var TopNav = function (_Component) {
 					_react2.default.createElement(_reactBootstrap.Navbar.Toggle, null)
 				),
 				_react2.default.createElement(
-					_reactBootstrap.Navbar.Collapse,
-					null,
+					_reactBootstrap.Nav,
+					{ className: 'nav-container' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'col-xs-10 nav-container--title' },
+							_react2.default.createElement(
+								'h6',
+								null,
+								'Menu'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'col-xs-2 nav-container--close' },
+							_react2.default.createElement(
+								'button',
+								{ type: 'button', className: 'close', 'aria-label': 'Close', onClick: this.onToggle },
+								_react2.default.createElement(
+									'span',
+									{ 'aria-hidden': 'true' },
+									'×'
+								)
+							)
+						)
+					),
 					_react2.default.createElement(
 						'div',
 						{ className: 'pull-right menu-container' },
@@ -4561,7 +4709,7 @@ TopNav.propTypes = {
 	location: _react2.default.PropTypes.object.isRequired
 };
 
-},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/logoutButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\logoutButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\email.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/loginButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\loginButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/auth/logoutButton":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\auth\\logoutButton.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isNotAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isNotAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-bootstrap":"react-bootstrap","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\actions\\email.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -5373,6 +5521,7 @@ var ResourcesFilters = function (_Component) {
 		_this.domainChange = _this.domainChange.bind(_this);
 		_this.yearChange = _this.yearChange.bind(_this);
 		_this.accessChange = _this.accessChange.bind(_this);
+		_this.toggleList = _this.toggleList.bind(_this);
 
 		//
 		//	Renders
@@ -5411,6 +5560,20 @@ var ResourcesFilters = function (_Component) {
 			}
 		}
 
+		// Change list statue
+
+	}, {
+		key: 'toggleList',
+		value: function toggleList() {
+			var list = this.refs.filters_list;
+			var backdrop = this.refs.backdrop;
+			var body = document.getElementsByTagName("BODY")[0];
+
+			(0, _utils.toggleClass)('open', list);
+			(0, _utils.toggleClass)('open', backdrop);
+			(0, _utils.toggleClass)('open', body);
+		}
+
 		// Reset filters on unmount
 
 	}, {
@@ -5421,6 +5584,9 @@ var ResourcesFilters = function (_Component) {
 			this.props.resetFormats();
 			this.props.resetDomains();
 			this.props.resetAccess();
+
+			//	Remove open class from body on unmount
+			(0, _utils.removeClass)('open', document.getElementsByTagName("BODY")[0]);
 		}
 	}, {
 		key: 'componentDidUpdate',
@@ -5690,12 +5856,50 @@ var ResourcesFilters = function (_Component) {
 			return _react2.default.createElement(
 				'div',
 				{ className: 'resources__filter' },
+				_react2.default.createElement('div', { className: 'backdrop', ref: 'backdrop', onClick: this.toggleList }),
 				_react2.default.createElement(
 					'div',
-					{ className: 'row' },
+					{ className: 'row filters-button' },
 					_react2.default.createElement(
 						'div',
-						{ className: 'col-xs-12' },
+						{ className: 'col-xs-12 text-center' },
+						_react2.default.createElement(
+							'button',
+							{ className: 'cta primary outline', onClick: this.toggleList },
+							_react2.default.createElement('i', { className: 'fa fa-filter' }),
+							'Filtrar Lista'
+						)
+					)
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'row filters__list', ref: 'filters_list' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-10 filters__list--title' },
+						_react2.default.createElement(
+							'h6',
+							null,
+							_react2.default.createElement('i', { className: 'fa fa-filter' }),
+							'Filtros'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-2 filters__list--close' },
+						_react2.default.createElement(
+							'button',
+							{ type: 'button', className: 'close', 'aria-label': 'Close', onClick: this.toggleList },
+							_react2.default.createElement(
+								'span',
+								{ 'aria-hidden': 'true' },
+								'×'
+							)
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'col-xs-12 filters__list--elements' },
 						_react2.default.createElement(
 							_collapse2.default,
 							{ title: 'Anos', iconOpen: 'fa fa-chevron-up', iconClosed: 'fa fa-chevron-down' },
@@ -5892,7 +6096,7 @@ var ResourcesOrdering = function (_Component) {
 					),
 					_react2.default.createElement(
 						'option',
-						{ value: 'alfa' },
+						{ value: 'alfa--asc' },
 						'Alfabética'
 					),
 					_react2.default.createElement(
@@ -6383,6 +6587,7 @@ var ResourceDetails = function (_Component) {
 			var _config$data = config.data;
 			var files = _config$data.files;
 			var graphics = _config$data.graphics;
+			var icons_placeholder = _config$data.icons_placeholder;
 
 			var resourceInfo = resource.data;
 			var resId = params.resource;
@@ -6403,7 +6608,7 @@ var ResourceDetails = function (_Component) {
 							{ className: 'col-xs-12 col-sm-6' },
 							_react2.default.createElement(_mediaDisplay2.default, {
 								filesPath: files + "/" + resourceInfo.slug,
-								graphicsPath: graphics,
+								graphicsPath: icons_placeholder,
 								type: resourceInfo.Format.type,
 								file: resourceInfo.Files[0],
 								embed: resourceInfo.embed }),
@@ -6426,7 +6631,7 @@ var ResourceDetails = function (_Component) {
 							_react2.default.createElement(
 								_isAuth2.default,
 								null,
-								(auth.data.user.id == resourceInfo.user_id || auth.data.user.role == 'admin') && _react2.default.createElement(
+								auth.data && auth.data.user && (auth.data.user.id == resourceInfo.user_id || auth.data.user.role == 'admin') && _react2.default.createElement(
 									'div',
 									{ className: 'row' },
 									_react2.default.createElement(
@@ -6449,28 +6654,6 @@ var ResourceDetails = function (_Component) {
 								'div',
 								{ className: 'rating' },
 								_react2.default.createElement(_rating2.default, { initialRate: resourceInfo.ratingAvg, setRating: this.setRating, readonly: !isAuthenticated })
-							),
-							_react2.default.createElement(
-								_isAuth2.default,
-								null,
-								_react2.default.createElement(
-									'div',
-									{ className: 'row details-buttons' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'col-xs-12' },
-										_react2.default.createElement(
-											'button',
-											{ className: 'cta primary outline small', onClick: this.scrollToComments },
-											'Comentar Recurso'
-										),
-										_react2.default.createElement(
-											_reactRouter.Link,
-											{ to: "/gerirguioes/" + resourceInfo.slug, className: 'cta primary outline small' },
-											'Novo Guião'
-										)
-									)
-								)
 							),
 							this.printMeta("Autor", resourceInfo.author),
 							this.printMeta("Organização", resourceInfo.organization),
@@ -6504,6 +6687,28 @@ var ResourceDetails = function (_Component) {
 								null,
 								'-- ',
 								resourceInfo.operation_author
+							)
+						)
+					),
+					_react2.default.createElement(
+						_isAuth2.default,
+						null,
+						_react2.default.createElement(
+							'div',
+							{ className: 'row details-buttons text-center' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'col-xs-12' },
+								_react2.default.createElement(
+									'button',
+									{ className: 'cta primary outline', onClick: this.scrollToComments },
+									'Comentar Recurso'
+								),
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: "/gerirguioes/" + resourceInfo.slug, className: 'cta primary outline' },
+									'Novo Guião'
+								)
 							)
 						)
 					)
@@ -6608,7 +6813,7 @@ var possibleExt = ['swf', 'mp3', 'wav', 'wma', 'jar'];
 //	Show placeholder
 //
 var showPlaceholder = function showPlaceholder(graphicsPath, type) {
-	return _react2.default.createElement('img', { src: graphicsPath + "/" + type + ".jpg", className: 'img-responsive' });
+	return _react2.default.createElement('img', { src: graphicsPath + "/" + type + ".jpg", className: 'img-responsive', alt: type });
 };
 
 //
@@ -6632,7 +6837,6 @@ var includeSwf = function includeSwf(filePath, fileName) {
  */
 var video = function video(meta) {
 	var embed = meta.embed;
-
 
 	if (embed) {
 		return _react2.default.createElement('div', { dangerouslySetInnerHTML: { __html: embed }, className: 'embed-content' }) || showPlaceholder("video");
@@ -6729,6 +6933,7 @@ var calc = function calc(meta) {
 
 var game = function game(meta) {
 	var embed = meta.embed;
+
 
 	if (meta.file) {
 		var _meta$file5 = meta.file;
@@ -7422,10 +7627,11 @@ var ResourcesListing = function (_Component) {
 						_react2.default.createElement(
 							'div',
 							{ className: 'col-xs-12 col-md-3' },
+							_react2.default.createElement(_searchBar2.default, { onSubmit: this.onSearchSubmit, onChangeTags: this.onChangeTags, tags: this.state.tags, className: 'filter-search-container' }),
 							_react2.default.createElement(_filters2.default, { onFilterChange: this.onFilterChange }),
 							_react2.default.createElement(
 								'section',
-								null,
+								{ className: 'contribute-button' },
 								_react2.default.createElement(
 									'h6',
 									null,
@@ -8077,7 +8283,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (techResources.touched && techResources.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, { max: '300', min: '20', className: 'form-control', placeholder: 'Este recurso requer a utilização de...', field: techResources }),
+              _react2.default.createElement(_textarea2.default, { maxLength: 300, minLength: 20, className: 'form-control', placeholder: 'Este recurso requer a utilização de...', field: techResources }),
               techResources.touched && techResources.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -8100,7 +8306,7 @@ var NewResourceFormFirstPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (description.touched && description.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, { max: '300', min: '20', className: 'form-control', placeholder: 'Descreva este recurso sucintamente', field: description }),
+              _react2.default.createElement(_textarea2.default, { maxLength: 300, minLength: 20, className: 'form-control', placeholder: 'Descreva este recurso sucintamente', field: description }),
               description.touched && description.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -8118,8 +8324,10 @@ var NewResourceFormFirstPage = function (_Component) {
             'Continuar'
           ),
           _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/painel', className: 'cta primary no-bg' },
+            'button',
+            { className: 'cta no-bg', onClick: function onClick() {
+                return _this6.context.router.goBack();
+              }, role: 'link' },
             'Cancelar'
           )
         )
@@ -8133,6 +8341,10 @@ var NewResourceFormFirstPage = function (_Component) {
 NewResourceFormFirstPage.propTypes = {
   fields: _react.PropTypes.object.isRequired,
   handleSubmit: _react.PropTypes.func.isRequired
+};
+
+NewResourceFormFirstPage.contextTypes = {
+  router: _react.PropTypes.object
 };
 
 exports.default = (0, _reduxForm.reduxForm)({
@@ -8529,6 +8741,8 @@ var NewResourceFormSecondPage = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this5 = this;
+
       var _props = this.props;
       var _props$fields2 = _props.fields;
       var op_proposal = _props$fields2.op_proposal;
@@ -8641,7 +8855,7 @@ var NewResourceFormSecondPage = function (_Component) {
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (op_proposal.touched && op_proposal.invalid ? 'has-error' : '') },
-              _react2.default.createElement(_textarea2.default, { max: 800, min: 20, className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado', field: op_proposal }),
+              _react2.default.createElement(_textarea2.default, { maxLength: 300, minLength: 20, className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado', field: op_proposal }),
               op_proposal.touched && op_proposal.error && _react2.default.createElement(
                 'div',
                 { className: 'text-danger' },
@@ -8727,8 +8941,10 @@ var NewResourceFormSecondPage = function (_Component) {
             mapProps.resource.data && mapProps.resource.data.id ? "Guardar Alterações" : "Criar Recurso"
           ),
           _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/painel', className: 'cta no-bg' },
+            'button',
+            { className: 'cta no-bg', onClick: function onClick() {
+                return _this5.context.router.goBack();
+              }, role: 'link' },
             'Cancelar'
           )
         )
@@ -8744,6 +8960,10 @@ NewResourceFormSecondPage.propTypes = {
   handleSubmit: _react.PropTypes.func.isRequired,
   previousPage: _react.PropTypes.func.isRequired,
   submitting: _react.PropTypes.bool.isRequired
+};
+
+NewResourceFormSecondPage.contextTypes = {
+  router: _react.PropTypes.object
 };
 
 exports.default = (0, _reduxForm.reduxForm)({
@@ -8863,7 +9083,7 @@ var validate = function validate(values) {
   if (!values.subjects || values.subjects.length == 0) {
     errors.subjects = 'Campo é obrigatório';
   }
-
+  console.log(values.hasDomains);
   // Domains
   if (values.hasDomains && (!values.domains || values.domains.length == 0)) {
     errors.domains = 'Campo é obrigatório';
@@ -9887,7 +10107,7 @@ var NewScriptForm = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'form-group ' + (script.description.touched && script.description.invalid ? 'has-error' : '') },
-                      _react2.default.createElement(_textarea2.default, { max: '300', min: '20', className: 'form-control', placeholder: 'Descreva este guião sucintamente', field: script.description }),
+                      _react2.default.createElement(_textarea2.default, { maxLength: 300, minLength: 20, className: 'form-control', placeholder: 'Descreva este guião sucintamente', field: script.description }),
                       script.description.touched && script.description.error && _react2.default.createElement(
                         'div',
                         { className: 'text-danger' },
@@ -9970,7 +10190,7 @@ var NewScriptForm = function (_Component) {
                     _react2.default.createElement(
                       'div',
                       { className: 'form-group ' + (script.op_proposal.touched && script.op_proposal.invalid ? 'has-error' : '') },
-                      _react2.default.createElement(_textarea2.default, { max: 800, min: 20, className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado', field: script.op_proposal }),
+                      _react2.default.createElement(_textarea2.default, { maxLength: 300, minLength: 20, className: 'form-control', placeholder: 'Indique como este recurso pode ser utilizado/operacionalizado', field: script.op_proposal }),
                       script.op_proposal.touched && script.op_proposal.error && _react2.default.createElement(
                         'div',
                         { className: 'text-danger' },
@@ -10066,8 +10286,10 @@ var NewScriptForm = function (_Component) {
             ' Submeter Guiões'
           ),
           _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/painel', className: 'cta no-bg' },
+            'button',
+            { className: 'cta no-bg', onClick: function onClick() {
+                return _this4.context.router.goBack();
+              }, role: 'link' },
             'Cancelar'
           )
         )
@@ -10082,6 +10304,10 @@ NewScriptForm.propTypes = {
   fields: _react.PropTypes.object.isRequired,
   handleSubmit: _react.PropTypes.func.isRequired,
   submitting: _react.PropTypes.bool.isRequired
+};
+
+NewScriptForm.contextTypes = {
+  router: _react.PropTypes.object
 };
 
 exports.default = (0, _reduxForm.reduxForm)({
@@ -10201,7 +10427,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var SearchBar = function SearchBar(props) {
   return _react2.default.createElement(
     'div',
-    { className: "input-group single-search" },
+    { className: "input-group single-search " + props.className },
     _react2.default.createElement(_tags2.default, { setTags: props.onChangeTags, tags: props.tags, className: 'tags-search', placeholder: 'Palavras-chave' }),
     _react2.default.createElement(
       'button',
@@ -14453,7 +14679,7 @@ exports.default = _react2.default.createElement(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.truncate = exports.getAvg = exports.complexToQueryString = exports.toQueryString = exports.sortByTitle = exports.setUrl = exports.setDateFormat = undefined;
+exports.removeClass = exports.toggleClass = exports.truncate = exports.getAvg = exports.complexToQueryString = exports.toQueryString = exports.sortByTitle = exports.setUrl = exports.setDateFormat = undefined;
 
 var _moment = require('moment');
 
@@ -14783,6 +15009,57 @@ var truncate = exports.truncate = function truncate(str, num) {
 
     var final = words.join(' ');
     return final.length >= str.length ? words.join(' ') : words.join(' ') + " ...";
+};
+
+//
+//  Toggle class
+//
+var toggleClass = exports.toggleClass = function toggleClass(targetClass, el) {
+    var rule = new RegExp(" " + targetClass, 'g');
+
+    if (el.className.indexOf(targetClass) < 0) {
+        el.className = el.className + ' open';
+    } else {
+        el.className = el.className.replace(rule, '');
+    }
+};
+
+//
+//  Remove class
+//
+var removeClass = exports.removeClass = function removeClass(targetClass, el) {
+    var rule = new RegExp(" " + targetClass, 'g');
+
+    if (el) {
+        if (el instanceof Array && el.length > 0) {
+            var _iteratorNormalCompletion8 = true;
+            var _didIteratorError8 = false;
+            var _iteratorError8 = undefined;
+
+            try {
+                for (var _iterator8 = el[Symbol.iterator](), _step8; !(_iteratorNormalCompletion8 = (_step8 = _iterator8.next()).done); _iteratorNormalCompletion8 = true) {
+                    var element = _step8.value;
+
+                    element.className = element.className.replace(rule, '');
+                }
+            } catch (err) {
+                _didIteratorError8 = true;
+                _iteratorError8 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion8 && _iterator8.return) {
+                        _iterator8.return();
+                    }
+                } finally {
+                    if (_didIteratorError8) {
+                        throw _iteratorError8;
+                    }
+                }
+            }
+        } else if (el instanceof Array && el.length == 1 || el.constructor != Array) {
+            el.className = el.className.replace(rule, '');
+        }
+    }
 };
 
 },{"moment":"moment"}]},{},["C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\app.js"])

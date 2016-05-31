@@ -12,7 +12,7 @@ const possibleExt = [ 'swf', 'mp3', 'wav', 'wma', 'jar' ];
 //	Show placeholder
 //
 const showPlaceholder = (graphicsPath, type) => {
-	return <img src={graphicsPath + "/" + type + ".jpg"} className="img-responsive" />
+	return <img src={graphicsPath + "/" + type + ".jpg"} className="img-responsive" alt={type}/>
 }
 
 //
@@ -35,8 +35,7 @@ const includeSwf = (filePath, fileName) => {
  * 
  */
 var video = (meta) => {
-	const { embed } = meta;
-
+	const { embed } = meta;	
 	if (embed){
 		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("video");
 	}
@@ -117,6 +116,7 @@ const calc = (meta) => {
 
 const game = (meta) => {
 	const { embed } = meta;
+
 	if (meta.file){
 		const { name, extension } = meta.file;
 

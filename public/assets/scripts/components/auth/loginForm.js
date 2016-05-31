@@ -4,6 +4,9 @@ import React, { Component, PropTypes } from 'react';
 
 import { Link } from 'react-router';
 
+// Utils
+import { removeClass } from '@/utils';
+
 
 export default class LoginForm extends Component {
   constructor(props){
@@ -19,6 +22,8 @@ export default class LoginForm extends Component {
         const { errors } = this.props.auth;
 
         if (!errors){
+          removeClass('open', Array.from(document.querySelectorAll(".open")));
+
           if (this.props.target){
             this.context.router.push(this.props.target);
           }else{

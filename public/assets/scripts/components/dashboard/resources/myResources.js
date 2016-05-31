@@ -199,16 +199,16 @@ export default class MyResources extends Component {
 				<div className="row">
 				{this.props.resources && this.props.resources.data && this.props.resources.data.length > 0 ?
 					<div className="col-xs-12">		
-						<section className="row">
+						<section className="row resources__page--filter">
 							<div className="col-xs-12 filter-container">
 								{/* Filter List */}
 								<ResourcesFilters searchTags={false} buttonText="Filtrar" iconClass="fa fa-filter" onSubmit={this.filterList}/>
 							</div>
 						</section>				
-						<section className="row">
+						<section className="row resources-search">
 							<div className="col-xs-12 text-center">
 								{/* Search bar */}
-								<SearchBar onSubmit={this.onSearchSubmit} onChangeTags={this.onChangeTags} tags={this.state.tags} className="resources-search" />
+								<SearchBar onSubmit={this.onSearchSubmit} onChangeTags={this.onChangeTags} tags={this.state.tags}/>
 							</div>
 						</section>
 						<section className="row resources-actions">

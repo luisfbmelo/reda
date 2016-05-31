@@ -38,7 +38,7 @@ server/config
 public/config
 
 # Uploaded files
-public/files
+public/files/
 
 # Builds
 dist

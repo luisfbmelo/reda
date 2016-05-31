@@ -1,0 +1,37 @@
+{
+	"terms": {
+		"acceptance": "Aceito os Termos e condições e autorizo que o conteúdo que submeto seja distribuído sob os termos da licença Creative Commons Attribution. <p>Ao fazê-lo:<ul><li>mantenho os direitos autorais do trabalho submetido;</li><li>sou o autor ou o proprietário da obra ou tenho a permissão do autor para a distribuir;</li><li>pretendo que este trabalho seja distribuído sob os termos dessa licença (inclusive permitindo a sua modificação, sendo-me dado o crédito pela minha criação)</li></ul></p>"
+	},
+	"explore": {
+		"title": "Explora. Aprende.",
+		"text": "Este espaço é para ti. <br/>Dos jogos aos museus virtuais, aqui encontrarás notícias e novidades de várias disciplinas, do 1.º ao 12.º ano. Também vais encontrar recursos que te vão ajudar a estudar o que aprendes na sala de aula.<br/>Poderás sugerir outras páginas e aplicações, utilizando o formulário de contacto (Fale connosco), partilhar nas tuas redes sociais ou enviar aos teus amigos.<br/>Aventura-te pelos sítios que encontrámos, para manteres a tua mente ativa!",
+		"button": "Experimenta",
+		"image": {
+			"src": "/assets/graphics/bg/explore.jpg",
+			"alt": "some alt"
+		}
+	},
+	"contribute":{
+		"title": "Contribua com os seus Recursos",
+		"sections": [
+			{
+				"title": "Docentes",
+				"icon": "/assets/graphics/icons/lapis.svg",
+				"text": "A REDA tem um espaço dedicado a docentes, permitindo a inserção de conteúdos nas mais variadas áreas e domínios. Entre na plataforma e inicie a sua atividade na comunidade.",
+				"button": {
+					"text": "Entre na REDA",
+					"type": "login"
+				}
+			},
+			{
+				"title": "Alunos",
+				"icon": "/assets/graphics/icons/conversa.svg",
+				"text": "Como aluno, pode não só aceder aos mais variados recursos disponíveis na plataforma, mas também enviar sugestões de novo conteúdo para os nossos administradores.",
+				"button": {
+					"text": "Envia Sugestões",
+					"type": "feedback"
+				}
+			}
+		]
+	}
+}

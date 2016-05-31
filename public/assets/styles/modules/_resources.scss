@@ -4,6 +4,12 @@
 .resources{
 	&__page{
 		padding-bottom:30px;
+
+		.contribute-button{
+			@include media-query(62em){
+				display:none;
+			}
+		}
 	}
 
 	&__recent{
@@ -73,6 +79,7 @@
 			}
 
 			color:$body-color;
+		    word-wrap: break-word;
 		}
 
 		.type{
@@ -94,12 +101,20 @@
 
 		&--buttons{
 			display:block;
-			text-align: center;
+			
 			a{
-				display: block; 
+				@include media-query-min(48em){
+					display: block;
+					text-align: center;
+				}
+				
 
 			    & + a{
 			    	margin-top:10px;
+
+			    	@include media-query(48em){
+			    		margin-left:10px;
+			    	}
 			    }
 			}
 		}	
@@ -141,7 +156,7 @@
 
 			a,
 			button{
-				padding:0;
+				padding:0!important;
 				margin-bottom:15px;
 
 				& + button{
@@ -165,8 +180,6 @@
 				}
 
 				@include media-query(48em){
-					text-align:center;
-
 					i{
 						margin-bottom:10px;
 					}
@@ -182,6 +195,7 @@
 			display:table-cell;
 			height: 100%;
 			vertical-align: middle;
+			width:25px;
 		}
 
 		&--container{
@@ -354,7 +368,7 @@
 	}
 
 	p,
-	.tech-file{
+	.tech-file{		
 		font:{
 			family:$opensans;
 		}
@@ -362,8 +376,20 @@
 		@include font-size(13px);
 	}
 
+	p,
+	small,
+	span{
+		word-wrap: break-word;
+	}
+
 	.mediadisplay-container{
-		min-height:300px;
+		img{
+			width:100%;
+		}
+
+		object{
+			min-height:300px;
+		}
 	}
 
 	.op-proposal{
@@ -374,13 +400,13 @@
 
 	.tech-file{
 
-		& > div{
+		& > div + div{
 			margin-bottom:30px;
 		}
 		
 
 		h2{
-			margin-bottom:30px;
+			margin:60px 0 30px;
 		}
 
 		ul {
@@ -403,6 +429,7 @@
 	}
 
 	.details-buttons{
+		margin-top:60px;
 		margin-bottom:15px;
 
 		button,

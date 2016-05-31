@@ -3,6 +3,10 @@
 import React, { Component, PropTypes } from 'react';
 import LoginFormContainer from '@/containers/auth/loginForm';
 
+// Utils
+import { removeClass } from '@/utils';
+
+// Components
 import { Modal } from 'react-bootstrap';
 import { Link } from 'react-router';
 
@@ -19,6 +23,7 @@ export default class LoginButton extends Component {
   }
 
   open(){
+    removeClass('open', Array.from(document.querySelectorAll(".open")));
     this.setState({showModal: true});
   }
 

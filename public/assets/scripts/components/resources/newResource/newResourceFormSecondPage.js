@@ -323,7 +323,7 @@ class NewResourceFormSecondPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Proposta de Operacionalização*</label>
             <div className={`form-group ${op_proposal.touched && op_proposal.invalid ? 'has-error' : ''}`}>
-              <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={op_proposal} />
+              <TextArea maxLength={300} minLength={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={op_proposal} />
               {op_proposal.touched && op_proposal.error && <div className="text-danger">{op_proposal.error}</div>}
             </div>            
           </div>
@@ -366,7 +366,7 @@ class NewResourceFormSecondPage extends Component {
           <button type="submit" disabled={submitting} className="cta primary">
             {submitting ? <i className='fa fa-spinner fa-spin'></i> : ""} {mapProps.resource.data && mapProps.resource.data.id ? "Guardar Alterações" : "Criar Recurso"}
           </button>
-          <Link to="/painel" className="cta no-bg">Cancelar</Link>
+          <button className="cta no-bg" onClick={() => this.context.router.goBack()} role="link">Cancelar</button>
         </footer>
       </form>
     )
@@ -378,6 +378,10 @@ NewResourceFormSecondPage.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   previousPage: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired
+}
+
+NewResourceFormSecondPage.contextTypes = {
+  router: PropTypes.object
 }
 
 export default reduxForm({

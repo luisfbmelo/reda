@@ -9,7 +9,7 @@ export default class NewResourcePage extends Component {
     return (
     	<div>
   			<Header location={this.props.location}/>
-        <SignupForm />
+        	<SignupForm />
   			<BottomNav location={this.props.location}/>
     	</div>
     );

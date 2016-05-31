@@ -45,7 +45,6 @@ export function fetchScripts(resourceId){
 		[CALL_API]: {
 		  endpoint: 'scripts/'+resourceId,
 		  sendToken: true,
-		  mustAuth: true,
 		  types: [SCRIPTS_REQUEST, SCRIPTS_SUCCESS, SCRIPTS_FAILURE]
 		}
 	}

@@ -137,7 +137,7 @@ export default class ResourceDetails extends Component {
 
 		const { scripts } = this.props;
 
-		const { files, graphics } = config.data;
+		const { files, graphics, icons_placeholder } = config.data;
 		const resourceInfo = resource.data;
 		const resId = params.resource;
 		const { isAuthenticated } = auth;
@@ -149,7 +149,7 @@ export default class ResourceDetails extends Component {
 						<div className="col-xs-12 col-sm-6">
 							<MediaDisplay 
 								filesPath={files+"/"+resourceInfo.slug} 
-								graphicsPath={graphics} 
+								graphicsPath={icons_placeholder} 
 								type={resourceInfo.Format.type} 
 								file={resourceInfo.Files[0]} 
 								embed={resourceInfo.embed} />
@@ -167,7 +167,7 @@ export default class ResourceDetails extends Component {
 
 							{/* Admin features */}
 							<IsAuthenticated>
-								{(auth.data.user.id == resourceInfo.user_id || auth.data.user.role=='admin') &&
+								{(auth.data && auth.data.user && (auth.data.user.id == resourceInfo.user_id || auth.data.user.role=='admin')) &&
 									<div className="row">
 										<div className="col-xs-12 admin-features">										
 											<Link to={"/editarrecurso/" + resourceInfo.slug} className="cta primary no-bg small">Editar</Link>
@@ -182,15 +182,7 @@ export default class ResourceDetails extends Component {
 			      				<Rating initialRate={resourceInfo.ratingAvg} setRating={this.setRating} readonly={!isAuthenticated}/>
 			      			</div>			      			
 
-			      			{/* Authenticated feature */}
-			      			<IsAuthenticated>
-								<div className="row details-buttons">
-									<div className="col-xs-12">
-										<button className="cta primary outline small" onClick={this.scrollToComments}>Comentar Recurso</button>
-										<Link to={"/gerirguioes/" + resourceInfo.slug} className="cta primary outline small">Novo Guião</Link>
-									</div>
-								</div>
-							</IsAuthenticated>
+			      			
 
 			      			{this.printMeta("Autor", resourceInfo.author)}
 			      			{this.printMeta("Organização", resourceInfo.organization)}
@@ -214,6 +206,16 @@ export default class ResourceDetails extends Component {
 							<small>-- {resourceInfo.operation_author}</small>
 						</div>
 					</div>
+
+					{/* Authenticated feature */}
+	      			<IsAuthenticated>
+						<div className="row details-buttons text-center">
+							<div className="col-xs-12">
+								<button className="cta primary outline" onClick={this.scrollToComments}>Comentar Recurso</button>
+								<Link to={"/gerirguioes/" + resourceInfo.slug} className="cta primary outline">Novo Guião</Link>
+							</div>
+						</div>
+					</IsAuthenticated>
 				</section>
 
 				{/* Scripts */}

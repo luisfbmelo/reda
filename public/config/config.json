@@ -2,5 +2,6 @@
 	"files": "/files",
 	"graphics": "/assets/graphics",
 	"formatIcons": "/assets/graphics/icons",
-	"icons": "/assets/graphics/icons"
+	"icons": "/assets/graphics/icons",
+	"icons_placeholder": "/assets/graphics/placeholder"
 }

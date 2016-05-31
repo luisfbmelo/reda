@@ -24,7 +24,7 @@ export default class ResourcesOrdering extends Component {
 				
 				<select className="form-control" id="order-box" onChange={this.onOrderChange} value={this.state.value}>
 					<option value="recent">Mais recente</option>
-					<option value="alfa">Alfabética</option>
+					<option value="alfa--asc">Alfabética</option>
 					<option value="rating--desc">Avaliações (maior)</option>
 					<option value="rating--asc">Avaliações (menor)</option>					
 				</select>

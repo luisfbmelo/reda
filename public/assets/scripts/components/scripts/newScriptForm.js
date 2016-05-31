@@ -268,7 +268,7 @@ class NewScriptForm extends Component {
                   <div className="col-xs-12">
                     <label className="input-title">Descrição*</label>
                     <div className={`form-group ${script.description.touched && script.description.invalid ? 'has-error' : ''}`}>
-                      <TextArea max="300" min="20" className="form-control" placeholder="Descreva este guião sucintamente" field={script.description} />
+                      <TextArea maxLength={300} minLength={20} className="form-control" placeholder="Descreva este guião sucintamente" field={script.description} />
                       {script.description.touched && script.description.error && <div className="text-danger">{script.description.error}</div>}
                     </div>            
                   </div>
@@ -312,7 +312,7 @@ class NewScriptForm extends Component {
                   <div className="col-xs-12">
                     <label className="input-title">Proposta de Operacionalização*</label>
                     <div className={`form-group ${script.op_proposal.touched && script.op_proposal.invalid ? 'has-error' : ''}`}>
-                      <TextArea max={800} min={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={script.op_proposal}/>
+                      <TextArea maxLength={300} minLength={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={script.op_proposal}/>
                       {script.op_proposal.touched && script.op_proposal.error && <div className="text-danger">{script.op_proposal.error}</div>}
                     </div>            
                   </div>
@@ -365,7 +365,7 @@ class NewScriptForm extends Component {
           <button type="submit" disabled={submitting} className="cta primary">
             {submitting ? <i className='fa fa-spinner fa-spin'></i> : ""} Submeter Guiões
           </button>
-          <Link to="/painel" className="cta no-bg">Cancelar</Link>
+          <button className="cta no-bg" onClick={() => this.context.router.goBack()} role="link">Cancelar</button>
         </footer>
       </form>
     )
@@ -376,6 +376,10 @@ NewScriptForm.propTypes = {
   fields: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   submitting: PropTypes.bool.isRequired
+}
+
+NewScriptForm.contextTypes = {
+  router: PropTypes.object
 }
 
 export default reduxForm({

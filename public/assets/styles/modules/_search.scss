@@ -35,6 +35,21 @@
 	}
 }
 
+/* LIST SEARCH */
+.resources-search{
+	@include media-query(62em){
+		display:none;
+	}
+}
+
+/* FILTERS SEARCH */
+.filter-search-container{
+	@include media-query-min(62em){
+		display:none;
+	}
+}
+
+
 @include media-query(75em){
 	.search-container .cta i{
 		/*display:none;*/
@@ -54,6 +69,10 @@
 				select{
 					margin-bottom:30px!important;
 				}
+			}
+
+			@include media-query(48em){
+				display:none;
 			}
 		}
 	}

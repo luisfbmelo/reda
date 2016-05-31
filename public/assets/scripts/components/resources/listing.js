@@ -177,11 +177,12 @@ export default class ResourcesListing extends Component {
 				<div className="container">
 					<div className="row">
 						<div className="col-xs-12 col-md-3">
-							{/* Filters */}
+							{/* Filters and search */}							
+							<SearchBar onSubmit={this.onSearchSubmit} onChangeTags={this.onChangeTags} tags={this.state.tags} className="filter-search-container" />
 							<ResourcesFilters onFilterChange={this.onFilterChange}/>
-							
+
 							{/* Contribute */}
-							<section>
+							<section className="contribute-button">
 								<h6>Comece a contribuir</h6>
 								{this.renderNewResourceBtn("Introduzir Recursos","novorecurso")}
 							</section>

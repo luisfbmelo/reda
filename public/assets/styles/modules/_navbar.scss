@@ -12,12 +12,18 @@
 	}
 
 	.navbar-nav{
+		text-align:right;
+		float:right;
+
+		@include media-query(48em){ //768/16
+			margin-top:0;
+			margin-bottom:0;
+		}
+
 		font:{
 			family:$lato;
 			weight:400;			
 		}
-
-		text-align:right;
 
 		button{
 			padding:0;
@@ -42,6 +48,8 @@
 				
 				button{
 					display:block;
+					width:100%;
+					text-align:left;
 				}
 
 				a,
@@ -130,7 +138,7 @@
 }
 
 .header-container{
-	&.home-page{
+	&.home-page, &.painel, &.perfil{
 		.navbar-default{
 			.icon-bar{
 				background-color:white!important;
@@ -229,7 +237,11 @@ footer{
 /* DASHBOARD MENU */
 .left-menu{
 	margin-top:30px;
-	margin-bottom:30px;
+
+	@include media-query-min(62em){
+		margin-bottom:30px;
+	}
+
 	h6{
 		margin:30px 0 20px;
 	}
@@ -272,6 +284,100 @@ footer{
 				a{
 					color:$green;
 					font-weight:bold;
+				}
+			}
+		}
+	}
+}
+
+/* ANIMATE NAVBAR */
+.navbar{
+	@include media-query(48em){
+		.backdrop.open{
+	    	display:block;
+	  	}
+  	}
+
+  	.nav-container{
+		.big-nav{
+			@include media-query(48em){
+				margin-top:15px;
+  			}			
+		}
+
+  		&--close{
+  			padding:10px 20px 0;
+  			button,
+  			span{
+  				border:none;
+  				&:hover,
+  				&:active,
+  				&:focus{
+					border:none;
+				}
+  			}
+
+  			@include media-query-min(48em){
+				display:none;
+  			}			
+		}
+
+		&--title{
+			padding:10px 20px 0;
+			h6{
+				text-align:left;
+				color:$green;
+			}
+			@include media-query-min(48em){
+				display:none;
+  			}
+		}
+  	}
+
+	.navbar-nav.nav-container{
+
+		@include media-query(48em){
+			margin:0;
+
+			position:fixed;
+			top:0;
+			right:0;
+			height:100%;
+			overflow-y:auto;
+			background-color:white;
+			width:300px;
+			padding:0 15px;
+			z-index:11;
+			
+			a,button{
+				color:$body-color!important;
+			}
+
+			@include transition(all 0.3s ease);
+			@include transform(translate(100%,0));
+
+			&.open{
+				@include transform(translate(0,0));
+			    overflow-y: auto;
+			}
+
+			&:not(.open){
+
+			}
+		}
+	}
+}
+
+.no-csstransforms{
+	.navbar{
+		.navbar-nav.nav-container{
+			@include media-query(62em){
+				position:fixed;
+				top:0;
+				right:-300px;
+
+				&.open{
+					right:0;
 				}
 			}
 		}
