@@ -157,43 +157,47 @@ var createSubjects = function(models){
   })
   .then(function(){
 
-  return models.Subject.create({
-    title: "Português",
-    Domains: [
-      { title: "Oralidade" },
-      { title: "Leitura" },
-      { title: "Escrita" },
-      { title: "Iniciação à educação literária" },
-      { title: "Educação literária" },
-      { title: "Gramática" },
-      { id: 6 },
-      { title: "História da língua" }
-    ]
-  },{
-    include: [ models.Domain ]
-  })
+    return models.Subject.create({
+      title: "Português",
+      Domains: [
+        { title: "Oralidade" },
+        { title: "Leitura" },
+        { title: "Escrita" },
+        { title: "Iniciação à educação literária" },
+        { title: "Educação literária" },
+        { title: "Gramática" },
+        { title: "História da língua" }
+      ]
+    },{
+      include: [ models.Domain ]
+    })
+    .then((item) => {
+      item.addDomains([6])
+    })
   })
   .then(function(){
 
-  return models.Subject.create({
-    title: "Ciências Físico-Químicas",
-    Domains: [
-      { title: "Espaço " },
-      { title: "Materiais" },
-      { title: "Energia" },
-      { title: "Reações químicas" },
-      { title: "Som " },
-      { title: "Luz" },
-      { title: "Movimentos" },
-      { title: "Forças" },
-      { title: "Eletricidade" },
-      { title: "Classificação dos materiais" },
-      { id: 6 },
-      { title: "História e natureza da ciência " }
-    ]
-  },{
-    include: [ models.Domain ]
-  })
+    return models.Subject.create({
+      title: "Ciências Físico-Químicas",
+      Domains: [
+        { title: "Espaço " },
+        { title: "Materiais" },
+        { title: "Energia" },
+        { title: "Reações químicas" },
+        { title: "Som " },
+        { title: "Luz" },
+        { title: "Movimentos" },
+        { title: "Forças" },
+        { title: "Eletricidade" },
+        { title: "Classificação dos materiais" },
+        { title: "História e natureza da ciência " }
+      ]
+    },{
+      include: [ models.Domain ]
+    })
+    .then((item) => {
+      item.addDomains([6])
+    })
   })
   .then(function(){
 

@@ -278,7 +278,6 @@
 	h1{
 		margin-top:0;
 		margin-bottom:60px;
-
 	}
 	
 	label{
@@ -360,6 +359,13 @@
 			@include media-query(48em){
 				margin-top:30px;
 			}
+
+			& + small{
+				display:block;
+				margin-bottom:10px;
+				color:$soft-label-color;
+				font-style: italic;
+			}
 		}
 
 		.rating{
@@ -374,6 +380,10 @@
 		}
 
 		@include font-size(13px);
+	}
+
+	p{
+		line-height:1.5;
 	}
 
 	p,

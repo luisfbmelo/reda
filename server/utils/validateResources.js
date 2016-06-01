@@ -73,8 +73,8 @@ exports.validate = function(values){
   // Tech Resources
   if (!values.techResources) {
     errors.techResources = 'Recursos Téncicos: O campo é obrigatório'
-  } else if (values.techResources.length < 20) {
-    errors.techResources = 'Recursos Téncicos: Deve ter pelo menos 20 caracteres'
+  } else if (values.techResources.length < 1) {
+    errors.techResources = 'Recursos Téncicos: Deve ter pelo menos 1 caracter'
   } else if (values.techResources.length > 300) {
     errors.techResources = 'Recursos Téncicos: Apenas deve conter no máximo 300 caracteres'
   }
@@ -84,8 +84,8 @@ exports.validate = function(values){
     errors.description = 'Descrição: O campo é obrigatório'
   } else if (values.description.length < 20) {
     errors.description = 'Descrição: Deve ter pelo menos 20 caracteres'
-  } else if (values.description.length > 300) {
-    errors.description = 'Descrição: Apenas deve conter no máximo 300 caracteres'
+  } else if (values.description.length > 800) {
+    errors.description = 'Descrição: Apenas deve conter no máximo 800 caracteres'
   }
 
    // Subjects

@@ -22,7 +22,8 @@ exports.list = function(req, res, next) {
 		
 
 	models.Domain.findAll({
-		include: includes
+		include: includes,
+		order: [['title','ASC']]
 	}).then(function(Domains){
 		return res.json({result: Domains});
 	}).catch(function(err){
@@ -45,7 +46,10 @@ exports.listWithSubjects = function(req, res, next) {
 
 	//var filter = { title: { like: '%gone%'}, 'Author.name' : { like : '%paul%' } };
 
-	models.Domain.findAll({ include: includes})
+	models.Domain.findAll({ 
+		include: includes,
+		order: [['title','ASC']]
+	})
 	.then(function(domains){
 		return res.json({result: domains});
 	})
@@ -86,7 +90,10 @@ exports.listFromSubject = function(req, res, next) {
 
 	//var filter = { title: { like: '%gone%'}, 'Author.name' : { like : '%paul%' } };
 
-	models.Domain.findAll({ include: includes})
+	models.Domain.findAll({ 
+		include: includes,
+		order: [['title','ASC']]
+	})
 	.then(function(domains){
 		return res.json({result: domains});
 	})

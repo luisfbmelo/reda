@@ -26,13 +26,13 @@ export default (
 
   	<Route name="Descobrir" path="descobrir" component={DiscoverPage} />
   	<Route name="Descobrir" path="descobrir" component={Empty}>  		
-		  <Route name="Detalhes de Recurso" path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
+		  <Route name="Detalhes de Recurso" staticName={true} path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
   	</Route>
     
   	<Route name="Painel de Gestão" path="painel" component={DashboardPage} />
     <Route name="Novo Recurso" path="novorecurso" component={NewResourcePage} />
-    <Route name="Editar Recurso" path="editarrecurso/:resource" component={NewResourcePage} />
-    <Route name="Gerir Guiões" path="gerirguioes/:resource" component={NewScriptPage} /> 
+    <Route name="Editar Recurso" staticName={true} path="editarrecurso/:resource" component={NewResourcePage} />
+    <Route name="Gerir Guiões" staticName={true} path="gerirguioes/:resource" component={NewScriptPage} /> 
 
     <Route name="Registar" path="registar" component={SignupFormPage} />
 

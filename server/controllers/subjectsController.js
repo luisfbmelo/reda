@@ -21,7 +21,8 @@ exports.list = function(req, res, next) {
 	}
 
 	models.Subject.findAll({
-		include: includes
+		include: includes,
+		order: [['title','ASC']]
 	}).then(function(Subjects){
 		return res.json({result: Subjects});
 	}).catch(function(err){
@@ -38,7 +39,10 @@ exports.listWithDomains = function(req, res, next) {
 
 	//var filter = { title: { like: '%gone%'}, 'Author.name' : { like : '%paul%' } };
 
-	models.Subject.findAll({ include: includes})
+	models.Subject.findAll({ 
+		include: includes,
+		order: [['title','ASC']]
+	})
 	.then(function(subjects){
 		return res.json({result: subjects});
 	})

@@ -119,7 +119,7 @@ class NewScriptForm extends Component {
             {
               Checkbox => (
                 <div className="row">
-                  {_.sortBy(this.props.mapProps.subjects.data, 'title').map((item,index) => {
+                  {this.props.mapProps.subjects.data.map((item,index) => {
                     return (
                       <div key={"subject-" + scriptIndex + "-" +item.id} className="col-xs-6">
                         <Checkbox value={item.id} id={"subject-" + scriptIndex + "-" + item.id}/> 
@@ -145,7 +145,7 @@ class NewScriptForm extends Component {
             {
               Checkbox => (
                 <div className="row">
-                  {_.sortBy(this.props.mapProps.years.data, 'title').map((item,index) => {
+                  {this.props.mapProps.years.data.map((item,index) => {
 
                     return (
                       <div key={"year-" + scriptIndex + "-" +item.id} className="col-xs-6">
@@ -312,7 +312,7 @@ class NewScriptForm extends Component {
                   <div className="col-xs-12">
                     <label className="input-title">Proposta de Operacionalização*</label>
                     <div className={`form-group ${script.op_proposal.touched && script.op_proposal.invalid ? 'has-error' : ''}`}>
-                      <TextArea maxLength={300} minLength={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={script.op_proposal}/>
+                      <TextArea maxLength={800} minLength={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={script.op_proposal}/>
                       {script.op_proposal.touched && script.op_proposal.error && <div className="text-danger">{script.op_proposal.error}</div>}
                     </div>            
                   </div>

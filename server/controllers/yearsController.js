@@ -21,7 +21,8 @@ exports.list = function(req, res, next) {
 	}	
 
 	models.Year.findAll({
-		include: includes
+		include: includes,
+		order: [['title','ASC']]
 	}).then(function(years){
 		return res.json({result: years});
 	}).catch(function(err){

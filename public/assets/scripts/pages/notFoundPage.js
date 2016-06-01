@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
+
+// Components
+import Helmet from "react-helmet";
 import Header from '@/containers/header';
 import BottomNav from '@/components/navigation/bottomNav';
 
@@ -7,6 +10,9 @@ export default class NotFoundPage extends Component {
   render() {
     return (
     	<div>
+        <Helmet
+          title="Página não encontrada"
+        />
         <Header location={this.props.location}/>
         <div className="page-not-found light-background">
           <div className="container">

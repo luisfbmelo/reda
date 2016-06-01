@@ -62,7 +62,7 @@ module.exports = function(sequelize, DataTypes) {
 				Script.belongsToMany(models.Domain, {through: 'script_domain'});
 				Script.belongsToMany(models.Subject, {through: 'script_subject'});
 				Script.belongsTo(models.User);
-				Script.belongsTo(models.Resource, {as: 'Resource'});
+				Script.belongsTo(models.Resource);
 			}
 		}
 	});

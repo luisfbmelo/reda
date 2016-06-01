@@ -8,27 +8,31 @@ const validate = require('../utils/validateResources').validate;
 const consts = require('../config/const');
 
 // Generic Includes
-var includes = [
-	{ 
-		seperate: true, 
-		model: models.Rating,
-		required:false,
-		attributes: []
-	},
-	{ 
-		seperate: true, 
-		model: models.Format,
-		include: [{
-				seperate: true,
-  			model: models.Image
-  		}]
-	}
-];
+function initIncludes(){
+
+	return [
+		{ 
+			seperate: true, 
+			model: models.Rating,
+			required:false,
+			attributes: []
+		},
+		{ 
+			seperate: true, 
+			model: models.Format,
+			include: [{
+					seperate: true,
+	  			model: models.Image
+	  		}]
+		}
+	];
+}
 
 //
 //	Return generic lsit of resources
 //
 exports.list = function(req, res, next) {
+	var includes = initIncludes();
 
 	models.Resource.findAll({
 		include: includes,
@@ -58,6 +62,7 @@ exports.list = function(req, res, next) {
 //	Return a list of related
 //
 exports.related = function(req, res, next) {
+	var includes = initIncludes();
 
 	var resourceSlug = req.params.slug;
 	var limit = parseInt(req.query.limit) || 3;
@@ -108,6 +113,8 @@ exports.recent = function(req, res, next){
 	// Check AUTH
 	var userExists = req.userExists;
 
+	var includes = initIncludes();
+
 	// Set scope
 	// RECENT - if no auth, show only not exclusive
 	// RECENTGENERIC - if with auth, show all
@@ -143,6 +150,7 @@ exports.recent = function(req, res, next){
 //	List of Resources that are highlights
 //
 exports.highlight = function(req, res, next){
+	var includes = initIncludes();
 	models.Resource.scope('highlight').findAll({
 		group: ['Resource.id'],
 		include: includes,
@@ -378,6 +386,7 @@ exports.search = function(req, res, next){
 //
 exports.details = function(req, res, next){
 	var slug = req.params.slug;
+	var includes = initIncludes();
 
 	// Check AUTH
 	var userExists = req.userExists;
@@ -457,6 +466,12 @@ exports.details = function(req, res, next){
 			seperate: true, 
 			model: models.File,
 			required: false
+		},
+		{
+			seperate: true, 
+			model: models.User,
+			required: false,
+			attributes: ["name","organization","email"]
 		}
 	);
 

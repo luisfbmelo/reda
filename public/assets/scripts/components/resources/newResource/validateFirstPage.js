@@ -69,8 +69,8 @@ const validate = values => {
   // Tech Resources
   if (!values.techResources) {
     errors.techResources = 'O campo é obrigatório'
-  } else if (values.techResources.length < 20) {
-    errors.techResources = 'Deve ter pelo menos 20 caracteres'
+  } else if (values.techResources.length < 1) {
+    errors.techResources = 'Deve ter pelo menos 1 caracter'
   } else if (values.techResources.length > 300) {
     errors.techResources = 'Apenas deve conter no máximo 300 caracteres'
   }
@@ -80,8 +80,8 @@ const validate = values => {
     errors.description = 'O campo é obrigatório'
   } else if (values.description.length < 20) {
     errors.description = 'Deve ter pelo menos 20 caracteres'
-  } else if (values.description.length > 300) {
-    errors.description = 'Apenas deve conter no máximo 300 caracteres'
+  } else if (values.description.length > 800) {
+    errors.description = 'Apenas deve conter no máximo 800 caracteres'
   }
 
   return errors

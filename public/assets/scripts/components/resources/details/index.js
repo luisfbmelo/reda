@@ -172,6 +172,7 @@ export default class ResourceDetails extends Component {
 
 						<div className="col-xs-12 col-sm-6">
 							<h1>{resourceInfo.title}</h1>
+							<small>{resourceInfo.Format.title}</small>
 
 							{/* Admin features */}
 							<IsAuthenticated>

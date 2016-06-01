@@ -328,7 +328,7 @@ class NewResourceFormFirstPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Recursos Técnicos*</label>
             <div className={`form-group ${techResources.touched && techResources.invalid ? 'has-error' : ''}`}>
-              <TextArea maxLength={300} minLength={20} className="form-control" placeholder="Este recurso requer a utilização de..." field={techResources} />
+              <TextArea maxLength={300} minLength={1} className="form-control" placeholder="Este recurso requer a utilização de..." field={techResources} />
               {techResources.touched && techResources.error && <div className="text-danger">{techResources.error}</div>}
               
             </div>            
@@ -340,7 +340,7 @@ class NewResourceFormFirstPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Descrição*</label>
             <div className={`form-group ${description.touched && description.invalid ? 'has-error' : ''}`}>
-              <TextArea maxLength={300} minLength={20} className="form-control" placeholder="Descreva este recurso sucintamente" field={description} />
+              <TextArea maxLength={800} minLength={20} className="form-control" placeholder="Descreva este recurso sucintamente" field={description} />
               {description.touched && description.error && <div className="text-danger">{description.error}</div>}
             </div>            
           </div>

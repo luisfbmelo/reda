@@ -21,7 +21,8 @@ exports.list = function(req, res, next) {
 	}
 	
 	models.Mode.findAll({
-		include: includes
+		include: includes,
+		order: [['title','ASC']]
 	}).then(function(modes){
 		return res.json({result: modes});
 	}).catch(function(err){

@@ -123,7 +123,7 @@ class NewResourceFormSecondPage extends Component {
             {
               Checkbox => (
                 <div className="row">
-                  {_.sortBy(this.props.mapProps.subjects.data, 'title').map((item,index) => {
+                  {this.props.mapProps.subjects.data.map((item,index) => {
                     return (
                       <div key={"subject-"+item.id} className="col-xs-6">
                         <Checkbox value={item.id} id={"subject-"+item.id}/> 
@@ -150,7 +150,7 @@ class NewResourceFormSecondPage extends Component {
             {
               Checkbox => (
                 <div className="row">
-                  {_.sortBy(this.props.mapProps.years.data, 'title').map((item,index) => {
+                  {this.props.mapProps.years.data.map((item,index) => {
                     return (
                       <div key={"year-"+item.id} className="col-xs-6">
                         <Checkbox value={item.id} id={"year-"+item.id}/> 
@@ -170,7 +170,7 @@ class NewResourceFormSecondPage extends Component {
     const { domains, subjects } = this.props.fields;
 
     // Get domains to present
-    const totalDomains = _.sortBy(this.domainsOfSubject(), 'title');
+    const totalDomains = this.domainsOfSubject();
 
     if ((!subjects.value || subjects.value.length==0) || !totalDomains || totalDomains.length==0){
       return null;
@@ -323,7 +323,7 @@ class NewResourceFormSecondPage extends Component {
           <div className="col-xs-12">
             <label className="input-title">Proposta de Operacionalização*</label>
             <div className={`form-group ${op_proposal.touched && op_proposal.invalid ? 'has-error' : ''}`}>
-              <TextArea maxLength={300} minLength={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={op_proposal} />
+              <TextArea maxLength={800} minLength={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={op_proposal} />
               {op_proposal.touched && op_proposal.error && <div className="text-danger">{op_proposal.error}</div>}
             </div>            
           </div>

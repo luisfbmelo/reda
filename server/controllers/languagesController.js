@@ -20,7 +20,8 @@ exports.list = function(req, res, next) {
 	}
 	
 	models.Language.findAll({
-		include: includes
+		include: includes,
+		order: [['title','ASC']]
 	}).then(function(languages){
 		return res.json({result: languages});
 	}).catch(function(err){

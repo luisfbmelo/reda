@@ -1,0 +1,19 @@
+.tooltip-inner{
+	background-color:$body-color;
+}
+
+.tooltip.top .tooltip-arrow{
+    border-top-color: $body-color;
+}
+
+.tooltip.bottom .tooltip-arrow{
+    border-bottom-color: $body-color;
+}
+
+.tooltip.left .tooltip-arrow{
+    border-left-color: $body-color;
+}
+
+.tooltip.right .tooltip-arrow{
+    border-right-color: $body-color;
+}

@@ -176,7 +176,7 @@ export default class ResourcesFilters extends Component {
 		        {
 		          Checkbox => (
 		            <div className="row">
-		              {data.sort(sortByTitle).map((item,index) => {
+		              {data.map((item,index) => {
 		              	if (item.type!='others'){
 		              		return (
 			                  <div key={item.id} className="col-xs-12">
@@ -205,7 +205,7 @@ export default class ResourcesFilters extends Component {
 		        {
 		          Checkbox => (
 		            <div className="row">
-		              {data.sort(sortByTitle).map((item,index) => {
+		              {data.map((item,index) => {
 		                return (
 		                  <div key={item.id} className="col-xs-12">
 		                    <Checkbox value={item.id} id={"subject-"+item.id}/> 
@@ -232,7 +232,7 @@ export default class ResourcesFilters extends Component {
 		        {
 		          Checkbox => (
 		            <div className="row">
-		              {data.sort(sortByTitle).map((item,index) => {
+		              {data.map((item,index) => {
 		                return (
 		                  <div key={item.id} className="col-xs-12">
 		                    <Checkbox value={item.id} id={"domain-"+item.id}/> 
@@ -259,7 +259,7 @@ export default class ResourcesFilters extends Component {
 		        {
 		          Checkbox => (
 		            <div className="row">
-		              {data.sort(sortByTitle).map((item,index) => {
+		              {data.map((item,index) => {
 		                return (
 		                  <div key={item.id} className="col-xs-6">
 		                    <Checkbox value={item.id} id={"year-"+item.id}/> 
@@ -286,7 +286,7 @@ export default class ResourcesFilters extends Component {
 		        {
 		          Checkbox => (
 		            <div className="row">
-		              {data.sort(sortByTitle).map((item,index) => {
+		              {data.map((item,index) => {
 		                return (
 		                  <div key={item.id} className="col-xs-6">
 		                    <Checkbox value={item.id} id={"access-"+item.id}/> 

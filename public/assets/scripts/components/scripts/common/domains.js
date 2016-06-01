@@ -54,7 +54,7 @@ export default class DomainsList extends Component{
 		const { script, scriptIndex, setDomains, domains } = this.props;
 		
 		// Get domains to present
-    	const totalDomains = _.sortBy(this.domainsOfSubject(script, domains), 'title');
+    	const totalDomains = this.domainsOfSubject(script, domains);
 
  		if ((!script.subjects.value || script.subjects.value.length==0) || !totalDomains || totalDomains.length==0){
  			return null;

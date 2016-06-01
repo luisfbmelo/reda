@@ -24,7 +24,8 @@ exports.list = function(req, res, next) {
 	}
 	
 	models.Format.findAll({
-		include: includes
+		include: includes,
+		order: [['title','ASC']]
 	}).then(function(formats){
 		return res.json({result: formats});
 	}).catch(function(err){

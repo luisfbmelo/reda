@@ -56,7 +56,7 @@ const validateScript = (values) => {
   } else if (values.op_proposal.length < 20) {
     errors.op_proposal = 'Deve ter pelo menos 20 caracteres'
   } else if (values.op_proposal.length > 800) {
-    errors.op_proposal = 'Apenas deve conter no máximo 300 caracteres'
+    errors.op_proposal = 'Apenas deve conter no máximo 800 caracteres'
   }
 
   return errors

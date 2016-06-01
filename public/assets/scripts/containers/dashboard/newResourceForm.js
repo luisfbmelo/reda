@@ -197,10 +197,12 @@ class NewResourceFormContainer extends Component {
     const { page } = this.state;
     const { resource } = this.props;
 
+    console.log(resource);
+
     return (
       <div className="new-resource">
         <header className="new-form-header text-center">
-          <h1>{resource && resource.data ? resource.title : "Novo Recurso"}</h1>
+          <h1>{resource && resource.data && resource.data.title ? resource.data.title : "Novo Recurso"}</h1>
           {this.printFormBreadcrumbs()}
         </header>
         <div className="new-resource__container">

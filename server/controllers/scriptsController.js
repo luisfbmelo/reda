@@ -8,29 +8,32 @@ const validate = require('../utils/validateScripts').validate;
 const consts = require('../config/const');
 
 // INIT Includes
-var includes = [
-	{
-		model: models.Subject,
-		required:false,
-		through: {
-			attributes: []
-		}			
-	},
-	{
-		model: models.Year,
-		required:false,
-		through: {
-			attributes: []
-		}			
-	},
-	{
-		model: models.Domain,
-		required:false,
-		through: {
-			attributes: []
-		}			
-	}
-];
+function initIncludes(){
+
+	return [
+		{
+			model: models.Subject,
+			required:false,
+			through: {
+				attributes: []
+			}			
+		},
+		{
+			model: models.Year,
+			required:false,
+			through: {
+				attributes: []
+			}			
+		},
+		{
+			model: models.Domain,
+			required:false,
+			through: {
+				attributes: []
+			}			
+		}
+	];
+}
 
 //
 //	Get details from script
@@ -38,19 +41,25 @@ var includes = [
 exports.details = function(req, res, next){
 	var resource = req.params.resource;
 	var userExists = req.userExists;
-
+	var includes = initIncludes();
 
 	// If no user exists, show scripts that are only from exclusive resources
 	if (!userExists){
 		includes.push({
 			model: models.Resource,
-			as: 'Resource',
 			attributes: [],
 			where:{
 				exclusive: false
 			}
 		});
 	}
+
+	includes.push(
+		{
+			model: models.User,
+			attributes: ['name', 'organization']		
+		}
+	)
 
 	//
 	//	Get scripts
@@ -64,6 +73,7 @@ exports.details = function(req, res, next){
 	.then(function(scripts){
 		return res.json({result: scripts});
 	}).catch(function(err){
+		debug(err);
 		return res.status(403).send({message: err});
 	});
 }
@@ -75,6 +85,7 @@ exports.userScripts = function(req, res, next){
 	var resource = req.params.resource;
 	var setWhere = {};
 	var userExists = req.userExists;
+	var includes = initIncludes();
 
 	// Check AUTH
 	if (userExists){
