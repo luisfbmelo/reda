@@ -48,7 +48,7 @@ export default class ExploreBlock extends Component {
 					<span dangerouslySetInnerHTML={{__html: this.state.text}}></span>
 					<Link to="experimenta" className="cta primary outline">{this.state.button}</Link>
 				</div>
-				
+				<div className="clearfix"></div>
 			</div>
 		);
 	}

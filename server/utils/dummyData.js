@@ -166,7 +166,7 @@ var createSubjects = function(models){
       { title: "Iniciação à educação literária" },
       { title: "Educação literária" },
       { title: "Gramática" },
-      { title: "Artes" },
+      { id: 6 },
       { title: "História da língua" }
     ]
   },{
@@ -188,7 +188,7 @@ var createSubjects = function(models){
       { title: "Forças" },
       { title: "Eletricidade" },
       { title: "Classificação dos materiais" },
-      { title: "Artes" },
+      { id: 6 },
       { title: "História e natureza da ciência " }
     ]
   },{
@@ -386,6 +386,6 @@ exports.createData = function(models){
   .then(createSubjects(models))
   .then(createLanguages(models))
   .then(createYears(models))
-  .then(createTags(models));
+  //.then(createTags(models));
   //.then(createResource(models));
 }

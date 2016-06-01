@@ -91,7 +91,7 @@ class NewScriptFormContainer extends Component {
         }else{          
           resolve();  
           this.props.addAlert(alertMessages.ALERT_SCRIPT_MANAGE_SUCCESS, alertMessages.SUCCESS);
-          this.context.router.push('/painel');   
+          this.context.router.goBack(); 
         }
 
       })

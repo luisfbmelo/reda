@@ -2,6 +2,9 @@ import React from 'react';
 import { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
+// Actions
+import * as alertMessages from '@/actions/message-types';
+
 // Utils
 import { getAvg } from '@/utils';
 
@@ -51,20 +54,25 @@ export default class ResourceDetails extends Component {
 
 		this.props.fetchResource(resource)
 		.then(() => {
-
+			
 			// If this requires auth and not authed, go back
-			if (this.requiresAuth() || this.props.resource.errorMessage){
+			if (this.requiresAuth() || this.props.resource.errorMessage || (!this.props.resource.data && this.props.resource.fetched)){
+				
+				this.props.addAlert(alertMessages.ALERT_RESOURCE_ACCESS_ERROR, alertMessages.ERROR)
 				this.context.router.push('/descobrir');
 
 			// If allowed, get the favorite
 			}else{
 				this.setState({
-					isFavorite: this.props.resource.data.favorite || false
+					isFavorite: this.props.resource.data ? this.props.resource.data.favorite : false
 				});	
 
 				this.props.fetchScripts(this.props.resource.data.id);
 			}
-		});
+		})
+		.catch((err) => {
+			this.context.router.goBack();
+		})
 
 		this.props.fetchConfig();	
 

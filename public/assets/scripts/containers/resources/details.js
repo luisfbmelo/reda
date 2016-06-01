@@ -1,6 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
+import { addAlert } from '@/actions/alerts';
 import { fetchResource, resetResource } from '@/actions/resources';
 import { fetchScripts, resetScripts } from '@/actions/scripts';
 import { fetchComments, resetComments } from '@/actions/comments';
@@ -25,7 +26,8 @@ function mapDispatchToProps(dispatch) {
   	fetchScripts,
     resetResource,
     resetScripts,
-    resetComments
+    resetComments,
+    addAlert
   }, dispatch);
 }
 

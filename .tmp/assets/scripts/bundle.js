@@ -823,6 +823,7 @@ var ALERT_LOGOUT_SUCCESS = exports.ALERT_LOGOUT_SUCCESS = 'Volte sempre!';
 var ALERT_RESOURCE_CREATE_SUCCESS = exports.ALERT_RESOURCE_CREATE_SUCCESS = 'O recurso foi adicionado';
 var ALERT_RESOURCE_EDIT_SUCCESS = exports.ALERT_RESOURCE_EDIT_SUCCESS = 'O recurso foi alterado';
 var ALERT_RESOURCE_ADD_ERROR = exports.ALERT_RESOURCE_ADD_ERROR = 'Foram detetados erros ao submeter. Corrija os erros identificados';
+var ALERT_RESOURCE_ACCESS_ERROR = exports.ALERT_RESOURCE_ACCESS_ERROR = 'Não possui permissões para aceder a este recurso';
 
 // SCRIPTS
 var ALERT_SCRIPT_CREATE_SUCCESS = exports.ALERT_SCRIPT_CREATE_SUCCESS = 'O guião foi adicionado';
@@ -2460,7 +2461,8 @@ var ExploreBlock = function (_Component) {
 						{ to: 'experimenta', className: 'cta primary outline' },
 						this.state.button
 					)
-				)
+				),
+				_react2.default.createElement('div', { className: 'clearfix' })
 			);
 		}
 	}]);
@@ -6505,6 +6507,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _messageTypes = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/message-types');
+
+var alertMessages = _interopRequireWildcard(_messageTypes);
+
 var _utils = require('C:/Vagrant/devbox/devbox/public/assets/scripts/utils');
 
 var _mediaDisplay = require('./mediaDisplay');
@@ -6551,6 +6557,8 @@ var _isAdmin = require('C:/Vagrant/devbox/devbox/public/assets/scripts/container
 
 var _isAdmin2 = _interopRequireDefault(_isAdmin);
 
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -6558,6 +6566,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// Actions
+
 
 // Utils
 
@@ -6612,17 +6623,21 @@ var ResourceDetails = function (_Component) {
 			this.props.fetchResource(resource).then(function () {
 
 				// If this requires auth and not authed, go back
-				if (_this2.requiresAuth() || _this2.props.resource.errorMessage) {
+				if (_this2.requiresAuth() || _this2.props.resource.errorMessage || !_this2.props.resource.data && _this2.props.resource.fetched) {
+
+					_this2.props.addAlert(alertMessages.ALERT_RESOURCE_ACCESS_ERROR, alertMessages.ERROR);
 					_this2.context.router.push('/descobrir');
 
 					// If allowed, get the favorite
 				} else {
 						_this2.setState({
-							isFavorite: _this2.props.resource.data.favorite || false
+							isFavorite: _this2.props.resource.data ? _this2.props.resource.data.favorite : false
 						});
 
 						_this2.props.fetchScripts(_this2.props.resource.data.id);
 					}
+			}).catch(function (err) {
+				_this2.context.router.goBack();
 			});
 
 			this.props.fetchConfig();
@@ -6933,7 +6948,7 @@ ResourceDetails.contextTypes = {
 	router: _react.PropTypes.object
 };
 
-},{"../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
+},{"../techFile":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\techFile\\index.js","./mediaDisplay":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js","./mediaFooter":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaFooter.js","./scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\scripts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/message-types":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\message-types.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/common/rating":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\common\\rating.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAdmin":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAdmin.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/auth/isAuth":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\auth\\isAuth.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\index.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/comments/commentForm":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\comments\\commentForm.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/deleteResource":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\deleteResource.js","C:/Vagrant/devbox/devbox/public/assets/scripts/containers/resources/related":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\related.js","C:/Vagrant/devbox/devbox/public/assets/scripts/utils":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\utils\\index.js","react":"react","react-router":"react-router"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\mediaDisplay.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -12103,7 +12118,7 @@ var NewScriptFormContainer = function (_Component) {
           } else {
               resolve();
               _this3.props.addAlert(alertMessages.ALERT_SCRIPT_MANAGE_SUCCESS, alertMessages.SUCCESS);
-              _this3.context.router.push('/painel');
+              _this3.context.router.goBack();
             }
         }).catch(function (error) {
           reject(error);
@@ -12607,6 +12622,8 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require('react-redux');
 
+var _alerts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts');
+
 var _resources = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources');
 
 var _scripts = require('C:/Vagrant/devbox/devbox/public/assets/scripts/actions/scripts');
@@ -12640,13 +12657,14 @@ function mapDispatchToProps(dispatch) {
     fetchScripts: _scripts.fetchScripts,
     resetResource: _resources.resetResource,
     resetScripts: _scripts.resetScripts,
-    resetComments: _comments.resetComments
+    resetComments: _comments.resetComments,
+    addAlert: _alerts.addAlert
   }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_details2.default);
 
-},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\comments.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\scripts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js":[function(require,module,exports){
+},{"C:/Vagrant/devbox/devbox/public/assets/scripts/actions/alerts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\alerts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/comments":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\comments.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/config":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\config.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/resources":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\resources.js","C:/Vagrant/devbox/devbox/public/assets/scripts/actions/scripts":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\actions\\scripts.js","C:/Vagrant/devbox/devbox/public/assets/scripts/components/resources/details":"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\components\\resources\\details\\index.js","react":"react","react-redux":"react-redux","redux":"redux"}],"C:\\Vagrant\\devbox\\devbox\\public\\assets\\scripts\\containers\\resources\\index.js":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
