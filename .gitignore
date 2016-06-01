@@ -41,4 +41,5 @@ public/config
 public/files/
 
 # Builds
-dist
+#dist
+.tmp
