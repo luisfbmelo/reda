@@ -135,6 +135,7 @@ export function resource(state = INITIAL_STATE, action) {
       return assign({}, state, {
         highlight: !state.highlight
       });
+      
     case TOGGLE_FAVORITE_RESOURCE:
       if (state.id != action.id){
         return state;

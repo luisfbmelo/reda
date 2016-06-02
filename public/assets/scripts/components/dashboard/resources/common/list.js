@@ -52,7 +52,7 @@ var renderList = (list, props) => {
 				      		{/*BUTTONS*/}
 							<div className="actions">
 								<Link to={"/editarrecurso/" + el.slug} className="cta primary no-bg small">Editar</Link>
-				      			<DeleteResource className="cta primary no-bg small" cb={props.deleteCb} item={el.slug}>Eliminar</DeleteResource>
+				      			<DeleteResource className="cta primary no-bg small delete-action" cb={props.deleteCb} item={el.slug}>Eliminar</DeleteResource>
 							</div>
 			      		</header>
 

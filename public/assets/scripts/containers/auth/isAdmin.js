@@ -7,7 +7,7 @@ class IsAdmin extends Component {
 
     render() {
         return (
-            this.props.isAuthenticated === true && this.props.role == 'admin'
+            this.props.isAuthenticated === true && this.props.data && this.props.data.user && this.props.data.user.role == 'admin'
                 ? this.props.children
                 : null                
         )
@@ -16,7 +16,7 @@ class IsAdmin extends Component {
 
 const mapStateToProps = (state) => ({
     isAuthenticated: state.auth.isAuthenticated,
-    role: state.auth.data.user.role
+    data: state.auth.data
 });
 
 IsAdmin.contextTypes = {

@@ -8,12 +8,25 @@ export default class RelatedResources extends Component {
 
 	constructor(props){
 		super(props);
+
+		this.fetchRelated = this.fetchRelated.bind(this);
 	}
 
 	componentDidMount(){
 		let { origin } = this.props;
+		this.fetchRelated(origin);
+	}
+	
+	componentDidUpdate(prevProps, prevState) {
+	    let { origin } = this.props;
+	 	if (prevProps.origin != origin) {
+	 		this.fetchRelated(origin);	
+	 	}   
+	}
+
+	fetchRelated(origin){
 		this.props.fetchRelatedResources(origin);	
-		this.props.fetchConfig();		
+		this.props.fetchConfig();
 	}
 
 	render() {

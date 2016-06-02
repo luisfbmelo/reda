@@ -35,8 +35,10 @@ export default class ResourceDetails extends Component {
 		//	Event handlers
 		//	
 		this.setFavorite = this.setFavorite.bind(this);
+		this.setHighlight = this.setHighlight.bind(this);
 		this.setRating = this.setRating.bind(this);
 		this.deleteCb = this.deleteCb.bind(this);
+		this.fetchResourceData = this.fetchResourceData.bind(this);
 
 		//
 		//	Renders
@@ -49,9 +51,23 @@ export default class ResourceDetails extends Component {
 	}
 
 	/* Get configuration and resource data */
-	componentDidMount(){		
-		let { resource } = this.props.params;
+	componentDidMount(){
+		let { resource } = this.props.params;		
+		this.fetchResourceData(resource);
+	}
 
+	componentDidUpdate(prevProps, prevState) {
+	    let { resource } = this.props.params;
+	 	if (prevProps.params.resource != resource) {
+	 		this.fetchResourceData(resource);
+	 	}   
+	}
+
+	//
+	//	Fetch data
+	//
+	fetchResourceData(resource){
+		
 		this.props.fetchResource(resource)
 		.then(() => {
 			
@@ -70,10 +86,12 @@ export default class ResourceDetails extends Component {
 			this.context.router.goBack();
 		})
 
-		this.props.fetchConfig();	
-
+		this.props.fetchConfig();
 	}
 
+	//
+	//	This resource is exclusive?
+	//
 	requiresAuth(){
 		// If no Auth and is protected and finished fetching
 		if (this.props.resource.data && !this.props.auth.isAuthenticated && this.props.resource.data.exclusive){
@@ -82,6 +100,9 @@ export default class ResourceDetails extends Component {
 		return false;
 	}
 
+	//
+	//	Print meta data
+	//
 	printMeta(label, data){
 		return (data) ? <p><strong>{label}: </strong>
 		{(() => { 
@@ -94,11 +115,14 @@ export default class ResourceDetails extends Component {
 	}
 
 	// Set as favorite
-	setFavorite(){
-		
+	setFavorite(resourceId){
+    	//this.props.setFavorite(resourceId);
+    }
 
-		/* CALL ACTION TO APPLY CHANGE */
-	}
+    // Set as highlight
+	setHighlight(resourceId){
+    	//this.props.setHighlight(resourceId);
+    }
 
 	//	After delete
 	deleteCb(){
@@ -146,9 +170,12 @@ export default class ResourceDetails extends Component {
 								graphicsPath={graphics} 
 								filesPath={files+"/"+resourceInfo.slug} 
 								isFavorite={resourceInfo.isFavorite} 
+								isHighlight={resourceInfo.highlight} 
 								setFavorite={this.setFavorite} 
+								setHighlight={this.setHighlight} 
 								file={resourceInfo.Files[0]} 
-								url={resourceInfo.link}/>
+								url={resourceInfo.link}
+								resource={resourceInfo}/>
 						</div>
 
 						<div className="col-xs-12 col-sm-6">
@@ -161,7 +188,7 @@ export default class ResourceDetails extends Component {
 									<div className="row">
 										<div className="col-xs-12 admin-features">										
 											<Link to={"/editarrecurso/" + resourceInfo.slug} className="cta primary no-bg small">Editar</Link>
-											<DeleteResource className="cta primary no-bg small" cb={this.deleteCb} item={resourceInfo.slug}>Eliminar</DeleteResource>
+											<DeleteResource className="cta primary no-bg small delete-action" cb={this.deleteCb} item={resourceInfo.slug}>Eliminar</DeleteResource>
 										</div>
 									</div>
 								}

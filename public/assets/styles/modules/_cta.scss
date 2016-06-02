@@ -146,6 +146,10 @@
 	&:focus{
 		text-decoration:none;
 	}
+
+	&.delete-action{
+		color:$danger-color!important;
+	}
 }
 
 .protected-button{

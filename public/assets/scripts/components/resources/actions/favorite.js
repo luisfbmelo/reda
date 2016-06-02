@@ -7,7 +7,7 @@ function getIcon(isFavorite){
 
 export default (props) => {
 	return(
-		<div className="media__action favorite" onClick={props.setFavorite}>
+		<div className="media__action favorite" onClick={() => props.setFavorite(props.resourceId)} title="Favorito">
 			<i className={"fa " + getIcon(props.isFavorite)}></i>
 		</div>
 	);

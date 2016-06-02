@@ -5,14 +5,7 @@
 
 	li{
 		display:inline-block;
-
-		& + li{
-			.media{
-				&__action{
-					padding-left:20px;
-				}
-			}
-		}
+		padding-right:20px;
 	}
 
 	.media{
