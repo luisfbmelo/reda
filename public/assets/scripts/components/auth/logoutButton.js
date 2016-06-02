@@ -18,7 +18,12 @@ export default class LogoutButton extends Component {
 
   logout(){
     this.props.logout();
+    
     removeClass('open', Array.from(document.querySelectorAll(".open")));
+    removeClass('filter-menu', Array.from(document.querySelectorAll(".filter-menu")));
+    removeClass('admin-op-menu', Array.from(document.querySelectorAll(".admin-op-menu")));
+    removeClass('site-menu', Array.from(document.querySelectorAll(".site-menu")));
+
     this.context.router.push('/');
   }
 

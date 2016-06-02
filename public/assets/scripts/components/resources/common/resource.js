@@ -42,16 +42,24 @@ const optionsRender = (el, isAuthenticated, addscript, viewmore) => {
 	if (addscript && isAuthenticated){
 		return (
 			<span className="list__element--buttons">
-  			<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
-  			<Link to={"/gerirguioes/" + el.slug } className="cta primary outline small">Adicionar Guião</Link>
+	  			<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline no-border">Ver Recurso</Link>
+	  			<Link to={"/gerirguioes/" + el.slug } className="cta primary outline no-border">Adicionar Guião</Link>
 			</span>
 		)
 	}
 
 	if ((viewmore || addscript) && (!el.exclusive || isAuthenticated)){
-		return <Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline small">Ver Recurso</Link>
+		return (
+			<span className="list__element--buttons">
+				<Link to={"/descobrir/detalhes-recurso/" + el.slug} className="cta primary outline no-border">Ver Recurso</Link>
+			</span>
+		)
 	}else {
-		return <ProtectedButton className="cta primary outline small action-btn" target={"/descobrir/detalhes-recurso/" + el.slug}>Ver Recurso</ProtectedButton>
+		return (
+			<span className="list__element--buttons">
+				<ProtectedButton className="cta primary outline no-border action-btn" target={"/descobrir/detalhes-recurso/" + el.slug}>Ver Recurso</ProtectedButton>
+			</span>
+		)
 	}
 }
 

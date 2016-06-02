@@ -25,6 +25,7 @@ export default class DashboardMenu extends Component {
 	componentWillUnmount(){
 		//	Remove open class from body on unmount
 		removeClass('open',document.getElementsByTagName("BODY")[0]);
+		removeClass('admin-op-menu',document.getElementsByTagName("BODY")[0]);
 	}
 
 	toggleMenu(){
@@ -35,6 +36,7 @@ export default class DashboardMenu extends Component {
 		toggleClass('open', list);
 		toggleClass('open', backdrop);
 		toggleClass('open', body);
+		toggleClass('admin-op-menu', body);
 	}
 
 	isActive(location, target){

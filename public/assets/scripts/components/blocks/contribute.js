@@ -40,7 +40,7 @@ export default class ContributeBlock extends Component {
 		return this.state.sections.map((section, index) => {
 	
 			return(
-				<div className={"col-xs-12 col-sm-6 col-md-4 block__contribute--col" + ((index==0) ? " col-md-offset-2" : null)} key={index}>
+				<div className={"col-xs-12 col-sm-6 col-md-4 block__contribute--col" + ((index==0) ? " col-md-offset-2" : "")} key={index}>
 					<h2>{section.title}</h2>
 					<SvgComponent element={section.icon} color="#ffffff"/>
 					<p>{section.text}</p>

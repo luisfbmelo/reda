@@ -37,7 +37,7 @@ exports.createSlug = function(str) {
     })
     .then(function(resource){
       
-      if (resource.total_equal==0){
+      if (resource.dataValues.total_equal==0){
         resolve(str);
       }else{
         str += "-"+parseInt(resource.dataValues.total_equal);

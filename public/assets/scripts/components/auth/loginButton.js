@@ -24,6 +24,10 @@ export default class LoginButton extends Component {
 
   open(){
     removeClass('open', Array.from(document.querySelectorAll(".open")));
+    removeClass('filter-menu', Array.from(document.querySelectorAll(".filter-menu")));
+    removeClass('admin-op-menu', Array.from(document.querySelectorAll(".admin-op-menu")));
+    removeClass('site-menu', Array.from(document.querySelectorAll(".site-menu")));
+
     this.setState({showModal: true});
   }
 

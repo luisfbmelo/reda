@@ -24,7 +24,7 @@ export default class Collapsible extends Component {
 
 		return(
 			<div className="collapse-container">
-				<div className={"buttons " + (this.props.className || '') + (this.state.open ? " open" : " outline")}>
+				<div className={"buttons " + (this.props.className || '') + (this.state.open ? " open" : "")}>
 					{(() => {
 						if (this.props.deleteEl){
 							return <i className={this.props.deleteIcon || null} onClick={() => this.props.deleteEl()} title={deleteTitle}></i>
@@ -37,7 +37,7 @@ export default class Collapsible extends Component {
 						<i className={(this.state.open) ? this.props.iconOpen : this.props.iconClosed}></i>
 			        </button>
 		        </div>
-				<Collapse in={this.state.open}>
+				<Collapse in={this.state.open} className="collapse-content">
 					<div>
 						{this.props.children}
 					</div>

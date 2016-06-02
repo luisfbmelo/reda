@@ -343,15 +343,17 @@ option[default]{
   background-image:url('../graphics/bg/new-form-bg.jpg');
   background-position:center center;
   background-size:cover;
-
-  color:white;
+  
+  
 
   h1{
     padding:60px 0 30px;
+    color:white;
 
     & + span{
       display:block;
       padding-bottom:60px;
+      color:white;
 
       font-family: $lato;
       @include font-size(14px);
@@ -472,6 +474,13 @@ option[default]{
     .buttons{  
 
       &.cta:not(.open){
+        background:none;
+        color:$green;
+
+        &:hover{
+          background-color:$green;
+          color:white;
+        }
       }
     }    
   }

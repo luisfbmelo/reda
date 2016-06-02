@@ -190,7 +190,7 @@ export default class MyResources extends Component {
 		const { isAuthenticated } = this.props.auth;
 
 		return (
-			<div className="resources__page">
+			<div className="resources__page my-resources">
 				<div className="row">
 					<div className="col-xs-12">
 						<h2 className="pannel-title">Os meus recursos</h2>

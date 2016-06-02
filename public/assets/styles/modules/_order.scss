@@ -5,11 +5,11 @@
 		display:inline-block;
 		margin-bottom:15px;
 		
-		@include media-query(62em){
+		@include media(small-down){
 			max-width:150px;
 		}
 
-		@include media-query(48em){
+		@include media-query(xsmall-only){
 			max-width:125px;
 		}
 		

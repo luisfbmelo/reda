@@ -6,7 +6,7 @@
 		padding-bottom:30px;
 
 		.contribute-button{
-			@include media-query(62em){
+			@include media(small-down){
 				display:none;
 			}
 		}
@@ -26,7 +26,7 @@
 		+ section{
 			.protected-button .cta{
 				
-				@include media-query(48em){
+				@include media(xsmall-only){
 					margin: 0 auto;
 				}
 			}
@@ -101,18 +101,18 @@
 
 		&--buttons{
 			display:block;
+
+			a,
+			button{
+				display: block;
+				text-align: center;
+			}
 			
 			a{
-				@include media-query-min(48em){
-					display: block;
-					text-align: center;
-				}
-				
-
 			    & + a{
 			    	margin-top:10px;
 
-			    	@include media-query(48em){
+			    	@include media(xsmall-only){
 			    		margin-left:10px;
 			    	}
 			    }
@@ -179,7 +179,7 @@
 					color:$meta-color;
 				}
 
-				@include media-query(48em){
+				@include media(xsmall-only){
 					i{
 						margin-bottom:10px;
 					}
@@ -206,13 +206,13 @@
 		&--footer{
 			.fRight,
 			.fLeft{
-				@include media-query(48em){
+				@include media(xsmall-only){
 					float:none;
 				}
 			}
 
 			.fRight{
-				@include media-query(48em){
+				@include media(xsmall-only){
 					margin-top:15px;
 				}
 			}	
@@ -233,8 +233,22 @@
 					@include font-size(20px);
 					margin-left:20px;
 					color:$green;
+				}
 
+				@include media-query(430px){
+					.actions-container{
+						display:block;
 
+						margin-top:20px;
+
+						i{
+						    margin-left: 0;
+
+						    & + i{
+						    	margin-left: 20px;
+						    }
+						}
+					}
 				}
 			}
 
@@ -356,7 +370,7 @@
 			margin-top:0;
 			margin-bottom:10px;
 
-			@include media-query(48em){
+			@include media(xsmall-only){
 				margin-top:30px;
 			}
 

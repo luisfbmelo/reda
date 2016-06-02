@@ -36,21 +36,31 @@
 }
 
 /* LIST SEARCH */
-.resources-search{
-	@include media-query(62em){
-		display:none;
+@include media(small-down){
+	.resources-search{		
+		.single-search{
+			margin-top:0;
+			margin-bottom:30px;
+		}		
+	}
+}
+@include media(small-down){
+	.resources__page:not(.my-resources){
+		.resources-search{
+			display:none; 
+		}
 	}
 }
 
 /* FILTERS SEARCH */
 .filter-search-container{
-	@include media-query-min(62em){
+	@include media(medium-up){
 		display:none;
 	}
 }
 
 
-@include media-query(75em){
+@include media(medium-down){
 	.search-container .cta i{
 		/*display:none;*/
 	}
@@ -71,7 +81,7 @@
 				}
 			}
 
-			@include media-query(48em){
+			@include media(xsmall-only){
 				display:none;
 			}
 		}
@@ -107,7 +117,7 @@
 
 	margin-bottom:30px;
 
-	@include media-query(62em){
+	@include media(small-down){
 		margin-top:30px;
 
 		input[type='text']{

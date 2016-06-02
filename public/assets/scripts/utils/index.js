@@ -187,7 +187,7 @@ export const toggleClass = (targetClass,el) => {
     let rule = new RegExp(" "+targetClass, 'g');
 
     if (el.className.indexOf(targetClass)<0){
-        el.className = el.className+' open';
+        el.className = el.className+' ' + targetClass;
     }else{
         el.className = el.className.replace( rule , '' );
     }

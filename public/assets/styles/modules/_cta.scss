@@ -30,7 +30,7 @@
 		background-color:$green;
 		border:1px solid $green;
 
-		&.outline{
+		&.outline,&.no-border{
 			color:$green;			
 
 			&:hover{
@@ -55,7 +55,7 @@
 		background-color:$light-green;
 		border:1px solid $light-green;
 
-		&.outline{
+		&.outline,&.no-border{
 			color:$light-green;
 		}
 
@@ -69,7 +69,7 @@
 		color:$soft-label-color;
 		background-color:white;
 
-		&.outline{
+		&.outline,&.no-border{
 			color:white;
 			border-color:white;
 
@@ -85,7 +85,7 @@
 			border-color:white;
 		}
 
-		&:not(.outline):hover{
+		&:not(.outline):not(.no-border):hover{
 			opacity: 0.8;
 			text-decoration:none;
 		}
@@ -95,7 +95,7 @@
 		color:$soft-label-color;
 		background-color:$light-background;
 
-		&.outline{
+		&.outline,&.no-border{
 			color:$light-background;
 			border-color:$light-background;
 
@@ -111,7 +111,7 @@
 			border-color:$light-background;
 		}
 
-		&:not(.outline):hover{
+		&:not(.outline):not(.no-border):hover{
 			opacity: 0.8;
 			text-decoration:none;
 		}
@@ -135,6 +135,10 @@
 	&.outline{
 		background:none;
 		border:1px solid;
+	}
+
+	&.no-border{
+		border:none!important;
 	}
 
 	&:hover,

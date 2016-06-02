@@ -63,10 +63,6 @@ export default class ResourceDetails extends Component {
 
 			// If allowed, get the favorite
 			}else{
-				this.setState({
-					isFavorite: this.props.resource.data ? this.props.resource.data.favorite : false
-				});	
-
 				this.props.fetchScripts(this.props.resource.data.id);
 			}
 		})
@@ -76,19 +72,6 @@ export default class ResourceDetails extends Component {
 
 		this.props.fetchConfig();	
 
-	}
-
-	componentWillReceiveProps(nextProps){
-		// Load new data when the dataSource property changes.
-		// This is used for rating or favorite
-	    if (nextProps.params.resource != this.props.params.resource) {
-	    	this.props.fetchResource(nextProps.params.resource)
-			.then(() => {
-				this.setState({
-					isFavorite: this.props.resource.data.favorite || false
-				});
-			});
-	    }
 	}
 
 	requiresAuth(){
@@ -112,9 +95,7 @@ export default class ResourceDetails extends Component {
 
 	// Set as favorite
 	setFavorite(){
-		this.setState({
-			isFavorite: !this.state.isFavorite
-		});
+		
 
 		/* CALL ACTION TO APPLY CHANGE */
 	}
@@ -139,7 +120,7 @@ export default class ResourceDetails extends Component {
 	render() {
 		const { config, resource, auth, params } = this.props;
 
-		if (!config.data || !resource.data || (resource && !resource.fetched)){
+		if ((resource && (!resource.fetched || !resource.data))){
 			return null
 		}
 
@@ -164,7 +145,7 @@ export default class ResourceDetails extends Component {
 							<MediaFooter 
 								graphicsPath={graphics} 
 								filesPath={files+"/"+resourceInfo.slug} 
-								isFavorite={this.state.isFavorite} 
+								isFavorite={resourceInfo.isFavorite} 
 								setFavorite={this.setFavorite} 
 								file={resourceInfo.Files[0]} 
 								url={resourceInfo.link}/>

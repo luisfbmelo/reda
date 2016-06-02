@@ -1,24 +1,24 @@
 .floatnone{
 
-	@include media-query(48em){ //768px/16px
+	@include media(xsmall-only){ //768px/16px
 		&__xs{
 			clear: both;
 		}
 	}
 
-	@include media-query-range(48em,62em){ //768px/16px  992/16
+	@include media(small-only){ //768px/16px  992/16
 		&__sm{
 			clear: both;
 		}
 	}
 
-	@include media-query-range(62em,75em){ //992px/16px  1200/16
+	@include media(medium-only){ //992px/16px  1200/16
 		&__md{
 			clear: both;
 		}
 	}
 
-	@include media-query-min(75em){ //1200/16
+	@include media(large-up){ //1200/16
 		&__lg{
 			clear: both;
 		}

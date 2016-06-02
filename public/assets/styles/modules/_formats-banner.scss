@@ -26,4 +26,21 @@
 			cursor:pointer;
 		}
 	}
+
+	@include media(small-down){
+		img{
+			max-height:30px;
+			margin:0 auto 10px;
+		}
+
+		span{
+			font:{
+				size: em(18);
+			}
+		}
+
+		&__element{
+			padding:20px 0;
+		}
+	}
 }

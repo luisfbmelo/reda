@@ -2,10 +2,6 @@
 	&__filter{
 		margin-top:30px;
 
-		.collapse-container{
-			margin-bottom:20px;
-		}
-
 		form{
 			input[type="checkbox"],
 			input[type="radio"]{
@@ -17,12 +13,13 @@
 
 		.filters-button{
 			margin-bottom:15px;
-			@include media-query-min(62em){
+
+			@include media(medium-up){
 				display:none;
 			}
 		}
 
-		@include media-query(62em){
+		@include media(small-down){
 			.backdrop.open{
 		    	display:block;
 		  	}
@@ -30,7 +27,7 @@
 
 		.filters__list{
 
-			@include media-query(62em){
+			@include media(small-down){
 				position:fixed;
 				top:0;
 				right:0;
@@ -55,20 +52,27 @@
 					left:0;
 					bottom:120px;
 					overflow-y: auto;
-					padding:0 30px;
+					padding:0;
 				}
 			}
 			
 			&--title{
 				margin-bottom:30px;
-				color:$green;
+
+				h6{
+					color:$green;
+				}				
 
 				i{
 					margin-right:10px;
 				}
 
-				@include media-query-min(62em){
-					display:none;
+				@include media(medium-up){
+					margin-bottom:0;
+
+					h6{
+						color:$body-color;
+					}
 				}
 			}
 
@@ -78,7 +82,7 @@
 					padding-top:0;
 				}
 
-				@include media-query-min(62em){
+				@include media(medium-up){
 					display:none;
 				}
 			}	
@@ -99,7 +103,7 @@
 			&--submit{
 				bottom:65px;
 
-				@include media-query-min(62em){
+				@include media(medium-up){
 					display:none;
 				}
 			}
@@ -107,14 +111,31 @@
 			&--clear{
 				bottom:15px;				
 
-				@include media-query-min(62em){
+				@include media(medium-up){
 					position:static;
+					margin-top:20px;
 					margin-bottom:30px;
 					padding:0 15px;
 				}
 			}	
 			
 			.collapse-container{
+				
+
+				.collapse-content{
+					margin-top:10px;
+
+					.row{
+						margin:0;
+					}
+
+					@include media(small-down){
+						.row>div{
+							padding:0 30px;	
+						}						
+					}
+				}
+
 				button{
 					display:block;
 					width:100%;
@@ -122,15 +143,28 @@
 					border:none;
 					border-bottom:1px solid $meta-color;
 					text-align:left;
-					padding:0;
-					padding-bottom:5px;
-					margin-bottom:10px;
+					padding:10px 15px;
 
 					color:$soft-label-color;
 
 					i{
 						float:right;
-					    margin-top: 5px;
+					    margin-top: 2px;
+					}
+
+					@include transition(all 0.3s ease);
+
+					@include media(small-down){
+						padding:10px 30px;
+					}
+
+
+					&:active,
+					&:focus,
+					&:hover{
+						outline:none;
+						background-color:$green;
+						color:white;
 					}
 				}
 			}
@@ -149,7 +183,7 @@
 		}
 
 		& + section{
-			@include media-query(62em){
+			@include media(small-down){
 				text-align: center;
 				margin:0 auto;
 			}
@@ -159,7 +193,7 @@
 
 /* Filters on mobile with no transforms */
 .no-csstransforms{
-	@include media-query(62em){
+	@include media(small-down){
 		.filters__list{
 			right:-300px;
 

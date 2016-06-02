@@ -476,10 +476,10 @@ exports.details = function(req, res, next){
 	);
 
 	// Start literals
-		// 
-		// 	MUST REFER TO as Resource.id IN ORDER TO THE SYSTEM UNDERSTAND THAT THE QUERY REFERS TO THE
-		// 	CURRENT RESOURCE FROM EACH ITERATION
-		// 
+	// 
+	// 	MUST REFER TO as Resource.id IN ORDER TO THE SYSTEM UNDERSTAND THAT THE QUERY REFERS TO THE
+	// 	CURRENT RESOURCE FROM EACH ITERATION
+	// 
 	var literals = [
 		[models.sequelize.literal('(SELECT AVG(value) FROM Ratings WHERE Ratings.resource_id = Resource.id)'), 'ratingAvg']			
 	];

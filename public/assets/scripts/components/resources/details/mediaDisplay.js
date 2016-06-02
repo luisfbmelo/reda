@@ -1,149 +1,140 @@
 import React from 'react';
 import { Component } from 'react';
 
-const possibleExt = [ 'swf', 'mp3', 'wav', 'wma', 'jar' ];
-
-/**
- *
- *	Helper functions
- * 
- */
-//
-//	Show placeholder
-//
-const showPlaceholder = (graphicsPath, type) => {
-	return <img src={graphicsPath + "/" + type + ".jpg"} className="img-responsive" alt={type}/>
-}
 
 //
-//	Check if is an embedable extension
+//	Print media content
 //
-const checkExtension = (ext) => {	
-	return possibleExt.indexOf(ext)>=0;
-}
+class TypeHelper{	
 
-//
-//	Include SWF Files
-//
-const includeSwf = (filePath, fileName) => {
-	return <embed src={filePath+"/"+fileName} quality="high" type="application/x-shockwave-flash" width="100%" height="300px" SCALE="exactfit" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>;
-}
+	constructor(){
+		this.showPlaceholder = this.showPlaceholder.bind(this);
+		this.checkExtension = this.checkExtension.bind(this);
+		this.includeSwf = this.includeSwf.bind(this);
+		this.printSwfOrVideo = this.printSwfOrVideo.bind(this);
+		this.printImage = this.printImage.bind(this);
 
-/**
- * 
- * Data type returns
- * 
- */
-var video = (meta) => {
-	const { embed } = meta;	
-	if (embed){
-		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("video");
+		// Allowed extentions to embed
+		this.possibleExt = [ 'swf', 'mp3', 'wav', 'wma', 'jar' ];
 	}
 
-	return showPlaceholder(meta.graphicsPath, "video");
+	//
+	//	Generic placeholder
+	//
+	showPlaceholder(graphicsPath, type){
+		return <img src={graphicsPath + "/" + type + ".jpg"} className="img-responsive" alt={type}/>
+	}
+
+	//
+	//	Check if extension is OK
+	//
+	checkExtension(ext){			
+		return this.possibleExt.indexOf(ext)>=0;
+	}
+
+	//
+	//	Return swf embed
+	//
+	includeSwf(filePath, fileName){
+		return <embed src={filePath+"/"+fileName} quality="high" type="application/x-shockwave-flash" width="100%" height="300px" SCALE="exactfit" pluginspage="http://www.macromedia.com/go/getflashplayer"></embed>;
+	}
+
+	//
+	//	Print SWF embed
+	//
+	printSwfOrVideo(meta, type){
+		const { embed } = meta;
+
+		if (meta.file!=undefined && meta.file!=null){
+			const { name, extension } = meta.file;
+
+			if (this.checkExtension(meta.file.extension) && name && extension){
+				return this.includeSwf(meta.filesPath, name+"."+extension);
+			}
+		}
+
+		if (embed!=undefined && embed!=null){
+			return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || this.showPlaceholder(meta.graphicsPath, type);
+		}	
+
+		return this.showPlaceholder(meta.graphicsPath, type);
+	}
+
+	//
+	//	Print as image
+	//
+	printImage(meta, type){
+		if (meta.file){
+			const { name, extension } = meta.file;
+			return <img src={meta.filesPath+"/"+name+"."+extension} className="img-responsive" />
+		}	
+
+		return this.showPlaceholder(meta.graphicsPath, type);
+	}
 }
 
-const image = (meta) => {
-	if (meta.file){
-		const { name, extension } = meta.file;
-		return <img src={meta.filesPath+"/"+name+"."+extension} className="img-responsive" />
-	}	
+//
+//	Return the embed object according to content type
+//
+class PrintMedia extends TypeHelper{
+	constructor(meta, type){
+		super();
 
-	return showPlaceholder(meta.graphicsPath, "image");
-}
+		this.meta = meta,
+		this.type = type;
 
-const audio = (meta) => {
-	const { embed } = meta;
+		this.printContent = this.printContent.bind(this);
+	}
 
-	if (meta.file){
-		const { name, extension } = meta.file;
+	printContent(){
+		switch(this.type){
+			case "video":
+				return this.printSwfOrVideo(this.meta, this.type);
+			break;
 
-		if (checkExtension(meta.file.extension) && name && extension){
-			return includeSwf(meta.filesPath, name+"."+extension);
+			case "image":
+				return this.printImage(this.meta, this.type);
+			break;
+
+			case "audio":
+				return this.printSwfOrVideo(this.meta, this.type);
+			break;
+
+			case "simulation":
+				return this.printSwfOrVideo(this.meta, this.type);
+			break;
+
+			case "animation":
+				return this.printSwfOrVideo(this.meta, this.type);
+			break;
+
+			case "game":
+				return this.printSwfOrVideo(this.meta, this.type);
+			break;
+
+			case "text":
+				return this.showPlaceholder(this.meta.graphicsPath, this.type);
+			break;
+
+			case "calc":
+				return this.showPlaceholder(this.meta.graphicsPath, this.type);
+			break;
 		}
 	}
-
-	if (embed){
-		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("audio");
-	}
-
-	return showPlaceholder(meta.graphicsPath, "audio");
-}
-
-const simulation = (meta) => {
-	const { embed } = meta;
-
-	if (meta.file){
-		const { name, extension } = meta.file;
-
-		if (checkExtension(meta.file.extension) && name && extension){
-			return includeSwf(meta.filesPath, name+"."+extension);
-		}
-	}
-
-	if (embed){
-		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("simulation");
-	}	
-
-	return showPlaceholder(meta.graphicsPath, "simulation");
-}
-
-const animation = (meta) => {
-	const { embed } = meta;
-
-	if (meta.file){
-		const { name, extension } = meta.file;
-
-		if (checkExtension(meta.file.extension) && name && extension){
-			return includeSwf(meta.filesPath, name+"."+extension);
-		}
-	}
-
-	if (embed){
-		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("animation");
-	}
-
-	return showPlaceholder(meta.graphicsPath, "animation");
-}
-
-const text = (meta) => {
-	return showPlaceholder(meta.graphicsPath, "text");
-}
-
-const calc = (meta) => {
-	return showPlaceholder(meta.graphicsPath, "calc");
-}
-
-const game = (meta) => {
-	const { embed } = meta;
-
-	if (meta.file){
-		const { name, extension } = meta.file;
-
-		if (checkExtension(meta.file.extension) && name && extension){
-			return includeSwf(meta.filesPath, name+"."+extension);
-		}
-	}
-
-	if (embed){
-		return <div dangerouslySetInnerHTML={{__html: embed}} className="embed-content" /> || showPlaceholder("animation");
-	}
-
-	return showPlaceholder(meta.graphicsPath, "game");
-}
-
-//
-//	Convert given TYPE to FUNCTION and execute with given DATA
-//
-const evalFunc = (func, props) => {
-	return eval(func).call(this, props);
 }
 
 export default (props) => {
 	const { type, file } = props;
+
+	if (!props.type){
+		return <div></div>		
+	}
+
+	let mediaObj = new PrintMedia(props, type);
+	
 	return (
 		<div className="mediadisplay-container">
-			{type ? evalFunc(type, props) : ""}
+			{type ? mediaObj.printContent() : ""}
 		</div>
 	);
 }

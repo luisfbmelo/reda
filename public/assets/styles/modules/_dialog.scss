@@ -22,7 +22,7 @@
     cursor:pointer;
   }
 
-  @include media-query-min(62em){
+  @include media(medium-up){
     display:none!important;
   }
 }

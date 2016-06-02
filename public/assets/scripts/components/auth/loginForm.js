@@ -22,7 +22,11 @@ export default class LoginForm extends Component {
         const { errors } = this.props.auth;
 
         if (!errors){
+          // Remove popupboxes
           removeClass('open', Array.from(document.querySelectorAll(".open")));
+          removeClass('filter-menu', Array.from(document.querySelectorAll(".filter-menu")));
+          removeClass('admin-op-menu', Array.from(document.querySelectorAll(".admin-op-menu")));
+          removeClass('site-menu', Array.from(document.querySelectorAll(".site-menu")));
 
           if (this.props.target){
             this.context.router.push(this.props.target);

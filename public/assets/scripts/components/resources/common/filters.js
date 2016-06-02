@@ -78,6 +78,7 @@ export default class ResourcesFilters extends Component {
 
 	    //	Remove open class from body on unmount
 		removeClass('open',document.getElementsByTagName("BODY")[0]);
+		removeClass('filter-menu',document.getElementsByTagName("BODY")[0]);
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -97,6 +98,7 @@ export default class ResourcesFilters extends Component {
 		toggleClass('open', list);
 		toggleClass('open', backdrop);
 		toggleClass('open', body);
+		toggleClass('filter-menu', body);
 	}
 
 	//
@@ -318,7 +320,7 @@ export default class ResourcesFilters extends Component {
 				<div className="row filters__list" ref="filters_list">
 					{/* Title */}
 					<div className="col-xs-10 filters__list--title">
-						<h6><i className="fa fa-filter"></i>Filtros</h6>
+						<h6>Ajuste a lista</h6>
 					</div>
 					{/* Close Button */}
 					<div className="col-xs-2 filters__list--close">

@@ -19,7 +19,7 @@
 			color:$body-color!important;
 		}
 
-		@include media-query(48em){
+		@include media(xsmall-only){
 			& + .search-container{
 				display:none;
 			}

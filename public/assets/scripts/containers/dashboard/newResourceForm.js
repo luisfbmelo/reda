@@ -197,8 +197,6 @@ class NewResourceFormContainer extends Component {
     const { page } = this.state;
     const { resource } = this.props;
 
-    console.log(resource);
-
     return (
       <div className="new-resource">
         <header className="new-form-header text-center">

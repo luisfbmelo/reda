@@ -10,10 +10,12 @@
 
 		h1{
 			margin-top:60px;
+			color:white;
 		}
 		
 		h2{
 			margin:60px 0 30px;
+			color:white;
 		}
 
 		.svg-element{
@@ -60,12 +62,12 @@
 				color:$body-color;
 			}
 
-			@include media-query(48em){ //768px/16px
+			@include media(xsmall-only){ //768px/16px
 				padding-bottom:60px;
 			}
 		}
 
-		@include media-query(48em){ //768px/16px
+		@include media(xsmall-only){ //768px/16px
 			width:100%;
 
 			&--left{
@@ -77,19 +79,19 @@
 			}
 		}
 
-		@include media-query(48em){ //768px/16px
-			height:400px;
+		@include media(xsmall-only){
+			height:auto;			
 		}
 
-		@include media-query-min(48em){
+		@include media(small-only){
 			height:450px;
 		}
 
-		@include media-query-min(62em){
+		@include media(medium-only){
 			height:400px;
 		}
 
-		@include media-query-min(75em){
+		@include media(large-up){
 			height:350px;
 		}
 	}	
@@ -101,5 +103,13 @@
 
 		background-size:cover;
 		background-position:center center;
+	}
+}
+
+.contribute-button{
+	.cta{
+		width:100%;
+		text-align: center;
+		margin-top:10px;
 	}
 }

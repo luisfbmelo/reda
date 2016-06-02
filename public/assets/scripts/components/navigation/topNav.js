@@ -32,6 +32,7 @@ export default class TopNav extends Component {
 	componentWillUnmount(){
 		//	Remove open class from body on unmount
 		removeClass('open',document.getElementsByTagName("BODY")[0]);
+		removeClass('site-menu',document.getElementsByTagName("BODY")[0]);
 	}
 
 	onToggle(navExpanded){
@@ -42,6 +43,7 @@ export default class TopNav extends Component {
 		toggleClass('open', item);
 		toggleClass('open', backdrop);
 		toggleClass('open', body);
+		toggleClass('site-menu', body);
 	}
 
 	isActive(location, target){
