@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 
 // Utils
 import { getAvg } from '@/utils';

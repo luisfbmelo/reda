@@ -253,6 +253,10 @@ input:checked + .slider:before {
     &:hover{
       cursor:pointer;
     }
+
+    .spinner{
+      margin-right:10px;
+    }
 }
 .btn-file input[type=file] {
     position: absolute;

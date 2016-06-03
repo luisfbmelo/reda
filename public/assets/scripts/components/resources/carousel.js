@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { Carousel } from 'react-bootstrap';
 
 // Components
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link';
 import ProtectedButton from '@/components/auth/protectedButton';
 
 var renderProtected = (obj, target, el, isAuth) => {

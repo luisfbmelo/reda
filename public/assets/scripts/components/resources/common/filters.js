@@ -57,8 +57,8 @@ export default class ResourcesFilters extends Component {
 		this.props.fetchAccess(true);
 
 		// Are there any filters?
-		if (this.props.filters.filters!=null){
-			const { formats, subjects, domains, years } = this.props.filters.filters;
+		if (this.props.filters.data!=null){
+			const { formats, subjects, domains, years } = this.props.filters.data.filters;
 			this.setState({
 				formats,
 				subjects,
@@ -122,7 +122,9 @@ export default class ResourcesFilters extends Component {
 			years: [],
 			access: [],
 			update: true
-		})
+		});
+
+		localStorage.setItem('filters', null);
 	}
 
 	//

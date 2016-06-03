@@ -15,6 +15,9 @@ export default class App extends Component {
             title="REDA - Recursos Educativos Digitais Abertos"
             titleTemplate="%s - REDA"
             defaultTitle="REDA - Recursos Educativos Digitais Abertos"
+            meta={[
+                {"name": "description", "content": "REDA é uma plataforma dedicada à disponibilização rápida e fácil de conteúdos educativos para qualquer aluno, professor ou utilizador, sem restrições."}
+            ]}
         />
       	<Progress.Component/>
       	<AlertBox />

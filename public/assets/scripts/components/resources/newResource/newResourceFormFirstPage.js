@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 import _ from 'lodash';
 
 // Components
@@ -285,17 +285,24 @@ class NewResourceFormFirstPage extends Component {
               
               {/* CONDITIONAL INPUT FIELD */}
               {(() => {
+
                 // If it is not online, and it is not a vide, set as a file upload
                 if(!isOnline.value && format.value.type!='video'){
                     return (
-                      <div className={`form-group ${((file.touched || file.dirty) && file.invalid) ? 'has-error' : ''}`}>
-                        <FileInput setFile={this.setFile}/>
-                        <p><small>Tamanho máximo de ficheiro é de 100MB</small></p>
-                        {file.value && !file.error && <p><strong>Ficheiro: {file.value.name}.{file.value.extension}</strong></p>}
-                        {(file.touched || file.dirty) && file.error && <div className="text-danger">{file.error}</div>}
+                      <div className={`form-group file-input ${((file.touched || file.dirty) && file.invalid) ? 'has-error' : ''}`}>
+                        <FileInput setFile={this.setFile}/>                        
+                        <p><small>Tamanho máximo de ficheiro é de 60MB</small></p>
+                        {file.value 
+                          && !file.error 
+                          && file.value.name 
+                          && file.value.extension 
+                          && <p><strong>Ficheiro: {file.value.name}.{file.value.extension}</strong></p>}
+                        {(file.touched || file.dirty) 
+                          && file.error 
+                          && <div className="text-danger">{file.error}</div>}                        
                       </div>
                     )
-                }else if (isOnline.value || format.value.type=='video') {
+                }else if ((isOnline.value && isOnline.value==true) || format.value.type=='video') {
                   // If it is online or is a video, set the link or embed field
                   return (
                     <div className={`form-group ${(link.touched && link.invalid) || (embed.touched && embed.invalid) ? 'has-error' : ''}`}>
@@ -330,7 +337,6 @@ class NewResourceFormFirstPage extends Component {
             <div className={`form-group ${techResources.touched && techResources.invalid ? 'has-error' : ''}`}>
               <TextArea maxLength={300} minLength={1} className="form-control" placeholder="Este recurso requer a utilização de..." field={techResources} />
               {techResources.touched && techResources.error && <div className="text-danger">{techResources.error}</div>}
-              
             </div>            
           </div>
         </div>
@@ -348,7 +354,7 @@ class NewResourceFormFirstPage extends Component {
 
         {/* NEXT */}
         <footer className="form-buttons">
-          <button type="submit" className="cta primary">Continuar</button>
+          <button type="submit" className="cta primary" disabled={file.value && file.value.loading}>Continuar</button>
           <button className="cta no-bg" onClick={() => this.context.router.goBack()} role="link">Cancelar</button>
         </footer>
       </form>

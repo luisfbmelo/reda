@@ -1,0 +1,13 @@
+#react-image-lightbox-portal{
+	.close{
+		float:none;
+	}
+}
+
+.lightbox-img{
+	&:hover{
+		cursor:pointer;
+		cursor:-moz-zoom-in;
+		cursor:-webkit-zoom-in;
+	}
+}

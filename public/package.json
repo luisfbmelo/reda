@@ -85,6 +85,7 @@
     "react-checkbox-group": "^1.0.4",
     "react-dom": "^0.14.7",
     "react-helmet": "^3.1.0",
+    "react-image-lightbox": "^2.1.0",
     "react-progress-2": "git+https://github.com/luisfbmelo/react-progress-2.git",
     "react-rating": "^0.2.2",
     "react-redux": "^4.4.4",

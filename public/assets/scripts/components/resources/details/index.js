@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 
 // Actions
 import * as alertMessages from '@/actions/message-types';
@@ -76,6 +76,11 @@ export default class ResourceDetails extends Component {
 				
 				this.props.addAlert(alertMessages.ALERT_RESOURCE_ACCESS_ERROR, alertMessages.ERROR)
 				this.context.router.push('/descobrir');
+
+				// Reset resource because if there is any error,
+				// the next time the user tries to access after login, 
+				// we assure that it will not be redirected again
+				this.props.resetResource();
 
 			// If allowed, get the favorite
 			}else{

@@ -4,9 +4,10 @@
 
 .resources__page{
 	&--filter{
-		@include media(small-down){
+		/* @include media(small-down){
 			display:none;
-		}
+		} */
+		display:none;
 	}
 }
 

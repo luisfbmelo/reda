@@ -3,7 +3,7 @@
 import React from 'react';
 import { Component } from 'react';
 import fetch from 'isomorphic-fetch';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 
 export default class ExploreBlock extends Component {
 	constructor(props){

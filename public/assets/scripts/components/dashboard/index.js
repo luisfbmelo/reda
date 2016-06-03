@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 import MyResourcesContainer from '@/containers/dashboard/myResources';
 import DashboardMenuContainer from '@/containers/dashboard/menu';
 

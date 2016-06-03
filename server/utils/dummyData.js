@@ -87,7 +87,7 @@ var createFormats = function(models){
   .then(function(){
     return models.Format.create({
       title: "Folha de Cálculo",
-      type: "excel",
+      type: "calc",
       priority: 7,
       Image: {
         name: "folha_calculo",

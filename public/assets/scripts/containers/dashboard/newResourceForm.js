@@ -180,7 +180,7 @@ class NewResourceFormContainer extends Component {
       techResources: data.techResources,
       description: data.description,
       exclusive: data.exclusive,
-      isOnline: !data.Files || data.Files.length == 0,
+      isOnline: data.link || data.embed,
       subjects: data.Subjects.map(item => item.id),
       domains: data.Domains.map(item => item.id),
       years: data.Years.map(item => item.id),

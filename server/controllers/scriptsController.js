@@ -57,7 +57,7 @@ exports.details = function(req, res, next){
 	includes.push(
 		{
 			model: models.User,
-			attributes: ['name', 'organization']		
+			attributes: ['name', 'organization', 'email']		
 		}
 	)
 
@@ -103,6 +103,13 @@ exports.userScripts = function(req, res, next){
 				user_id: userExists.id				
 			}
 		}
+
+		includes.push(
+			{
+				model: models.User,
+				attributes: ['name', 'organization', 'email']		
+			}
+		)
 
 		//
 		//	Get scripts
@@ -191,11 +198,7 @@ function upsertScript(req, res, userId, userRole){
 				return script.updateAttributes({
 				    title: givenScript.title,
 				    description: givenScript.description,
-				    author: givenScript.author,
-				    organization: givenScript.organization,
-				    email: givenScript.email,		   
-				    operation: givenScript.op_proposal,
-				    operation_author: givenScript.op_proposal_author,
+				    operation: givenScript.op_proposal
 				  }).then(function(item){			 
 				  	item.setSubjects(givenScript.subjects);
 
@@ -217,11 +220,7 @@ function upsertScript(req, res, userId, userRole){
 			return models.Script.create({
 			    title: givenScript.title,
 			    description: givenScript.description,
-			    author: givenScript.author,
-			    organization: givenScript.organization,
-			    email: givenScript.email,		   
 			    operation: givenScript.op_proposal,
-			    operation_author: givenScript.op_proposal_author,
 			    user_id: userId,
 			    resource_id: req.params.resource    
 			  },{

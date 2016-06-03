@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 
 var renderList = (list, config, onFilter) => {
 	return _.sortBy(list, 'priority').map((format, index) => {

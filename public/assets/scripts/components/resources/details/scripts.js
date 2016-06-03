@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 
 // Components
 import {Tabs, Tab} from 'react-bootstrap';
@@ -14,22 +14,22 @@ const renderScripts = (scripts) => {
 				return (					
 					<Tab eventKey={index+1} title={"Guião " + (index+1)} key={script.id}>
 						<div className="row">
-							<div className="col-xs-12 col-sm-4">
+							{script.User.name && <div className="col-xs-12 col-sm-4">
 								<label>Autor:</label>
-								{script.author}
-							</div>
-							<div className="col-xs-12 col-sm-4">
+								{script.User.name}
+							</div>}
+							{script.User.email && <div className="col-xs-12 col-sm-4">
 								<label>Email:</label>
-								<a href={"mailto:"+script.email}>{script.email}</a>
-							</div>
-							<div className="col-xs-12 col-sm-4">
+								<a href={"mailto:"+script.User.email}>{script.User.email}</a>
+							</div>}
+							{script.User.organization && <div className="col-xs-12 col-sm-4">
 								<label>Organização:</label>
-								{script.organization}
-							</div>
+								{script.User.organization}
+							</div>}
 						</div>
 
 						<div className="row">
-							<div className="col-xs-6 col-sm-3">
+							<div className="col-xs-12">
 								<label className="block">Descrição</label>
 								{script.description}
 							</div>

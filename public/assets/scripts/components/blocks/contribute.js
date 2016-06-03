@@ -3,7 +3,7 @@
 import React from 'react';
 import { Component } from 'react';
 import fetch from 'isomorphic-fetch';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 
 import LoginButton from '@/components/auth/loginButton';
 import SvgComponent from '@/components/common/svg';

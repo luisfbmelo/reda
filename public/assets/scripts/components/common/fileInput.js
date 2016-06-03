@@ -7,6 +7,8 @@ export default class FileInput extends Component{
     constructor(props){
         super(props);
         this.uploadFile = this.uploadFile.bind(this);
+
+        this.state = { loading: false }
     }
 
     uploadFile(e) {
@@ -24,12 +26,13 @@ export default class FileInput extends Component{
         }*/
 
         //check if file is image
-        if (!hasError) {
+        if (!hasError && thisFile) {
             //read file
             reader.readAsDataURL(e.target.files[0]);
 
             //set loading
-
+            this.props.setFile({loading: true});
+            this.setState({loading: true});
         } else {
             //clear all fields
         }
@@ -50,7 +53,8 @@ export default class FileInput extends Component{
                 data = data.split(',')[1];
 
                 // Return file metadata
-                this.props.setFile({name, extension, data, size});
+                this.props.setFile({id:null, name, extension, data, size, loading: false});
+                this.setState({loading: false});
             }
         }
     }
@@ -58,7 +62,7 @@ export default class FileInput extends Component{
     render(){
         return (
             <span className="cta primary btn-file">
-                <input type="file" onChange={this.uploadFile}/> Escolher Ficheiro
+                <input type="file" onChange={this.uploadFile}/>{this.state.loading && <i className='fa fa-spinner fa-spin'></i>}{this.state.loading ? "A carregar..." : "Escolher Ficheiro"}
             </span>
         )
     }    

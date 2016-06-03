@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchResources, setHighlight, setFavorite, searchResources, resetResources } from '@/actions/resources';
 import { fetchConfig } from '@/actions/config';
-import { getFilters, resetFilters } from '@/actions/filters';
+import { getFilters, resetFilters, setFilters } from '@/actions/filters';
 import { bindActionCreators } from 'redux';
 import ResourcesListing from '@/components/resources/listing';
 
@@ -22,6 +22,8 @@ function mapDispatchToProps(dispatch) {
   	fetchConfig, 
   	setHighlight, 
     setFavorite,
+    setFilters,
+    getFilters,
   	resetFilters,
     searchResources,
     resetResources

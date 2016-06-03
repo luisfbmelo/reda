@@ -1,6 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 
+// Components
+import ImagesLightbox from '@/components/common/imagesLightbox';
 
 //
 //	Print media content
@@ -66,7 +68,12 @@ class TypeHelper{
 	printImage(meta, type){
 		if (meta.file){
 			const { name, extension } = meta.file;
-			return <img src={meta.filesPath+"/"+name+"."+extension} className="img-responsive" />
+
+			const images = [
+				meta.filesPath+"/"+name+"."+extension
+			]
+
+			return <ImagesLightbox images={images} />
 		}	
 
 		return this.showPlaceholder(meta.graphicsPath, type);

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 import _ from 'lodash';
 
 // Components
@@ -43,19 +43,36 @@ export default class ResourcesListing extends Component {
 	}
 
 	componentDidMount(){
+		//
+		//	Try to get filters from existing state
+		//	Else, get from localStorage
+		//
+		let storageFilters = this.props.filters.data!=null ? this.props.filters.data : null;
+		storageFilters = localStorage.getItem('filters')!=null ? JSON.parse(localStorage.getItem('filters')) : storageFilters;
+
 		// If there is any search, don't search again.
 		// Else, do!
 		if (!this.props.resources.fetched || this.props.resources.total==null || this.props.resources.total==undefined){
-			this.props.fetchResources('search')
+			this.props.searchResources(storageFilters || this.state)
 			.then(() => {
-				// Reset all filters and set current page if new request
-				this.props.resetFilters();
-				this.setState({activePage: this.props.resources.curPage || 1 });
+				if(storageFilters!=null){
+					this.setState({
+						activePage: storageFilters.activePage || 1,
+						tags: storageFilters.tags || [],
+						order: storageFilters.order || "recent",
+						filters: storageFilters.filters || {}
+					});
+				}else{
+					this.setState({
+						activePage: this.props.resources.curPage || 1
+					});
+				}
+				
 			})
 		}else{
 			this.setState({
 				activePage: 1,
-				tags: this.props.filters.filters && this.props.filters.filters.tags ? this.props.filters.filters.tags : []
+				tags: this.props.filters.data && this.props.filters.data.tags ? this.props.filters.data.tags : []
 			});
 		}
 
@@ -65,6 +82,7 @@ export default class ResourcesListing extends Component {
 
 	// Clear resources on unmount
 	componentWillUnmount() {
+		this.props.setFilters(this.state);
 	 	this.props.resetResources();     
 	}
 
@@ -82,6 +100,7 @@ export default class ResourcesListing extends Component {
 	//	REQUEST NEW RESOURCES
 	//
 	requestNewResources(){
+		this.props.setFilters(this.state);
 		this.props.searchResources(this.state);
 	}
 
@@ -236,4 +255,8 @@ export default class ResourcesListing extends Component {
 ResourcesListing.propTypes = {
 	resources: PropTypes.object.isRequired,
 	config: PropTypes.object.isRequired
+}
+
+ResourcesListing.contextTypes = {
+  router: PropTypes.object
 }

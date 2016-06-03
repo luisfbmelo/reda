@@ -25,6 +25,7 @@ export function getFilters(){
 }
 
 export function setFilters(filters){
+	localStorage.setItem('filters', JSON.stringify(filters));
 	return {
 		type: FILTERS_SET,
 		filters
@@ -32,6 +33,7 @@ export function setFilters(filters){
 }
 
 export function resetFilters(){
+	localStorage.setItem('filters', null);
 	return {
 		type: FILTERS_RESET
 	}

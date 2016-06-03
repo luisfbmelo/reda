@@ -13,11 +13,11 @@ export default function(state = INITIAL_STATE, action) {
       return state;
     case FILTERS_SET:
       return assign({}, state, {
-        filters: action.filters
+        data: action.filters
       })
     case FILTERS_RESET:
       return assign({}, state, {
-        filters: null
+        data: null
       })
     default:
       return state;

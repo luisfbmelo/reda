@@ -40,8 +40,8 @@ const validate = values => {
   // File
   if (!values.isOnline && !values.file && ( values.format && values.format.type!="video")){
     errors.file = 'Campo é obrigatório'
-  }else if (!values.isOnline && values.file && values.file.size && values.file.size>1000000) {
-    errors.file = 'Ficheiro não deve exceder os 1 MB'
+  }else if (!values.isOnline && values.file && values.file.size && values.file.size>60000000) { // 1 000 000 = 1MB
+    errors.file = 'Ficheiro não deve exceder os 60 MB'
   }else if(!values.isOnline && values.format && values.format.type!="video" && values.file && values.file.extension && allowedExt.indexOf(values.file.extension.toLowerCase())<0){
     errors.file = `Extensão .${values.file.extension} não é permitida`
   }

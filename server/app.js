@@ -24,7 +24,7 @@ app.set('view engine', 'jade');
 // CORS
 app.use(cors());
 app.use(bodyParser.json({limit:'150mb', type:'application/json'}));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({limit: '150mb', extended: false }));
 app.use(passport.initialize());
 //app.use(express.static(path.join(__dirname, 'public')));
 

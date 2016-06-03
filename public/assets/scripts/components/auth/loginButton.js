@@ -8,7 +8,7 @@ import { removeClass } from '@/utils';
 
 // Components
 import { Modal } from 'react-bootstrap';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 
 
 export default class LoginButton extends Component {

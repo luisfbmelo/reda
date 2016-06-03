@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Component } from 'react';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 
 // Components
 import { ResourcesList } from './common/list';
@@ -74,8 +74,8 @@ export default class MyResources extends Component {
 	}
 
 	componentWillUnmount() {
-	      this.props.resetFilters();
-	      this.props.resetResources();
+	    this.props.resetFilters();
+	    this.props.resetResources();
 	}
 
 	//	Request new resources

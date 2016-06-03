@@ -14,18 +14,6 @@ const validateScript = (values) => {
     errors.title = 'O campo é obrigatório'
   }
 
-  // Email
-  if (!values.email) {
-    errors.email = 'O campo é obrigatório'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'E-mail inserido não é válido';
-  }
-
-  // Organization
-  if (!values.organization) {
-    errors.organization = 'O campo é obrigatório'
-  }
-
   // Subjects
   if (!values.subjects || values.subjects.length==0) {
     errors.subjects = 'Campo é obrigatório'

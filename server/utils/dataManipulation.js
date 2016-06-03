@@ -1,5 +1,6 @@
 const debug = require('debug')('app');
 const fs = require('fs');
+const stream = require('stream');
 const path = require('path');
 const config = require('../config/config.json');
 const models = require('../models/index');
@@ -51,9 +52,9 @@ exports.createSlug = function(str) {
 //  Check file extension and size
 //
 exports.checkFile = function(file){
-  const allowedExt = ["gif","jpeg","jpg","png","rtf", "doc","docx","odt","txt","mp3","wav","wma","jar","ggb","swf","jnlp"];
+  const allowedExt = ["psd","gif","jpeg","jpg","png","rtf", "doc","docx","odt","txt","mp3","wav","wma","jar","ggb","swf","jnlp"];
 
-  if (file.size && file.size>1000000){
+  if (file.size && file.size>150000000){
     return {error: "Ficheiro não deve exceder os 1MB"};
   }
 
@@ -87,12 +88,25 @@ exports.saveFile = function(req, res, folder, blob, name, ext, parentId){
   createFolder(targetFolder);
 
   // Write blob to system
-  var buf = new Buffer(blob, 'base64'); // decode
-  fs.writeFile(targetFile, buf, function(err) {
+  /*var buf = new Buffer(blob, 'base64'); // decode
+  fs.writeFile(targetFile, blob, function(err) {
     if(err) {
       return res.send(err);
     }
+  });*/
+  writeBlob(targetFile, blob);
+}
+
+function writeBlob(targetFile, blob){
+  var buff = new Buffer(blob);
+  var wstream = fs.createWriteStream(targetFile);
+  wstream.write(blob, 'base64');
+
+  wstream.on('error', function (err) {
+    console.log(err);
   });
+
+  wstream.end();
 }
 
 //

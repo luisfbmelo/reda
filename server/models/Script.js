@@ -11,30 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},
-		author: {
-			type: DataTypes.STRING(255),
-			allowNull: false
-		},
-		email: {
-			type: DataTypes.STRING(100),
-			allowNull: false,
-			validate: {
-				isEmail: true,
-			}
-		},
-		organization: {
-			type: DataTypes.STRING,
-			allowNull: false
-		},
 		operation: {
-			type: DataTypes.TEXT,
-			allowNull: false
-		},
-		operation_author: {
-			type: DataTypes.STRING(255),
-			allowNull: false
-		},
-		author: {
 			type: DataTypes.TEXT,
 			allowNull: false
 		},

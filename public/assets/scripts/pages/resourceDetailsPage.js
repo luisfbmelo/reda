@@ -17,6 +17,9 @@ class ResourceDetailsPage extends Component {
     	<div>
         <Helmet
           title={this.props.resource.data ? this.props.resource.data.title : "Detalhes"}
+          link={[
+            {"rel": "canonical", "href": "http://localhost:3000/descobrir/detalhes-recurso"}
+          ]}
         />
   			<Header location={this.props.location}/>
         <div className="resource-detail-search">

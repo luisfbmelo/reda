@@ -35,6 +35,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 function readPackage () {
   pkg = JSON.parse(fs.readFileSync('public/package.json'));
+  console.log(pkg.dependencies);
 }
 readPackage();
 

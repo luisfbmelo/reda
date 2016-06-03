@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 import _ from 'lodash';
 
 // Components
@@ -290,7 +290,7 @@ class NewResourceFormSecondPage extends Component {
           {/* SUBJECTS */}
           <div className="col-xs-12 col-sm-4">
             <label className="input-title">Disciplinas*</label>
-            <div className={`form-group ${subjects.touched && subjects.invalid ? 'has-error' : ''}`}>
+            <div className={`form-group ${subjects.touched && subjects.invalid ? 'has-error has-feedback' : ''}`}>
               {this.renderSubjects()}
               {subjects.touched && subjects.error && <div className="text-danger">{subjects.error}</div>}
             </div>

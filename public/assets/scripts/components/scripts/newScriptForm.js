@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { Link } from 'react-router';
+import Link from 'react-router/lib/Link'
 import _ from 'lodash';
 
 // Components
@@ -18,15 +18,11 @@ import validate from './validate';
 export const fields = [ 
   'scripts[].id',
   'scripts[].title', 
-  'scripts[].email',
-  'scripts[].organization',
-  'scripts[].author',
   'scripts[].description',
   'scripts[].subjects',
   'scripts[].domains',
   'scripts[].years',
   'scripts[].op_proposal',
-  'scripts[].op_proposal_author',
   'accept_terms',
   'scripts[].hasDomains'
 ]
@@ -230,37 +226,13 @@ class NewScriptForm extends Component {
 
                 {/* FIRST COL/ROW */}
                 <div className="row">
-                  <div className="col-xs-12 col-sm-3">
+                  <div className="col-xs-12 col-sm-12">
                     <label className="input-title">Título*</label>
                     <div className={`form-group ${script.title.touched && script.title.invalid ? 'has-error' : ''}`}>
                       <input type="text" className="form-control" placeholder="Nome do seu guião" {...script.title}/>
                       {script.title.touched && script.title.error && <div className="text-danger">{script.title.error}</div>}
                     </div>
-                  </div>
-                  
-                  <div className="col-xs-12 col-sm-3">
-                    <label className="input-title">Email*</label>
-                    <div className={`form-group ${script.email.touched && script.email.invalid ? 'has-error' : ''}`}>
-                      <input type="email" className="form-control" placeholder="Email do núcleo ou docente" {...script.email}/>
-                      {script.email.touched && script.email.error && <div className="text-danger">{script.email.error}</div>}
-                    </div>
-                  </div>
-
-                  <div className="col-xs-12 col-sm-3">
-                    <label className="input-title">Escola/Organização*</label>
-                    <div className={`form-group ${script.organization.touched && script.organization.invalid ? 'has-error' : ''}`}>
-                      <input type="text" className="form-control" placeholder="Nome da sua escola/organização" {...script.organization}/>
-                      {script.organization.touched && script.organization.error && <div className="text-danger">{script.organization.error}</div>}
-                    </div>
                   </div> 
-
-                  <div className="col-xs-12 col-sm-3">
-                    <label className="input-title">Autor*</label>
-                    <div className={`form-group ${script.author.touched && script.author.invalid ? 'has-error' : ''}`}>
-                      <input type="text" className="form-control" placeholder="Nome da sua escola/organização" {...script.author}/>
-                      {script.author.touched && script.author.error && <div className="text-danger">{script.author.error}</div>}
-                    </div>
-                  </div>   
                 </div>
 
                 {/* DESCRIPTION */}
@@ -288,7 +260,7 @@ class NewScriptForm extends Component {
                   {/* SUBJECTS */}
                   <div className="col-xs-12 col-sm-6">
                     <label className="input-title">Disciplinas*</label>
-                    <div className={`form-group ${script.subjects.touched && script.subjects.invalid ? 'has-error' : ''}`}>
+                    <div className={`form-group ${script.subjects.touched && script.subjects.invalid ? 'has-error has-feedback' : ''}`}>
                       {this.renderSubjects(script,index)}
                       {script.subjects.touched && script.subjects.error && <div className="text-danger">{script.subjects.error}</div>}
                     </div>
@@ -315,16 +287,6 @@ class NewScriptForm extends Component {
                       <TextArea maxLength={800} minLength={20} className="form-control" placeholder="Indique como este recurso pode ser utilizado/operacionalizado" field={script.op_proposal}/>
                       {script.op_proposal.touched && script.op_proposal.error && <div className="text-danger">{script.op_proposal.error}</div>}
                     </div>            
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-xs-12 col-sm-6">
-                    <label className="input-title">Autor da proposta*</label>
-                    <div className={`form-group ${script.op_proposal_author.touched && script.op_proposal_author.invalid ? 'has-error' : ''}`}>
-                      <input type="text" className="form-control" placeholder="Autor da proposta" {...script.op_proposal_author}/>
-                      {script.op_proposal_author.touched && script.op_proposal_author.error && <div className="text-danger">{script.op_proposal_author.error}</div>}
-                    </div>
                   </div>
                 </div>
               </section>
