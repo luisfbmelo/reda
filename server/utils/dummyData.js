@@ -1,3 +1,6 @@
+var Converter = require("csvtojson").Converter;
+var iconv = require('iconv-lite');
+
 // ROLES
 var createRoles = function(models){
   return models.Role.create({value: "Admin", type: "admin"})
@@ -326,6 +329,196 @@ var createTags = function(models){
   ]);
 }
 
+// Themes
+var createThemes = function(models){
+  return models.Theme.bulkCreate([
+    {
+      title: "Ciências"
+    },
+    {
+      title: "Ciências Naturais"
+    },
+    {
+      title: "Cultura Geral"
+    },
+    {
+      title: "Educação"
+    },
+    {
+      title: "Física"
+    },
+    {
+      title: "Formação"
+    },
+    {
+      title: "Gestão de Trabalho"
+    },
+    {
+      title: "Língua portuguesa"
+    },
+    {
+      title: "Línguas"
+    },
+    {
+      title: "Matemática "
+    },
+    {
+      title: "Notícias"
+    },
+    {
+      title: "Química"
+    }
+  ]);
+}
+
+// Cat Apps
+var createCatApps = function(models){
+  return models.Category.bulkCreate([
+    {
+      title: "Mais acedidas",
+      type: "APPS"
+    },
+    {
+      title: "Curiosidades",
+      type: "APPS"
+    },
+    {
+      title: "Interessantes",
+      type: "APPS"
+    },
+    {
+      title: "Jogos",
+      type: "APPS"
+    }
+  ]);
+}
+
+// Cat Sugestions
+var createCatSugestions = function(models){
+  return models.Category.bulkCreate([
+    {
+      title: "Arte",
+      type: "REC"
+    },
+    {
+      title: "Blogues",
+      type: "REC"
+    },
+    {
+      title: "Comunidades virtuais e Redes Sociais",
+      type: "REC"
+    },
+    {
+      title: "Curiosidades",
+      type: "REC"
+    },
+    {
+      title: "Dicionários e Enciclopédias",
+      type: "REC"
+    },
+    {
+      title: "Documentos orientadores",
+      type: "REC"
+    },
+    {
+      title: "Formação",
+      type: "REC"
+    },
+    {
+      title: "Fundações e Museus",
+      type: "REC"
+    },
+    {
+      title: "Literacia",
+      type: "REC"
+    },
+    {
+      title: "Literatura",
+      type: "REC"
+    },
+    {
+      title: "Media",
+      type: "REC"
+    },
+    {
+      title: "Organizações e Instituições",
+      type: "REC"
+    },
+    {
+      title: "Produção de recursos",
+      type: "REC"
+    },
+    {
+      title: "Repositórios",
+      type: "REC"
+    },
+    {
+      title: "Texto científico",
+      type: "REC"
+    },
+    {
+      title: "TIC",
+      type: "REC"
+    }
+  ]);
+}
+
+// Cat "Experimenta"
+var createCatTry = function(models){
+  return models.Category.bulkCreate([
+    {
+      title: "Mais acedidas",
+      type: "TRY"
+    },
+    {
+      title: "Curiosidades",
+      type: "TRY"
+    },
+    {
+      title: "Interessantes",
+      type: "TRY"
+    },
+    {
+      title: "Jogos",
+      type: "TRY"
+    }
+  ]);
+}
+
+// System
+var createSystem = function(models){
+  return models.System.bulkCreate([
+    {
+      title: "iOS"
+    },
+    {
+      title: "Android"
+    },
+    {
+      title: "Windows"
+    }
+  ]);
+}
+
+// Bad words list
+var createBadwords = function(models){
+  var converter = new Converter({
+    headers: ['title']
+  });
+
+  //read from file 
+  require("fs")
+  .createReadStream(__dirname+"/csv/bad-words.csv")
+  .pipe(iconv.decodeStream('utf8'))
+  .pipe(converter);
+
+  //end_parsed will be emitted once parsing finished 
+  converter.on("end_parsed", function (wordsList) {
+     return models.Badword.bulkCreate(wordsList);
+  });
+
+}
+
 exports.createResource = function(models){
   return models.Resource.create({
     title: "Media heading",
@@ -384,12 +577,19 @@ exports.createResource = function(models){
 }
 
 exports.createData = function(models){
-  createRoles(models)
+ /* createRoles(models)
   .then(createFormats(models))
   .then(createMode(models))
   .then(createSubjects(models))
   .then(createLanguages(models))
   .then(createYears(models))
+  .then(createThemes(models))
+  .then(createCatApps(models))
+  .then(createCatSugestions(models))
+  .then(createCatTry(models))
+  .then(createSystem(models))
+  .then(createBadwords(models));*/
+
   //.then(createTags(models));
   //.then(createResource(models));
 }
