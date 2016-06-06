@@ -17,9 +17,11 @@ import user from './user';
 import alerts  from './alerts';
 import filters from './filters';
 import config from './config';
+import headers from './headers';
 
 const rootReducer = combineReducers({
 	config,
+	headers,
 	form,
 	highlights,
 	formats,

@@ -61,7 +61,6 @@
 
 		a, button{
 			padding:5px 0;
-			color:white!important;
 			@include transition(all 0.3s ease);
 			border-bottom:2px solid transparent;
 
@@ -69,7 +68,6 @@
 			&:focus,
 			&:active{
 				border-bottom:2px solid $light-green;
-				background:none!important;
 			}
 		}
 
@@ -138,7 +136,7 @@
 }
 
 .header-container{
-	&.home-page, &.painel, &.perfil{
+	&.white-nav{
 		.navbar-default{
 			.icon-bar{
 				background-color:white!important;

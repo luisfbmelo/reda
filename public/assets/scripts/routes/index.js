@@ -14,6 +14,7 @@ import DashboardPage from '@/pages/dashboardPage';
 import ResourceDetailsPage from '@/pages/resourceDetailsPage';
 import NewResourcePage from '@/pages/newResourcePage';
 import NewScriptPage from '@/pages/newScriptPage';
+import AppsPage from '@/pages/appsPage';
 import NotFoundPage from '@/pages/notFoundPage';
 
 // Required
@@ -33,6 +34,8 @@ export default (
     <Route name="Novo Recurso" path="novorecurso" component={NewResourcePage} />
     <Route name="Editar Recurso" staticName={true} path="editarrecurso/:resource" component={NewResourcePage} />
     <Route name="Gerir Guiões" staticName={true} path="gerirguioes/:resource" component={NewScriptPage} /> 
+
+    <Route name="Aplicações" path="aplicacoes" component={AppsPage} />
 
     <Route name="Registar" path="registar" component={SignupFormPage} />
 

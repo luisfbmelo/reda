@@ -33,5 +33,11 @@
 				}
 			}
 		]
+	},
+	"headers": {
+		"aplicacoes": {
+			"title" : "Aplicações",
+			"description": "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ac dui quis mi consectetuer lacinia. Mauris turpis nunc, blandit et, volutpat molestie, porta ut, ligula. Ut leo. Etiam imperdiet imperdiet orci. Nunc nonummy metus."
+		}
 	}
 }

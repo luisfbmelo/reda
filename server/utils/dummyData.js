@@ -393,8 +393,8 @@ var createCatApps = function(models){
   ]);
 }
 
-// Cat Sugestions
-var createCatSugestions = function(models){
+// Cat Recomended
+var createCatRecomended = function(models){
   return models.Category.bulkCreate([
     {
       title: "Arte",
@@ -585,7 +585,7 @@ exports.createData = function(models){
   .then(createYears(models))
   .then(createThemes(models))
   .then(createCatApps(models))
-  .then(createCatSugestions(models))
+  .then(createCatRecomended(models))
   .then(createCatTry(models))
   .then(createSystem(models))
   .then(createBadwords(models));*/

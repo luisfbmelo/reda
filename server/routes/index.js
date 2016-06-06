@@ -10,6 +10,10 @@ var routes = function(app){
 	app.use('/api/subjects', require('./subjects.js'));	
 	app.use('/api/users', require('./users.js'));
 	app.use('/api/news', require('./news.js'));
+	app.use('/api/systems', require('./systems.js'));
+	app.use('/api/themes', require('./themes.js'));
+	app.use('/api/categories', require('./categories.js'));
+	app.use('/api/apps', require('./apps.js'));
 }
 
 module.exports = routes;

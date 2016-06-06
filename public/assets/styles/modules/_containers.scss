@@ -5,6 +5,12 @@
 		background-position:center center;
 	}
 
+	&.aplicacoes{
+		background-image:url('../graphics/bg/apps-bg.jpg');
+		background-size:cover;
+		background-position:center center;
+	}
+
 	&.painel,
 	&.perfil{
 		background-image:url('../graphics/bg/account-bg.jpg');
@@ -12,17 +18,42 @@
 		background-position:center center;
 	}
 
-	&:not(.home-page):not(.painel):not(.perfil){
+	.navbar-nav li,
+	.navbar-nav li a, 
+	.navbar-nav li button,
+	.user-identification:before{
+		color:$body-color;
+		background-color:transparent!important;
+
+		&:hover,
+		&:focus,
+		&:active{
+			color:$body-color!important;
+			background-color:transparent!important;
+		}
+	}
+	
+	&.white-nav{
+		.navbar-nav li,
 		.navbar-nav li a, 
 		.navbar-nav li button,
 		.user-identification:before{
-			color:$body-color!important;
-		}
-
-		@include media(xsmall-only){
-			& + .search-container{
-				display:none;
+			@include media(small-up){
+				color:white!important;
 			}
+
+			&:hover,
+			&:focus,
+			&:active{
+				color:white!important;
+			}
+		}
+	}
+	
+
+	@include media(xsmall-only){
+		& + .search-container{
+			display:none;
 		}
 	}
 }

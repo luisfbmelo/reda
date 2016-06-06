@@ -2,10 +2,6 @@
 	background-color:$light-background;
 }
 
-.de-emphasize{
-	font-weight:400;
-}
-
 .loading{
 	@include animation(rotate 1s linear infinite)
 }
@@ -53,6 +49,26 @@
   float:left;
 }
 
+
+
+
+
+/**
+ * TEXT
+ */
+.white-text{
+  color:white;
+
+  h1,h2,h3,h4,h5,h6{
+    color:white;
+    margin-bottom:30px;
+
+    & + p{
+      margin-bottom:60px;
+    }
+  }
+}
+
 .link-effect{
   &:hover{
     cursor:pointer;
@@ -71,4 +87,14 @@ a[href^="mailto:"]{
 
 .block{
   display:block;
+}
+
+.de-emphasize{
+  font-weight:400;
+}
+
+p{
+  font:{
+    family: $opensans;
+  }
 }

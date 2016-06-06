@@ -18,10 +18,6 @@ module.exports = function(sequelize, DataTypes) {
 				isUrl: true,
 			}
 		},
-		theme: {
-			type: DataTypes.STRING(100),
-			allowNull: false
-		},
 		status: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
@@ -37,7 +33,10 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods: {
 			associate: function(models) {
 				App.belongsToMany(models.Category, {
-					through: 'app_category'
+					through: 'app_category',
+					scope: {
+						type: 'APPS'
+					}
 				});
 				App.belongsToMany(models.System, {
 					through: 'app_system'
