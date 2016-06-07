@@ -9,7 +9,7 @@ const models = require('../models/index');
 //  Create a unique slug according to existing slugs.
 //  If exist, increment with the total of results
 //
-exports.createSlug = function(str) {
+exports.createSlug = function(str, model) {
   return new Promise(function(resolve, reject){
     str = str.replace(/^\s+|\s+$/g, ''); // trim
     str = str.toLowerCase();
@@ -28,7 +28,7 @@ exports.createSlug = function(str) {
     //
     //  Create date for unique
     //
-    models.Resource.findOne({
+    model.findOne({
       attributes: [[models.sequelize.fn('COUNT', models.sequelize.col('slug')), 'total_equal']],
       where:{
         slug:{
@@ -36,12 +36,12 @@ exports.createSlug = function(str) {
         }
       }
     })
-    .then(function(resource){
+    .then(function(result){
       
-      if (resource.dataValues.total_equal==0){
+      if (result.dataValues.total_equal==0){
         resolve(str);
       }else{
-        str += "-"+parseInt(resource.dataValues.total_equal);
+        str += "-"+parseInt(result.dataValues.total_equal);
         resolve(str);
       }
     });

@@ -7,6 +7,11 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(100),
 			allowNull: false
 		},
+		slug: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true
+		},
 		description: {
 			type: DataTypes.TEXT,
 			allowNull: false
@@ -45,6 +50,7 @@ module.exports = function(sequelize, DataTypes) {
 					through: 'app_theme'
 				});
 				App.belongsTo(models.User);
+				App.belongsTo(models.Image);
 			}
 		}
 	});

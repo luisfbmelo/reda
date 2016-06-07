@@ -9,7 +9,7 @@ import IsAuthenticated from '@/containers/auth/isAuth';
 const renderScripts = (scripts) => {
 
 	return (
-		<Tabs defaultActiveKey={1} >
+		<Tabs defaultActiveKey={1} className="tabs-container">
 			{scripts.map((script, index) => {
 				return (					
 					<Tab eventKey={index+1} title={"Guião " + (index+1)} key={script.id}>

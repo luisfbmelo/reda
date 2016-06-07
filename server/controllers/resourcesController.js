@@ -363,7 +363,6 @@ exports.search = function(req, res, next){
   		subQuery:false
 	})
 	.then(function(resources){
-		debug(resources);
 
 		// findAndCount
 		// COUNT - total results without limit and offset
@@ -586,7 +585,7 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 	//
 	//	Create a slug
 	//
-	dataUtil.createSlug(req.body.title)
+	dataUtil.createSlug(req.body.title, models.Resource)
 	.then(function(str){
 		slug = str;
 

@@ -1,0 +1,52 @@
+.tabs-container{
+	.tab-pane{
+		& > div.row{
+			margin-bottom:30px;
+		}
+	}
+
+	.nav-tabs{
+		text-align:center;
+		border:none;
+		margin-bottom:30px;
+
+		li{
+			float:none;
+			display:inline-block;
+			margin-bottom:20px;
+
+			& + li{
+				margin-left:20px;
+			}
+			
+			&.active{
+				a{
+					cursor:pointer;
+					background-color:$green;
+					color:$light-background;
+				}
+			}
+
+			a{
+				border:none;
+				background:none;
+				padding:7px 20px;
+				border:1px solid $green;
+				border-radius:0;
+				margin-right:0;
+
+				color:$green;
+
+				@include transition(all 0.3s ease);
+
+				&:hover,
+				&:active,
+				&:focus{
+					cursor:pointer;
+					background-color:$green;
+					color:$light-background;
+				}
+			}
+		}
+	}
+}
