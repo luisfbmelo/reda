@@ -17,7 +17,8 @@
   "homepage": "",
   "scripts": {
     "start": "DEBUG=app nodemon -L ./bin/www",
-    "prod": "NODE_ENV=production node ./bin/www"
+    "prod": "NODE_ENV=production node ./bin/www",
+    "build": "NODE_ENV=production gulp build"
   },
   "browserify": {
     "transform": [

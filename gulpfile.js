@@ -67,7 +67,7 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function
   browserSync({
     port: 3000,
     server: {
-      baseDir: ['.tmp', 'public'],
+      baseDir: ['dist', 'public'],
       routes: {
         '/node_modules': './node_modules'
       },
