@@ -226,8 +226,7 @@ gulp.task('extras', function () {
     '!public/assets/graphics/**',
     '!public/assets/vendor/**',
     '!public/assets/styles/**',
-    '!public/assets/scripts/**',
-    'public/assets/scripts/dummy.json'
+    '!public/assets/scripts/**/!(dummy.json)'
   ], {
     dot: true
   }).pipe(gulp.dest('dist'));
