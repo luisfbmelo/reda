@@ -27,7 +27,7 @@
     "username": "reda",
     "password": "password%100",
     "database": "reda",
-    "host": "localhost",
+    "host": "192.168.40.63",
     "dialect": "mariadb",
     "maxConcurrentQueries": 100,
     "pool": {
