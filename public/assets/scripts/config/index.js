@@ -1,4 +1,4 @@
-export default {
+module.exports = {
 	production: {
 		api:'http://192.168.40.63/api/'
 	},

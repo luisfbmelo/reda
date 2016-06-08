@@ -49,11 +49,13 @@ gulp.task('default', ['clean'], function () {
 
 gulp.task('dev-env', function(){
   //process.env.NODE_ENV = 'development';
+  process.env.DS_ENV = 'development';
   gulp.start('serve');
 });
 
 gulp.task('prod-env', function(){
   //process.env.NODE_ENV = 'production';
+  process.env.DS_ENV = 'production';
   gulp.start('build');
 });
 
@@ -67,7 +69,7 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function
   browserSync({
     port: 3000,
     server: {
-      baseDir: ['dist', 'public'],
+      baseDir: ['.tmp', 'public'],
       routes: {
         '/node_modules': './node_modules'
       },

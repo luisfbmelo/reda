@@ -58,8 +58,9 @@ export default class ResourcesFilters extends Component {
 
 		// Are there any filters from localStorage or state?
 		var localFilters = JSON.parse(localStorage.getItem('filters'));
+
 		if (this.props.filters.data!=null){
-			const { formats, subjects, domains, years, access } = this.props.filters.data.filters;
+			const { formats, subjects, domains, years, access } = this.props.filters.data.filters || this.props.filters.data;
 			this.setState({
 				formats,
 				subjects,
