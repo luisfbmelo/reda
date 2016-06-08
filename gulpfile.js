@@ -48,12 +48,12 @@ gulp.task('default', ['clean'], function () {
 });
 
 gulp.task('dev-env', function(){
-  process.env.NODE_ENV = 'development';
+  //process.env.NODE_ENV = 'development';
   gulp.start('serve');
 });
 
 gulp.task('prod-env', function(){
-  process.env.NODE_ENV = 'production';
+  //process.env.NODE_ENV = 'production';
   gulp.start('build');
 });
 
