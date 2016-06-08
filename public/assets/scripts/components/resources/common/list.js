@@ -34,8 +34,8 @@ var renderList = (list, props) => {
 }
 
 export const ResourcesList = (props) => {	
-	if (!props.list || !props.list.data || props.list.fetching){
-		return <div></div>;
+	if (!props.list || !props.list.data || props.list.fetching || props.list.data.length==0){
+		return <p className="text-center">Ainda não existem recursos na plataforma.</p>;
 	}
 
 	return(

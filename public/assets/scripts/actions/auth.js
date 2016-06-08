@@ -42,7 +42,7 @@ export function loginUser(props){
 	let config = {
 		method: 'POST',
 		headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-		body: `email=${props.email}&password=${props.password}`
+		body: `email=${encodeURIComponent(props.email)}&password=${encodeURIComponent(props.password)}`
 	}
 
 	return dispatch => {

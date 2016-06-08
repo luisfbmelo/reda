@@ -18,7 +18,15 @@ class Header extends Component {
 		super(props);
 
 		// Those that have white nav
-		this.noWhiteNav = ['descobrir', 'noticias', 'novorecurso', 'sugestoes', 'registar', 'gerirguioes'];
+		this.noWhiteNav = [
+			'descobrir', 
+			'noticias', 
+			'novorecurso', 
+			'sugestoes', 
+			'registar', 
+			'gerirguioes', 
+			'ajuda'
+		];
 	}
 
 	componentDidMount(){

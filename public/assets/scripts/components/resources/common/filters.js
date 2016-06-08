@@ -183,137 +183,172 @@ export default class ResourcesFilters extends Component {
 	// Render formats list
 	renderFormats(){
 		const { data } = this.props.formats;
+
+		if (!data || data.length==0){
+			return null;
+		}
+		
 		return(
-		  <CheckboxGroup
-		        name="subjects"
-		        value={this.state.formats}
-		        onChange={this.formatChange}
-		      >
-		        {
-		          Checkbox => (
-		            <div className="row">
-		              {data.map((item,index) => {
-		              	if (item.type!='others'){
-		              		return (
-			                  <div key={item.id} className="col-xs-12">
-			                    <Checkbox value={item.id} id={"format-"+item.id}/> 
-			                    <label htmlFor={"format-"+item.id}>{item.title}</label>
-			                  </div>
-			                )
-		              	}		                
-		              })}
-		            </div>
-		          )
-		        }
-		  </CheckboxGroup>
+			<Collapsible title="Formatos" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
+			  <CheckboxGroup
+			        name="subjects"
+			        value={this.state.formats}
+			        onChange={this.formatChange}
+			      >
+			        {
+			          Checkbox => (
+			            <div className="row">
+			              {data.map((item,index) => {
+			              	if (item.type!='others'){
+			              		return (
+				                  <div key={item.id} className="col-xs-12">
+				                    <Checkbox value={item.id} id={"format-"+item.id}/> 
+				                    <label htmlFor={"format-"+item.id}>{item.title}</label>
+				                  </div>
+				                )
+			              	}		                
+			              })}
+			            </div>
+			          )
+			        }
+			  </CheckboxGroup>
+			</Collapsible>
 		)
 	}
 
 	// Render subjects list
 	renderSubjects(){
 		const { data } = this.props.subjects;
+
+		if (!data || data.length==0){
+			return null;
+		}
+
 		return(
-		  <CheckboxGroup
-		        name="subjects"
-		        value={this.state.subjects}
-		        onChange={this.subjectChange}
-		      >
-		        {
-		          Checkbox => (
-		            <div className="row">
-		              {data.map((item,index) => {
-		                return (
-		                  <div key={item.id} className="col-xs-12">
-		                    <Checkbox value={item.id} id={"subject-"+item.id}/> 
-		                    <label htmlFor={"subject-"+item.id}>{item.title}</label>
-		                  </div>
-		                )
-		              })}
-		            </div>
-		          )
-		        }
-		  </CheckboxGroup>
+			<Collapsible title="Disciplinas" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
+			  <CheckboxGroup
+			        name="subjects"
+			        value={this.state.subjects}
+			        onChange={this.subjectChange}
+			      >
+			        {
+			          Checkbox => (
+			            <div className="row">
+			              {data.map((item,index) => {
+			                return (
+			                  <div key={item.id} className="col-xs-12">
+			                    <Checkbox value={item.id} id={"subject-"+item.id}/> 
+			                    <label htmlFor={"subject-"+item.id}>{item.title}</label>
+			                  </div>
+			                )
+			              })}
+			            </div>
+			          )
+			        }
+			  </CheckboxGroup>
+		  	</Collapsible>
 		)
 	}
 
 	// Render domains list
 	renderDomains(){
 		const { data } = this.props.domains;
+
+		if (!data || data.length==0){
+			return null;
+		}
+
 		return(
-		  <CheckboxGroup
-		        name="domains"
-		        value={this.state.domains}
-		        onChange={this.domainChange}
-		      >
-		        {
-		          Checkbox => (
-		            <div className="row">
-		              {data.map((item,index) => {
-		                return (
-		                  <div key={item.id} className="col-xs-12">
-		                    <Checkbox value={item.id} id={"domain-"+item.id}/> 
-		                    <label htmlFor={"domain-"+item.id}>{item.title}</label>
-		                  </div>
-		                )
-		              })}
-		            </div>
-		          )
-		        }
-		  </CheckboxGroup>
+			<Collapsible title="Domínios" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
+			  <CheckboxGroup
+			        name="domains"
+			        value={this.state.domains}
+			        onChange={this.domainChange}
+			      >
+			        {
+			          Checkbox => (
+			            <div className="row">
+			              {data.map((item,index) => {
+			                return (
+			                  <div key={item.id} className="col-xs-12">
+			                    <Checkbox value={item.id} id={"domain-"+item.id}/> 
+			                    <label htmlFor={"domain-"+item.id}>{item.title}</label>
+			                  </div>
+			                )
+			              })}
+			            </div>
+			          )
+			        }
+			  </CheckboxGroup>
+		  	</Collapsible>
 		)
 	}
 
 	// Render years list
 	renderYears(){
 		const { data } = this.props.years;
+
+		if (!data || data.length==0){
+			return null;
+		}
+
 		return(
-		  <CheckboxGroup
-		        name="years"
-		        value={this.state.years}
-		        onChange={this.yearChange}
-		      >
-		        {
-		          Checkbox => (
-		            <div className="row">
-		              {data.map((item,index) => {
-		                return (
-		                  <div key={item.id} className="col-xs-6">
-		                    <Checkbox value={item.id} id={"year-"+item.id}/> 
-		                    <label htmlFor={"year-"+item.id}>{item.title}</label>
-		                  </div>
-		                )
-		              })}
-		            </div>
-		          )
-		        }
-		  </CheckboxGroup>
+			<Collapsible title="Anos" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
+			  <CheckboxGroup
+			        name="years"
+			        value={this.state.years}
+			        onChange={this.yearChange}
+			      >
+			        {
+			          Checkbox => (
+			            <div className="row">
+			              {data.map((item,index) => {
+			                return (
+			                  <div key={item.id} className="col-xs-6">
+			                    <Checkbox value={item.id} id={"year-"+item.id}/> 
+			                    <label htmlFor={"year-"+item.id}>{item.title}</label>
+			                  </div>
+			                )
+			              })}
+			            </div>
+			          )
+			        }
+			  </CheckboxGroup>
+			</Collapsible>
 		)
 	}
 
 	// Render access modes list
 	renderAccess(){
 		const { data } = this.props.access;
+
+		if (!data || data.length==0){
+			return null;
+		}
+
 		return(
-		  <CheckboxGroup
-		        name="access"
-		        value={this.state.access}
-		        onChange={this.accessChange}
-		      >
-		        {
-		          Checkbox => (
-		            <div className="row">
-		              {data.map((item,index) => {
-		                return (
-		                  <div key={item.id} className="col-xs-6">
-		                    <Checkbox value={item.id} id={"access-"+item.id}/> 
-		                    <label htmlFor={"access-"+item.id}>{item.title}</label>
-		                  </div>
-		                )
-		              })}
-		            </div>
-		          )
-		        }
-		  </CheckboxGroup>
+			<Collapsible title="Modos de utilização" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
+			  <CheckboxGroup
+			        name="access"
+			        value={this.state.access}
+			        onChange={this.accessChange}
+			      >
+			        {
+			          Checkbox => (
+			            <div className="row">
+			              {data.map((item,index) => {
+			                return (
+			                  <div key={item.id} className="col-xs-6">
+			                    <Checkbox value={item.id} id={"access-"+item.id}/> 
+			                    <label htmlFor={"access-"+item.id}>{item.title}</label>
+			                  </div>
+			                )
+			              })}
+			            </div>
+			          )
+			        }
+			  </CheckboxGroup>
+			</Collapsible>
 		)
 	}
 
@@ -341,25 +376,11 @@ export default class ResourcesFilters extends Component {
 						<button type="button" className="close" aria-label="Close" onClick={this.toggleList}><span aria-hidden="true">&times;</span></button>
 					</div>
 					<div className="col-xs-12 filters__list--elements">
-						<Collapsible title="Anos" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
-							{this.renderYears()}
-						</Collapsible>
-
-						<Collapsible title="Disciplinas" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
-							{this.renderSubjects()}
-						</Collapsible>
-
-						<Collapsible title="Domínios" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
-							{this.renderDomains()}
-						</Collapsible>
-
-						<Collapsible title="Formatos" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
-							{this.renderFormats()}
-						</Collapsible>	
-						
-						<Collapsible title="Modos de utilização" iconOpen="fa fa-chevron-up" iconClosed="fa fa-chevron-down">
-							{this.renderAccess()}
-						</Collapsible>						
+						{this.renderYears()}
+						{this.renderSubjects()}
+						{this.renderDomains()}
+						{this.renderFormats()}						
+						{this.renderAccess()}					
 					</div>
 					<div className="col-xs-12 filters__list--submit">
 						<button className="cta primary" onClick={this.toggleList}>Fechar</button>	
