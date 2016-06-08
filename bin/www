@@ -45,6 +45,7 @@ models.sequelize.sync({force:false}).then(function () {
   }
 }).catch(function(err){
   debug(err);
+  console.log(err);
 });
 
 /**
