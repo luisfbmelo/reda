@@ -47,6 +47,16 @@ gulp.task('default', ['clean'], function () {
   gulp.start('build');
 });
 
+gulp.task('dev-env', function(){
+  process.env.NODE_ENV = 'development';
+  gulp.start('serve');
+});
+
+gulp.task('prod-env', function(){
+  process.env.NODE_ENV = 'production';
+  gulp.start('build');
+});
+
 gulp.task('serve', ['vendorScripts', 'javascript', 'styles', 'images'], function () {
 
   //

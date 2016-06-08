@@ -49,7 +49,7 @@ export function loginUser(props){
 		dispatch(requestLogin());
 
 		/* Change this to API Call */
-		return fetch(apiPath.production.api+'users/signin', config)
+		return fetch(apiPath.development.api+'users/signin', config)
 		.then(response => {
 			if (!response.ok) {	 
 				let message = response.status == 401 ? "Email ou Palavra-chave incorretos" : "Não foi possível entrar. Contate o administrador da REDA";
