@@ -10,7 +10,7 @@ import Progress from "react-progress-2";
 import * as alertMessages from '@/actions/message-types';
 import * as alertActions from '@/actions/alerts';
 
-const BASE_URL = apiPath.development.api;
+const BASE_URL = apiPath.production.api;
 
 function callApi(endpoint, sendToken, mustAuth, method, data) {
   
