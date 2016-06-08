@@ -2,6 +2,7 @@
 
 require('es6-promise').polyfill();
 import fetch from 'isomorphic-fetch';
+import apiPath from '@/config';
 
 import { 
 	LOGIN_REQUEST, 
@@ -48,7 +49,7 @@ export function loginUser(props){
 		dispatch(requestLogin());
 
 		/* Change this to API Call */
-		return fetch('http://devbox.dev/api/users/signin', config)
+		return fetch(apiPath.production.api+'users/signin', config)
 		.then(response => {
 			if (!response.ok) {	 
 				let message = response.status == 401 ? "Email ou Palavra-chave incorretos" : "Não foi possível entrar. Contate o administrador da REDA";

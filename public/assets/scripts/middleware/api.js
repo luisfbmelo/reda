@@ -1,6 +1,7 @@
 'use strict';
 require('es6-promise').polyfill();
 import fetch from 'isomorphic-fetch';
+import apiPath from '@/config';
 
 // Components
 import Progress from "react-progress-2";
@@ -9,7 +10,7 @@ import Progress from "react-progress-2";
 import * as alertMessages from '@/actions/message-types';
 import * as alertActions from '@/actions/alerts';
 
-const BASE_URL = 'http://devbox.dev/api/';
+const BASE_URL = apiPath.production.api;
 
 function callApi(endpoint, sendToken, mustAuth, method, data) {
   
