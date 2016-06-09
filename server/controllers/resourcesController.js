@@ -666,8 +666,8 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 
 					    	//
 						    //	Save file to FileSys
-						    //
-						    dataUtil.saveFile(req, res, resource.dataValues.slug, req.body.file.data, fileName, req.body.file.extension, req.params.id);
+						    // req, res, folder, blob, name, ext, parentId
+						    dataUtil.saveFile(req, res, "resources/"+resource.dataValues.slug, req.body.file.data, fileName, req.body.file.extension, req.params.id);
 
 					    	// Create new file and add reference
 					    	models.File.create({
@@ -745,7 +745,8 @@ function upsertResource(req, res, newTags, existingTags, action, userExists){
 			    		item.addFile(newFile);
 			    	});
 
-			    	dataUtil.saveFile(req, res, slug, req.body.file.data, fileName, req.body.file.extension, item.id);	
+			    	// req, res, folder, blob, name, ext, parentId
+			    	dataUtil.saveFile(req, res, "resources/"+slug, req.body.file.data, fileName, req.body.file.extension, item.id);	
 			    }
 			    
 			    return res.status(200).send(item);
@@ -873,5 +874,5 @@ function removeFiles(resource){
 	//
 	//	Delete physical files
 	//
-	dataUtil.rmDir(resource.dataValues.slug);
+	dataUtil.rmDir("resources/"+resource.dataValues.slug);
 }

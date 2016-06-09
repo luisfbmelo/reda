@@ -166,14 +166,14 @@ export default class ResourceDetails extends Component {
 					<div className="row">
 						<div className="col-xs-12 col-sm-6">
 							<MediaDisplay 
-								filesPath={files+"/"+resourceInfo.slug} 
+								filesPath={files+"/resources"+"/"+resourceInfo.slug} 
 								graphicsPath={icons_placeholder} 
 								type={resourceInfo.Format.type} 
 								file={resourceInfo.Files[0]} 
 								embed={resourceInfo.embed} />
 							<MediaFooter 
 								graphicsPath={graphics} 
-								filesPath={files+"/"+resourceInfo.slug} 
+								filesPath={files+"/resources"+"/"+resourceInfo.slug} 
 								isFavorite={resourceInfo.isFavorite} 
 								isHighlight={resourceInfo.highlight} 
 								setFavorite={this.setFavorite} 

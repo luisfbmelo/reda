@@ -1,5 +1,6 @@
 const debug = require('debug')('app');
 const fs = require('fs');
+const mkdirp = require('mkdirp');
 const stream = require('stream');
 const path = require('path');
 const config = require('../config/config.json');
@@ -85,7 +86,14 @@ exports.saveFile = function(req, res, folder, blob, name, ext, parentId){
   const targetFile = path.join(__dirname, "../../"+targetFolder+"/"+name+"."+ext);
 
   // Create folder
-  createFolder(targetFolder);
+  createFolder(targetFolder, function(err){
+    debug(err);
+    if (!err){
+       writeBlob(targetFile, blob);
+     }else{
+      return res.send(err);
+     }
+  });
 
   // Write blob to system
   /*var buf = new Buffer(blob, 'base64'); // decode
@@ -94,7 +102,7 @@ exports.saveFile = function(req, res, folder, blob, name, ext, parentId){
       return res.send(err);
     }
   });*/
-  writeBlob(targetFile, blob);
+ 
 }
 
 function writeBlob(targetFile, blob){
@@ -112,10 +120,14 @@ function writeBlob(targetFile, blob){
 //
 //  Create folder inside path
 //
-function createFolder(folderPath){
+function createFolder(folderPath,  cb){
   if (!fs.exists(folderPath)) {
-    fs.mkdirSync(folderPath);
+    mkdirp(folderPath, function(err){
+      if (err) cb({message: "Não foi possível criar a pasta"})
+      else cb();
+    });
   }
+  
 }
 
 //
