@@ -7,6 +7,7 @@ import _ from 'lodash';
 //import ResourcesFilters from '@/containers/filters';
 import { Pagination, Alert, Button } from 'react-bootstrap';
 import { AppsList } from './common/list';
+import SystemsTabs from './systems';
 
 export default class AppsListing extends Component {
 	constructor(props){
@@ -14,7 +15,8 @@ export default class AppsListing extends Component {
 		
 		this.state = {
 			activePage: 1,
-			filters: {}
+			filters: {},
+			system: null
 		}
 
 		//
@@ -23,6 +25,7 @@ export default class AppsListing extends Component {
 		this.onChangePage = this.onChangePage.bind(this);
 		this.onSearchSubmit = this.onSearchSubmit.bind(this);
 		this.onFilterChange = this.onFilterChange.bind(this);
+		this.onSystemChange = this.onSystemChange.bind(this);
 
 		//
 		//	Handle all changes
@@ -36,11 +39,17 @@ export default class AppsListing extends Component {
 		// If there is any search, don't search again.
 		// Else, do!
 		if (!this.props.apps.fetched || this.props.apps.total==null || this.props.apps.total==undefined){
-			this.props.searchApps(this.state)
+			this.props.fetchSystems()
+			.then(() => {
+				this.setState({
+					system: this.props.systems.data[0].id || null
+				})
+				return this.props.searchApps(this.state);
+			})
 			.then(() => {
 				this.setState({
 					activePage: this.props.apps.curPage || 1
-				});				
+				})					
 			})
 		}
 
@@ -57,11 +66,9 @@ export default class AppsListing extends Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		const { activePage, tags, order } = this.state;
-
 		// Request new resources if there is any change AND tags didn't change.
 		// This avoids request new resources each time adding a new tag in the input. It is required to press the button
-	 	if (JSON.stringify(prevState) !== JSON.stringify(this.state) && prevState.tags==tags){
+	 	if (JSON.stringify(prevState) !== JSON.stringify(this.state)){
 	 		this.requestNewApps();
 	 	}
 	}
@@ -72,6 +79,11 @@ export default class AppsListing extends Component {
 	requestNewApps(){
 		this.props.setFilters(this.state);
 		this.props.searchApps(this.state);
+	}
+
+	// When system change
+	onSystemChange(system){
+		this.setState({system, activePage: 1});
 	}
 
 	// When filters change
@@ -96,7 +108,6 @@ export default class AppsListing extends Component {
 
 	render() {
 		const { apps } = this.props;
-		console.log(this.props)
 
 		if (!apps.data)
 			return null;
@@ -112,6 +123,7 @@ export default class AppsListing extends Component {
 						</div>
 
 						<div className="col-xs-12 col-md-9">
+							<SystemsTabs setTab={this.onSystemChange} tabs={this.props.systems.data} curTab={this.state.system}/>
 
 							{/* Apps List */}
 							<AppsList 

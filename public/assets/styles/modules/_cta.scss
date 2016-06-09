@@ -39,12 +39,12 @@
 			}
 		}
 
-		&.no-bg{
+		&.no-bg,&.outline{
 			color:$green;
 			border-color:$green;
 		}
 
-		&:not(.no-border):hover{
+		&:not(.no-border):not(.outline):hover{
 			opacity: 0.8;
 			text-decoration:none;
 		}
@@ -145,6 +145,10 @@
 	&:active,
 	&:focus{
 		text-decoration:none;
+	}
+
+	&:hover{
+		cursor:pointer;
 	}
 
 	&.delete-action{

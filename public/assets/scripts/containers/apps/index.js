@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchApps, searchApps, resetApps } from '@/actions/apps';
+import { fetchSystems, resetSystems } from '@/actions/systems';
 import { fetchConfig } from '@/actions/config';
 import { getFilters, resetFilters, setFilters } from '@/actions/filters';
 import { bindActionCreators } from 'redux';
@@ -12,7 +13,8 @@ function mapStateToProps(state) {
   	apps: state.apps,
   	auth: state.auth,
   	config: state.config,
-  	filters: state.filters
+  	filters: state.filters,
+    systems: state.systems
   };
 }
 
@@ -24,7 +26,9 @@ function mapDispatchToProps(dispatch) {
     getFilters,
   	resetFilters,
     searchApps,
-    resetApps
+    resetApps,
+    fetchSystems, 
+    resetSystems 
   }, dispatch);
 }
 

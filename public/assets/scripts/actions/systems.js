@@ -33,7 +33,7 @@ function systemsError(message){
 	}
 }
 
-export function resetAccess(){
+export function resetSystems(){
 	return {
 		type: SYSTEMS_RESET
 	}

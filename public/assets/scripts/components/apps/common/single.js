@@ -67,7 +67,7 @@ export const AppElement = (props) => {
 	      		<footer className="text-center">
 	      		{
 	      			el.Systems.map(system => {
-	      				return <AppPopup target={system.app_system.link} className="cta primary outline block no-border">{system.title}</AppPopup>
+	      				return <AppPopup target={system.app_system.link} className="cta primary outline block no-border">Descarregar</AppPopup>
 	      			})	      			
 	      		}
 	      		</footer>	
