@@ -44,7 +44,7 @@
 			border-color:$green;
 		}
 
-		&:hover{
+		&:not(.no-border):hover{
 			opacity: 0.8;
 			text-decoration:none;
 		}
@@ -138,7 +138,7 @@
 	}
 
 	&.no-border{
-		border:none!important;
+		border-color:transparent!important;
 	}
 
 	&:hover,

@@ -5,6 +5,7 @@ import { Component } from 'react';
 import Helmet from "react-helmet";
 import Header from '@/containers/header';
 import AppsIndex from '@/containers/apps';
+import { AppBreadcrumbs } from '@/components/common/breadcrumbs';
 import BottomNav from '@/components/navigation/bottomNav';
 
 export default class AppsPage extends Component {
@@ -15,6 +16,7 @@ export default class AppsPage extends Component {
 	          title="Aplicações"
 	        />
   			<Header location={this.props.location}/>
+        <AppBreadcrumbs routes={this.props.routes} params={this.props.params} setDocumentTitle={false} />
         <AppsIndex />
   			<BottomNav location={this.props.location}/>
     	</div>

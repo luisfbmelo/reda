@@ -15,10 +15,13 @@ export default function(state = INITIAL_STATE, action) {
         fetching: true
       })
     case APPS_SUCCESS:
-
+    console.log(action.data);
       return assign({}, state, {
         fetching: false,
         fetched: true,
+        curPage: action.data.page,
+        total: action.data.total,
+        totalPages: action.data.totalPages,
         data: action.data.result
       })
     case APPS_FAILURE:

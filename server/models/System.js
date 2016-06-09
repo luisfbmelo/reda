@@ -7,6 +7,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			allowNull: false
 		},
+		icon:{
+			type: DataTypes.STRING,
+			allowNull: false
+		},
 		status: {
 			type: DataTypes.BOOLEAN,
 			allowNull: false,
@@ -22,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods: {
 			associate: function(models) {
 				System.belongsToMany(models.App, {
-					through: 'app_system'
+					through: models.app_system
 				});
 			}
 		}

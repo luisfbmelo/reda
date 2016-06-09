@@ -58,14 +58,17 @@ exports.search = function(req, res, next) {
 	// SET REQUIRED FALSE in order to avoid INNERJOIN. Good when there is no value to search for and avoid filtering
 	// SET SEPERATE in order to run queries seperatly (M:M associations)
 	// Since there is a need to disable subqueries due to the use of LIMIT, required must be TRUE
-	var includes = [{
-		model: models.Image,
-		required:false
-	}];
+	var includes = [
+		{
+			model: models.Image,
+			required:false
+		}
+	];
 
 	if (categories.length>0){
 		includes.push(
 			{
+				seperate: true,
 				model: models.Category,
 				required: true,
 				where: {
@@ -75,11 +78,20 @@ exports.search = function(req, res, next) {
 				}
 			}
 		)
+	}else{
+		includes.push(
+			{
+				seperate: true,
+				model: models.Category,
+				required: true
+			}
+		)
 	}
 
 	if (themes.length>0){
 		includes.push(
 			{
+				seperate: true,
 				model: models.Theme,
 				required: true,
 				where: {
@@ -89,11 +101,20 @@ exports.search = function(req, res, next) {
 				}
 			}
 		)
+	}else{
+		includes.push(
+			{
+				seperate: true,
+				model: models.Theme,
+				required: true
+			}
+		)
 	}
 
 	if (system.length>0){
 		includes.push(
 			{
+				seperate: true,
 				model: models.System,
 				required: true,
 				where: {
@@ -103,7 +124,16 @@ exports.search = function(req, res, next) {
 				}
 			}
 		)
+	}else{
+		includes.push(
+			{
+				seperate: true,
+				model: models.System,
+				required: true
+			}
+		)
 	}
+
 
 	// Set subQuery: false because we have multiple associations, and the limit will give bad results
 	// with a DESC ordering.
@@ -114,13 +144,13 @@ exports.search = function(req, res, next) {
 	  		'title',
 	  		'description',
 	  		'slug',
-	  		'link'
+	  		'link',
+	  		'image_id'
 	  	],
   		include: includes,
   		limit: limit,
 		offset: ((page-1)*limit),
-  		where: setWhere,
-  		subQuery:false
+		order: [ ['title', 'DESC'] ]
 	})
 	.then(function(apps){
 		debug(apps);

@@ -9,6 +9,17 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 // Components
 import SvgComponent from '@/components/common/svg';
 import { truncate, setUrl } from '@/utils';
+import AppPopup from './popup';
+
+//
+//	Handle button click
+//
+const onClickApp = (e) => {
+
+	if (!confirm('Está a sair do sítio REDA da Direção Regional de Educação dos Açores, para ir para um recurso externo. A DRE não se responsabiliza, nem tem qualquer controlo, sobre as opiniões expressas ou a informação contida na página que irá aceder. Os Termos e Condições e de privacidade da plataforma REDA não se aplicam à página que irá aceder.Obrigado por nos visitar e volte sempre!')){
+		e.preventDefault();
+	}
+}
 
 export const AppElement = (props) => {
 
@@ -31,26 +42,37 @@ export const AppElement = (props) => {
 	breaker = (index)%3 == 0 ? breaker + ' floatnone__sm' : breaker;
 
 
-	// Type tooltip
-	const tooltip = (
-		<Tooltip id={"app_" + el.id}>{el.title}</Tooltip>
-	);
-
 	return(		
       	<article className={"col-xs-12 col-sm-4 col-md-" + classColCount + " col-lg-" + classColCount + breaker} >
       		<div className="app__element">
       			<header>
-	      			<h1 title={el.title}>{truncate(el.title, 10)}</h1>		      		
+      				<div className="app__element--picture">
+						<img src={config.files+"/apps/"+el.slug+"/"+el.Image.name+"."+el.Image.extension} />
+      				</div>      				
+	      			
+	      			<section>
+	      				<h1 title={el.title}>{truncate(el.title, 4)}</h1>
+						<ul>
+							{el.Systems.map(system => {
+								return <li><i className={"fa fa-"+ system.icon}></i>{system.title}</li>
+							})}
+						</ul>
+	      			</section>		      		
 	      		</header>
 
-	      		<p>{truncate(el.description, 40)}</p>
+	      		<section>
+					<p>{truncate(el.description, 40)}</p>
+	      		</section>	      		
 
 	      		<footer className="text-center">
-	      			<a href={setUrl(el.link)} className="cta primary outline" target="_blank">Download</a>
+	      		{
+	      			el.Systems.map(system => {
+	      				return <AppPopup target={system.app_system.link} className="cta primary outline block no-border">{system.title}</AppPopup>
+	      			})	      			
+	      		}
 	      		</footer>	
       		</div>
-		</article>		
-		
+		</article>			
 	);	
 }
 

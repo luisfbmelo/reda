@@ -44,13 +44,17 @@ module.exports = function(sequelize, DataTypes) {
 					}
 				});
 				App.belongsToMany(models.System, {
-					through: 'app_system'
+					through: models.app_system
 				});
 				App.belongsToMany(models.Theme, {
 					through: 'app_theme'
 				});
 				App.belongsTo(models.User);
-				App.belongsTo(models.Image);
+				App.belongsTo(models.Image, { 
+					foreignKey: { 
+						allowNull: true 
+					}
+				});
 			}
 		}
 	});

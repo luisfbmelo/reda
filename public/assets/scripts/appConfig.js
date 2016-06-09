@@ -20,6 +20,6 @@ var _ = require('lodash');
  */
 
 var configurations = require('./config');
-var config = configurations.production || {};
+var config = configurations.development || {};
 
 module.exports = config;

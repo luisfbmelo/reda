@@ -489,13 +489,16 @@ var createCatTry = function(models){
 var createSystem = function(models){
   return models.System.bulkCreate([
     {
-      title: "iOS"
+      title: "iOS",
+      icon: "apple"
     },
     {
-      title: "Android"
+      title: "Android",
+      icon: "android"
     },
     {
-      title: "Windows"
+      title: "Windows",
+      icon: "windows"
     }
   ]);
 }

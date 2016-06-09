@@ -1,5 +1,101 @@
 .apps__page{
+
+}
+
+.app__element{
+	margin-top:60px;
+	margin-bottom:30px;
+	background-color:white;
+	border:1px solid $meta-color;
+
+	header{
+		position:relative;
+		min-height:140px;
+
+		section{
+			position:absolute;
+			color:white;
+			bottom:0;
+			left:0;
+			padding:0 20px 15px;
+
+			h1{
+				position:relative;
+				color:white;
+				@include font-size(20px);
+			}
+
+			ul{
+				margin:0;
+				padding:0;
+				list-style:none;
+				font-family:$opensans;
+
+				i{
+					margin-right:10px;
+				}
+			}
+		}
+	}
+
+	&--picture{
+		position:absolute;
+		max-height:140px;
+		overflow:hidden;
+		top:0;
+		left:0;
+
+		img{
+			width:100%;
+		}
+
+		&:after{
+			content:"";
+			position:absolute;
+			top:0;
+			left:0;
+			width:100%;
+			height:100%;
+			background-color:black;
+			@include opacity(0.4);
+		}
+	}
+
+	& > section{
+		padding:20px 20px 10px;
+
+		p{
+			color:$body-color;
+			@include font-size(14px);
+			line-height:1.5;
+			margin-bottom:0;
+		}
+	}
+
+	& > footer{
+		padding:0 20px 20px;
+
+		& > div + div{
+			margin-top:0;
+		}
+
+		button{
+			width:100%;
+		}
+	}
+}
+
+.no-opacity{
 	.app__element{
-		
+		header{
+			section{
+				background-color:black;
+			}
+		}
+		&--picture{
+			&:after{
+				background-color:transparent;
+			}
+		}
 	}
 }

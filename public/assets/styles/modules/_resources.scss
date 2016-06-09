@@ -120,7 +120,7 @@
 			}
 		}	
 
-		&--fav{
+		&--topicons{
 
 			& + a,
 		    & + .protected-button{
@@ -129,15 +129,20 @@
 		    	}
 		    }
 
+		    &:not(.disabled){
+		    	i{
+		    		color: $green;
+		    		&:hover{
+		    			cursor:pointer;
+		    		}
+		    	}
+		    }
+
 			i{
 				@include font-size(20px);
 			    margin-top: 20px;
 			    margin-bottom:20px;
-			    color: $green;
-
-			    &:hover{
-			    	cursor:pointer;
-			    }
+			    color: $meta-color;
 
 			    & + i{
 			    	margin-left:10px;

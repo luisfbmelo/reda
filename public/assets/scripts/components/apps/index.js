@@ -31,37 +31,17 @@ export default class AppsListing extends Component {
 	}
 
 	componentDidMount(){
-		//
-		//	Try to get filters from existing state
-		//	Else, get from localStorage
-		//
-		let storageFilters = this.props.filters.data!=null ? this.props.filters.data : null;
-		storageFilters = localStorage.getItem('apps_filters')!=null ? JSON.parse(localStorage.getItem('apps_filters')) : storageFilters;
+		this.props.resetFilters();
 
 		// If there is any search, don't search again.
 		// Else, do!
 		if (!this.props.apps.fetched || this.props.apps.total==null || this.props.apps.total==undefined){
-			this.props.searchApps(storageFilters || this.state)
+			this.props.searchApps(this.state)
 			.then(() => {
-				if(storageFilters!=null){
-					this.setState({
-						activePage: storageFilters.activePage || 1,
-						tags: storageFilters.tags || [],
-						order: storageFilters.order || "recent",
-						filters: storageFilters.filters || {}
-					});
-				}else{
-					this.setState({
-						activePage: this.props.apps.curPage || 1
-					});
-				}
-				
+				this.setState({
+					activePage: this.props.apps.curPage || 1
+				});				
 			})
-		}else{
-			this.setState({
-				activePage: 1,
-				tags: this.props.filters.data && this.props.filters.data.tags ? this.props.filters.data.tags : []
-			});
 		}
 
 		// Get configurations
@@ -116,6 +96,7 @@ export default class AppsListing extends Component {
 
 	render() {
 		const { apps } = this.props;
+		console.log(this.props)
 
 		if (!apps.data)
 			return null;
@@ -123,7 +104,7 @@ export default class AppsListing extends Component {
 		const { isAuthenticated } = this.props.auth;
 
 		return (
-			<div className="apps__page">
+			<div className="apps__page light-background">
 				<div className="container">
 					<div className="row">
 						<div className="col-xs-12 col-md-3">
@@ -138,6 +119,7 @@ export default class AppsListing extends Component {
 								config={this.props.config.data} 
 								maxcol={3}
 								/>
+								
 
 							{/* Pagination */}
 							{(() => {

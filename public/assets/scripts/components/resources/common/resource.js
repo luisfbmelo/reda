@@ -64,16 +64,16 @@ const optionsRender = (el, isAuthenticated, addscript, viewmore) => {
 }
 
 //
-//	Render favorite button
+//	Render favorite and highlight button
 //
 const renderAuthOptions = (el, isAuthenticated, setHighlight, setFavorite, hideOptions) => {
 	if (!hideOptions){
 		return (
 			<IsAuthenticated>
-				<div className="list__element--fav">
-					<i className={"fa fa-" + ((el.isFavorite) ? "heart" : "heart-o")} title="Favorito" onClick={()=> setFavorite(el.id)}></i>
+				<div className="list__element--topicons">
+					<i className={"clickable fa fa-" + ((el.isFavorite) ? "heart" : "heart-o")} title="Favorito" onClick={()=> setFavorite(el.id)}></i>
 					<IsAdmin>
-						<i className={"fa fa-" + ((el.highlight) ? "star" : "star-o")} title="Recurso do Mês" onClick={()=> setHighlight(el.id)}></i>
+						<i className={"clickable fa fa-" + ((el.highlight) ? "star" : "star-o")} title="Recurso do Mês" onClick={()=> setHighlight(el.id)}></i>
 					</IsAdmin>
 				</div>
 			</IsAuthenticated>
@@ -83,6 +83,20 @@ const renderAuthOptions = (el, isAuthenticated, setHighlight, setFavorite, hideO
 	return null;
 }
 
+//
+//	Render locked icon
+//
+const renderLocked = (exclusive, isAuthenticated) => {
+	if (exclusive && !isAuthenticated){
+		return (
+			<div className="list__element--topicons disabled">
+				<i className="fa fa-lock" title="Exclusivo a docentes"></i>
+			</div>
+		)
+	}
+
+	return null;
+}
 
 export const ResourceElement = (props) => {
 
@@ -120,6 +134,7 @@ export const ResourceElement = (props) => {
       	<article className={"col-xs-12 col-sm-4 col-md-" + classColCount + " col-lg-" + classColCount + breaker} >
       		<div className="list__element">
       			{renderAuthOptions(el, isAuthenticated, setHighlight, setFavorite, hideOptions)}
+      			{renderLocked(el.exclusive, isAuthenticated)}
 	      		{
 	      			renderProtected(
 		      			<header>
