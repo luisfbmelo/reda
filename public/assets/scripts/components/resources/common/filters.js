@@ -386,7 +386,7 @@ export default class ResourcesFilters extends Component {
 						<button className="cta primary" onClick={this.toggleList}>Fechar</button>	
 					</div>	
 					<div className="col-xs-12 filters__list--clear">
-						<button className="cta primary outline" onClick={this.clearAll}>Remover Todos</button>	
+						<button className="cta primary outline no-border" onClick={this.clearAll}>Remover Todos</button>	
 					</div>	
 				</div>
 			</div>

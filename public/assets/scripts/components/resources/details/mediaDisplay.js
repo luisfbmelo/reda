@@ -126,6 +126,10 @@ class PrintMedia extends TypeHelper{
 			case "calc":
 				return this.showPlaceholder(this.meta.graphicsPath, this.type);
 			break;
+
+			case "others":
+				return this.showPlaceholder(this.meta.graphicsPath, this.type);
+			break;
 		}
 	}
 }
