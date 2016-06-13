@@ -96,6 +96,10 @@ export default class ResourcesListing extends Component {
 	 	}
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextProps.resources.fetched;
+	}
+
 	//
 	//	REQUEST NEW RESOURCES
 	//
@@ -228,7 +232,7 @@ export default class ResourcesListing extends Component {
 
 							{/* Pagination */}
 							{(() => {
-								if (resources.data && resources.data.length>0){
+								if (resources.data && resources.data.length>0 && resources.totalPages>1){
 									return <Pagination
 									        prev
 									        next

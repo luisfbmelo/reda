@@ -82,7 +82,7 @@ export default class TopNav extends Component {
 				<IsAuthenticated>
 					{this.props.auth.data && 
 					<li className={"user-identification "+this.isActive(this.props.location.pathname, 'painel')}>
-		           		<Link to="/painel">Minha Conta</Link>
+		           		<Link to="/painel/meusrecursos">Minha Conta</Link>
 		           	</li>}
 				</IsAuthenticated>
 

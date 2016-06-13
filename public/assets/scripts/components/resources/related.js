@@ -24,6 +24,10 @@ export default class RelatedResources extends Component {
 	 	}   
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextProps.relatedResources.fetched;
+	}
+
 	fetchRelated(origin){
 		this.props.fetchRelatedResources(origin);	
 		this.props.fetchConfig();

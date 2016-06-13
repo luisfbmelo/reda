@@ -41,32 +41,32 @@ export function resetCategories(){
 
 // App categories
 export function fetchCatApp(isRequired){
-	fetchCategories('apps', isRequired);
+	return fetchCategories('apps', isRequired);
 }
 
 // Recomended categories
 export function fetchCatRecomended(isRequired){
-	fetchCategories('recomended', isRequired);
+	return fetchCategories('recomended', isRequired);
 }
 
 // Try categories
 export function fetchCatTry(isRequired){
-	fetchCategories('try', isRequired);
+	return fetchCategories('try', isRequired);
 }
 
 // Feedback categories
 export function fetchCatFeedback(isRequired){
-	fetchCategories('feedback', isRequired);
+	return fetchCategories('feedback', isRequired);
 }
 
 function fetchCategories(type, isRequired){
 	let params = '';
 
 	params += '?type='+type
-
-	if (isRequired){
+	params += '&required=true';
+	/*if (isRequired){
 		params += '&required=true';
-	}
+	}*/
 
 	return {
 		[CALL_API]: {

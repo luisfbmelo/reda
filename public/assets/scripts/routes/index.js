@@ -10,7 +10,8 @@ import Empty from '@/layouts/empty';
 import IndexPage from '@/pages/indexPage';
 import DiscoverPage from '@/pages/discoverPage';
 import SignupFormPage from '@/pages/signupFormPage';
-import DashboardPage from '@/pages/dashboardPage';
+import MyResourcesDashboardPage from '@/pages/myResourcesDashboardPage';
+import AppsDashboardPage from '@/pages/appsDashboardPage';
 import ResourceDetailsPage from '@/pages/resourceDetailsPage';
 import NewResourcePage from '@/pages/newResourcePage';
 import NewScriptPage from '@/pages/newScriptPage';
@@ -29,16 +30,24 @@ export default (
   	<Route name="Descobrir" path="descobrir" component={Empty}>  		
 		  <Route name="Detalhes de Recurso" staticName={true} path="detalhes-recurso/:resource" component={ResourceDetailsPage} />
   	</Route>
-    
-  	<Route name="Painel de Gestão" path="painel" component={DashboardPage} />
-    <Route name="Novo Recurso" path="novorecurso" component={NewResourcePage} />
-    <Route name="Editar Recurso" staticName={true} path="editarrecurso/:resource" component={NewResourcePage} />
-    <Route name="Gerir Guiões" staticName={true} path="gerirguioes/:resource" component={NewScriptPage} /> 
 
     <Route name="Aplicações" path="aplicacoes" component={AppsPage} />
 
-    <Route name="Registar" path="registar" component={SignupFormPage} />
+    <Route name="Registar" path="registar" component={SignupFormPage} />  	
 
-  	<Route name="Não Encontrado" path="*" component={NotFoundPage} />
+    {/*DASHBOARD*/}
+    
+    <Route name="Novo Recurso" path="novorecurso" component={NewResourcePage} />
+    <Route name="Editar Recurso" staticName={true} path="editarrecurso/:resource" component={NewResourcePage} />
+    <Route name="Gerir Guiões" staticName={true} path="gerirguioes/:resource" component={NewScriptPage} />
+
+    
+    <Route name="Painel de Gestão" path="painel" component={Empty}>     
+      <Route name="Meus Recursos" path="meusrecursos" component={MyResourcesDashboardPage} />
+      <Route name="Aplicações" path="aplicacoes" staticName={true} component={AppsDashboardPage} />
+    </Route>
+
+    {/*404*/}
+    <Route name="Não Encontrado" path="*" component={NotFoundPage} />
   </Route>
 );

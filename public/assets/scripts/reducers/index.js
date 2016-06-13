@@ -14,10 +14,13 @@ import years  from './years';
 import apps from './apps';
 import terms  from './terms';
 import systems  from './systems';
+import categories  from './categories';
+import themes  from './themes';
 import auth from './auth';
 import user from './user';
 import alerts  from './alerts';
 import filters from './filters';
+import filtersApps from './filtersApps';
 import config from './config';
 import headers from './headers';
 
@@ -41,9 +44,12 @@ const rootReducer = combineReducers({
 	auth,
 	user,
 	filters,
+	filtersApps,
 	alerts,
 	apps,
-	systems
+	systems,
+	categories,
+	themes
 }); 
 
 export default rootReducer;

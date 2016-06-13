@@ -47,14 +47,14 @@ export const AppElement = (props) => {
       		<div className="app__element">
       			<header>
       				<div className="app__element--picture">
-						<img src={config.files+"/apps/"+el.slug+"/"+el.Image.name+"."+el.Image.extension} />
+						{el.Image && <img src={config.files+"/apps/"+el.slug+"/"+el.Image.name+"."+el.Image.extension} />}
       				</div>      				
 	      			
 	      			<section>
 	      				<h1 title={el.title}>{truncate(el.title, 4)}</h1>
 						<ul>
-							{el.Systems.map(system => {
-								return <li><i className={"fa fa-"+ system.icon}></i>{system.title}</li>
+							{el.Systems.map((system, index) => {
+								return <li key={index}><i className={"fa fa-"+ system.icon}></i>{system.title}</li>
 							})}
 						</ul>
 	      			</section>		      		
@@ -66,8 +66,8 @@ export const AppElement = (props) => {
 
 	      		<footer className="text-center">
 	      		{
-	      			el.Systems.map(system => {
-	      				return <AppPopup target={system.app_system.link} className="cta primary outline block no-border">Descarregar</AppPopup>
+	      			el.Systems.map((system, index) => {
+	      				return <AppPopup key={index} target={system.app_system.link} className="cta primary outline block no-border">Ver na Loja</AppPopup>
 	      			})	      			
 	      		}
 	      		</footer>	

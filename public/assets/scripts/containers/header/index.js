@@ -22,6 +22,7 @@ class Header extends Component {
 			'descobrir', 
 			'noticias', 
 			'novorecurso', 
+			'editarrecurso',
 			'sugestoes', 
 			'registar', 
 			'gerirguioes', 

@@ -52,7 +52,7 @@ exports.search = function(req, res, next) {
 	var page = parseInt(req.query.activePage) || 1;
 	var categories = req.query.categories || [];
 	var themes = req.query.themes || [];
-	var system = parseInt(req.query.system) || null;
+	var system = req.query.system || null;
 
 	if (system==null){
 		return res.status(403).send({message: 'Deve escolher um sistema'});
@@ -121,7 +121,9 @@ exports.search = function(req, res, next) {
 			model: models.System,
 			required: true,
 			where: {
-				id: system
+				id: {
+					$in: system
+				}
 			}
 		}
 	)

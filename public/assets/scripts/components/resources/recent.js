@@ -25,6 +25,10 @@ export default class RecentResources extends Component {
 	 	}  
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextProps.resources.fetched;
+	}
+
 	// Set as highlighted
     setHighlight(resourceId){
     	this.props.setHighlight(resourceId);

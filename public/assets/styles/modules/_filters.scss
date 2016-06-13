@@ -1,5 +1,13 @@
-.resources{
+.app{
 	&__filter{
+		
+		/*APPS*/
+		&.apps .filters-button{
+			text-align:center;
+		}
+
+		/*OTHER*/
+
 		margin-top:30px;
 
 		form{

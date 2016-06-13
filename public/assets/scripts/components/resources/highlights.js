@@ -11,6 +11,10 @@ export default class ResourceHighlights extends Component {
 		this.props.fetchHighlights();		
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextProps.highlights.fetched;
+	}
+
 	render() {
 		const { data, fetched, isFetching } = this.props.highlights;
 

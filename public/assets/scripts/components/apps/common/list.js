@@ -24,8 +24,8 @@ var renderList = (list, props) => {
 }
 
 export const AppsList = (props) => {	
-	if (!props.list || !props.list.data || !props.list.fetched){
-		return <div></div>;
+	if (!props.list || !props.list.data || !props.list.fetched || props.list.data.length==0){
+		return <p className="text-center">Não existem aplicações a disponibilizar.</p>;
 	}
 
 	return(

@@ -5,7 +5,7 @@ import { Component } from 'react';
 import Helmet from "react-helmet";
 import Header from '@/containers/header';
 import ProfileNav from '@/components/navigation/profileNav';
-import DashBoard from '@/components/dashboard';
+import DashBoard from '@/components/dashboard/resources';
 import BottomNav from '@/components/navigation/bottomNav';
 
 export default class DiscoverPage extends Component {

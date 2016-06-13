@@ -58,7 +58,10 @@ export default class MyResources extends Component {
 		});
 		this.props.fetchConfig();
 
-		this.onChangePage(1);		
+	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextProps.resources.fetched;
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -183,9 +186,6 @@ export default class MyResources extends Component {
 
 	render() {
 		const { resources } = this.props;
-
-		if (!resources.data)
-			return null;
 		
 		const { isAuthenticated } = this.props.auth;
 
@@ -197,7 +197,7 @@ export default class MyResources extends Component {
 					</div>
 				</div>
 				<div className="row">
-				{this.props.resources && this.props.resources.data && this.props.resources.data.length > 0 ?
+				{this.props.resources && this.props.resources.data && this.props.resources.data.length >= 0 ?
 					<div className="col-xs-12">		
 						<section className="row resources__page--filter">
 							<div className="col-xs-12 filter-container">
@@ -239,17 +239,21 @@ export default class MyResources extends Component {
 						/>
 
 						{/* Pagination */}
-						<Pagination
-					        prev
-					        next
-					        first
-					        last
-					        ellipsis
-					        boundaryLinks
-					        items={resources.totalPages}
-					        maxButtons={5}
-					        activePage={this.state.activePage}
-					        onSelect={this.onChangePage} />
+						{(() => {
+							if (resources.data && resources.data.length>0 && resources.totalPages>1){
+								return <Pagination
+							        prev
+							        next
+							        first
+							        last
+							        ellipsis
+							        boundaryLinks
+							        items={resources.totalPages}
+							        maxButtons={5}
+							        activePage={this.state.activePage}
+							        onSelect={this.onChangePage} />
+							}
+						})()}
 					</div>
 					:
 					<div className="col-xs-12 text-center">

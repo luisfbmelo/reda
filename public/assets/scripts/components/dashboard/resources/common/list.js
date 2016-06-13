@@ -3,7 +3,7 @@ import { Component, PropTypes } from 'react';
 import Link from 'react-router/lib/Link'
 
 // Utils
-import { getAvg } from '../../../../utils';
+import { getAvg } from '@/utils';
 
 // Boostrap
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
@@ -82,7 +82,7 @@ var renderList = (list, props) => {
 
 export const ResourcesList = (props) => {	
 	if (!props.list || !props.list.data || props.list.fetching || props.list.data.length==0){
-		return <div></div>
+		return <p className="text-center">Não existem recursos a disponibilizar. Tente pesquisar com outro parâmetro.</p>
 	}
 
 	return(

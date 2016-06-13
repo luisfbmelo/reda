@@ -359,7 +359,7 @@ export default class ResourcesFilters extends Component {
 			return null;
 
 		return (
-			<div className="resources__filter">
+			<div className="app__filter">
 				<div className="backdrop" ref="backdrop" onClick={this.toggleList}></div>
 				<div className="row filters-button">
 					<div className="col-xs-12">
@@ -396,5 +396,6 @@ export default class ResourcesFilters extends Component {
 
 ResourcesFilters.propTypes = {
 	formats: PropTypes.object.isRequired,
-	subjects: PropTypes.object.isRequired
+	subjects: PropTypes.object.isRequired,
+	onFilterChange: PropTypes.func.isRequired
 }

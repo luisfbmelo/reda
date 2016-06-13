@@ -1,7 +1,8 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchApps, searchApps, resetApps } from '@/actions/apps';
+import { fetchApps, searchApps, resetApps, deleteApps, deleteApp } from '@/actions/apps';
+import { fetchCatApp, resetCategories } from '@/actions/categories';
 import { fetchSystems, resetSystems } from '@/actions/systems';
 import { fetchConfig } from '@/actions/config';
 import { getFilters, resetFilters, setFilters } from '@/actions/filters';
@@ -27,8 +28,10 @@ function mapDispatchToProps(dispatch) {
   	resetFilters,
     searchApps,
     resetApps,
+    deleteApps, 
+    deleteApp,
     fetchSystems, 
-    resetSystems 
+    resetSystems
   }, dispatch);
 }
 

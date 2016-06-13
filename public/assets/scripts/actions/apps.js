@@ -48,6 +48,15 @@ export function resetApps(){
 	}
 }
 
+export function fetchApps(appId){
+	return {
+		[CALL_API]: {
+		  endpoint: 'apps',
+		  types: [APPS_REQUEST, APPS_SUCCESS, APPS_FAILURE]
+		}
+	}
+}
+
 // search apps with specific params
 export function searchApps(filters){
 	return {
@@ -103,7 +112,7 @@ export function resetApp(){
 export function fetchApp(appId){
 	return {
 		[CALL_API]: {
-		  endpoint: 'app/details/'+appId,
+		  endpoint: 'apps/details/'+appId,
 		  sendToken:true,
 		  types: [APP_REQUEST, APP_SUCCESS, APP_FAILURE]
 		}

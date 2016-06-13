@@ -40,11 +40,11 @@ export function resetThemes(){
 }
 
 export function fetchThemes(isRequired){
-	let params = '';
+	let params = '?required=true';
 
-	if (isRequired){
+	/*if (isRequired){
 		params = '?required=true';
-	}
+	}*/
 
 	return {
 		[CALL_API]: {

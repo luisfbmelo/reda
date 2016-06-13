@@ -65,8 +65,8 @@ export default class DashboardMenu extends Component {
 					</div>
 					
 					<ul>
-						<li className={this.isActive(this.props.location.pathname, 'painel')}>
-							<Link to="/painel">Os meus recursos <i className="fa fa-chevron-right"></i></Link>
+						<li className={this.isActive(this.props.location.pathname, 'painel/meusrecursos')}>
+							<Link to="/painel/meusrecursos">Os meus recursos <i className="fa fa-chevron-right"></i></Link>
 						</li>
 						<li className={this.isActive(this.props.location.pathname, 'painel/guioes')}>
 							<Link to="/painel/guioes">Os meus guiões <i className="fa fa-chevron-right"></i></Link>

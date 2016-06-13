@@ -18,8 +18,7 @@ export default function(state = INITIAL_STATE, action) {
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        data: action.data,
-        isAuthenticated: true
+        data: action.data
       })
     case COMMENTS_FAILURE:
       return assign({}, state, {

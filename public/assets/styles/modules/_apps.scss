@@ -2,8 +2,25 @@
 
 }
 
+.system__tabs{
+	ul{
+		margin:0;
+		padding:0;
+		text-align: center;
+
+		li + li{
+			margin-left:15px;
+		}
+	}	
+
+	margin-top:20px;
+
+	@include media(xsmall-only){
+		margin-top:30px;
+	}
+}
+
 .app__element{
-	margin-top:60px;
 	margin-bottom:30px;
 	background-color:white;
 	border:1px solid $meta-color;
@@ -41,6 +58,8 @@
 	&--picture{
 		position:absolute;
 		max-height:140px;
+		height:100%;
+		width:100%;
 		overflow:hidden;
 		top:0;
 		left:0;
@@ -57,7 +76,7 @@
 			width:100%;
 			height:100%;
 			background-color:black;
-			@include opacity(0.4);
+			@include opacity(0.5);
 		}
 	}
 

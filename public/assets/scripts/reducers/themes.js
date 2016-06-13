@@ -1,44 +1,38 @@
 import assign from 'object-assign';
 import { 
-	APPS_REQUEST, 
-	APPS_SUCCESS,
-	APPS_FAILURE,
-  APPS_RESET
+	THEMES_REQUEST, 
+  THEMES_SUCCESS,
+  THEMES_FAILURE,
+  THEMES_RESET
 } from '@/actions/action-types';
 
-const INITIAL_STATE = { fetching: false, fetched: false, data: null, errorMessage: null, errorStatus: null };
+const INITIAL_STATE = { fetching: false, fetched: false, data: null, errors: null, isAuthenticated: false };
 
 export default function(state = INITIAL_STATE, action) {
   switch(action.type) {
-    case APPS_REQUEST:
+    case THEMES_REQUEST:
       return assign({}, state, {
         fetching: true
       })
-    case APPS_SUCCESS:
+    case THEMES_SUCCESS:
       return assign({}, state, {
         fetching: false,
         fetched: true,
-        curPage: action.data.page,
-        total: action.data.total,
-        totalPages: action.data.totalPages,
         data: action.data.result
       })
-    case APPS_FAILURE:
+    case THEMES_FAILURE:
       return assign({}, state, {
         fetching: false,
-        errorMessage: action.message,
-        errorStatus: action.status
+        errors: action.errors
       })
-    case APPS_RESET:
+    case THEMES_RESET:
       return assign({}, state, {
         fetching: false,
         fetched: false,
         data: null,
-        errorMessage: null,
-        errorStatus: null
+        errors: null
       })
     default:
       return state;
   }
 }
-

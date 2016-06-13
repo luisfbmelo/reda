@@ -7,7 +7,8 @@ import _ from 'lodash';
 //import ResourcesFilters from '@/containers/filters';
 import { Pagination, Alert, Button } from 'react-bootstrap';
 import { AppsList } from './common/list';
-import SystemsTabs from './systems';
+import Tabs from '@/components/common/tabs';
+import Filters from '@/containers/apps/common/filters';
 
 export default class AppsListing extends Component {
 	constructor(props){
@@ -73,6 +74,10 @@ export default class AppsListing extends Component {
 	 	}
 	}
 
+	shouldComponentUpdate(nextProps, nextState) {
+		return nextProps.apps.fetched;   
+	}
+
 	//
 	//	REQUEST NEW RESOURCES
 	//
@@ -109,33 +114,27 @@ export default class AppsListing extends Component {
 	render() {
 		const { apps } = this.props;
 
-		if (!apps.data)
-			return null;
-		
-		const { isAuthenticated } = this.props.auth;
-
 		return (
 			<div className="apps__page light-background">
 				<div className="container">
 					<div className="row">
 						<div className="col-xs-12 col-md-3">
-
+							<Filters onFilterChange={this.onFilterChange}/>
 						</div>
 
 						<div className="col-xs-12 col-md-9">
-							<SystemsTabs setTab={this.onSystemChange} tabs={this.props.systems.data} curTab={this.state.system}/>
+							<Tabs setTab={this.onSystemChange} tabs={this.props.systems.data} curTab={this.state.system} className="system__tabs"/>
 
 							{/* Apps List */}
 							<AppsList 
 								list={apps} 
 								config={this.props.config.data} 
 								maxcol={3}
-								/>
-								
+								/>								
 
 							{/* Pagination */}
 							{(() => {
-								if (apps.data && apps.data.length>0){
+								if (apps.data && apps.data.length>0 && apps.totalPages>1){
 									return <Pagination
 									        prev
 									        next

@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 export default class FileInput extends Component{
     constructor(props){
         super(props);
+
         this.uploadFile = this.uploadFile.bind(this);
 
         this.state = { loading: false }
@@ -21,9 +22,6 @@ export default class FileInput extends Component{
         let data = null;
         let size = thisFile.size;
 
-        /*if (thisFile.size>2000000) {
-            hasError = true;
-        }*/
 
         //check if file is image
         if (!hasError && thisFile) {
@@ -38,25 +36,25 @@ export default class FileInput extends Component{
         }
 
         // File loaded
-        if (thisFile){
-            reader.onload = (e) => {
-                // Set file name
-                name = thisFile.name.substr(0, thisFile.name.lastIndexOf('.')) || thisFile.name;
+        reader.onload = (e) => {            
 
-                // Set file extension
-                extension = thisFile.name.substr(thisFile.name.lastIndexOf('.') + 1);
+            // Set file name
+            name = thisFile.name.substr(0, thisFile.name.lastIndexOf('.')) || thisFile.name;
 
-                // Save file data
-                data = e.target.result; 
+            // Set file extension
+            extension = thisFile.name.substr(thisFile.name.lastIndexOf('.') + 1);
 
-                // Convert blob to base64
-                data = data.split(',')[1];
+            // Save file data
+            data = e.target.result; 
 
-                // Return file metadata
-                this.props.setFile({id:null, name, extension, data, size, loading: false});
-                this.setState({loading: false});
-            }
+            // Convert blob to base64
+            data = data.split(',')[1];
+
+            // Return file metadata
+            this.props.setFile({id:null, name, extension, data, size, loading: false});
+            this.setState({loading: false});
         }
+        
     }
 
     render(){
