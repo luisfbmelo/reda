@@ -60,6 +60,7 @@ export function resources(state = INITIAL_STATE, action) {
         fetching: true
       })
     case RESOURCES_SUCCESS:
+    console.log(action.data.totalPages)
       return assign({}, state, {
         fetching: false,
         fetched: true,

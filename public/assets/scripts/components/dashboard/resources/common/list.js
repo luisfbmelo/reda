@@ -12,7 +12,7 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import Rating from '@/components/common/rating';
 import SvgComponent from '@/components/common/svg';
 import ProtectedButton from '@/components/auth/protectedButton';
-import DeleteResource from '@/containers/resources/deleteResource';
+import DeleteSingle from '@/components/common/deleteSingle';
 import IsAdmin from '@/containers/auth/isAdmin';
 import { truncate } from '@/utils';
 
@@ -52,7 +52,7 @@ var renderList = (list, props) => {
 				      		{/*BUTTONS*/}
 							<div className="actions">
 								<Link to={"/editarrecurso/" + el.slug} className="cta primary no-bg small">Editar</Link>
-				      			<DeleteResource className="cta primary no-bg small delete-action" cb={props.deleteCb} item={el.slug}>Eliminar</DeleteResource>
+				      			<DeleteSingle className="cta primary no-bg small delete-action" deleteSingle={props.deleteSingle} item={el.slug}>Eliminar</DeleteSingle>
 							</div>
 			      		</header>
 

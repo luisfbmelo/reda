@@ -7,7 +7,7 @@ import { ResourcesList } from './common/list';
 import ResourcesOrdering from '@/components/resources/common/order';
 import SearchBar from '@/components/search/searchBar';
 import ResourcesFilters from '@/containers/search';
-import DeleteCollectiveResources from '@/containers/resources/deleteCollective';
+import DeleteCollective from '@/components/common/deleteCollective';
 
 // Bootstrap
 import { Pagination, Alert, Button } from 'react-bootstrap';
@@ -25,14 +25,16 @@ export default class MyResources extends Component {
 		this.onSearchSubmit = this.onSearchSubmit.bind(this);
 		this.setHighlight = this.setHighlight.bind(this);
 		this.setFavorite = this.setFavorite.bind(this);
-		this.filterList = this.filterList.bind(this);		
+		this.filterList = this.filterList.bind(this);
+				
 
 		//
 		// Resources actions
 		// 
 		this.checkAllResources = this.checkAllResources.bind(this);
 		this.checkEl = this.checkEl.bind(this);
-		this.deleteCb = this.deleteCb.bind(this);
+		this.deleteList = this.deleteList.bind(this);
+		this.deleteSingle = this.deleteSingle.bind(this);
 
 		//
 		//	Helpers
@@ -82,10 +84,16 @@ export default class MyResources extends Component {
 	}
 
 	//	Request new resources
-	requestMyResources(){
+	requestMyResources(reset){
 		const { activePage, tags, order } = this.state;
 
-    	this.props.fetchMyResources({activePage, tags, order});
+		//Reset page?
+		if (reset){
+			this.setState({activePage: 1});
+		}
+		
+
+    	this.props.fetchMyResources({activePage: reset ? 1 : activePage, tags, order});
 	}
 
 	// Handle pagination
@@ -127,15 +135,6 @@ export default class MyResources extends Component {
     setFavorite(resourceId){
     	this.props.setFavorite(resourceId);
     }
-
-    //	After delete
-	deleteCb(){
-		this.setState({
-			checkedResources: [],
-			checkAll: false
-		})
-		this.requestMyResources();
-	}
 
     // Check elements
     checkAllResources(){
@@ -179,14 +178,33 @@ export default class MyResources extends Component {
     	})
     }
 
+    //	Delete list
+	deleteList(list){
+		this.setState({
+			checkedResources: [],
+			checkAll: false
+		});
+		this.props.deleteResources(list)
+		.then(() => this.requestMyResources(true));
+	}
+
+	 //	Delete single
+	deleteSingle(el){
+		this.setState({
+			checkedResources: [],
+			checkAll: false
+		});
+		this.props.deleteResource(el)
+		.then(() => this.requestMyResources(true));
+	}
+
     // Apply Filters
     filterList(){
     	console.log("Filter");
     }
 
 	render() {
-		const { resources } = this.props;
-		
+		const { resources } = this.props;		
 		const { isAuthenticated } = this.props.auth;
 
 		return (
@@ -215,7 +233,7 @@ export default class MyResources extends Component {
 							<div className="col-xs-6">
 								<input type="checkbox" name="selected-resources" id="selected-resources" checked={this.state.checkAll}/>
 								<label htmlFor="selected-resources" onClick={this.checkAllResources}></label>
-								<DeleteCollectiveResources className="btn btn-danger" cb={this.deleteCb} items={this.state.checkedResources}><i className="fa fa-trash"></i></DeleteCollectiveResources>
+								<DeleteCollective className="btn btn-danger" deleteList={this.deleteList} items={this.state.checkedResources}><i className="fa fa-trash"></i></DeleteCollective>
 							</div>
 							
 							<div className="col-xs-6">
@@ -235,7 +253,7 @@ export default class MyResources extends Component {
 							checkedList={this.state.checkedResources} 
 							checkEl={this.checkEl} 
 							allChecked={this.state.checkAll}
-							deleteCb={this.deleteCb}
+							deleteSingle={this.deleteSingle}
 						/>
 
 						{/* Pagination */}

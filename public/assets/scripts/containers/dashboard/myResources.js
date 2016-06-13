@@ -1,7 +1,7 @@
 import React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchMyResources, setHighlight, setFavorite, resetResources } from '@/actions/resources';
+import { fetchMyResources, setHighlight, setFavorite, resetResources, deleteResources, deleteResource } from '@/actions/resources';
 import { resetFilters } from '@/actions/filters';
 import { fetchConfig } from '@/actions/config';
 import { bindActionCreators } from 'redux';
@@ -22,7 +22,9 @@ function mapDispatchToProps(dispatch) {
   	setFavorite,
   	fetchConfig, 
   	resetFilters,
-    resetResources
+    resetResources,
+    deleteResources,
+    deleteResource
   }, dispatch);
 }
 

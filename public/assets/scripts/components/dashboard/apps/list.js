@@ -83,10 +83,15 @@ export default class MyResources extends Component {
 	}
 
 	//	Request new resources
-	requestNewData(){
+	requestNewData(reset){
 		const { activePage, system, order } = this.state;
 
-    	this.props.searchApps({activePage, system, order});
+		//Reset page?
+		if (reset){
+			this.setState({activePage: 1});
+		}
+		
+    	this.props.searchApps({activePage: reset ? 1 : activePage, system, order});
 	}
 
 	// Handle pagination
@@ -113,8 +118,8 @@ export default class MyResources extends Component {
 			checkAll: false
 		});
 		console.log(list);
-		//this.props.deleteApps(list);
-		this.requestNewData();
+		/*this.props.deleteApps(list);
+		.then(() => this.requestNewData(true));*/
 	}
 
 	 //	Delete single
@@ -124,8 +129,8 @@ export default class MyResources extends Component {
 			checkAll: false
 		});
 		console.log(el);
-		//this.props.deleteApp(el);
-		this.requestNewData();
+		/*this.props.deleteApp(el)
+		.then(() => this.requestNewData(true));*/
 	}
 
     // Check elements
@@ -176,7 +181,6 @@ export default class MyResources extends Component {
 		if (!apps.data)
 			return null;
 		
-
 		return (
 			<div className="apps__page">
 				<div className="row">

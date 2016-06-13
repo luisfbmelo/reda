@@ -49,7 +49,7 @@ class NewScriptFormContainer extends Component {
 
         // If errors, go back
         if (scripts.errorMessage){
-          this.context.router.push('/painel');
+          this.context.router.push('/painel/meusrecursos');
         }else{          
           this.initScripts();
         }

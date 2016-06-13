@@ -60,7 +60,7 @@ class NewResourceFormContainer extends Component {
 
         // If the owner is not current user and current is not admin, go back
         if (this.props.resource.errorMessage || (data.user_id!=user.id && user.role!='admin')){
-          this.context.router.push('/painel');
+          this.context.router.push('/painel/meusrecursos');
         }else{
           this.initForm();
         }
